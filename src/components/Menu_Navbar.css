@@ -1,0 +1,55 @@
+/* Menu_Navbar.css */
+
+/* Flexbox styles for centering content horizontally and vertically */
+.AppBarContainer {
+    display: flex;
+    justify-content: center;
+    /* Center content horizontally */
+
+    /* Center content vertically */
+    height: 100%;
+    /* Make sure the AppBar takes the full height */
+}
+
+/* Style the AppBar content as needed */
+/* You can apply these styles to individual components within AppBar */
+.AppBarContent {
+    display: flex;
+    flex-direction: row;
+    /* Arrange content in a row */
+    align-items: center;
+    /* Align content vertically */
+    gap: 20px;
+    /* Spacing between elements */
+    /* Add other styles as needed */
+}
+
+/* Example styles for specific elements within AppBarContent */
+/* Modify these styles based on your components */
+.AppBarContent img {
+    width: 50px;
+    /* Adjust image size */
+    height: auto;
+}
+
+.menu-button {
+    font-size: 20px;
+    padding: 10px 12px;
+    align-items: center;
+    font-weight: bold; 
+}
+
+
+  /* Import Th Sarabun New font */
+  @import url('https://fonts.cdnfonts.com/css/th-sarabun-new-4');
+  
+  /* Apply the font to specific elements using custom classes */
+  .custom-font {
+    font-family: 'Th Sarabun New', sans-serif;
+  }
+  
+  /* Optional: You can also apply the font globally */
+  body {
+    font-family: 'Th Sarabun New', sans-serif;
+  }
+  
