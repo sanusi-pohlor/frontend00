@@ -185,7 +185,7 @@ function Menu_Navbar() {
                 letterSpacing: ".1rem",
                 color: "gray",
                 //textDecoration: "none",
-                fontSize: "150%",
+                fontSize: "200%",
                 //whiteSpace: "nowrap",
               }}
             >
@@ -325,7 +325,7 @@ function Menu_Navbar() {
                 letterSpacing: ".1rem",
                 color: "gray",
                 //textDecoration: "none",
-                fontSize: "150%",
+                fontSize: "200%",
                 //whiteSpace: "nowrap",
               }}
             >
