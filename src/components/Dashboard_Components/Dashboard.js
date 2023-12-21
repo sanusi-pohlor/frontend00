@@ -234,7 +234,6 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-      <Grow in={showPaper} timeout={500}>
         <Paper
           elevation={0}
           style={{
@@ -352,7 +351,7 @@ const Dashboard = ({ onSearch }) => {
               />
             </IconButton>
           </Box>
-        </Paper> </Grow>
+        </Paper>
       <Paper
         elevation={0}
         style={{
