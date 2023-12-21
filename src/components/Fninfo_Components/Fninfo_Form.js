@@ -110,7 +110,7 @@ const FakeNewInformation = () => {
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
+          <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
           </Option>
         ));
@@ -164,6 +164,7 @@ const FakeNewInformation = () => {
           form={form}
           layout="vertical"
           name="FakeNewInformation"
+          //onChange={onChange_dnc_med_id}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{
@@ -248,11 +249,11 @@ const FakeNewInformation = () => {
                 message: "Please input your email!",
               },
             ]}
+            onClick={() => {
+              onChange_dnc_med_id();
+            }}
           >
             <Select
-              onClick={() => {
-                onChange_dnc_med_id();
-              }}
               placeholder="Select a option and change input text above"
               onChange={onChange_dnc_med_id}
               allowClear
@@ -339,7 +340,6 @@ const FakeNewInformation = () => {
               format="YYYY-MM-DD"
             />
           </Form.Item>
-
           <Form.Item
             label="ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
             name="fn_info_image"

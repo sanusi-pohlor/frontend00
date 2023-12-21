@@ -4,12 +4,13 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Paper, Grid, Box, IconButton, Stack } from "@mui/material";
+import { Paper, Grid, Box, IconButton, Grow } from "@mui/material";
 import Carousel from "./Carousel";
 import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
+import { CSSTransition } from 'react-transition-group';
 import {
   Divider,
   Button,
@@ -27,6 +28,7 @@ import Flickity from "react-flickity-component";
 import { Link } from "react-router-dom";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import './Dashboard.css';
 const { Option } = Select;
 const { Meta } = Card;
 const { Title } = Typography;
@@ -43,12 +45,17 @@ const Dashboard = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
+  const [showPaper, setShowPaper] = useState(true);
+
+  const togglePaper = () => {
+    setShowPaper(!showPaper);
+  };
+
   const buttonStyle = {
     background: "#7BBD8F",
     border: "none",
     color: "white",
   };
-
   // ฟังก์ชัน useEffect สำหรับดึงข้อมูล
   useEffect(() => {
     // ฟังก์ชัน fetchData สำหรับการดึงข้อมูล
@@ -227,35 +234,36 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-      <Paper
-        elevation={0}
-        style={{
-          padding: 50,
-          margin: "0 auto", // This centers the paper horizontally
-          textAlign: "center", // This centers the content inside the paper
-          color: "#FFFFFF",
-          backgroundColor: "#7BBD8F",
-        }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}></Grid>
-          <Grid item xs={12} md={4}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                textAlign: "center", // Center the text horizontally
-                fontSize: "80px",
-                fontWeight: "bold",
-              }}
-            >
-              ข่าวสาร
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            {/* <Input
+      <Grow in={showPaper} timeout={500}>
+        <Paper
+          elevation={0}
+          style={{
+            padding: 50,
+            margin: "0 auto", // This centers the paper horizontally
+            textAlign: "center", // This centers the content inside the paper
+            color: "#FFFFFF",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={4}></Grid>
+            <Grid item xs={12} md={4}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100%",
+                  textAlign: "center", // Center the text horizontally
+                  fontSize: "80px",
+                  fontWeight: "bold",
+                }}
+              >
+                ข่าวสาร
+              </div>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              {/* <Input
               size="large"
               placeholder="ค้นหา"
               value={searchTerm}
@@ -263,88 +271,88 @@ const Dashboard = ({ onSearch }) => {
               onPressEnter={handleSearchSubmit}
               prefix={<SearchOutlined className="site-form-item-icon" />}
             /> */}
+            </Grid>
           </Grid>
-        </Grid>
-        <Paper
-          elevation={0}
-          style={{
-            width: "70%",
-            padding: 10,
-            margin: "0 auto",
-            textAlign: "center",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
-          <Grid container spacing={2}>
-            {newcurrentItems.map((item) => (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                key={item.id}
-                style={{ marginBottom: "4%" }}
-              >
-                <Link
-                  to={`/News/News_views/${item.id}`}
-                  style={{ textDecoration: "none" }}
+          <Paper
+            elevation={0}
+            style={{
+              width: "70%",
+              padding: 10,
+              margin: "0 auto",
+              textAlign: "center",
+              backgroundColor: "#7BBD8F",
+            }}
+          >
+            <Grid container spacing={2}>
+              {newcurrentItems.map((item) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  key={item.id}
+                  style={{ marginBottom: "4%" }}
                 >
-                  <Card
-                    hoverable
-                    style={{
-                      margin: "auto",
-                      borderRadius: "20px",
-                      width: "90%",
-                      height: "100%",
-                      padding: 20,
-                      fontFamily: "'Th Sarabun New', sans-serif",
-                      fontSize: "25px",
-                    }}
-                    cover={
-                      <div
-                        style={{
-                          height: "80%",
-                          width: "100%",
-                          borderRadius: "10px",
-                          overflow: "hidden",
-                        }}
-                      >
-                        <img
+                  <Link
+                    to={`/News/News_views/${item.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Card
+                      hoverable
+                      style={{
+                        margin: "auto",
+                        borderRadius: "20px",
+                        width: "90%",
+                        height: "100%",
+                        padding: 20,
+                        fontFamily: "'Th Sarabun New', sans-serif",
+                        fontSize: "25px",
+                      }}
+                      cover={
+                        <div
                           style={{
-                            height: "100%",
+                            height: "80%",
                             width: "100%",
-                            objectFit: "cover",
+                            borderRadius: "10px",
+                            overflow: "hidden",
                           }}
-                          src={item.cover_image}
-                          alt={item.title}
-                        />
-                        {item.title}
-                      </div>
-                    }
-                  ></Card>
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
-        </Paper>
-        <Box mt={4} display="flex" justifyContent="center">
-          <IconButton
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
-            />
-          </IconButton>
-          <IconButton
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastItem >= newdata.length}
-          >
-            <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
-            />
-          </IconButton>
-        </Box>
-      </Paper>
+                        >
+                          <img
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "cover",
+                            }}
+                            src={item.cover_image}
+                            alt={item.title}
+                          />
+                          {item.title}
+                        </div>
+                      }
+                    ></Card>
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+          <Box mt={4} display="flex" justifyContent="center">
+            <IconButton
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <LeftCircleOutlined
+                style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => paginate(currentPage + 1)}
+              disabled={indexOfLastItem >= newdata.length}
+            >
+              <RightCircleOutlined
+                style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              />
+            </IconButton>
+          </Box>
+        </Paper> </Grow>
       <Paper
         elevation={0}
         style={{
