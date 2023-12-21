@@ -68,7 +68,7 @@ const ManageMembers = () => {
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/AmUser");
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -104,7 +104,7 @@ const ManageMembers = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/ManageInfo_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/ManageInfo_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -134,7 +134,7 @@ const ManageMembers = () => {
       formData.append("vol_mem_get_news", values.vol_mem_get_news);
       console.log(formData);
       const response = await fetch(
-        "http://localhost:8000/api/VolunteerMembers_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/VolunteerMembers_upload",
         {
           method: "POST",
           body: formData,
@@ -194,7 +194,7 @@ const ManageMembers = () => {
     console.log(`ลบรายการ: ${id}`);
 
     // Make an API request to delete the record using Laravel
-    fetch(`http://localhost:8000/api/FakeNewsInfo_delete/${id}`, {
+    fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/FakeNewsInfo_delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

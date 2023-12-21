@@ -30,7 +30,7 @@ const Adm_News_Edit = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/user", {
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -104,7 +104,7 @@ const Adm_News_Edit = () => {
   const fetchFakeNewsData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/Adm_News_edit/${id}`
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_News_edit/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -139,7 +139,7 @@ const Adm_News_Edit = () => {
       formData.append("link", values.link);
       formData.append("tag", values.tag);
       const response = await fetch(
-        `http://localhost:8000/api/Adm_News_update/${id}`,
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_News_update/${id}`,
         {
           method: "POST",
           body: formData,

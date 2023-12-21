@@ -14,7 +14,7 @@ const Adm_Article_Menu = () => {
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/AmUser");
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -57,7 +57,7 @@ const Adm_Article_Menu = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/Adm_Article_request");
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_Article_request");
       if (response.ok) {
         const data = await response.json();
         setDataSource(data);
@@ -75,7 +75,7 @@ const Adm_Article_Menu = () => {
 
   const updateStatus = async (id, Status) => {
     try {
-      const response = await axios.put(`http://localhost:8000/api/Adm_Article_update_status/${id}`, { status: Status });
+      const response = await axios.put(`https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_Article_update_status/${id}`, { status: Status });
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
         fetchData(); // Fetch updated data after status update
@@ -89,7 +89,7 @@ const Adm_Article_Menu = () => {
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
-    fetch(`http://localhost:8000/api/Adm_Article_delete/${id}`, {
+    fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_Article_delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

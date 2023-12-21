@@ -49,7 +49,7 @@ const MC_Subpoint = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/Subpoint_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Subpoint_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -74,7 +74,7 @@ const MC_Subpoint = () => {
       formData.append("subp_name", values.subp_name);
       console.log(formData);
       const response = await fetch(
-        "http://localhost:8000/api/Subpoint_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Subpoint_upload",
         {
           method: "POST",
           body: formData,
@@ -197,7 +197,7 @@ const MC_Subpoint = () => {
 
   const onTypeChange = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/TypeInformation_request");
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/TypeInformation_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

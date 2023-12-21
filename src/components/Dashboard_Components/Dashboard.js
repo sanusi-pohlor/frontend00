@@ -54,7 +54,7 @@ const Dashboard = ({ onSearch }) => {
     // ฟังก์ชัน fetchData สำหรับการดึงข้อมูล
     const fetchData = async (endpoint, setter) => {
       try {
-        const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+        const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
         if (response.ok) {
           const data = await response.json();
           setter(data);
@@ -93,7 +93,7 @@ const Dashboard = ({ onSearch }) => {
   const paperColor = "#FFFFFF";
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

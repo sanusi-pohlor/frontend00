@@ -47,7 +47,7 @@ const MC_DataCharacteristics = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/DataCharacteristics_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/DataCharacteristics_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -71,7 +71,7 @@ const MC_DataCharacteristics = () => {
       formData.append("data_cha_name", values.data_cha_name);
       console.log(formData);
       const response = await fetch(
-        "http://localhost:8000/api/DataCharacteristics_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/DataCharacteristics_upload",
         {
           method: "POST",
           body: formData,

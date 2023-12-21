@@ -48,7 +48,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", selectOptions_prov);
       formData.append("receive_ct_email", receive);
-      const response = await fetch("http://localhost:8000/api/register", {
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/register", {
         method: "POST",
         body: formData,
       });
@@ -59,7 +59,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
         localStorage.setItem('access_token', data.message);
     
         // Fetch a fresh token immediately after successful registration
-        const loginResponse = await fetch("http://localhost:8000/api/login", {
+        const loginResponse = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/login", {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

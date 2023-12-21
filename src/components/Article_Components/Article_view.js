@@ -15,7 +15,7 @@ const Article_view = () => {
   const handleCancel = () => setIsModalOpen(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/Article_show/${id}`)
+    fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/Article_show/${id}`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching news data:", error));
@@ -23,7 +23,7 @@ const Article_view = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("http://localhost:8000/api/user", {
+      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,

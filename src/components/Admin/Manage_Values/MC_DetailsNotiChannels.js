@@ -53,7 +53,7 @@ const MC_DetailsNotiChannels = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/DetailsNotiChannels_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/DetailsNotiChannels_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -86,7 +86,7 @@ const MC_DetailsNotiChannels = () => {
       formData.append("dnc_link", values.dnc_link);
       console.log(formData);
       const response = await fetch(
-        "http://localhost:8000/api/DetailsNotiChannels_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/DetailsNotiChannels_upload",
         {
           method: "POST",
           body: formData,
@@ -248,7 +248,7 @@ const MC_DetailsNotiChannels = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

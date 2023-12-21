@@ -38,10 +38,10 @@ const MyTable = () => {
     const fetchData = async (endpoint, name, dataIndex) => {
       try {
         const Manage_Fake_Info = await fetch(
-          "http://localhost:8000/api/Manage_Fake_Info_request"
+          "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_request"
         );
         const MediaChannels = await fetch(
-          `http://localhost:8000/api/${endpoint}`
+          `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
         );
 
         if (Manage_Fake_Info.ok && MediaChannels.ok) {

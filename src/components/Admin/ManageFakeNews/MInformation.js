@@ -66,7 +66,7 @@ const MInformation = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/Information_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Information_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -99,7 +99,7 @@ const MInformation = () => {
       formData.append("info_cont_topic", values.info_cont_topic);
       console.log(formData);
       const response = await fetch(
-        "http://localhost:8000/api/Information_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Information_upload",
         {
           method: "POST",
           body: formData,
@@ -268,7 +268,7 @@ const MInformation = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

@@ -29,7 +29,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
   };
   const fetchDataAndSetOptions = async (endpoint, fieldName) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${endpoint}`);
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

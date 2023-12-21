@@ -26,7 +26,7 @@ const Article_Menu = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/Article_request")
+    fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/Article_request")
       .then((response) => response.json())
       .then((data) => {
         setData(data);

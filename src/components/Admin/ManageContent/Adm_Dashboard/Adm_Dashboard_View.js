@@ -12,7 +12,7 @@ const Adm_Dashboard_View = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/Dashboard_show/${id}`
+          `https://fakenew-c1eaeda38e26.herokuapp.com/api/Dashboard_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();

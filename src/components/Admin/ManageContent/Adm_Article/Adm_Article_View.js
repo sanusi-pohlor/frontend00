@@ -28,7 +28,7 @@ const Adm_Article_View = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8000/api/Article_show/${id}`
+          `https://fakenew-c1eaeda38e26.herokuapp.com/api/Article_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();

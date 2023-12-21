@@ -61,7 +61,7 @@ const Adm_Dashboard_Form = () => {
       setLoading(true);
       // Send other form data to the server
       const response = await fetch(
-        "http://localhost:8000/api/Dashboard_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Dashboard_upload",
         {
           method: "POST",
           headers: {

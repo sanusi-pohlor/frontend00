@@ -114,7 +114,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/Manage_Fake_Info_request"
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -133,7 +133,7 @@ const Manage_Fake_Info_Menu = () => {
   const onFinish = async (values) => {
     try {
       const response = await fetch(
-        "http://localhost:8000/api/Manage_Fake_Info_upload",
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_upload",
         {
           method: "POST",
           headers: {

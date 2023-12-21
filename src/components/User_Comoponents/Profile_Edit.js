@@ -36,7 +36,7 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
   const fetchFakeNewsData = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/User_edit/${id}`
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/User_edit/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -78,7 +78,7 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", selectedprovince);
       formData.append("receive_ct_email", receive);
-      const response = await fetch(`http://localhost:8000/api/User_update/${id}`, {
+      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/User_update/${id}`, {
         method: "POST",
         body: formData,
       });
