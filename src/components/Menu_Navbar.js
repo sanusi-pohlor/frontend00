@@ -221,7 +221,7 @@ function Menu_Navbar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     mr: 3,
-                    fontSize: "150%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
+                    fontSize: "200%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
                     color: page.link === location.pathname ? "#7BBD8F" : "grey",
                     whiteSpace: "nowrap", // ทำให้ข้อความไม่ขึ้นบรรทัดใหม่
                   }}
@@ -382,7 +382,7 @@ function Menu_Navbar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     mr: 3,
-                    fontSize: "150%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
+                    fontSize: "200%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
                     color: page.link === location.pathname ? "#7BBD8F" : "grey",
                     whiteSpace: "nowrap", // ทำให้ข้อความไม่ขึ้นบรรทัดใหม่
                   }}
