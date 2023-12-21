@@ -13,57 +13,18 @@ import {
   Breadcrumb,
   Row,
   Col,
+  Image,
 } from "antd";
 import AdminMenu from "../Adm_Menu";
-import {
-  PlusCircleOutlined,
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
-import { Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import moment from "moment";
 const { Option } = Select;
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
-const Manage_Fake_Info_Menu = () => {
+
+const Adm_Info_Check = () => {
+  const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
   const [selectOptions_vol, setSelectOptions_vol] = useState([]); // State for select options
   const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
   const [selectOptions_c_info, setSelectOptions_c_info] = useState([]); // State for select options
@@ -74,10 +35,8 @@ const Manage_Fake_Info_Menu = () => {
   const [selectOptions_moti, setSelectOptions_moti] = useState([]); // State for select options
   const [selectOptions_data, setSelectOptions_data] = useState([]); // State for select optionsons
   const [selectOptions_prov, setSelectOptions_prov] = useState([]); // State for select optionsons
-  const getFields = () => {
-    const fields = form.getFieldsValue();
-    return fields;
-  };
+  const { id } = useParams();
+  const [userInfo, setUserInfo] = useState(null);
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -95,6 +54,62 @@ const Manage_Fake_Info_Menu = () => {
     ];
     return thaiMonths[month];
   }
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser"
+      );
+      if (response.ok) {
+        const userData = await response.json();
+        console.log("user :", userData);
+        setUserInfo(userData);
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+
+  const fetchFakeNewsInfo = async () => {
+    console.log("id :", id);
+    try {
+      const response = await fetch(
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/FakeNewsInfo_show/${id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFakeNewsInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  // Fetch fake news information when the component mounts
+  useEffect(() => {
+    fetchFakeNewsInfo();
+  }, [id]);
+
+  const renderReporterInfo = () => {
+    const user = userInfo.find(
+      (user) => user.id === fakeNewsInfo?.fn_info_nameid
+    );
+
+    return (
+      user && (
+        <>
+          <span>{user.username}</span> <span>{user.lastName}</span>
+        </>
+      )
+    );
+  };
+
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -144,39 +159,6 @@ const Manage_Fake_Info_Menu = () => {
 
   const isEditing = (record) => record.key === editingKey;
 
-  const edit = (record) => {
-    form.setFieldsValue({ ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey("");
-  };
-
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.error("Validate Failed:", errInfo);
-    }
-  };
-
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
     fetch(
@@ -198,114 +180,6 @@ const Manage_Fake_Info_Menu = () => {
         console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
       });
   };
-  const getStatusText = (status) => {
-    switch (status) {
-      case 0:
-        return "รอตรวจสอบ";
-      case 1:
-        return "กำลังตรวจสอบ";
-      case 2:
-        return "ตรวจสอบเสร็จสิ้น";
-    }
-  };
-  const columns = [
-    {
-      title: "ลำดับ",
-      width: "5%",
-      render: (text, record, index) => index + 1,
-    },
-    {
-      title: "ประทับเวลา",
-      dataIndex: "mfi_time",
-      width: "15%",
-      editable: true,
-    },
-    {
-      title: "จังหวัดของท่าน",
-      dataIndex: "mfi_province",
-      width: "10%",
-      editable: true,
-    },
-    {
-      title: "ผู้ส่งรายงาน",
-      dataIndex: "mfi_mem",
-      width: "10%",
-      editable: true,
-    },
-    {
-      title: "แหล่งที่มาของข่าวปลอม",
-      dataIndex: "mfi_med_c",
-      width: "15%",
-      editable: true,
-    },
-    {
-      title: "เพิ่มเมื่อ",
-      dataIndex: "created_at",
-      width: "15%",
-      editable: true,
-      render: (created_at) => {
-        const date = new Date(created_at);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(
-          date.getMonth()
-        )} ${date.getFullYear() + 543}`;
-        return formattedDate;
-      },
-    },
-    {
-      title: "สถานะ",
-      dataIndex: "mfi_status",
-      width: "15%",
-      render: (status) => getStatusText(status),
-    },
-    {
-      title: "จัดการ",
-      width: "15%",
-      editable: true,
-      render: (text, record) => (
-        <Space size="middle">
-          <Link
-            to={`/Admin/Manage_Fake_Info/Manage_Fake_Info_View/${record.id}`}
-          >
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
-          </Link>
-          {record.status === 0 && (
-            <>
-              <Link to={`/Admin/Manage_Fake_Info/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
-              </Link>
-              <Popconfirm
-                title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
-                onConfirm={() => handleDelete(record.id)}
-                okText="ใช่"
-                cancelText="ไม่"
-              >
-                <Button type="link">
-                  <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
-                </Button>
-              </Popconfirm>
-            </>
-          )}
-        </Space>
-      ),
-    },
-  ];
-
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "vol_mem_id" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -431,7 +305,7 @@ const Manage_Fake_Info_Menu = () => {
         <Row gutter={16}>
           <Col span={8}>
             <Form.Item
-              name="mfi_time"
+              //name="mfi_time"
               label="ประทับเวลา"
               rules={[
                 {
@@ -440,10 +314,21 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Input />
+              <Input
+                size="large"
+                placeholder={
+                  fakeNewsInfo
+                    ? fakeNewsInfo.created_at &&
+                      moment(fakeNewsInfo.created_at)
+                        .locale("th")
+                        .format("DD MMMM YYYY")
+                    : "No date available"
+                }
+                disabled
+              />
             </Form.Item>
             <Form.Item
-              name="mfi_province"
+              //name="mfi_province"
               label="จังหวัดของท่าน"
               rules={[
                 {
@@ -452,18 +337,20 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_province}
-                allowClear
-              >
-                {selectOptions_prov}
-              </Select>
+              <Input
+                size="large"
+                placeholder={
+                  fakeNewsInfo
+                    ? fakeNewsInfo.fn_info_province
+                    : "No date available"
+                }
+                disabled
+              />
             </Form.Item>
           </Col>
           <Col span={8}>
             <Form.Item
-              name="mfi_mem"
+              //name="mfi_mem"
               label="ผู้ส่งรายงาน"
               rules={[
                 {
@@ -472,13 +359,7 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_mem_id}
-                allowClear
-              >
-                {selectOptions_vol}
-              </Select>
+              <Input size="large" placeholder={renderReporterInfo()} disabled />
             </Form.Item>
             <Form.Item
               name="mfi_med_c"
@@ -490,13 +371,15 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_med_c_id}
-                allowClear
-              >
-                {selectOptions_med}
-              </Select>
+              <Input
+                size="large"
+                placeholder={
+                  fakeNewsInfo
+                    ? fakeNewsInfo.fn_info_source
+                    : "No date available"
+                }
+                disabled
+              />
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -510,7 +393,12 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Input />
+              <Image
+            width={200}
+            src={fakeNewsInfo.fn_info_image}
+            alt="รูปภาพข่าวปลอม"
+            //style={{ maxWidth: "100%", height: "auto" }}
+          />
             </Form.Item>
             <Form.Item
               name="mfi_link"
@@ -522,7 +410,15 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Input />
+              <Input
+                size="large"
+                placeholder={
+                  fakeNewsInfo
+                    ? fakeNewsInfo.fn_info_link
+                    : "No date available"
+                }
+                disabled
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -554,7 +450,15 @@ const Manage_Fake_Info_Menu = () => {
                 },
               ]}
             >
-              <Input />
+              <Input
+                size="large"
+                placeholder={
+                  fakeNewsInfo
+                    ? fakeNewsInfo.fn_info_num_mem
+                    : "No date available"
+                }
+                disabled
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -585,7 +489,6 @@ const Manage_Fake_Info_Menu = () => {
           </Col>
           <Col span={8}>
             <Form.Item
-              name="mfi_fm_d"
               label="รูปแบบของข้อมูล"
               rules={[
                 {
@@ -760,4 +663,4 @@ const Manage_Fake_Info_Menu = () => {
   );
 };
 
-export default Manage_Fake_Info_Menu;
+export default Adm_Info_Check;

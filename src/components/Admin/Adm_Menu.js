@@ -36,7 +36,7 @@ const items = [
   {
     key: "sub6",
     icon: <NotificationOutlined />,
-    label: "จัดการข้อมูลเท็จ",
+    label: "จัดการหมวดหมู่ข้อมูลเท็จ",
     children: [
       { key: "1", label: "สื่อ", icon: <FileAddOutlined />, link: "MMedia" },
       { key: "2", label: "ประเภท", icon: <FileAddOutlined />, link: "MType" },
