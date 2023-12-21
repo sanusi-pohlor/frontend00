@@ -143,7 +143,7 @@ const Dashboard = ({ onSearch }) => {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: '#f1f1f1' }}>
       <Carousel />
       <Paper
         elevation={0}
@@ -152,6 +152,7 @@ const Dashboard = ({ onSearch }) => {
           padding: 10,
           margin: "0 auto",
           textAlign: "center",
+          backgroundColor: '#f1f1f1'
         }}
       >
         <div
@@ -234,35 +235,35 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-        <Paper
-          elevation={0}
-          style={{
-            padding: 50,
-            margin: "0 auto", // This centers the paper horizontally
-            textAlign: "center", // This centers the content inside the paper
-            color: "#FFFFFF",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={4}></Grid>
-            <Grid item xs={12} md={4}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100%",
-                  textAlign: "center", // Center the text horizontally
-                  fontSize: "80px",
-                  fontWeight: "bold",
-                }}
-              >
-                ข่าวสาร
-              </div>
-            </Grid>
-            <Grid item xs={12} md={4}>
-              {/* <Input
+      <Paper
+        elevation={0}
+        style={{
+          padding: 50,
+          margin: "0 auto", // This centers the paper horizontally
+          textAlign: "center", // This centers the content inside the paper
+          color: "#FFFFFF",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={4}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                textAlign: "center", // Center the text horizontally
+                fontSize: "80px",
+                fontWeight: "bold",
+              }}
+            >
+              ข่าวสาร
+            </div>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            {/* <Input
               size="large"
               placeholder="ค้นหา"
               value={searchTerm}
@@ -270,88 +271,88 @@ const Dashboard = ({ onSearch }) => {
               onPressEnter={handleSearchSubmit}
               prefix={<SearchOutlined className="site-form-item-icon" />}
             /> */}
-            </Grid>
           </Grid>
-          <Paper
-            elevation={0}
-            style={{
-              width: "70%",
-              padding: 10,
-              margin: "0 auto",
-              textAlign: "center",
-              backgroundColor: "#7BBD8F",
-            }}
-          >
-            <Grid container spacing={2}>
-              {newcurrentItems.map((item) => (
-                <Grid
-                  item
-                  xs={12}
-                  md={4}
-                  key={item.id}
-                  style={{ marginBottom: "4%" }}
+        </Grid>
+        <Paper
+          elevation={0}
+          style={{
+            width: "70%",
+            padding: 10,
+            margin: "0 auto",
+            textAlign: "center",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <Grid container spacing={2}>
+            {newcurrentItems.map((item) => (
+              <Grid
+                item
+                xs={12}
+                md={4}
+                key={item.id}
+                style={{ marginBottom: "4%" }}
+              >
+                <Link
+                  to={`/News/News_views/${item.id}`}
+                  style={{ textDecoration: "none" }}
                 >
-                  <Link
-                    to={`/News/News_views/${item.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Card
-                      hoverable
-                      style={{
-                        margin: "auto",
-                        borderRadius: "20px",
-                        width: "90%",
-                        height: "100%",
-                        padding: 20,
-                        fontFamily: "'Th Sarabun New', sans-serif",
-                        fontSize: "25px",
-                      }}
-                      cover={
-                        <div
+                  <Card
+                    hoverable
+                    style={{
+                      margin: "auto",
+                      borderRadius: "20px",
+                      width: "90%",
+                      height: "100%",
+                      padding: 20,
+                      fontFamily: "'Th Sarabun New', sans-serif",
+                      fontSize: "25px",
+                    }}
+                    cover={
+                      <div
+                        style={{
+                          height: "80%",
+                          width: "100%",
+                          borderRadius: "10px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <img
                           style={{
-                            height: "80%",
+                            height: "100%",
                             width: "100%",
-                            borderRadius: "10px",
-                            overflow: "hidden",
+                            objectFit: "cover",
                           }}
-                        >
-                          <img
-                            style={{
-                              height: "100%",
-                              width: "100%",
-                              objectFit: "cover",
-                            }}
-                            src={item.cover_image}
-                            alt={item.title}
-                          />
-                          {item.title}
-                        </div>
-                      }
-                    ></Card>
-                  </Link>
-                </Grid>
-              ))}
-            </Grid>
-          </Paper>
-          <Box mt={4} display="flex" justifyContent="center">
-            <IconButton
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-            >
-              <LeftCircleOutlined
-                style={{ fontSize: "3rem", color: "#FFFFFF" }}
-              />
-            </IconButton>
-            <IconButton
-              onClick={() => paginate(currentPage + 1)}
-              disabled={indexOfLastItem >= newdata.length}
-            >
-              <RightCircleOutlined
-                style={{ fontSize: "3rem", color: "#FFFFFF" }}
-              />
-            </IconButton>
-          </Box>
+                          src={item.cover_image}
+                          alt={item.title}
+                        />
+                        {item.title}
+                      </div>
+                    }
+                  ></Card>
+                </Link>
+              </Grid>
+            ))}
+          </Grid>
         </Paper>
+        <Box mt={4} display="flex" justifyContent="center">
+          <IconButton
+            onClick={() => paginate(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <LeftCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
+          </IconButton>
+          <IconButton
+            onClick={() => paginate(currentPage + 1)}
+            disabled={indexOfLastItem >= newdata.length}
+          >
+            <RightCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
+          </IconButton>
+        </Box>
+      </Paper>
       <Paper
         elevation={0}
         style={{
@@ -359,6 +360,7 @@ const Dashboard = ({ onSearch }) => {
           padding: 30,
           margin: "0 auto", // This centers the paper horizontally
           textAlign: "center", // This centers the content inside the paper
+          backgroundColor: '#f1f1f1'
         }}
       >
         <Divider />
@@ -399,6 +401,7 @@ const Dashboard = ({ onSearch }) => {
             padding: 10,
             margin: "0 auto",
             textAlign: "center",
+            backgroundColor: '#f1f1f1'
           }}
         >
           <Grid container spacing={2}>

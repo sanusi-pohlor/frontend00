@@ -26,6 +26,7 @@ import PropTypes from "prop-types";
 import "./Menu_Navbar.css";
 import PSU from "./Images/PSU.jpg";
 import COMMSCI from "./Images/COMMSCI.png";
+import { useTheme } from '@mui/material/styles';
 const pages = [
   { label: "หน้าหลัก", link: "/" },
   { label: "ข่าวสาร", link: "/News_Menu" },
@@ -43,6 +44,17 @@ function Menu_Navbar() {
   const [registerVisible, setRegisterVisible] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
   const Navigate = useNavigate();
+  const theme = useTheme();
+  const getFontSize = (breakpoint) => {
+    switch (breakpoint) {
+      case 'xs':
+        return '150%'; // Adjust this value as needed for your smallest breakpoint
+      case 'md':
+        return '250%'; // Adjust this value as needed for your medium breakpoint
+      default:
+        return '200%'; // A default size if no specific breakpoint matches
+    }
+  };
   const loginbuttonStyle = {
     background: "#7BBD8F",
     border: "none",
@@ -221,9 +233,9 @@ function Menu_Navbar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     mr: 3,
-                    fontSize: "250%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
+                    fontSize: getFontSize(theme.breakpoints.width), // Adjust the breakpoint
                     color: page.link === location.pathname ? "#7BBD8F" : "grey",
-                    whiteSpace: "nowrap", // ทำให้ข้อความไม่ขึ้นบรรทัดใหม่
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {page.label}
@@ -322,36 +334,15 @@ function Menu_Navbar() {
                 //display: { xs: "none", sm: "block" },
                 fontFamily: "'Th Sarabun New', sans-serif",
                 fontWeight: "bold",
-                letterSpacing: ".1rem",
+                //letterSpacing: ".1rem",
                 color: "gray",
                 //textDecoration: "none",
-                fontSize: "250%",
+                fontSize: getFontSize(theme.breakpoints.width),
                 //whiteSpace: "nowrap",
               }}
             >
               รู้เท่า ทันสื่อ - Check ก่อน
             </Typography>
-            <Box component="nav">
-              <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: false, // Better open performance on mobile.
-                }}
-                sx={{
-                  display: { xs: "block", sm: "block" },
-                  "& .MuiDrawer-paper": {
-                    boxSizing: "border-box",
-                    width: drawerWidth,
-                    fontWeight: "bold",
-                  },
-                }}
-              >
-                {drawerMenu}
-              </Drawer>
-            </Box>
             <Box component="nav">
               <Drawer
                 container={container}
@@ -382,9 +373,9 @@ function Menu_Navbar() {
                   onClick={handleCloseNavMenu}
                   sx={{
                     mr: 3,
-                    fontSize: "250%", // เปลี่ยน fontSize เป็นค่าที่เหมาะสมกับการเปลี่ยนแปลงขนาด
+                    fontSize: getFontSize(theme.breakpoints.width), // Adjust the breakpoint
                     color: page.link === location.pathname ? "#7BBD8F" : "grey",
-                    whiteSpace: "nowrap", // ทำให้ข้อความไม่ขึ้นบรรทัดใหม่
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {page.label}

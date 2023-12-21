@@ -99,7 +99,6 @@ const AdminMenu = ({ children }) => {
                         <Link to={`/Admin/${child.link}`}>{child.label}</Link>
                       </Menu.Item>
                     ))}
-
                   </Menu.SubMenu>
                 );
               } else {

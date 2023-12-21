@@ -84,6 +84,7 @@ const News_Menu = () => {
   };
 
   return (
+    <div style={{ backgroundColor: '#f1f1f1' }}>
     <Paper
       elevation={0}
       style={{
@@ -91,6 +92,7 @@ const News_Menu = () => {
         padding: 30,
         margin: "0 auto",
         textAlign: "center",
+        backgroundColor: '#f1f1f1'
       }}
     >
       <Grid container spacing={2}>
@@ -110,6 +112,7 @@ const News_Menu = () => {
             ข่าวสาร
           </div>
         </Grid>
+        
         <Grid item xs={12} md={4}>
           <div style={{ display: "flex", alignItems: "center" }}>
             <Input
@@ -246,7 +249,7 @@ const News_Menu = () => {
           <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
         </IconButton>
       </Box>
-    </Paper>
+    </Paper></div>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Paper } from "@mui/material";
-import { Modal, Descriptions } from "antd";
+import { Modal,Divider, Descriptions } from "antd";
 import moment from "moment";
 
 const News_views = () => {
@@ -109,16 +109,16 @@ const News_views = () => {
         style={{
           ...commonStyles,
           fontSize: "50px",
-          textAlign: "center",
+          //textAlign: "center",
           fontWeight: "bold",
         }}
       >
         ข่าวสาร
-      </div>
+      </div><Divider />
       <br />
       <h1 style={commonStyles}>{Data.title}</h1>
       <h1 style={commonStyles}>โดย : "ชื่อ-สกุล"</h1>
-      <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1>
+      <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
       <div
         style={commonStyles}
         dangerouslySetInnerHTML={{ __html: Data.details }}
