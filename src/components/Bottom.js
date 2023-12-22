@@ -2,9 +2,7 @@ import React from "react";
 import { Layout, Divider, Space } from "antd";
 import CASLogo from "./Images/CAS.png";
 import WMOLogo from "./Images/WMO.png";
-import commit from "./Images/commit.jpg";
 import { Grid, Box } from "@mui/material";
-import { FacebookOutlined } from "@ant-design/icons";
 
 const { Footer } = Layout;
 
@@ -25,17 +23,19 @@ const imageContainerStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  gap: "20px", // ระยะห่างระหว่างรูปภาพ
+  gap: "20px",
 };
 
 const imageStyle = {
-  width: "90px", // กำหนดขนาดรูปภาพทั้งสองให้เท่ากัน
-  height: "90px", // กำหนดขนาดรูปภาพทั้งสองให้เท่ากัน
+  width: "90px",
+  height: "90px",
 };
+
 const imageStyle1 = {
-  width: "20%", // กำหนดขนาดรูปภาพทั้งสองให้เท่ากัน
-  height: "20%", // กำหนดขนาดรูปภาพทั้งสองให้เท่ากัน
+  width: "20%",
+  height: "20%",
 };
+
 const Bottom = () => {
   const isMobile = window.innerWidth <= 768;
   const textStyle = {
@@ -45,7 +45,7 @@ const Bottom = () => {
   };
 
   return (
-    <Footer style={{ ...footerStyle }}>
+    <Footer style={footerStyle}>
       <Divider />
       <br />
       <Grid container spacing={2}>

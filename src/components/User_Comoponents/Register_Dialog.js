@@ -1,34 +1,30 @@
 import React, { useState } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import LoginDialog from "./Login_Dialog";
+import { Paper } from "@mui/material";
 import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
 import {
   UserOutlined,
   MailOutlined,
   PhoneOutlined,
   MessageOutlined,
+  LockOutlined,
 } from "@ant-design/icons";
 
-const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
+const RegisterDialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]); // State for select optionsons
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
-  const [selectedprovince, setSelectedprovince] = useState("");
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(open);
   const { Option } = Select;
   const [form] = Form.useForm();
-  const handleprovinceChange = (value) => {
-    setSelectedprovince(value);
-  };
-  const handleOk = () => {
-    setVisible(false);
-    onClose();
+const getFontSize = (breakpoint) => {
+  const fontSizeMap = {
+    xs: "150%",
+    md: "250%",
+    default: "200%",
   };
 
-  const handleCancel = () => {
-    setVisible(false);
-    onClose();
-  };
+  return fontSizeMap[breakpoint] || fontSizeMap.default;
+};
 
   const onFinish = async (values) => {
     console.log(values);
@@ -48,33 +44,34 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", selectOptions_prov);
       formData.append("receive_ct_email", receive);
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/register", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "https://fakenew-c1eaeda38e26.herokuapp.com/api/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       if (response.ok) {
         message.success("Form data sent successfully");
         const data = await response.json();
-        // Save the token in localStorage
-        localStorage.setItem('access_token', data.message);
-    
-        // Fetch a fresh token immediately after successful registration
-        const loginResponse = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/login", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: values.email,
-            password: values.password,
-          }),
-        });
-    
+        localStorage.setItem("access_token", data.message);
+        const loginResponse = await fetch(
+          "https://fakenew-c1eaeda38e26.herokuapp.com/api/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          }
+        );
+
         if (loginResponse.ok) {
           const loginData = await loginResponse.json();
-          // Save the token from the login response to localStorage
-          localStorage.setItem('access_token', loginData.message);
-          // Redirect the user or perform any necessary action
+          localStorage.setItem("access_token", loginData.message);
           window.location.reload();
         } else {
           message.error("Error logging in after registration");
@@ -92,23 +89,17 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const [Login, setLogin] = useState(false);
 
   const onChange = (e) => {
-    // The 'e.target.checked' property contains the checkbox state (true for checked, false for unchecked)
     const isChecked = e.target.checked;
-
-    // Update the 'receiveCtEmail' state based on the checkbox state
     setReceiveCtEmail(isChecked);
-  };
-
-  const LoginFinish = (values) => {
-    console.log("Received values of form: ", values);
   };
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -136,21 +127,38 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
   };
 
   const onChange_mfi_province = () => {
-    fetchDataAndSetOptions(
-      "Province_request",
-      "prov",
-      setSelectOptions_prov
-    );
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
   return (
     <Modal
-      title="ลงทะเบียน"
       visible={visible}
       onCancel={onClose}
       footer={null}
+      width={800}
       onChange={() => {
         onChange_mfi_province();
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          textAlign: "center",
+          fontSize: "50px",
+          fontWeight: "bold",
+          fontFamily: "'Th Sarabun New', sans-serif",
+        }}
+      >
+        สมัครสมาชิก
+      </div>
+      <Paper
+      elevation={0}
+      style={{
+        width: "80%",
+        margin: "0 auto",
       }}
     >
       <Form
@@ -161,7 +169,9 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
         onFinishFailed={onFinishFailed}
         style={{
           maxWidth: "100%",
+          fontSize: "50px",
         }}
+        labelCol={{ style: { fontSize: '18px' } }} 
       >
         <Form.Item
           label="ชื่อ"
@@ -169,7 +179,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: "กรุณาเพิ่มชื่อ!",
             },
           ]}
           style={{
@@ -180,7 +190,6 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           <Input
             size="large"
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
           />
         </Form.Item>
         <Form.Item
@@ -189,7 +198,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           rules={[
             {
               required: true,
-              message: "Please input your lastName!",
+              message: "กรุณาเพิ่มนามสกุล!",
             },
           ]}
           style={{
@@ -198,11 +207,7 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
             margin: "0 8px",
           }}
         >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="LastName"
-          />
+          <Input size="large" />
         </Form.Item>
         <Form.Item
           label="อีเมล"
@@ -210,73 +215,74 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           rules={[
             {
               required: true,
-              message: "Please input your email!",
+              message: "กรุณาเพิ่มอีเมล!",
             },
           ]}
         >
           <Input
             size="large"
             prefix={<MailOutlined className="site-form-item-icon" />}
-            placeholder="Email"
           />
         </Form.Item>
         <Form.Item
+          label="รหัสผ่าน"
           name="password"
-          label="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
         >
-          <Input.Password />
+          <Input.Password
+            size="large"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
         <Form.Item
-          name="confirmPassword"
-          label="Confirm Password"
+          label="รหัสผ่านยืนยัน"
+          name="Confirm Password"
           dependencies={["password"]}
           rules={[
-            { required: true, message: "Please confirm your password!" },
+            { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
             ({ getFieldValue }) => ({
               validator(_, value) {
                 if (!value || getFieldValue("password") === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  new Error("The two passwords do not match!")
-                );
+                return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
               },
             }),
           ]}
         >
-          <Input.Password />
+          <Input.Password
+            size="large"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
         <Form.Item
-          label="phone_number"
+          label="เบอร์ติดต่อ"
           name="phone_number"
           rules={[
             {
               required: true,
-              message: "Please input your Toll!",
+              message: "กรูณาเพิ่มเบอร์ติดต่อ!",
             },
           ]}
         >
           <Input
             size="large"
             prefix={<PhoneOutlined className="site-form-item-icon" />}
-            placeholder="เบอร์โทร"
           />
         </Form.Item>
         <Form.Item
-          label="Id_line"
+          label="ไอดีไลน์"
           name="Id_line"
           rules={[
             {
               required: true,
-              message: "Please input your Idline!",
+              message: "กรุณาเพิ่มไอดีไลน์!",
             },
           ]}
         >
           <Input
             size="large"
             prefix={<MessageOutlined className="site-form-item-icon" />}
-            placeholder="ไอดีไลน์"
           />
         </Form.Item>
         <Form.Item
@@ -284,18 +290,14 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           name="province"
           rules={[
             {
-              required: false,
-              message: "Please select province!",
+              required: true,
+              message: "กรุณาเลือกจังหวัดที่สังกัด!",
             },
           ]}
         >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_mfi_province}
-              allowClear
-            >
-              {selectOptions_prov} {/* Populate the options */}
-            </Select>
+          <Select onChange={onChange_mfi_province} allowClear>
+            {selectOptions_prov}
+          </Select>
         </Form.Item>
         <Form.Item name="CheckboxContent">
           <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
@@ -304,20 +306,8 @@ const RegisterDialog = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           <Button type="primary" htmlType="submit" loading={loading}>
             ลงทะเบียน
           </Button>
-          <br />
-          <br />
-          หรือ{" "}
-          <a href="#" onClick={() => setLogin(true)}>
-            เข้าสู่ระบบ
-          </a>
-          <LoginDialog
-            open={Login}
-            onClose={() => setLogin(false)}
-            handleSubmit={handleSubmit}
-            LoginFinish={LoginFinish}
-          />
         </Form.Item>
-      </Form>
+      </Form></Paper>
     </Modal>
   );
 };
