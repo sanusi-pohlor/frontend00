@@ -1,33 +1,12 @@
 import React, { useState } from "react";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import RegisterDialog from "./Register_Dialog";
-import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
+import { Form, Button, Input, Modal } from "antd";
 import {
-  Typography,
-  Box,
-  Dialog,
-  DialogContent,
   Paper,
-  Avatar,
-  Slide,
 } from "@mui/material";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="top" ref={ref} {...props} />;
-});
 
 const LoginDialog = ({ open, onClose }) => {
   const [visible, setVisible] = useState(open);
-  const handleOk = () => {
-    setVisible(false);
-    onClose();
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-    onClose();
-  };
   const onFinish = async (values) => {
     console.log(values);
     const formData = new FormData();
@@ -58,71 +37,90 @@ const LoginDialog = ({ open, onClose }) => {
 
   return (
     <Modal
-      title="ลงทะเบียน"
       visible={visible}
       onCancel={onClose}
       footer={null}
+      width={800}
     >
-            <Form
-              layout="vertical"
-              name="normal_login"
-              className="login-form"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish} // Changed from onSubmit to onFinish
-              onFinishFailed={onFinishFailed}
-              style={{
-                maxWidth: "100%",
-              }}
-              size="large"
-            >
-              <Form.Item
-                label="อีเมล"
-                name="email"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your email!",
-                  },
-                ]}
-              >
-                <Input
-                  size="large"
-                  prefix={<MailOutlined className="site-form-item-icon" />}
-                  placeholder="อีเมล"
-                />
-              </Form.Item>
-              <Form.Item
-                label="รหัสผ่าน"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input
-                  type="password"
-                  size="large"
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  placeholder="รหัสผ่าน"
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
-                  size="large"
-                >
-                  เข้าสู่ระบบ
-                </Button>{" "}
-                <a href="/User/Register">ลงทะเบียน</a>
-              </Form.Item>
-            </Form>
-            </Modal>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          textAlign: "center",
+          fontSize: "50px",
+          fontWeight: "bold",
+          fontFamily: "'Th Sarabun New', sans-serif",
+        }}
+      >
+        เข้าสู่ระบบ
+      </div>
+      <Paper
+        elevation={0}
+        style={{
+          width: "80%",
+          margin: "0 auto",
+        }}
+      >
+      <Form
+        layout="vertical"
+        name="normal_login"
+        className="login-form"
+        initialValues={{
+          remember: true,
+        }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        style={{
+          maxWidth: "100%",
+        }}
+        size="large"
+      >
+        <Form.Item
+          label="อีเมล"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: "กรุณาเพิ่มอีเมล!",
+            },
+          ]}
+        >
+          <Input
+            size="large"
+            prefix={<MailOutlined className="site-form-item-icon" />}
+          />
+        </Form.Item>
+        <Form.Item
+          label="รหัสผ่าน"
+          name="password"
+          rules={[
+            {
+              required: true,
+              message: "กรุณาเพิ่มรหัสผ่าน!",
+            },
+          ]}
+        >
+          <Input
+            type="password"
+            size="large"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+            size="large"
+          >
+            เข้าสู่ระบบ
+          </Button>
+        </Form.Item>
+      </Form>
+      </Paper>
+    </Modal>
   );
 };
 

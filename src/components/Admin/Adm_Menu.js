@@ -61,8 +61,8 @@ const AdminMenu = ({ children }) => {
         <Sider
           width={300}
           style={{ background: colorBgContainer }}
-          breakpoint="lg" // Set breakpoint for responsive behavior
-          collapsedWidth={0} // Hide Sider when collapsed
+          breakpoint="lg"
+          collapsedWidth={0}
         >
           <Menu
             mode="inline"

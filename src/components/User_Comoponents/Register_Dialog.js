@@ -10,21 +10,12 @@ import {
 } from "@ant-design/icons";
 
 const RegisterDialog = ({ open, onClose }) => {
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]); // State for select optionsons
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(open);
   const { Option } = Select;
   const [form] = Form.useForm();
-const getFontSize = (breakpoint) => {
-  const fontSizeMap = {
-    xs: "150%",
-    md: "250%",
-    default: "200%",
-  };
-
-  return fontSizeMap[breakpoint] || fontSizeMap.default;
-};
 
   const onFinish = async (values) => {
     console.log(values);

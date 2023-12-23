@@ -11,12 +11,12 @@ const MenuProfile = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     function handleResize() {
-      setIsMobile(window.innerWidth < 768); // 768px คือขนาดหน้าจอสำหรับมือถือ
+      setIsMobile(window.innerWidth < 768);
     }
 
     window.addEventListener("resize", handleResize);
 
-    handleResize(); // เช็คขนาดหน้าจอเมื่อโหลดหน้าแรก
+    handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -31,11 +31,11 @@ const MenuProfile = ({ children }) => {
   };
 
   const handleOk = () => {
-    setIsModalVisible(false); // Close the modal when "OK" is clicked
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
-    setIsModalVisible(false); // Close the modal when "Cancel" is clicked
+    setIsModalVisible(false);
   };
   const items = [
     { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
@@ -98,8 +98,7 @@ const MenuProfile = ({ children }) => {
         style={{
           width: "100%",
           padding: 20,
-          margin: "0 auto", // This centers the paper horizontally
-          //textAlign: "center", // This centers the content inside the paper
+          margin: "0 auto",
         }}
       >
         <Grid container spacing={2}>

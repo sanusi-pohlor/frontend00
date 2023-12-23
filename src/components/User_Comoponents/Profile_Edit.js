@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
 import {
@@ -9,28 +9,21 @@ import {
 } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
 
-const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
+const Editprofile = ({ open, onClose }) => {
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
-  const [selectedprovince, setSelectedprovince] = useState("");
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(open);
   const { Option } = Select;
   const [form] = Form.useForm();
-  const handleprovinceChange = (value) => {
-    setSelectedprovince(value);
-  };
-  const handleOk = () => {
-    setVisible(false);
-    onClose();
-  };
 
   const handleCancel = () => {
     setVisible(false);
     onClose();
   };
   useEffect(() => {
-    fetchFakeNewsData(); // Modify the function name accordingly
+    fetchFakeNewsData();
   }, [id]);
 
   const fetchFakeNewsData = async () => {
@@ -40,7 +33,6 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        // Set initial form values based on the fetched data
         form.setFieldsValue({
           username: data.username,
           lastName: data.lastName,
@@ -48,13 +40,11 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
           password: data.password,
           phone_number: data.phone_number,
           Id_line: data.Id_line,
-          province: data.province, // Assuming the date format is YYYY-MM-DD
+          province: data.province,
           receive_ct_email: data.receive_ct_email,
         });
       } else {
-        // Handle the case where the date is invalid
         console.error("Invalid date received from the server");
-        // Set a default date or handle it as needed
       }
     } catch (error) {
       console.error("Error:", error);
@@ -76,7 +66,7 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
       formData.append("password", values.password);
       formData.append("phone_number", values.phone_number);
       formData.append("Id_line", values.Id_line);
-      formData.append("province", selectedprovince);
+      formData.append("province", selectOptions_prov);
       formData.append("receive_ct_email", receive);
       const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/User_update/${id}`, {
         method: "POST",
@@ -97,194 +87,224 @@ const Editprofile = ({ open, onClose, handleSubmit, RegisterFinish }) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-  const [Login, setLogin] = useState(false);
 
   const onChange = (e) => {
-    // The 'e.target.checked' property contains the checkbox state (true for checked, false for unchecked)
     const isChecked = e.target.checked;
-
-    // Update the 'receiveCtEmail' state based on the checkbox state
     setReceiveCtEmail(isChecked);
   };
-
-  const LoginFinish = (values) => {
-    console.log("Received values of form: ", values);
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
+            {code[`${fieldName}_name`]}
+          </Option>
+        ));
+        form.setFieldsValue({ [fieldName]: undefined });
+        form.setFields([
+          {
+            name: fieldName,
+            value: undefined,
+          },
+        ]);
+        stateSetter(options);
+      } else {
+        console.error(
+          `Error fetching ${fieldName} codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching ${fieldName} codes:`, error);
+    }
+  };
+  const onChange_mfi_province = () => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
   return (
     <Modal
-      title="ลงทะเบียน"
       visible={visible}
+      onCancel={onClose}
       footer={null}
-      onCancel={handleCancel}
+      width={800}
+      onChange={() => {
+        onChange_mfi_province();
+      }}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        name="form_register"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+      <div
         style={{
-          maxWidth: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          textAlign: "center",
+          fontSize: "50px",
+          fontWeight: "bold",
+          fontFamily: "'Th Sarabun New', sans-serif",
         }}
       >
-        <Form.Item
-          label="ชื่อ"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Username!",
-            },
-          ]}
+        สมัครสมาชิก
+      </div>
+      <Paper
+        elevation={0}
+        style={{
+          width: "80%",
+          margin: "0 auto",
+        }}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_register"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
           style={{
-            display: "inline-block",
-            width: "calc(50% - 8px)",
+            maxWidth: "100%",
+            fontSize: "50px",
           }}
+          labelCol={{ style: { fontSize: '18px' } }}
         >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
-          />
-        </Form.Item>
-        <Form.Item
-          label="นามสกุล"
-          name="lastName"
-          rules={[
-            {
-              required: true,
-              message: "Please input your lastName!",
-            },
-          ]}
-          style={{
-            display: "inline-block",
-            width: "calc(50% - 8px)",
-            margin: "0 8px",
-          }}
-        >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="LastName"
-          />
-        </Form.Item>
-        <Form.Item
-          label="อีเมล"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<MailOutlined className="site-form-item-icon" />}
-            placeholder="Email"
-          />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          name="confirmPassword"
-          label="Confirm Password"
-          dependencies={["password"]}
-          rules={[
-            { required: true, message: "Please confirm your password!" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error("The two passwords do not match!")
-                );
+          <Form.Item
+            label="ชื่อ"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มชื่อ!",
               },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-        <Form.Item
-          label="phone_number"
-          name="phone_number"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Toll!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<PhoneOutlined className="site-form-item-icon" />}
-            placeholder="เบอร์โทร"
-          />
-        </Form.Item>
-        <Form.Item
-          label="Id_line"
-          name="Id_line"
-          rules={[
-            {
-              required: true,
-              message: "Please input your Idline!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<MessageOutlined className="site-form-item-icon" />}
-            placeholder="ไอดีไลน์"
-          />
-        </Form.Item>
-        <Form.Item
-          label="จังหวัดที่สังกัด"
-          name="province"
-          rules={[
-            {
-              required: true,
-              message: "Please select province!",
-            },
-          ]}
-        >
-          <Select
-            size="large"
-            placeholder="จังหวัดที่สังกัด"
-            onChange={handleprovinceChange} // เพิ่มการเรียกฟังก์ชันเมื่อเลือกค่า
-            value={selectedprovince}
+            ]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+            }}
           >
-            <Option value="Krabi">กระบี่</Option>
-            <Option value="Chumphon">ชุมพร</Option>
-            <Option value="Trang">ตรัง</Option>
-            <Option value="NakhonSiThammarat">นครศรีธรรมราช</Option>
-            <Option value="Narathiwat">นราธิวาส</Option>
-            <Option value="Pattani">ปัตตานี</Option>
-            <Option value="PhangNga">พังงา</Option>
-            <Option value="Phattalung">พัทลุง</Option>
-            <Option value="Phuket">ภูเก็ต</Option>
-            <Option value="Yala">ยะลา</Option>
-            <Option value="Ranong">ระนอง</Option>
-            <Option value="Songkhla">สงขลา</Option>
-            <Option value="Satun">สตูล</Option>
-            <Option value="SuratThani">สุราษฎร์ธานี</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name="CheckboxContent">
-          <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            ลงทะเบียน
-          </Button>
-        </Form.Item>
-      </Form>
+            <Input
+              size="large"
+              prefix={<UserOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="นามสกุล"
+            name="lastName"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มนามสกุล!",
+              },
+            ]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              margin: "0 8px",
+            }}
+          >
+            <Input size="large" />
+          </Form.Item>
+          <Form.Item
+            label="อีเมล"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มอีเมล!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<MailOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="รหัสผ่าน"
+            name="password"
+            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+          >
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="รหัสผ่านยืนยัน"
+            name="Confirm Password"
+            dependencies={["password"]}
+            rules={[
+              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="เบอร์ติดต่อ"
+            name="phone_number"
+            rules={[
+              {
+                required: true,
+                message: "กรูณาเพิ่มเบอร์ติดต่อ!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<PhoneOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="ไอดีไลน์"
+            name="Id_line"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มไอดีไลน์!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<MessageOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label="จังหวัดที่สังกัด"
+            name="province"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเลือกจังหวัดที่สังกัด!",
+              },
+            ]}
+          >
+            <Select onChange={onChange_mfi_province} allowClear>
+              {selectOptions_prov}
+            </Select>
+          </Form.Item>
+          <Form.Item name="CheckboxContent">
+            <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              ลงทะเบียน
+            </Button>
+          </Form.Item>
+        </Form>
+      </Paper>
     </Modal>
   );
 };
