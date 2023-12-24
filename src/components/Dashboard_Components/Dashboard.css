@@ -1,18 +1,81 @@
 .fade-enter {
-    opacity: 0;
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+.paperContainer {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.articleTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  font-size: 80px;
+  font-weight: bold;
+  color: #ffffff;
+}
+/* Responsive styles */
+@media (max-width: 2000px) {
+  .paperContainer {
+    width: 70%;
+    padding: 30px;
   }
-  
-  .fade-enter-active {
-    opacity: 1;
-    transition: opacity 500ms ease-in;
+}
+
+/* Responsive styles */
+@media (max-width: 1800px) {
+  .paperContainer {
+    width: 90%;
+    padding: 30px;
   }
-  
-  .fade-exit {
-    opacity: 1;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .paperContainer {
+    width: 70%;
+    padding: 30px;
   }
-  
-  .fade-exit-active {
-    opacity: 0;
-    transition: opacity 500ms ease-out;
+}
+
+@media (max-width: 768px) {
+  .paperContainer {
+    width: 90%; /* Adjust width for smaller screens */
+    padding: 30px; /* Modify padding for smaller screens */
   }
-  
+
+  .articleTitle {
+    font-size: 50px; /* Adjust font size for smaller screens */
+  }
+
+  /* Add more responsive styles as needed */
+}
+@media (max-width: 390px) {
+  .paperContainer {
+    width: 100%; /* Adjust width for smaller screens */
+    padding: 1px; /* Modify padding for smaller screens */
+  }
+
+  .articleTitle {
+    font-size: 50px; /* Adjust font size for smaller screens */
+  }
+
+  /* Add more responsive styles as needed */
+}

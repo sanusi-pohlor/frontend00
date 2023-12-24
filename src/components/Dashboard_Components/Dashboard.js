@@ -10,7 +10,7 @@ import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
-import { CSSTransition } from 'react-transition-group';
+import { CSSTransition } from "react-transition-group";
 import {
   Divider,
   Button,
@@ -28,7 +28,7 @@ import Flickity from "react-flickity-component";
 import { Link } from "react-router-dom";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import './Dashboard.css';
+import "./Dashboard.css";
 const { Option } = Select;
 const { Meta } = Card;
 const { Title } = Typography;
@@ -61,7 +61,9 @@ const Dashboard = ({ onSearch }) => {
     // ฟังก์ชัน fetchData สำหรับการดึงข้อมูล
     const fetchData = async (endpoint, setter) => {
       try {
-        const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+        const response = await fetch(
+          `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+        );
         if (response.ok) {
           const data = await response.json();
           setter(data);
@@ -100,7 +102,9 @@ const Dashboard = ({ onSearch }) => {
   const paperColor = "#FFFFFF";
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -143,7 +147,7 @@ const Dashboard = ({ onSearch }) => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f1f1f1' }}>
+    <div style={{ backgroundColor: "#f1f1f1" }}>
       <Carousel />
       <Paper
         elevation={0}
@@ -152,7 +156,7 @@ const Dashboard = ({ onSearch }) => {
           padding: 10,
           margin: "0 auto",
           textAlign: "center",
-          backgroundColor: '#f1f1f1'
+          backgroundColor: "#f1f1f1",
         }}
       >
         <div
@@ -235,32 +239,18 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-      <Paper
-        elevation={0}
-        style={{
+      <Paper elevation={0}         
+      style={{
           padding: 50,
-          margin: "0 auto", // This centers the paper horizontally
-          textAlign: "center", // This centers the content inside the paper
+          margin: "0 auto",
+          textAlign: "center",
           color: "#FFFFFF",
           backgroundColor: "#7BBD8F",
-        }}
-      >
+        }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                textAlign: "center", // Center the text horizontally
-                fontSize: "80px",
-                fontWeight: "bold",
-              }}
-            >
-              ข่าวสาร
-            </div>
+            <div className="articleTitle">ข่าวสาร</div>
           </Grid>
           <Grid item xs={12} md={4}>
             {/* <Input
@@ -275,9 +265,8 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
         <Paper
           elevation={0}
+          className="paperContainer"
           style={{
-            margin: "0 auto",
-            textAlign: "center",
             backgroundColor: "#7BBD8F",
           }}
         >
@@ -288,7 +277,7 @@ const Dashboard = ({ onSearch }) => {
                 xs={12}
                 md={4}
                 key={item.id}
-                style={{ marginBottom: "4%" ,padding: 20,}}
+                style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
                   to={`/News/News_views/${item.id}`}
@@ -299,7 +288,7 @@ const Dashboard = ({ onSearch }) => {
                     style={{
                       margin: "auto",
                       borderRadius: "20px",
-                      padding: 20,
+                      padding: 10,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
                     }}
@@ -356,7 +345,7 @@ const Dashboard = ({ onSearch }) => {
           padding: 30,
           margin: "0 auto", // This centers the paper horizontally
           textAlign: "center", // This centers the content inside the paper
-          backgroundColor: '#f1f1f1'
+          backgroundColor: "#f1f1f1",
         }}
       >
         <Divider />
@@ -378,16 +367,7 @@ const Dashboard = ({ onSearch }) => {
               บทความ
             </div>
           </Grid>
-          <Grid item xs={12} md={4}>
-            {/* <Input
-              size="large"
-              placeholder="ค้นหา"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onPressEnter={handleSearchSubmit}
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-            /> */}
-          </Grid>
+          <Grid item xs={12} md={4}></Grid>
         </Grid>
         <br />
         <Paper
@@ -397,7 +377,7 @@ const Dashboard = ({ onSearch }) => {
             padding: 10,
             margin: "0 auto",
             textAlign: "center",
-            backgroundColor: '#f1f1f1'
+            backgroundColor: "#f1f1f1",
           }}
         >
           <Grid container spacing={2}>

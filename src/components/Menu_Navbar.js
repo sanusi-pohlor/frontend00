@@ -13,7 +13,9 @@ import {
   ListItemText,
   Divider,
   Drawer,
+  makeStyles,
 } from "@mui/material";
+import { styled } from "@mui/system";
 import { UserOutlined } from "@ant-design/icons";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -30,6 +32,19 @@ const pages = [
   { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
   { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
 ];
+const YourTypography = styled("Typography")({
+  flexGrow: 1,
+  marginRight: "5px",
+  fontFamily: "'Th Sarabun New', sans-serif",
+  fontWeight: "bold",
+  letterSpacing: ".1rem",
+  color: "gray",
+  fontSize: "250%",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+});
+
 function Menu_Navbar() {
   const location = useLocation();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -44,10 +59,10 @@ function Menu_Navbar() {
       md: "250%",
       default: "200%",
     };
-  
+
     return fontSizeMap[breakpoint] || fontSizeMap.default;
   };
-  
+
   const loginbuttonStyle = {
     background: "#7BBD8F",
     border: "none",
@@ -175,20 +190,9 @@ function Menu_Navbar() {
             style={imageStyle}
           />
           <div style={{ margin: "15px" }}></div>
-          <Typography
-            href="/"
-            sx={{
-              flexGrow: 1,
-              mr: 5,
-              fontFamily: "'Th Sarabun New', sans-serif",
-              fontWeight: "bold",
-              letterSpacing: ".1rem",
-              color: "gray",
-              fontSize: "250%",
-            }}
-          >
+          <YourTypography variant="h6">
             รู้เท่า ทันสื่อ - Check ก่อน
-          </Typography>
+          </YourTypography>
           <Box component="nav">
             <Drawer
               container={container}
