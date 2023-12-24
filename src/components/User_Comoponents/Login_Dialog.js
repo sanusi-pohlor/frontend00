@@ -40,7 +40,7 @@ const LoginDialog = ({ open, onClose }) => {
       visible={visible}
       onCancel={onClose}
       footer={null}
-      width={800}
+      width={500}
     >
       <div
         style={{

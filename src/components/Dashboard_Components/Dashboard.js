@@ -276,8 +276,6 @@ const Dashboard = ({ onSearch }) => {
         <Paper
           elevation={0}
           style={{
-            width: "70%",
-            padding: 10,
             margin: "0 auto",
             textAlign: "center",
             backgroundColor: "#7BBD8F",
@@ -290,7 +288,7 @@ const Dashboard = ({ onSearch }) => {
                 xs={12}
                 md={4}
                 key={item.id}
-                style={{ marginBottom: "4%" }}
+                style={{ marginBottom: "4%" ,padding: 20,}}
               >
                 <Link
                   to={`/News/News_views/${item.id}`}
@@ -301,8 +299,6 @@ const Dashboard = ({ onSearch }) => {
                     style={{
                       margin: "auto",
                       borderRadius: "20px",
-                      width: "90%",
-                      height: "100%",
                       padding: 20,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",

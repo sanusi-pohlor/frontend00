@@ -17,6 +17,12 @@ const MyPieChart = () => {
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]; // Array of different colors
   const [options] = useState([
     {
+      title: "แหล่งที่มาของข้อมูล",
+      value: "MediaChannels_request",
+      name: "med_c_name",
+      dataIndex: "mfi_med_c",
+    },
+    {
       title: "รูปแบบข้อมูล",
       value: "FormatData_request",
       name: "fm_d_name",
@@ -27,12 +33,6 @@ const MyPieChart = () => {
       value: "TypeInformation_request",
       name: "type_info_name",
       dataIndex: "mfi_ty_info",
-    },
-    {
-      title: "แหล่งที่มาของข้อมูล",
-      value: "MediaChannels_request",
-      name: "med_c_name",
-      dataIndex: "mfi_med_c",
     },
   ]);
 
