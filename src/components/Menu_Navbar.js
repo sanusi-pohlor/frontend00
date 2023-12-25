@@ -15,10 +15,12 @@ import {
   Drawer,
   makeStyles,
 } from "@mui/material";
+import { CommentOutlined } from '@ant-design/icons';
 import { styled } from "@mui/system";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined ,FacebookOutlined} from "@ant-design/icons";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FloatButton } from 'antd';
 import LoginDialog from "./User_Comoponents/Login_Dialog";
 import RegisterDialog from "./User_Comoponents/Register_Dialog";
 import PropTypes from "prop-types";
@@ -62,7 +64,10 @@ function Menu_Navbar() {
 
     return fontSizeMap[breakpoint] || fontSizeMap.default;
   };
-
+  const handleButtonClick = () => {
+    window.location.href = 'https://www.facebook.com/MediaLiteracyforCitizen';
+    // This will navigate the user to the specified Facebook URL when the button is clicked
+  };
   const loginbuttonStyle = {
     background: "#7BBD8F",
     border: "none",
@@ -264,6 +269,7 @@ function Menu_Navbar() {
                     ...registerbuttonStyle,
                     fontWeight: "bold",
                     fontSize: "20px",
+                    whiteSpace: "nowrap",
                   }}
                   onClick={showRegisterDialog}
                 >
@@ -286,6 +292,7 @@ function Menu_Navbar() {
                     ...loginbuttonStyle,
                     fontWeight: "bold",
                     fontSize: "20px",
+                    whiteSpace: "nowrap",
                   }}
                   onClick={showLoginDialog}
                 >
@@ -304,6 +311,18 @@ function Menu_Navbar() {
           )}
         </Toolbar>
       </AppBar>
+      <>
+        <FloatButton.Group
+          trigger="click"
+          type="primary"
+          style={{
+            right: 80,
+          }}
+          icon={<CommentOutlined />}
+        >
+          <FloatButton icon={<FacebookOutlined />}  onClick={handleButtonClick}/>
+        </FloatButton.Group>
+      </>
     </Box>
   );
 }

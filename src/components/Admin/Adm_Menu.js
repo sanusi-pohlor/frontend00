@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -50,15 +50,17 @@ const items = [
 ];
 
 const AdminMenu = ({ children }) => {
+  const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
     <div>
       <Layout>
         <Sider
+          collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}
           width={300}
           style={{ background: colorBgContainer }}
           breakpoint="lg"
@@ -72,8 +74,8 @@ const AdminMenu = ({ children }) => {
             sx={{
               my: 2,
               fontSize: "20px",
-              color: items.link === location.pathname ? "#7BBD8F" : "grey",
-              display: "block",
+              //color: items.link === location.pathname ? "#7BBD8F" : "grey",
+              //display: "block",
               mr: 5,
             }}
           >
@@ -84,16 +86,24 @@ const AdminMenu = ({ children }) => {
                     key={item.key}
                     icon={item.icon}
                     title={item.label}
+                    style={{
+                      fontSize: "17px",
+                      // color:
+                      //   item.link === location.pathname ? "#7BBD8F" : "grey",
+                    }}
                   >
                     {item.children.map((child) => (
                       <Menu.Item
                         key={child.key}
                         icon={child.icon}
                         style={{
-                          color:
-                            child.link === location.pathname
-                              ? "#7BBD8F"
-                              : "grey",
+                          // color:
+                          //   child.link === location.pathname
+                          //     ? "#7BBD8F"
+                          //     : "grey",
+                          height: "100%",
+                          borderRight: 0,
+                          fontSize: "17px"
                         }}
                       >
                         <Link to={`/Admin/${child.link}`}>{child.label}</Link>
@@ -107,9 +117,9 @@ const AdminMenu = ({ children }) => {
                     key={item.key}
                     icon={item.icon}
                     style={{
-                      fontSize: "15px",
-                      color:
-                        item.link === location.pathname ? "#7BBD8F" : "grey",
+                      fontSize: "17px",
+                      // color:
+                      //   item.link === location.pathname ? "#7BBD8F" : "grey",
                     }}
                   >
                     <Link to={`/Admin/${item.link}`}>{item.label}</Link>
@@ -119,13 +129,14 @@ const AdminMenu = ({ children }) => {
             })}
           </Menu>
         </Sider>
-        <Layout style={{ padding: "0 24px 24px" }}>
+        <Layout style={{ padding: "24px 24px 24px" }}>
           <Content
             style={{
               padding: 24,
               margin: 0,
               minHeight: 280,
               background: colorBgContainer,
+              borderRadius: borderRadiusLG,
             }}
           >
             {children}

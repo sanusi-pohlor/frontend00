@@ -97,17 +97,15 @@ const Adm_Info_Check = () => {
   }, [id]);
 
   const renderReporterInfo = () => {
+    if (!userInfo || !fakeNewsInfo) {
+      return ''; // Or any placeholder or loading indicator
+    }
+
     const user = userInfo.find(
-      (user) => user.id === fakeNewsInfo?.fn_info_nameid
+      (user) => user.id === fakeNewsInfo.fn_info_nameid
     );
 
-    return (
-      user && (
-        <>
-          <span>{user.username}</span> <span>{user.lastName}</span>
-        </>
-      )
-    );
+    return user ? `${user.username} ${user.lastName}` : '';
   };
 
   const fetchData = async () => {
@@ -136,14 +134,16 @@ const Adm_Info_Check = () => {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json", // ระบุ Content-Type เป็น JSON
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify(values), // แปลงข้อมูลให้เป็น JSON string
+          body: JSON.stringify(values),
         }
       );
 
       if (response.ok) {
         message.success("Form data sent successfully");
+        form.resetFields();
+        fetchData();
       } else {
         message.error("Error sending form data");
       }
@@ -152,6 +152,7 @@ const Adm_Info_Check = () => {
       message.error("Error sending form data");
     }
   };
+
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -189,7 +190,7 @@ const Adm_Info_Check = () => {
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
+          <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
           </Option>
         ));
@@ -301,6 +302,15 @@ const Adm_Info_Check = () => {
         name="member_form"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
+        onClick={() => {
+          onChange_mfi_c_info_id();
+          onChange_mfi_fm_d_id();
+          onChange_mfi_dis_c_id();
+          onChange_mfi_ty_info_id();
+          onChange_mfi_con_about_id();
+          onChange_mfi_moti_id();
+          onChange_mfi_data_cha_id();
+        }}
       >
         <Row gutter={16}>
           <Col span={8}>
@@ -319,9 +329,9 @@ const Adm_Info_Check = () => {
                 placeholder={
                   fakeNewsInfo
                     ? fakeNewsInfo.created_at &&
-                      moment(fakeNewsInfo.created_at)
-                        .locale("th")
-                        .format("DD MMMM YYYY")
+                    moment(fakeNewsInfo.created_at)
+                      .locale("th")
+                      .format("DD MMMM YYYY")
                     : "No date available"
                 }
                 disabled
@@ -359,7 +369,11 @@ const Adm_Info_Check = () => {
                 },
               ]}
             >
-              <Input size="large" placeholder={renderReporterInfo()} disabled />
+              <Input
+                size="large"
+                value={renderReporterInfo()} // Changed placeholder to value
+                disabled
+              />
             </Form.Item>
             <Form.Item
               name="mfi_med_c"
@@ -394,11 +408,10 @@ const Adm_Info_Check = () => {
               ]}
             >
               <Image
-            width={200}
-            src={fakeNewsInfo.fn_info_image}
-            alt="รูปภาพข่าวปลอม"
-            //style={{ maxWidth: "100%", height: "auto" }}
-          />
+                width={200}
+                src={fakeNewsInfo && fakeNewsInfo.fn_info_image} // Null check added here
+                alt="รูปภาพข่าวปลอม"
+              />
             </Form.Item>
             <Form.Item
               name="mfi_link"

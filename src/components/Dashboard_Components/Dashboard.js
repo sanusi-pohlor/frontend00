@@ -56,9 +56,7 @@ const Dashboard = ({ onSearch }) => {
     border: "none",
     color: "white",
   };
-  // ฟังก์ชัน useEffect สำหรับดึงข้อมูล
   useEffect(() => {
-    // ฟังก์ชัน fetchData สำหรับการดึงข้อมูล
     const fetchData = async (endpoint, setter) => {
       try {
         const response = await fetch(
@@ -239,8 +237,8 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-      <Paper elevation={0}         
-      style={{
+      <Paper elevation={0}
+        style={{
           padding: 50,
           margin: "0 auto",
           textAlign: "center",
@@ -341,10 +339,9 @@ const Dashboard = ({ onSearch }) => {
       <Paper
         elevation={0}
         style={{
-          width: "70%",
-          padding: 30,
-          margin: "0 auto", // This centers the paper horizontally
-          textAlign: "center", // This centers the content inside the paper
+          padding: 50,
+          margin: "0 auto",
+          textAlign: "center",
           backgroundColor: "#f1f1f1",
         }}
       >
@@ -352,31 +349,23 @@ const Dashboard = ({ onSearch }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                textAlign: "center", // Center the text horizontally
-                fontSize: "80px",
-                fontWeight: "bold",
-                color: "#7BBD8F",
-              }}
-            >
-              บทความ
-            </div>
+          <div className="articleTitle">บทความ</div>
           </Grid>
-          <Grid item xs={12} md={4}></Grid>
+          <Grid item xs={12} md={4}>
+            {/* <Input
+              size="large"
+              placeholder="ค้นหา"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              onPressEnter={handleSearchSubmit}
+              prefix={<SearchOutlined className="site-form-item-icon" />}
+            /> */}</Grid>
         </Grid>
         <br />
         <Paper
           elevation={0}
+          className="paperContainer"
           style={{
-            width: "100%",
-            padding: 10,
-            margin: "0 auto",
-            textAlign: "center",
             backgroundColor: "#f1f1f1",
           }}
         >
@@ -398,9 +387,7 @@ const Dashboard = ({ onSearch }) => {
                     style={{
                       margin: "auto",
                       borderRadius: "20px",
-                      width: "90%",
-                      height: "100%",
-                      padding: 20,
+                      padding: 10,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
                     }}
@@ -453,8 +440,8 @@ const Dashboard = ({ onSearch }) => {
         elevation={0}
         style={{
           padding: 50,
-          margin: "0 auto", // This centers the paper horizontally
-          textAlign: "center", // This centers the content inside the paper
+          margin: "0 auto",
+          textAlign: "center",
           color: "#FFFFFF",
           backgroundColor: "#7BBD8F",
         }}
@@ -462,19 +449,7 @@ const Dashboard = ({ onSearch }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-                textAlign: "center", // Center the text horizontally
-                fontSize: "80px",
-                fontWeight: "bold",
-              }}
-            >
-              สื่อชวนแชร์
-            </div>
+          <div className="articleTitle">สื่อชวนแชร์</div>
           </Grid>
           <Grid item xs={12} md={4}>
             {/* <Input
@@ -490,11 +465,8 @@ const Dashboard = ({ onSearch }) => {
         <br />
         <Paper
           elevation={0}
+          className="paperContainer"
           style={{
-            width: "70%",
-            padding: 10,
-            margin: "0 auto",
-            textAlign: "center",
             backgroundColor: "#7BBD8F",
           }}
         >
@@ -516,9 +488,7 @@ const Dashboard = ({ onSearch }) => {
                     style={{
                       margin: "auto",
                       borderRadius: "20px",
-                      width: "90%",
-                      height: "100%",
-                      padding: 20,
+                      padding: 10,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
                     }}

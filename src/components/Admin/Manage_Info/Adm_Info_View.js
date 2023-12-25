@@ -13,7 +13,7 @@ import {
   Select,
   Form,
 } from "antd";
-import { useParams ,useNavigate  } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
 const { Option } = Select;
@@ -82,7 +82,7 @@ const ManageInfo_view = () => {
     // ตรวจสอบเงื่อนไขเพื่อแสดง Modal
     if (newStatus === 1) {
       setIsModalVisible(true);
-    } else if (newStatus === 2){
+    } else if (newStatus === 2) {
       navigate("./Adm_Info_Check");
     } else {
       // ปิด Modal หากเปลี่ยนสถานะอื่น
@@ -143,6 +143,10 @@ const ManageInfo_view = () => {
   }, [id]);
 
   const renderReporterInfo = () => {
+    if (!userInfo) {
+      return null; // Or any placeholder or loading indicator
+    }
+
     const user = userInfo.find(
       (user) => user.id === fakeNewsInfo?.fn_info_nameid
     );
@@ -155,6 +159,7 @@ const ManageInfo_view = () => {
       )
     );
   };
+
   const items = [
     {
       key: "1",
@@ -228,7 +233,7 @@ const ManageInfo_view = () => {
             width={200}
             src={fakeNewsInfo.fn_info_image}
             alt="รูปภาพข่าวปลอม"
-            //style={{ maxWidth: "100%", height: "auto" }}
+          //style={{ maxWidth: "100%", height: "auto" }}
           />
         </span>
       ),
@@ -244,15 +249,15 @@ const ManageInfo_view = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -277,10 +282,11 @@ const ManageInfo_view = () => {
         <span>จัดการข้อมูลรับแจ้ง</span>
         <Button
           onClick={handleCheck}
-          style={{
-            fontSize: "20px",
-            color: "#7BBD8F",
-          }}
+          type="primary"
+          // style={{
+          //   fontSize: "20px",
+          //   color: "#7BBD8F",
+          // }}
         >
           ตรวจสอบข้อมูล
         </Button>

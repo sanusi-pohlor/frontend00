@@ -161,9 +161,8 @@ const MenuProfile = ({ children }) => {
                     sx={{
                       my: 2,
                       fontSize: "20px",
-                      color:
-                        items.link === location.pathname ? "#7BBD8F" : "grey",
-                      display: "block",
+                      color: item.link === location.pathname ? "#7BBD8F" : "grey",
+                      whiteSpace: "nowrap",
                       mr: 5,
                     }}
                   >
