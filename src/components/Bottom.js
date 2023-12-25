@@ -10,7 +10,7 @@ const footerStyle = {
   textAlign: "center",
   color: "#ffffff",
   backgroundColor: "#ffffff",
-  height: "40vh",
+  height: "60vh",
   width: "100%",
   fontFamily: "'Th Sarabun New', sans-serif",
   display: "flex",

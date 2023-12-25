@@ -56,7 +56,7 @@ const MC_Motivation = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Motivation_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/Motivation_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -138,7 +138,7 @@ const MC_Motivation = () => {
   const columns = [
     {
       title: "รหัสแรงจูงใจ",
-      dataIndex: "moti_id",
+      dataIndex: "id",
       width: "20%",
       editable: true,
     },

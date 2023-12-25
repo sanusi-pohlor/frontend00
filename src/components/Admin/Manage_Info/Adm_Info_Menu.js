@@ -53,7 +53,7 @@ const ManageMembers = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/ManageInfo_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
       );
       if (response.ok) {
         const data = await response.json();

@@ -237,14 +237,16 @@ const Dashboard = ({ onSearch }) => {
         </Grid>
       </Paper>{" "}
       <br /> <br /> <br />
-      <Paper elevation={0}
+      <Paper
+        elevation={0}
         style={{
           padding: 50,
           margin: "0 auto",
           textAlign: "center",
           color: "#FFFFFF",
           backgroundColor: "#7BBD8F",
-        }}>
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
@@ -345,11 +347,17 @@ const Dashboard = ({ onSearch }) => {
           backgroundColor: "#f1f1f1",
         }}
       >
-        <Divider />
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-          <div className="articleTitle">บทความ</div>
+            <div
+              className="articleTitle"
+              style={{
+                color: "#7BBD8F",
+              }}
+            >
+              บทความ
+            </div>
           </Grid>
           <Grid item xs={12} md={4}>
             {/* <Input
@@ -359,7 +367,8 @@ const Dashboard = ({ onSearch }) => {
               onChange={handleSearchChange}
               onPressEnter={handleSearchSubmit}
               prefix={<SearchOutlined className="site-form-item-icon" />}
-            /> */}</Grid>
+            /> */}
+          </Grid>
         </Grid>
         <br />
         <Paper
@@ -376,7 +385,7 @@ const Dashboard = ({ onSearch }) => {
                 xs={12}
                 md={4}
                 key={item.id}
-                style={{ marginBottom: "4%" }}
+                style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
                   to={`/Article/Article_views/${item.id}`}
@@ -449,7 +458,7 @@ const Dashboard = ({ onSearch }) => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-          <div className="articleTitle">สื่อชวนแชร์</div>
+            <div className="articleTitle">สื่อชวนแชร์</div>
           </Grid>
           <Grid item xs={12} md={4}>
             {/* <Input
@@ -477,7 +486,7 @@ const Dashboard = ({ onSearch }) => {
                 xs={12}
                 md={4}
                 key={item.id}
-                style={{ marginBottom: "4%" }}
+                style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
                   to={`/MdShare/MdShare_views/${item.id}`}
