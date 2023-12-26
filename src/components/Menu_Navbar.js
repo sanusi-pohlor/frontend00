@@ -143,7 +143,7 @@ function Menu_Navbar() {
     if (user.level === 3) {
       Navigate("/User/MenuProfile");
     } else {
-      Navigate("/Admin/M_DB_Adm_Menu");
+      Navigate("/Admin/");
     }
   };
   const [mobileOpen, setMobileOpen] = React.useState(false);

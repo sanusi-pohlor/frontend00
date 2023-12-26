@@ -48,6 +48,7 @@ const ManageInfo_view = () => {
   const [value3, setValue3] = useState("Apple");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
+  const [info_source, setInfo_source] = useState(null);
   const navigate = useNavigate();
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
@@ -66,6 +67,24 @@ const ManageInfo_view = () => {
   };
   useEffect(() => {
     fetchUserInfo();
+  }, []);
+
+  const fetchInfo_source = async () => {
+    try {
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
+      if (response.ok) {
+        const Data = await response.json();
+        console.log("source :", Data);
+        setInfo_source(Data);
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchInfo_source();
   }, []);
 
   const handleCheck = () => {
@@ -160,6 +179,23 @@ const ManageInfo_view = () => {
     );
   };
 
+  const renderReporter_fn_info_source = () => {
+    if (!info_source) {
+      return null; // Or any placeholder or loading indicator
+    }
+
+    const source = info_source.find(
+      (source) => source.id === fakeNewsInfo?.fn_info_source
+    );
+
+    return (
+      source && (
+        <>
+          <span>{source.med_c_name}</span>
+        </>
+      )
+    );
+  };
   const items = [
     {
       key: "1",
@@ -184,7 +220,7 @@ const ManageInfo_view = () => {
     {
       key: "5",
       label: "แหล่งที่มาของข่าวปลอม",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.fn_info_source}</span>,
+      children: fakeNewsInfo && <span>{renderReporter_fn_info_source()}</span>,
     },
     {
       key: "6",
