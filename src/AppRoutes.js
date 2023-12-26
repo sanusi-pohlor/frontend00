@@ -79,7 +79,7 @@ const routes = [
   { path: "/FakeNews/fninfoview/:id", element: <Fninfoview /> },
   { path: "/FakeNews/edit/:id", element: <Fninfoedit /> },
 
-  { path: "/Admin/M_DB_Adm_Menu", element: <M_DB_Adm_Menu /> },
+  { path: "/Admin", element: <M_DB_Adm_Menu /> },
 
   { path: "/Admin/ManageInfo", element: <ManageInfo /> },
 

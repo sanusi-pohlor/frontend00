@@ -1,12 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Avatar, Divider, Box } from "@mui/material";
 import { Card, Tabs, FloatButton, Modal, Button, Typography } from "antd";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link , useLocation } from "react-router-dom";
 const { Title } = Typography;
 const { TabPane } = Tabs;
-
+const items = [
+  { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
+  { key: "2", label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+  { key: "3", label: "ประวัติการแจ้ง", link: "/FakeNews/NotificationHistory" },
+];
+const determineSelectedKey = (pathname) => {
+  const foundItem = items.find(item => pathname.includes(item.link));
+  return foundItem ? foundItem.key : '1';
+};
 const MenuProfile = ({ children }) => {
   const location = useLocation();
+  const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -37,11 +46,6 @@ const MenuProfile = ({ children }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-  const items = [
-    { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
-    { key: "2", label: "แจ้งข้อมูลเท็จ", link: "/FakeNews" },
-    { key: "3", label: "ประวัติการแจ้ง", link: "/FakeNews/NotificationHistory" },
-  ];
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -153,18 +157,11 @@ const MenuProfile = ({ children }) => {
                 height: "100%",
               }}
             >
-              <Tabs>
+              <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
                   <TabPane
-                    tab={<RouterLink to={item.link}>{item.label}</RouterLink>}
+                    tab={<Link to={item.link}>{item.label}</Link>}
                     key={item.key}
-                    sx={{
-                      my: 2,
-                      fontSize: "20px",
-                      color: item.link === location.pathname ? "#7BBD8F" : "grey",
-                      whiteSpace: "nowrap",
-                      mr: 5,
-                    }}
                   >
                     {children}
                   </TabPane>
