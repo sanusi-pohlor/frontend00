@@ -97,7 +97,7 @@ function Menu_Navbar() {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          "https://fakenew-c1eaeda38e26.herokuapp.com/api/user",
+          "https://fakenews001-392577897f69.herokuapp.com/api/user",
           {
             method: "GET",
             headers: {

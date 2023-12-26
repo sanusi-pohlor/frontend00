@@ -17,7 +17,7 @@ const ManageMembers = () => {
   const [userInfo, setUserInfo] = useState(null);
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser");
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);

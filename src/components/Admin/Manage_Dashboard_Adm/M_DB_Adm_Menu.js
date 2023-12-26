@@ -31,7 +31,7 @@ const M_DB_Adm_Menu = () => {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/user",
+        "https://fakenews001-392577897f69.herokuapp.com/api/user",
         {
           method: "GET",
           headers: {
@@ -144,7 +144,7 @@ const M_DB_Adm_Menu = () => {
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -203,10 +203,10 @@ const M_DB_Adm_Menu = () => {
     const fetchData = async (endpoint, name, dataIndex) => {
       try {
         const Manage_Fake_Info = await fetch(
-          "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_request"
+          "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
         );
         const MediaChannels = await fetch(
-          `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+          `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
         );
 
         if (Manage_Fake_Info.ok && MediaChannels.ok) {

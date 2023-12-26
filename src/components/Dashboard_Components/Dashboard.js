@@ -60,7 +60,7 @@ const Dashboard = ({ onSearch }) => {
     const fetchData = async (endpoint, setter) => {
       try {
         const response = await fetch(
-          `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+          `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -101,7 +101,7 @@ const Dashboard = ({ onSearch }) => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

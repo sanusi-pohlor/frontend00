@@ -78,7 +78,7 @@ const Manage_Fake_Info_Menu = () => {
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser");
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -114,7 +114,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -133,7 +133,7 @@ const Manage_Fake_Info_Menu = () => {
   const onFinish = async (values) => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
         {
           method: "POST",
           headers: {
@@ -195,7 +195,7 @@ const Manage_Fake_Info_Menu = () => {
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
-    fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_delete/${id}`, {
+    fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())
@@ -325,7 +325,7 @@ const Manage_Fake_Info_Menu = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

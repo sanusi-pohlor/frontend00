@@ -13,7 +13,7 @@ const MapWidget = () => {
     setHighlightedRegion(regionId);
 
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/region/${regionId}`);
+      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/region/${regionId}`);
       if (response.ok) {
         const data = await response.json();
         console.log("Region Data:", data);

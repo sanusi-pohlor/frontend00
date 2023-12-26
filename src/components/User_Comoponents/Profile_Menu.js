@@ -46,7 +46,7 @@ const MenuProfile = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/user", {
+        const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

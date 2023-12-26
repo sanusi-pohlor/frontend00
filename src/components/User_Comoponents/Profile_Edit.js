@@ -30,7 +30,7 @@ const Editprofile = ({ open, onClose }) => {
   const fetchFakeNewsData = async () => {
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/User_edit/${id}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/User_edit/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -69,7 +69,7 @@ const Editprofile = ({ open, onClose }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", selectOptions_prov);
       formData.append("receive_ct_email", receive);
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/User_update/${id}`, {
+      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/User_update/${id}`, {
         method: "POST",
         body: formData,
       });
@@ -96,7 +96,7 @@ const Editprofile = ({ open, onClose }) => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

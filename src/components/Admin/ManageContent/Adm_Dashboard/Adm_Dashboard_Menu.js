@@ -10,7 +10,7 @@ const Adm_Dashboard_Menu = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch('https://fakenew-c1eaeda38e26.herokuapp.com/api/Dashboard_request');
+      const response = await fetch('https://fakenews001-392577897f69.herokuapp.com/api/Dashboard_request');
       if (response.ok) {
         const data = await response.json();
         setDataSource(data);
@@ -29,7 +29,7 @@ const Adm_Dashboard_Menu = () => {
     // Update the dataSource after successful deletion
     // You can use axios or fetch for the API call
     // Example:
-    axios.delete(`https://fakenew-c1eaeda38e26.herokuapp.com/api/data/${record.id}`)
+    axios.delete(`https://fakenews001-392577897f69.herokuapp.com/api/data/${record.id}`)
       .then(() => {
         const updatedDataSource = dataSource.filter(item => item.id !== record.id);
         setDataSource(updatedDataSource);

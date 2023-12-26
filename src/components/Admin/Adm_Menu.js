@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   LaptopOutlined,
   NotificationOutlined,
@@ -14,9 +14,16 @@ import {
   BarsOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu, theme, FloatButton } from "antd";
-import { Link, useLocation } from "react-router-dom";
-const { Content, Sider } = Layout;
+import { Breadcrumb, Layout, Menu, theme } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
+function getItem(label, key, icon, children) {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  };
+}
 const items = [
   { key: "sub1", icon: <PieChartOutlined />, label: "Admin Dashboard", link: "M_DB_Adm_Menu", },
   {
@@ -48,104 +55,61 @@ const items = [
   { key: "sub7", icon: <BarsOutlined />, label: "จัดการค่า", link: "ManageValues", },
   { key: "sub8", icon: <LaptopOutlined />, label: "ค้นหาขั้นสูง", link: "AdvancedSearch", },
 ];
-
-const AdminMenu = ({ children }) => {
+const AdminMenu = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const location = useLocation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
   return (
-    <div>
+    <Layout
+      style={{
+        minHeight: '100vh',
+      }}
+    >
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <div className="demo-logo-vertical" />
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+      </Sider>
       <Layout>
-        <Sider
-          collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}
-          width={300}
-          style={{ background: colorBgContainer }}
-          breakpoint="lg"
-          collapsedWidth={0}
+        <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        />
+        <Content
+          style={{
+            margin: '0 16px',
+          }}
         >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
-            style={{ height: "100%", borderRight: 0 }}
-            sx={{
-              my: 2,
-              fontSize: "20px",
-              //color: items.link === location.pathname ? "#7BBD8F" : "grey",
-              //display: "block",
-              mr: 5,
+          <Breadcrumb
+            style={{
+              margin: '16px 0',
             }}
           >
-            {items.map((item) => {
-              if (item.children) {
-                return (
-                  <Menu.SubMenu
-                    key={item.key}
-                    icon={item.icon}
-                    title={item.label}
-                    style={{
-                      fontSize: "17px",
-                      // color:
-                      //   item.link === location.pathname ? "#7BBD8F" : "grey",
-                    }}
-                  >
-                    {item.children.map((child) => (
-                      <Menu.Item
-                        key={child.key}
-                        icon={child.icon}
-                        style={{
-                          // color:
-                          //   child.link === location.pathname
-                          //     ? "#7BBD8F"
-                          //     : "grey",
-                          height: "100%",
-                          borderRight: 0,
-                          fontSize: "17px"
-                        }}
-                      >
-                        <Link to={`/Admin/${child.link}`}>{child.label}</Link>
-                      </Menu.Item>
-                    ))}
-                  </Menu.SubMenu>
-                );
-              } else {
-                return (
-                  <Menu.Item
-                    key={item.key}
-                    icon={item.icon}
-                    style={{
-                      fontSize: "17px",
-                      // color:
-                      //   item.link === location.pathname ? "#7BBD8F" : "grey",
-                    }}
-                  >
-                    <Link to={`/Admin/${item.link}`}>{item.label}</Link>
-                  </Menu.Item>
-                );
-              }
-            })}
-          </Menu>
-        </Sider>
-        <Layout style={{ padding: "24px 24px 24px" }}>
-          <Content
+            <Breadcrumb.Item>User</Breadcrumb.Item>
+            <Breadcrumb.Item>Bill</Breadcrumb.Item>
+          </Breadcrumb>
+          <div
             style={{
               padding: 24,
-              margin: 0,
-              minHeight: 280,
+              minHeight: 360,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}
           >
-            {children}
-          </Content>
-        </Layout>
+            Bill is a cat.
+          </div>
+        </Content>
+        <Footer
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Ant Design ©2023 Created by Ant UED
+        </Footer>
       </Layout>
-      <FloatButton.BackTop />
-    </div>
+    </Layout>
   );
 };
-
 export default AdminMenu;

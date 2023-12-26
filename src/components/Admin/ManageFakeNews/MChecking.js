@@ -47,7 +47,7 @@ const MChecking = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/CheckingData_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/CheckingData_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -71,7 +71,7 @@ const MChecking = () => {
       formData.append("che_d_format", values.che_d_format);
       console.log(formData);
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/CheckingData_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/CheckingData_upload",
         {
           method: "POST",
           body: formData,

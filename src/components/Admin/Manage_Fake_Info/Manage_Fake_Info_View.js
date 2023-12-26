@@ -29,7 +29,7 @@ const Manage_Fake_Info_View = () => {
       formData.append("status", current); // ใช้ append ให้ถูกต้อง
 
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/updateFakeNewsStatus/${id}`,
+        `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
         {
           method: "POST",
           body: formData, // ส่งข้อมูลผ่าน FormData
@@ -51,7 +51,7 @@ const Manage_Fake_Info_View = () => {
     console.log("id :", id);
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_show/${id}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_show/${id}`
       );
       if (response.ok) {
         const data = await response.json();

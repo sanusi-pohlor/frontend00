@@ -27,7 +27,7 @@ const Adm_MdShare_View = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_MdShare_show/${id}`
+          `https://fakenews001-392577897f69.herokuapp.com/api/Adm_MdShare_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();

@@ -51,7 +51,7 @@ const MC_TypeInformation = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/TypeInformation_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/TypeInformation_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -75,7 +75,7 @@ const MC_TypeInformation = () => {
       formData.append("type_info_name", values.type_info_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/TypeInformation_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/TypeInformation_upload",
         {
           method: "POST",
           body: formData,

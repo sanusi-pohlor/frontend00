@@ -13,7 +13,7 @@ const LoginDialog = ({ open, onClose }) => {
     formData.append("email", values.email); // Corrected the field name
     formData.append("password", values.password);
     try {
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/login", {
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/login", {
         method: "POST",
         body: formData,
       });

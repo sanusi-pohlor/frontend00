@@ -30,7 +30,7 @@ const Adm_News_Form = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/user", {
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -113,7 +113,7 @@ const Adm_News_Form = () => {
       formData.append("tag", values.tag);
 
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_News_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_upload",
         {
           method: "POST",
           body: formData,

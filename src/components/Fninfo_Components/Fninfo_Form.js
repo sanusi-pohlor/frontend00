@@ -55,7 +55,7 @@ const FakeNewInformation = () => {
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
       //formData.append("fn_info_vdo", values.fn_info_vdo[0].originFileObj); // Corrected the field name
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/FakeNewsInfo_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_upload",
         {
           method: "POST",
           body: formData,
@@ -82,7 +82,7 @@ const FakeNewInformation = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/user", {
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -106,7 +106,7 @@ const FakeNewInformation = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

@@ -80,7 +80,7 @@ const MC_Motivation = () => {
       formData.append("moti_name", values.moti_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Motivation_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/Motivation_upload",
         {
           method: "POST",
           body: formData,

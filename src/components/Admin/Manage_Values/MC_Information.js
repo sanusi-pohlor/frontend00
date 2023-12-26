@@ -64,7 +64,7 @@ const MC_Information = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Information_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/Information_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -97,7 +97,7 @@ const MC_Information = () => {
       formData.append("info_cont_topic", values.info_cont_topic);
       console.log(formData);
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Information_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/Information_upload",
         {
           method: "POST",
           body: formData,
@@ -266,7 +266,7 @@ const MC_Information = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenew-c1eaeda38e26.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -518,140 +518,3 @@ const MC_Information = () => {
   );
 };
 export default MC_Information;
-
-
-// const onChange_info_subp_id = async () => {
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8000/api/Subpoint_request"
-//     );
-//     if (response.ok) {
-//       const typeCodes = await response.json();
-//       const options = typeCodes.map((code) => (
-//         <Option key={code.subp_id} value={code.subp_id}>
-//           {code.subp_name}
-//         </Option>
-//       ));
-//       form.setFieldsValue({ subp_id: undefined });
-//       form.setFields([
-//         {
-//           name: "subp_id",
-//           value: undefined,
-//         },
-//       ]);
-//       setSelectOptions_subp(options);
-//     } else {
-//       console.error("Error fetching type codes:", response.statusText);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching type codes:", error);
-//   }
-// };
-// const onChange_info_vol_mem_id = async () => {
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8000/api/VolunteerMembers_request"
-//     );
-//     if (response.ok) {
-//       const typeCodes = await response.json();
-//       const options = typeCodes.map((code) => (
-//         <Option key={code.vol_mem_id} value={code.vol_mem_id}>
-//           {code.vol_mem_fname}
-//         </Option>
-//       ));
-//       form.setFieldsValue({ vol_mem_id: undefined });
-//       form.setFields([
-//         {
-//           name: "vol_mem_id",
-//           value: undefined,
-//         },
-//       ]);
-//       setSelectOptions_vol(options);
-//     } else {
-//       console.error("Error fetching type codes:", response.statusText);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching type codes:", error);
-//   }
-// };
-// const onChange_info_moti_id = async () => {
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8000/api/Motivation_request"
-//     );
-//     if (response.ok) {
-//       const typeCodes = await response.json();
-//       const options = typeCodes.map((code) => (
-//         <Option key={code.moti_id} value={code.moti_id}>
-//           {code.moti_name}
-//         </Option>
-//       ));
-//       form.setFieldsValue({ moti_id: undefined });
-//       form.setFields([
-//         {
-//           name: "moti_id",
-//           value: undefined,
-//         },
-//       ]);
-//       setSelectOptions_moti(options);
-//     } else {
-//       console.error("Error fetching type codes:", response.statusText);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching type codes:", error);
-//   }
-// };
-// const onChange_info_act_id = async () => {
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8000/api/ActionType_request"
-//     );
-//     if (response.ok) {
-//       const typeCodes = await response.json();
-//       const options = typeCodes.map((code) => (
-//         <Option key={code.act_ty_id} value={code.act_ty_id}>
-//           {code.act_ty_name}
-//         </Option>
-//       ));
-//       form.setFieldsValue({ act_ty_id: undefined });
-//       form.setFields([
-//         {
-//           name: "act_ty_id",
-//           value: undefined,
-//         },
-//       ]);
-//       setSelectOptions_act(options);
-//     } else {
-//       console.error("Error fetching type codes:", response.statusText);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching type codes:", error);
-//   }
-// };
-// const onChange_info_d_c_id = async () => {
-//   try {
-//     const response = await fetch(
-//       "http://localhost:8000/api/DataCharacteristics_request"
-//     );
-//     if (response.ok) {
-//       const typeCodes = await response.json();
-//       const options = typeCodes.map((code) => (
-//         <Option key={code.data_cha_id} value={code.data_cha_id}>
-//           {code.data_cha_name}
-//         </Option>
-//       ));
-//       form.setFieldsValue({ data_cha_id: undefined });
-//       form.setFields([
-//         {
-//           name: "data_cha_id",
-//           value: undefined,
-//         },
-//       ]);
-//       setSelectOptions_d_c(options);
-//     } else {
-//       console.error("Error fetching type codes:", response.statusText);
-//     }
-//   } catch (error) {
-//     console.error("Error fetching type codes:", error);
-//   }
-// };

@@ -26,7 +26,7 @@ const MdShare_Menu = () => {
   };
 
   useEffect(() => {
-    fetch("https://fakenew-c1eaeda38e26.herokuapp.com/api/MdShare_request")
+    fetch("https://fakenews001-392577897f69.herokuapp.com/api/MdShare_request")
       .then((response) => response.json())
       .then((data) => {
         setData(data);

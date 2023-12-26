@@ -57,7 +57,7 @@ const Adm_Info_Check = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/AmUser"
+        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -78,7 +78,7 @@ const Adm_Info_Check = () => {
     console.log("id :", id);
     try {
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/FakeNewsInfo_show/${id}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -111,7 +111,7 @@ const Adm_Info_Check = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -130,7 +130,7 @@ const Adm_Info_Check = () => {
   const onFinish = async (values) => {
     try {
       const response = await fetch(
-        "https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_upload",
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
         {
           method: "POST",
           headers: {
@@ -163,7 +163,7 @@ const Adm_Info_Check = () => {
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
     fetch(
-      `https://fakenew-c1eaeda38e26.herokuapp.com/api/Manage_Fake_Info_delete/${id}`,
+      `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`,
       {
         method: "DELETE",
       }
@@ -185,7 +185,7 @@ const Adm_Info_Check = () => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/${endpoint}`
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

@@ -139,7 +139,7 @@ const Adm_Article_Edit = () => {
       formData.append("link", values.link);
       formData.append("tag", values.tag);
       const response = await fetch(
-        `https://fakenew-c1eaeda38e26.herokuapp.com/api/Adm_Article_update/${id}`,
+        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_update/${id}`,
         {
           method: "POST",
           body: formData,
