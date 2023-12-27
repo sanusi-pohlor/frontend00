@@ -1,8 +1,4 @@
-.region {
-  transition: fill 0.3s;
-}
-
-.highlighted {
-  fill: rgb(211, 211, 211);
-  /* Change the color to your desired highlight color */
+.largeTooltip .ant-tooltip-inner {
+  font-size: 50px; /* ปรับขนาดฟอนต์ของ Tooltip */
+  max-width: 300px; /* กำหนดความกว้างสูงสุดของ Tooltip */
 }

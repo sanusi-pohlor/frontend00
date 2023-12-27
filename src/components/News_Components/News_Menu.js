@@ -8,11 +8,14 @@ import {
 import { Card, Button, Input, Typography, Image } from "antd";
 import FilterDialog from "./News_Filter_Dialog";
 import { Link } from "react-router-dom";
+import "./News_Menu.css";
+import { useMediaQuery } from '@mui/material';
 
 const { Meta } = Card;
 const { Title } = Typography;
 
 const News_Menu = () => {
+  const isLargeScreen = useMediaQuery('(min-width:1300px)');
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,11 +90,8 @@ const News_Menu = () => {
     <div style={{ backgroundColor: '#f1f1f1' }}>
     <Paper
       elevation={0}
+      className="paperContainer"
       style={{
-        width: "70%",
-        padding: 30,
-        margin: "0 auto",
-        textAlign: "center",
         backgroundColor: '#f1f1f1'
       }}
     >
@@ -150,8 +150,8 @@ const News_Menu = () => {
       </Grid>
       <br />
       <Grid container spacing={2}>
-        {newcurrentItems.slice(0, 1).map((item) => (
-          <Grid item xs={8} key={item.id}>
+        {isLargeScreen && newcurrentItems.slice(0, 1).map((item) => (
+          <Grid item xs={8} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
             <Link
               to={`/News/News_views/${item.id}`}
               style={{ textDecoration: "none" }}
@@ -161,8 +161,6 @@ const News_Menu = () => {
                 style={{
                   margin: "auto",
                   borderRadius: "20px",
-                  width: "90%",
-                  height: "100%",
                   padding: 10,
                   fontFamily: "'Th Sarabun New', sans-serif",
                   fontSize: "25px",
@@ -193,7 +191,7 @@ const News_Menu = () => {
           </Grid>
         ))}
         {newcurrentItems.slice(1).map((item) => (
-          <Grid item xs={12} md={4} key={item.id}>
+          <Grid item xs={12} md={4} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
             <Link
               to={`/News/News_views/${item.id}`}
               style={{ textDecoration: "none" }}
@@ -249,7 +247,8 @@ const News_Menu = () => {
           <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
         </IconButton>
       </Box>
-    </Paper></div>
+      </Paper>
+</div>
   );
 };
 
