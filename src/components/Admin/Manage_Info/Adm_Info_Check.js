@@ -25,35 +25,19 @@ const Adm_Info_Check = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]); // State for select options
-  const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
-  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]); // State for select options
-  const [selectOptions_fm, setSelectOptions_fm] = useState([]); // State for select options
-  const [selectOptions_dis, setSelectOptions_dis] = useState([]); // State for select options
-  const [selectOptions_ty, setSelectOptions_ty] = useState([]); // State for select options
-  const [selectOptions_con, setSelectOptions_con] = useState([]); // State for select options
-  const [selectOptions_moti, setSelectOptions_moti] = useState([]); // State for select options
-  const [selectOptions_data, setSelectOptions_data] = useState([]); // State for select optionsons
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]); // State for select optionsons
+  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
+  const [selectOptions_fm, setSelectOptions_fm] = useState([]);
+  const [selectOptions_dis, setSelectOptions_dis] = useState([]);
+  const [selectOptions_ty, setSelectOptions_ty] = useState([]);
+  const [selectOptions_con, setSelectOptions_con] = useState([]);
+  const [selectOptions_moti, setSelectOptions_moti] = useState([]);
+  const [selectOptions_data, setSelectOptions_data] = useState([]);
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [info_source, setInfo_source] = useState(null);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
-  function getThaiMonth(month) {
-    const thaiMonths = [
-      "มกราคม",
-      "กุมภาพันธ์",
-      "มีนาคม",
-      "เมษายน",
-      "พฤษภาคม",
-      "มิถุนายน",
-      "กรกฎาคม",
-      "สิงหาคม",
-      "กันยายน",
-      "ตุลาคม",
-      "พฤศจิกายน",
-      "ธันวาคม",
-    ];
-    return thaiMonths[month];
-  }
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -73,6 +57,23 @@ const Adm_Info_Check = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
+  const fetchInfo_source = async () => {
+    try {
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
+      if (response.ok) {
+        const Data = await response.json();
+        console.log("source :", Data);
+        setInfo_source(Data);
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchInfo_source();
+  }, []);
 
   const fetchFakeNewsInfo = async () => {
     console.log("id :", id);
@@ -91,14 +92,13 @@ const Adm_Info_Check = () => {
     }
   };
 
-  // Fetch fake news information when the component mounts
   useEffect(() => {
     fetchFakeNewsInfo();
   }, [id]);
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
-      return ''; // Or any placeholder or loading indicator
+      return '';
     }
 
     const user = userInfo.find(
@@ -128,19 +128,39 @@ const Adm_Info_Check = () => {
   }, []);
 
   const onFinish = async (values) => {
+    console.log(fakeNewsInfo);
     try {
+      const formData = new FormData();
+      formData.append("mfi_time", fakeNewsInfo.created_at);
+      formData.append("mfi_province", fakeNewsInfo.fn_info_province);
+      formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
+      formData.append("mfi_med_c", fakeNewsInfo.fn_info_source);
+      formData.append("mfi_img", fakeNewsInfo.fn_info_image);
+      formData.append("mfi_link", fakeNewsInfo.fn_info_link);
+      formData.append("mfi_c_info", selectOptions_med);
+      formData.append("mfi_num_mem", fakeNewsInfo.fn_info_num_mem);
+      formData.append("mfi_agency", values.mfi_agency);
+      formData.append("mfi_d_topic", values.mfi_d_topic);
+      formData.append("mfi_fm_d", selectOptions_fm);
+      formData.append("mfi_dis_c", selectOptions_dis);
+      formData.append("mfi_publ", values.mfi_publ);
+      formData.append("mfi_ty_info", selectOptions_ty);
+      formData.append("mfi_only_cv", values.mfi_only_cv);
+      formData.append("mfi_con_about", selectOptions_con);
+      formData.append("mfi_moti", selectOptions_moti);
+      formData.append("mfi_iteration", values.mfi_iteration);
+      formData.append("mfi_che_d", values.mfi_che_d);
+      formData.append("mfi_data_cha", selectOptions_data);
+      console.log(formData);
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
+          body: formData,
         }
       );
-
       if (response.ok) {
+        console.log("Form data sent successfully");
         message.success("Form data sent successfully");
         form.resetFields();
         fetchData();
@@ -153,33 +173,8 @@ const Adm_Info_Check = () => {
     }
   };
 
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const isEditing = (record) => record.key === editingKey;
-
-  const handleDelete = (id) => {
-    console.log(`ลบรายการ: ${id}`);
-    fetch(
-      `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Fake News deleted successfully") {
-          console.log("รายการถูกลบสำเร็จ");
-          fetchData();
-        } else {
-          console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
-        }
-      })
-      .catch((error) => {
-        console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
-      });
   };
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
@@ -212,7 +207,31 @@ const Adm_Info_Check = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   };
+  const renderReporter_fn_info_source = () => {
+    if (!info_source) {
+      return null;
+    }
 
+    const source = info_source.find(
+      (source) => source.id === fakeNewsInfo?.fn_info_source
+    );
+
+    return (
+      source && (
+        <>
+          <Input
+            size="large"
+            placeholder={
+              source
+                ? source.med_c_name
+                : "No date available"
+            }
+            disabled
+          />
+        </>
+      )
+    );
+  };
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
@@ -279,7 +298,13 @@ const Adm_Info_Check = () => {
       setSelectOptions_data
     );
   };
-
+  const onChange_dnc_med_id = () => {
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
+  };
   return (
     <AdminMenu>
       <Breadcrumb style={{ margin: "16px 0" }}>
@@ -310,6 +335,7 @@ const Adm_Info_Check = () => {
           onChange_mfi_con_about_id();
           onChange_mfi_moti_id();
           onChange_mfi_data_cha_id();
+          onChange_dnc_med_id();
         }}
       >
         <Row gutter={16}>
@@ -371,7 +397,7 @@ const Adm_Info_Check = () => {
             >
               <Input
                 size="large"
-                value={renderReporterInfo()} // Changed placeholder to value
+                value={renderReporterInfo()}
                 disabled
               />
             </Form.Item>
@@ -385,15 +411,7 @@ const Adm_Info_Check = () => {
                 },
               ]}
             >
-              <Input
-                size="large"
-                placeholder={
-                  fakeNewsInfo
-                    ? fakeNewsInfo.fn_info_source
-                    : "No date available"
-                }
-                disabled
-              />
+              {renderReporter_fn_info_source()}
             </Form.Item>
           </Col>
           <Col span={8}>
@@ -409,7 +427,7 @@ const Adm_Info_Check = () => {
             >
               <Image
                 width={200}
-                src={fakeNewsInfo && fakeNewsInfo.fn_info_image} // Null check added here
+                src={fakeNewsInfo && fakeNewsInfo.fn_info_image}
                 alt="รูปภาพข่าวปลอม"
               />
             </Form.Item>
@@ -447,10 +465,10 @@ const Adm_Info_Check = () => {
             >
               <Select
                 placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_c_info_id}
+                onChange={onChange_dnc_med_id}
                 allowClear
               >
-                {selectOptions_c_info}
+                {selectOptions_med}
               </Select>
             </Form.Item>
             <Form.Item
@@ -502,6 +520,7 @@ const Adm_Info_Check = () => {
           </Col>
           <Col span={8}>
             <Form.Item
+              name="mfi_fm_d"
               label="รูปแบบของข้อมูล"
               rules={[
                 {

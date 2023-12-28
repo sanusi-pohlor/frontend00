@@ -43,7 +43,6 @@ const MC_FormatData = () => {
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
-
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -129,7 +128,7 @@ const MC_FormatData = () => {
   const columns = [
     {
       title: 'รหัสรูปแบบข้อมูล',
-      dataIndex: 'fm_d_id',
+      dataIndex: 'id',
       width: '20%',
       editable: true,
     },

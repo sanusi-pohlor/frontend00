@@ -44,13 +44,12 @@ const ManageInfo_view = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [current, setCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [confirmedStep, setConfirmedStep] = useState(-1); // สถานะการยืนยัน
+  const [confirmedStep, setConfirmedStep] = useState(-1);
   const [value3, setValue3] = useState("Apple");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [info_source, setInfo_source] = useState(null);
   const navigate = useNavigate();
-  // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
@@ -98,13 +97,11 @@ const ManageInfo_view = () => {
 
   };
   const onChange = (newStatus) => {
-    // ตรวจสอบเงื่อนไขเพื่อแสดง Modal
     if (newStatus === 1) {
       setIsModalVisible(true);
     } else if (newStatus === 2) {
       navigate("./Adm_Info_Check");
     } else {
-      // ปิด Modal หากเปลี่ยนสถานะอื่น
       setIsModalVisible(false);
     }
 
@@ -118,18 +115,17 @@ const ManageInfo_view = () => {
 
     try {
       const formData = new FormData();
-      formData.append("status", 1); // ใช้ append ให้ถูกต้อง
-
+      formData.append("status", 1);
       const response = await fetch(
         `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
         {
           method: "POST",
-          body: formData, // ส่งข้อมูลผ่าน FormData
+          body: formData,
         }
       );
       if (response.ok) {
-        fetchFakeNewsInfo(); // เมื่อส่งข้อมูลสำเร็จให้ดึงข้อมูลอัพเดท
-        window.location.reload(); // รีโหลดหน้าเพื่อแสดงข้อมูลที่อัพเดทแล้ว
+        fetchFakeNewsInfo();
+        window.location.reload();
       } else {
         console.error("Error updating status:", response.statusText);
       }
@@ -138,7 +134,6 @@ const ManageInfo_view = () => {
     }
   };
 
-  // Fetch fake news information based on id
   const fetchFakeNewsInfo = async () => {
     console.log("id :", id);
     try {
@@ -155,15 +150,13 @@ const ManageInfo_view = () => {
       console.error("Error fetching data:", error);
     }
   };
-
-  // Fetch fake news information when the component mounts
   useEffect(() => {
     fetchFakeNewsInfo();
   }, [id]);
 
   const renderReporterInfo = () => {
     if (!userInfo) {
-      return null; // Or any placeholder or loading indicator
+      return null;
     }
 
     const user = userInfo.find(
@@ -181,7 +174,7 @@ const ManageInfo_view = () => {
 
   const renderReporter_fn_info_source = () => {
     if (!info_source) {
-      return null; // Or any placeholder or loading indicator
+      return null;
     }
 
     const source = info_source.find(
@@ -319,10 +312,10 @@ const ManageInfo_view = () => {
         <Button
           onClick={handleCheck}
           type="primary"
-          // style={{
-          //   fontSize: "20px",
-          //   color: "#7BBD8F",
-          // }}
+        // style={{
+        //   fontSize: "20px",
+        //   color: "#7BBD8F",
+        // }}
         >
           ตรวจสอบข้อมูล
         </Button>

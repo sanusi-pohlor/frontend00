@@ -130,34 +130,6 @@ const Manage_Fake_Info_Menu = () => {
     fetchData();
   }, []);
 
-  const onFinish = async (values) => {
-    try {
-      const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // ระบุ Content-Type เป็น JSON
-          },
-          body: JSON.stringify(values), // แปลงข้อมูลให้เป็น JSON string
-        }
-      );
-
-      if (response.ok) {
-        message.success("Form data sent successfully");
-      } else {
-        message.error("Error sending form data");
-      }
-    } catch (error) {
-      console.error("Error sending form data:", error);
-      message.error("Error sending form data");
-    }
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
   const isEditing = (record) => record.key === editingKey;
 
   const edit = (record) => {
