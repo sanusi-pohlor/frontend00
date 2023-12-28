@@ -16,11 +16,12 @@ import {
   Image,
 } from "antd";
 import AdminMenu from "../Adm_Menu";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import moment from "moment";
 const { Option } = Select;
 
 const Adm_Info_Check = () => {
+  const navigate = useNavigate();
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
@@ -137,21 +138,23 @@ const Adm_Info_Check = () => {
       formData.append("mfi_med_c", fakeNewsInfo.fn_info_source);
       formData.append("mfi_img", fakeNewsInfo.fn_info_image);
       formData.append("mfi_link", fakeNewsInfo.fn_info_link);
-      formData.append("mfi_c_info", selectOptions_med);
+      formData.append("mfi_c_info", values.mfi_c_info);
       formData.append("mfi_num_mem", fakeNewsInfo.fn_info_num_mem);
       formData.append("mfi_agency", values.mfi_agency);
       formData.append("mfi_d_topic", values.mfi_d_topic);
-      formData.append("mfi_fm_d", selectOptions_fm);
-      formData.append("mfi_dis_c", selectOptions_dis);
+      formData.append("mfi_fm_d", values.mfi_fm_d);
+      formData.append("mfi_dis_c", values.mfi_dis_c);
       formData.append("mfi_publ", values.mfi_publ);
-      formData.append("mfi_ty_info", selectOptions_ty);
+      formData.append("mfi_ty_info", values.mfi_ty_info);
       formData.append("mfi_only_cv", values.mfi_only_cv);
-      formData.append("mfi_con_about", selectOptions_con);
-      formData.append("mfi_moti", selectOptions_moti);
+      formData.append("mfi_con_about", values.mfi_con_about);
+      formData.append("mfi_moti", values.mfi_moti);
       formData.append("mfi_iteration", values.mfi_iteration);
       formData.append("mfi_che_d", values.mfi_che_d);
-      formData.append("mfi_data_cha", selectOptions_data);
-      console.log(formData);
+      formData.append("mfi_data_cha", values.mfi_data_cha);
+      for (const pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }      
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
         {
@@ -164,6 +167,7 @@ const Adm_Info_Check = () => {
         message.success("Form data sent successfully");
         form.resetFields();
         fetchData();
+        navigate("/Admin/Manage_Fake_Info_Menu");
       } else {
         message.error("Error sending form data");
       }

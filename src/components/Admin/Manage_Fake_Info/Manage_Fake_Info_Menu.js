@@ -215,8 +215,8 @@ const Manage_Fake_Info_Menu = () => {
       title: "ผู้ส่งรายงาน",
       dataIndex: "mfi_mem",
       width: "10%",
-      render: (mfi_mem) => {
-        const user = userInfo.find((user) => user.id === mfi_mem);
+      render: (fn_info_nameid) => {
+        const user = userInfo ? userInfo.find((user) => user.id === fn_info_nameid) : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
     },
@@ -252,7 +252,7 @@ const Manage_Fake_Info_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link
-            to={`/Admin/Manage_Fake_Info/Manage_Fake_Info_View/${record.id}`}
+            to={`/Admin/Manage_Fake_Info_View/${record.id}`}
           >
             <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
           </Link>

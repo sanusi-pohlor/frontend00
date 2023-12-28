@@ -223,27 +223,6 @@ const Manage_Fake_Info_View = () => {
   ];
   return (
     <AdminMenu>
-      <Steps
-        current={fakeNewsInfo?.fn_info_status}
-        onChange={onChange}
-        items={[
-          {
-            title: "รอรับเรื่อง",
-            description: "สมาชิกแจ้งข้อมูลแล้ว",
-            disabled: true,
-          },
-          {
-            title: "ตรวจสอบ",
-            description: "รับเรื่องไปตรวจสอบ",
-            disabled: fakeNewsInfo?.fn_info_status > 0,
-          },
-          {
-            title: "เสร็จสิ้น",
-            description: "ตรวจสอบเสร็จสิ้น",
-            disabled: fakeNewsInfo?.fn_info_status > 1,
-          },
-        ]}
-      />
       <Modal
         title="ยืนยันการเลือกขั้นตอน"
         visible={modalVisible}
