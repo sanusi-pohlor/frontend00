@@ -173,12 +173,11 @@ const Dashboard = ({ onSearch }) => {
               marginRight: "20px",
               flex: 1,
               fontSize: "50px",
-              height: "70px",
-            }} // Adjust font size and height
+              height: "50px",
+            }}
           >
             {selectOptions_type}
           </Select>
-
           <DatePicker
             placeholder="เดือน/ปี"
             picker="month"
@@ -186,15 +185,13 @@ const Dashboard = ({ onSearch }) => {
             style={{
               marginRight: "20px",
               flex: 1,
-              fontSize: "50px",
-              height: "70px",
+              fontSize: "30px",
+              height: "50px",
             }}
           />
         </div>
         <br />
         <Grid container spacing={2}>
-          {" "}
-          {/* Adjust spacing */}
           <Grid item xs={12} md={8}>
             <BarChartComponent />
           </Grid>
@@ -205,14 +202,10 @@ const Dashboard = ({ onSearch }) => {
         <br />
         <br />
         <Grid container spacing={2}>
-          {" "}
-          {/* Adjust spacing */}
           <Grid item xs={12} md={6}>
             <ThailandMap />
           </Grid>
           <Grid item xs={12} md={6}>
-            {" "}
-            {/* Adjust xs and md values */}
             <Card
               hoverable
               style={{

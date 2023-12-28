@@ -7,7 +7,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Select } from "antd";
+import { Card, Select, Divider } from "antd";
 
 const MyPieChart = () => {
   const curveAngle = 20;
@@ -100,6 +100,15 @@ const MyPieChart = () => {
           height: "100%",
         }}
       >
+        <div
+      style={{
+        fontSize: "30px",
+        fontWeight: "bold",
+        display: "flex",
+        justifyContent: "space-between",
+        fontFamily: "'Th Sarabun New', sans-serif",
+      }}
+    >กราฟข้อมูล
         <Select
           value={selectedOption}
           onChange={handleSelectChange}
@@ -113,7 +122,8 @@ const MyPieChart = () => {
               {option.title}
             </Select.Option>
           ))}
-        </Select>
+        </Select></div>
+        <Divider />
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
             <Tooltip />

@@ -103,7 +103,7 @@ const News_views = () => {
   return (
     <Paper
       elevation={0}
-      style={{ width: "70%", padding: 30, margin: "0 auto" }}
+      style={{ width: "70%", padding: 30, margin: "0 auto", }}
     >
       <div
         style={{

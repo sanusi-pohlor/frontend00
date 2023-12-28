@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Select } from "antd";
+import { Table, Card, Select , Divider} from "antd";
 import { Box } from "@mui/material";
 
 const MyTable = () => {
@@ -95,6 +95,15 @@ const MyTable = () => {
 
   return (
     <div>
+      <div
+          style={{
+            fontSize: "30px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+          }}
+        >ตารางข้อมูล
       <Select
         value={selectedOption}
         onChange={handleSelectChange}
@@ -108,10 +117,10 @@ const MyTable = () => {
             {option.title}
           </Select.Option>
         ))}
-      </Select>
+      </Select></div>
+        <Divider />
       <Box />
-      <Table dataSource={tableData} columns={columns} />
-    </div>
+      <Table dataSource={tableData} columns={columns} /></div>
   );
 };
 
