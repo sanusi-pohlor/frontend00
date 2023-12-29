@@ -2,80 +2,25 @@ import React, { useEffect, useState } from "react";
 import {
   Table,
   Form,
-  Input,
-  InputNumber,
   Button,
   Popconfirm,
-  Select,
-  Modal,
-  message,
   Space,
   Breadcrumb,
 } from "antd";
 import AdminMenu from "../Adm_Menu";
-import Manage_Fake_Info_View from "./Manage_Fake_Info_View";
 import {
-  PlusCircleOutlined,
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
-const { Option } = Select;
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
 const Manage_Fake_Info_Menu = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]); // State for select options
-  const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
-  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]); // State for select options
-  const [selectOptions_fm, setSelectOptions_fm] = useState([]); // State for select options
-  const [selectOptions_dis, setSelectOptions_dis] = useState([]); // State for select options
-  const [selectOptions_ty, setSelectOptions_ty] = useState([]); // State for select options
-  const [selectOptions_con, setSelectOptions_con] = useState([]); // State for select options
-  const [selectOptions_moti, setSelectOptions_moti] = useState([]); // State for select options
-  const [selectOptions_data, setSelectOptions_data] = useState([]); // State for select optionsons
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]); // State for select optionsons
   const [userInfo, setUserInfo] = useState(null);
 
-  // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
@@ -141,29 +86,6 @@ const Manage_Fake_Info_Menu = () => {
     setEditingKey("");
   };
 
-  const save = async (key) => {
-    try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
-
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey("");
-      } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey("");
-      }
-    } catch (errInfo) {
-      console.error("Validate Failed:", errInfo);
-    }
-  };
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
@@ -200,10 +122,17 @@ const Manage_Fake_Info_Menu = () => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "ประทับเวลา",
+      title: "แจ้งเมื่อ",
       dataIndex: "mfi_time",
       width: "15%",
       editable: true,
+      render: (mfi_time) => {
+        const date = new Date(mfi_time);
+        const formattedDate = `${date.getDate()} ${getThaiMonth(
+          date.getMonth()
+        )} ${date.getFullYear() + 543}`;
+        return formattedDate;
+      },
     },
     {
       title: "จังหวัดของท่าน",
@@ -219,12 +148,6 @@ const Manage_Fake_Info_Menu = () => {
         const user = userInfo ? userInfo.find((user) => user.id === fn_info_nameid) : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
-    },
-    {
-      title: "แหล่งที่มาของข่าวปลอม",
-      dataIndex: "mfi_med_c",
-      width: "15%",
-      editable: true,
     },
     {
       title: "เพิ่มเมื่อ",
@@ -295,110 +218,9 @@ const Manage_Fake_Info_Menu = () => {
     };
   });
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
-
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
-
-  const onChange_mfi_mem_id = () => {
-    fetchDataAndSetOptions(
-      "VolunteerMembers_request",
-      "vol_mem",
-      setSelectOptions_vol
-    );
-  };
-
-  const onChange_mfi_med_c_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-
-  const onChange_mfi_c_info_id = () => {
-    fetchDataAndSetOptions(
-      "Motivation_request",
-      "c_info",
-      setSelectOptions_c_info
-    );
-  };
-
-  const onChange_mfi_fm_d_id = () => {
-    fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  };
-
-  const onChange_mfi_dis_c_id = () => {
-    fetchDataAndSetOptions(
-      "DetailsNotiChannels_request",
-      "dis_c",
-      setSelectOptions_dis
-    );
-  };
-  const onChange_mfi_ty_info_id = () => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_ty
-    );
-  };
-
-  const onChange_mfi_con_about_id = () => {
-    fetchDataAndSetOptions(
-      "VolunteerMembers_request",
-      "con_about",
-      setSelectOptions_con
-    );
-  };
-
-  const onChange_mfi_moti_id = () => {
-    fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  };
-
-  const onChange_mfi_data_cha_id = () => {
-    fetchDataAndSetOptions(
-      "DataCharacteristics_request",
-      "data_cha",
-      setSelectOptions_data
-    );
-  };
-
   return (
     <AdminMenu>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
-      <h1>จัดการข้อมูลรับแจ้ง</h1>
+      <h1>จัดการข้อมูลเท็จ</h1>
       <Table
         components={{
           body: {

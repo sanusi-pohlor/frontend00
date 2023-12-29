@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import { CommentOutlined } from '@ant-design/icons';
 import { styled } from "@mui/system";
-import { UserOutlined ,FacebookOutlined} from "@ant-design/icons";
+import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FloatButton } from 'antd';
@@ -314,13 +314,12 @@ function Menu_Navbar() {
       <>
         <FloatButton.Group
           trigger="click"
-          type="primary"
           style={{
             right: 80,
           }}
           icon={<CommentOutlined />}
         >
-          <FloatButton icon={<FacebookOutlined />}  onClick={handleButtonClick}/>
+          <FloatButton icon={<FacebookOutlined/>} onClick={handleButtonClick} />
         </FloatButton.Group>
       </>
     </Box>

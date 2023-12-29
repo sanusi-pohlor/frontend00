@@ -103,6 +103,7 @@ const MenuProfile = ({ children }) => {
           width: "100%",
           padding: 20,
           margin: "0 auto",
+          backgroundColor: '#f1f1f1'
         }}
       >
         <Grid container spacing={2}>

@@ -9,15 +9,7 @@ const Manage_Fake_Info_View = () => {
   const [current, setCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmedStep, setConfirmedStep] = useState(-1); // สถานะการยืนยัน
-
   const { id } = useParams();
-
-  const onChange = (value) => {
-    if (value > confirmedStep) {
-      setCurrent(value);
-      setModalVisible(true);
-    }
-  };
 
   const handleConfirm = async () => {
     setModalVisible(false);
@@ -233,7 +225,7 @@ const Manage_Fake_Info_View = () => {
       </Modal>
       <Divider />
       <Descriptions
-        title="รายละเอียดการแจ้ง"
+        title="รายละเอียดข้อมูลเท็จ"
         layout="vertical"
         bordered
         items={items}

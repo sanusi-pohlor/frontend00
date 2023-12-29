@@ -153,7 +153,7 @@ const AdminMenu = ({ children }) => {
             padding: 24,
             margin: 0,
             minHeight: 280,
-            background: colorBgContainer,
+            backgroundColor: '#f1f1f1',
             borderRadius: borderRadiusLG,
           }}
         >

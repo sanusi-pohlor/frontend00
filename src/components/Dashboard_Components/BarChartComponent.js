@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Select, DatePicker, Divider } from "antd";
+import { Card, Select, DatePicker, Divider, Form, Button, } from "antd";
 import moment from "moment";
 
 const MyBarChart = () => {
@@ -19,6 +19,7 @@ const MyBarChart = () => {
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"];
+  const [form] = Form.useForm();
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",
@@ -87,14 +88,14 @@ const MyBarChart = () => {
     }
   }, [options, selectedOption]);
 
-  useEffect(() => {
-    if (selectedOption && formattedDate) {
-      const selected = options.find((opt) => opt.title === selectedOption);
-      if (selected) {
-        fetchData(selected.value, selected.name, selected.dataIndex);
-      }
-    }
-  }, [selectedOption, options, formattedDate]);
+  // useEffect(() => {
+  //   if (selectedOption || formattedDate) {
+  //     const selected = options.find((opt) => opt.title === selectedOption);
+  //     if (selected) {
+  //       fetchData(selected.value, selected.name, selected.dataIndex);
+  //     }
+  //   }
+  // }, [selectedOption, options, formattedDate]);
 
   const handleSelectChange = (value) => {
     setSelectedOption(value);
@@ -103,12 +104,28 @@ const MyBarChart = () => {
   const handleSelectDate = (date) => {
     const formattedDateValue = moment(date).format("YYYY-MM");
     setFormattedDate(formattedDateValue);
+    // const selected = options.find((opt) => opt.title === selectedOption);
+    // if (selected) {
+    //   fetchData(selected.value, selected.name, selected.dataIndex);
+    // }
+  };
+
+  const onFinish = async (values) => {
+    const { selectedOption, formattedDate } = values;
+    
     const selected = options.find((opt) => opt.title === selectedOption);
-    if (selected) {
+    
+    if (selected && formattedDate) {
+      setFormattedDate(formattedDate);
+      setSelectedOption(selectedOption);
+      
       fetchData(selected.value, selected.name, selected.dataIndex);
     }
   };
-
+  
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <div>
@@ -139,31 +156,53 @@ const MyBarChart = () => {
               justifyContent: "center",
             }}
           >
-            <Select
-              value={selectedOption}
-              onChange={handleSelectChange}
+            <Form
+              form={form}
+              layout="vertical"
+              name="form_register"
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
               style={{
-                marginRight: "10px",
+                maxWidth: "100%",
                 fontSize: "50px",
-                height: "50px",
               }}
+              labelCol={{ style: { fontSize: '18px' } }}
             >
-              {options.map((option) => (
-                <Select.Option key={option.value} value={option.title}>
-                  {option.title}
-                </Select.Option>
-              ))}
-            </Select>
-            <DatePicker
-              onChange={handleSelectDate}
-              placeholder="เดือน/ปี"
-              picker="month"
-              size="large"
+              <Select
+                value={selectedOption}
+                onChange={handleSelectChange}
+                style={{
+                  marginRight: "10px",
+                  fontSize: "50px",
+                  height: "50px",
+                }}
+              >
+                {options.map((option) => (
+                  <Select.Option key={option.value} value={option.title}>
+                    {option.title}
+                  </Select.Option>
+                ))}
+              </Select>
+              <DatePicker
+                onChange={handleSelectDate}
+                placeholder="เดือน/ปี"
+                picker="month"
+                size="large"
+                style={{
+                  marginRight: "10px",
+                  fontSize: "30px",
+                  height: "50px",
+                }}
+              />
+              <Button 
               style={{
-                fontSize: "30px",
+                fontSize: "15px",
                 height: "50px",
               }}
-            />
+                type="primary" htmlType="submit">
+                ค้นหา
+              </Button>
+            </Form>
           </div>
         </div>
         <Divider />

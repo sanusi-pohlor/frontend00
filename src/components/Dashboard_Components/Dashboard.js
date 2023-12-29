@@ -157,7 +157,7 @@ const Dashboard = ({ onSearch }) => {
           backgroundColor: "#f1f1f1",
         }}
       >
-        <div
+        {/* <div
           style={{
             display: "flex",
             alignItems: "center",
@@ -189,7 +189,7 @@ const Dashboard = ({ onSearch }) => {
               height: "50px",
             }}
           />
-        </div>
+        </div> */}
         <br />
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>

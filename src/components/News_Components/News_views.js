@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Paper } from "@mui/material";
-import { Modal,Divider, Descriptions } from "antd";
+import { Modal, Divider, Descriptions, Card } from "antd";
 import moment from "moment";
 
 const News_views = () => {
@@ -101,68 +101,91 @@ const News_views = () => {
   };
 
   return (
-    <Paper
-      elevation={0}
-      style={{ width: "70%", padding: 30, margin: "0 auto", }}
-    >
-      <div
+    <div style={{ backgroundColor: '#f1f1f1' }}>
+      <Paper
+        elevation={0}
+        style={{ width: "70%", padding: 30, margin: "0 auto", backgroundColor: '#f1f1f1' }}
+      ><Card
         style={{
-          ...commonStyles,
-          fontSize: "50px",
-          //textAlign: "center",
+          borderRadius: "20px",
+          backgroundColor: '#7BBD8F'
+        }}
+      ><div
+        style={{
+          fontSize: "70px",
           fontWeight: "bold",
-        }}
-      >
-        ข่าวสาร
-      </div><Divider />
-      <br />
-      <h1 style={commonStyles}>{Data.title}</h1>
-      <h1 style={commonStyles}>โดย : "ชื่อ-สกุล"</h1>
-      <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
-      <div
-        style={commonStyles}
-        dangerouslySetInnerHTML={{ __html: Data.details }}
-      />
-      <div
-        style={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "space-between",
+          fontFamily: "'Th Sarabun New', sans-serif",
+          color: "white",
         }}
       >
-        <img
+            ข่าวสาร
+          </div>
+        </Card>
+        <br />
+        <Card
           style={{
-            maxHeight: "100%",
-            maxWidth: "100%",
-            width: "50%",
-            height: "50%",
-            objectFit: "cover",
+            borderRadius: "20px",
+            backgroundColor: '#ffffff',
+            padding: 20,
           }}
-          src={Data.cover_image}
-          alt="Cover"
-        />
-      </div>
-      <p style={commonStyles}>Video: {Data.video}</p>
-      <Link style={commonStyles}>Link: {Data.link}</Link>
-      <p style={commonStyles}>Tag: {Data.tag}</p>
-      <p style={commonStyles} onClick={showModal}>
-        โปรไฟลผู้เขียน
-      </p>
-      <Modal
-        title="โปรไฟล์ผู้เขียน"
-        open={isModalOpen}
-        footer={null}
-        onCancel={handleCancel}
-      >
-        <Descriptions
-          style={{
-            fontSize: "30px",
-            textAlign: "center",
-          }}
-          title=""
-          items={items}
-        />
-      </Modal>
-    </Paper>
+        >
+          <h1 style={commonStyles}>{Data.title}</h1>
+          <h1 style={commonStyles}>โดย : "ชื่อ-สกุล"</h1>
+          <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
+          <div
+            style={commonStyles}
+            dangerouslySetInnerHTML={{ __html: Data.details }}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              style={{
+                maxHeight: "100%",
+                maxWidth: "100%",
+                width: "50%",
+                height: "50%",
+                objectFit: "cover",
+              }}
+              src={Data.cover_image}
+              alt="Cover"
+            />
+          </div>
+          {Data.video !== "undefined"  && (
+            <p style={commonStyles}>Video: {Data.video}</p>
+          )}
+          {Data.link !== "undefined" && (
+            <Link style={commonStyles}>Link: {Data.link}</Link>
+          )}
+          {Data.tag !== "undefined" && (
+            <p style={commonStyles}>Tag: {Data.tag}</p>
+          )}
+
+
+          <p style={commonStyles} onClick={showModal}>
+            โปรไฟลผู้เขียน
+          </p>
+          <Modal
+            title="โปรไฟล์ผู้เขียน"
+            open={isModalOpen}
+            footer={null}
+            onCancel={handleCancel}
+          >
+            <Descriptions
+              style={{
+                fontSize: "30px",
+                textAlign: "center",
+              }}
+              title=""
+              items={items}
+            />
+          </Modal></Card>
+      </Paper></div>
   );
 };
 
