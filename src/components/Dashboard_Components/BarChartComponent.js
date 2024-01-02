@@ -9,7 +9,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Select, DatePicker, Divider, Form, Button, } from "antd";
+import { Card, Select, DatePicker, Divider, Form, Button } from "antd";
 import moment from "moment";
 
 const MyBarChart = () => {
@@ -19,7 +19,6 @@ const MyBarChart = () => {
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"];
-  const [form] = Form.useForm();
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",
@@ -41,6 +40,26 @@ const MyBarChart = () => {
     },
   ]);
 
+  useEffect(() => {
+    if (!selectedOption) {
+      setSelectedOption(options[0].title);
+    }
+    
+    if (!formattedDate) {
+      setFormattedDate('');
+    }
+  }, [options, selectedOption, formattedDate]);
+  
+  useEffect(() => {
+    if (selectedOption) {
+      const selected = options.find((opt) => opt.title === selectedOption);
+      if (selected) {
+        fetchData(selected.value, selected.name, selected.dataIndex);
+      }
+    }
+  }, [selectedOption, formattedDate]);
+  
+
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
       const Manage_Fake_Info = await fetch(
@@ -54,11 +73,14 @@ const MyBarChart = () => {
         const Manage_Fake_Infodata = await Manage_Fake_Info.json();
         const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map((data) => ({
           ...data,
-          created_at: moment(data.created_at).format("YYYY-MM"),
+          mfi_time: moment(data.mfi_time).format("YYYY-MM"),
         }));
 
         const filteredManage_Fake_Infodata = formattedManage_Fake_Infodata.filter(
-          (data) => data.created_at === formattedDate
+          (data) => {
+            if (!formattedDate || formattedDate.length === 0) return true;
+            return data.mfi_time === formattedDate;
+          }
         );
 
         const MediaChannelsData = await MediaChannels.json();
@@ -82,49 +104,17 @@ const MyBarChart = () => {
     }
   };
 
-  useEffect(() => {
-    if (options.length > 0 && !selectedOption) {
-      setSelectedOption(options[0].title);
-    }
-  }, [options, selectedOption]);
-
-  // useEffect(() => {
-  //   if (selectedOption || formattedDate) {
-  //     const selected = options.find((opt) => opt.title === selectedOption);
-  //     if (selected) {
-  //       fetchData(selected.value, selected.name, selected.dataIndex);
-  //     }
-  //   }
-  // }, [selectedOption, options, formattedDate]);
-
   const handleSelectChange = (value) => {
     setSelectedOption(value);
   };
 
   const handleSelectDate = (date) => {
-    const formattedDateValue = moment(date).format("YYYY-MM");
-    setFormattedDate(formattedDateValue);
-    // const selected = options.find((opt) => opt.title === selectedOption);
-    // if (selected) {
-    //   fetchData(selected.value, selected.name, selected.dataIndex);
-    // }
-  };
-
-  const onFinish = async (values) => {
-    const { selectedOption, formattedDate } = values;
-    
-    const selected = options.find((opt) => opt.title === selectedOption);
-    
-    if (selected && formattedDate) {
-      setFormattedDate(formattedDate);
-      setSelectedOption(selectedOption);
-      
-      fetchData(selected.value, selected.name, selected.dataIndex);
+    if (date) {
+      setFormattedDate(date.format("YYYY-MM"));
+      console.log("date.format",date.format("YYYY-MM"));
+    } else {
+      setFormattedDate('');
     }
-  };
-  
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
 
   return (
@@ -156,18 +146,6 @@ const MyBarChart = () => {
               justifyContent: "center",
             }}
           >
-            <Form
-              form={form}
-              layout="vertical"
-              name="form_register"
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              style={{
-                maxWidth: "100%",
-                fontSize: "50px",
-              }}
-              labelCol={{ style: { fontSize: '18px' } }}
-            >
               <Select
                 value={selectedOption}
                 onChange={handleSelectChange}
@@ -188,21 +166,13 @@ const MyBarChart = () => {
                 placeholder="เดือน/ปี"
                 picker="month"
                 size="large"
+                defaultValue={null} 
                 style={{
                   marginRight: "10px",
                   fontSize: "30px",
                   height: "50px",
                 }}
               />
-              <Button 
-              style={{
-                fontSize: "15px",
-                height: "50px",
-              }}
-                type="primary" htmlType="submit">
-                ค้นหา
-              </Button>
-            </Form>
           </div>
         </div>
         <Divider />

@@ -154,7 +154,7 @@ const News_Menu = () => {
         <br />
         <Grid container spacing={0}>
           {isLargeScreen && newcurrentItems.slice(0, 1).map((item) => (
-            <Grid item xs={8} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
+            <Grid item xs={12} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
               <Link
                 to={`/News/News_views/${item.id}`}
                 style={{ textDecoration: "none" }}

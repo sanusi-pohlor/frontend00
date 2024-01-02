@@ -33,6 +33,7 @@ const pages = [
   { label: "บทความ", link: "/Article_Menu" },
   { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
   { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+  { label: "เกี่ยวกับเรา", link: "/About_Us" },
 ];
 const YourTypography = styled("Typography")({
   flexGrow: 1,

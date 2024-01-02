@@ -60,6 +60,8 @@ import Fninfoedit from "./components/Fninfo_Components/Fninfo_Edit";
 
 import M_DB_Adm_Menu from "./components/Admin/Manage_Dashboard_Adm/M_DB_Adm_Menu";
 
+import About_Us_View from "./components/About_Us/About_Us_View";
+
 import { Box } from "@mui/material";
 
 const routes = [
@@ -78,6 +80,8 @@ const routes = [
   { path: "/FakeNews/NotificationHistory", element: <NotificationHistory /> },
   { path: "/FakeNews/fninfoview/:id", element: <Fninfoview /> },
   { path: "/FakeNews/edit/:id", element: <Fninfoedit /> },
+
+  { path: "/About_Us_View", element: <About_Us_View /> },
 
   { path: "/Admin", element: <M_DB_Adm_Menu /> },
 

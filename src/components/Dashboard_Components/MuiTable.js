@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Select , Divider} from "antd";
+import { Table, Card, Select , Divider ,DatePicker} from "antd";
 import { Box } from "@mui/material";
+import moment from "moment";
 
 const MyTable = () => {
+  const [formattedDate, setFormattedDate] = useState("");
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [tableData, setTableData] = useState([]);
@@ -29,55 +31,80 @@ const MyTable = () => {
   ]);
 
   useEffect(() => {
-    if (options.length > 0 && !selectedOption) {
+    if (!selectedOption) {
       setSelectedOption(options[0].title);
     }
-  }, [options, selectedOption]);
+
+    if (!formattedDate) {
+      setFormattedDate('');
+    }
+  }, [options, selectedOption, formattedDate]);
 
   useEffect(() => {
-    const fetchData = async (endpoint, name, dataIndex) => {
-      try {
-        const Manage_Fake_Info = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
-        );
-        const MediaChannels = await fetch(
-          `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
-        );
-
-        if (Manage_Fake_Info.ok && MediaChannels.ok) {
-          const Manage_Fake_Infodata = await Manage_Fake_Info.json();
-          const MediaChannelsData = await MediaChannels.json();
-
-          const countByMedCId = MediaChannelsData.map((channel) => {
-            const count = Manage_Fake_Infodata.filter(
-              (fakeInfo) => fakeInfo[dataIndex] === channel.id
-            ).length;
-
-            return {
-              name: channel[name],
-              value: count,
-            };
-          });
-
-          setTableData(countByMedCId);
-        } else {
-          console.error("Failed to fetch data");
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
     if (selectedOption) {
       const selected = options.find((opt) => opt.title === selectedOption);
       if (selected) {
         fetchData(selected.value, selected.name, selected.dataIndex);
       }
     }
-  }, [selectedOption, options]);
+  }, [selectedOption, formattedDate]);
+
+
+  const fetchData = async (endpoint, name, dataIndex) => {
+    try {
+      const Manage_Fake_Info = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request`
+      );
+      const MediaChannels = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+      );
+
+      if (Manage_Fake_Info.ok && MediaChannels.ok) {
+        const Manage_Fake_Infodata = await Manage_Fake_Info.json();
+        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map((data) => ({
+          ...data,
+          mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+        }));
+
+        const filteredManage_Fake_Infodata = formattedManage_Fake_Infodata.filter(
+          (data) => {
+            if (!formattedDate || formattedDate.length === 0) return true;
+            return data.mfi_time === formattedDate;
+          }
+        );
+
+        const MediaChannelsData = await MediaChannels.json();
+        const countByMedCId = MediaChannelsData.map((channel) => {
+          const count = filteredManage_Fake_Infodata.filter(
+            (fakeInfo) => fakeInfo[dataIndex] === channel.id
+          ).length;
+
+          return {
+            name: channel[name],
+            value: count,
+          };
+        });
+
+        setTableData(countByMedCId);
+      } else {
+        console.error("Failed to fetch data");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const handleSelectChange = (value) => {
     setSelectedOption(value);
+  };
+
+  const handleSelectDate = (date) => {
+    if (date) {
+      setFormattedDate(date.format("YYYY-MM"));
+      console.log("date.format", date.format("YYYY-MM"));
+    } else {
+      setFormattedDate('');
+    }
   };
 
   const columns = [
@@ -104,20 +131,42 @@ const MyTable = () => {
             fontFamily: "'Th Sarabun New', sans-serif",
           }}
         >ตารางข้อมูล
-      <Select
-        value={selectedOption}
-        onChange={handleSelectChange}
-        style={{
-          fontSize: "50px",
-          height: "50px",
-        }}
-      >
-        {options.map((option) => (
-          <Select.Option key={option.value} value={option.title}>
-            {option.title}
-          </Select.Option>
-        ))}
-      </Select></div>
+      <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Select
+              value={selectedOption}
+              onChange={handleSelectChange}
+              style={{
+                marginRight: "10px",
+                fontSize: "50px",
+                height: "50px",
+              }}
+            >
+              {options.map((option) => (
+                <Select.Option key={option.value} value={option.title}>
+                  {option.title}
+                </Select.Option>
+              ))}
+            </Select>
+            <DatePicker
+              onChange={handleSelectDate}
+              placeholder="เดือน/ปี"
+              picker="month"
+              size="large"
+              defaultValue={null}
+              style={{
+                marginRight: "10px",
+                fontSize: "30px",
+                height: "50px",
+              }}
+            />
+          </div>
+          </div>
         <Divider />
       <Box />
       <Table dataSource={tableData} columns={columns} /></div>
