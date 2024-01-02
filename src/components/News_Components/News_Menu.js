@@ -5,17 +5,17 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Typography, Image } from "antd";
+import { Card, Button, Input, Typography, Flex } from "antd";
 import FilterDialog from "./News_Filter_Dialog";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery } from "@mui/material";
 
 const { Meta } = Card;
 const { Title } = Typography;
 
 const News_Menu = () => {
-  const isLargeScreen = useMediaQuery('(min-width:1300px)');
+  const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,29 +87,30 @@ const News_Menu = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#f1f1f1' }}>
+    <div style={{ backgroundColor: "#f1f1f1" }}>
       <Paper
         elevation={0}
         className="paperContainer"
         style={{
-          backgroundColor: '#f1f1f1'
+          backgroundColor: "#f1f1f1",
         }}
       >
         <Card
           style={{
             borderRadius: "20px",
-            backgroundColor: '#7BBD8F'
-          }}
-        ><div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
+            backgroundColor: "#7BBD8F",
           }}
         >
+          <div
+            style={{
+              fontSize: "70px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              color: "white",
+            }}
+          >
             ข่าวสาร
             <div
               style={{
@@ -153,48 +154,87 @@ const News_Menu = () => {
         </Card>
         <br />
         <Grid container spacing={0}>
-          {isLargeScreen && newcurrentItems.slice(0, 1).map((item) => (
-            <Grid item xs={12} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
-              <Link
-                to={`/News/News_views/${item.id}`}
-                style={{ textDecoration: "none" }}
+          {isLargeScreen &&
+            newcurrentItems.slice(0, 1).map((item) => (
+              <Grid
+                item
+                xs={12}
+                key={item.id}
+                style={{ marginBottom: "3%", padding: 5 }}
               >
-                <Card
-                  hoverable
-                  style={{
-                    margin: "auto",
-                    borderRadius: "20px",
-                    padding: 10,
-                    fontFamily: "'Th Sarabun New', sans-serif",
-                    fontSize: "25px",
-                  }}
-                  cover={
-                    <div
-                      style={{
-                        height: "80%",
-                        width: "100%",
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <img
+                <Link
+                  to={`/News/News_views/${item.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Card
+                    hoverable
+                    style={{
+                      height: "400px", // ปรับส่วนสูงของรูปภาพให้เต็มกรอบ เช่น "100%"
+                      width: "100%", // ปรับส่วนกว้างของรูปภาพให้เต็มกรอบ เช่น "100%"
+                      margin: "auto",
+                      borderRadius: "20px",
+                      padding: 10,
+                      fontFamily: "'Th Sarabun New', sans-serif",
+                      fontSize: "25px",
+                    }}
+                    cover={
+                      <div
                         style={{
-                          height: "100%",
+                          height: "375px", // ปรับส่วนสูงของรูปภาพให้เล็กลง เช่น "30%" หรือ "40%" ตามที่ต้องการ
                           width: "100%",
-                          objectFit: "cover",
+                          borderRadius: "10px",
+                          overflow: "hidden",
                         }}
-                        src={item.cover_image}
-                        alt={item.title}
-                      />
-                      {item.title}
-                    </div>
-                  }
-                ></Card>
-              </Link>
-            </Grid>
-          ))}
+                      >
+                        <Flex justify="space-between">
+                          <img
+                            style={{
+                              height: "375px", // ปรับส่วนสูงของรูปภาพให้เต็มกรอบ เช่น "100%"
+                              width: "100%", // ปรับส่วนกว้างของรูปภาพให้เต็มกรอบ เช่น "100%"
+                              objectFit: "cover",
+                            }}
+                            src={item.cover_image}
+                            alt={item.title}
+                          />
+                          <Flex
+                            vertical
+                            align="flex-end"
+                            justify="space-between"
+                            style={{
+                              padding: 32,
+                            }}
+                          >
+                            {item.title}
+                            <Button
+                              type="primary"
+                              href={`/News/News_views/${item.id}`}
+                              target="_blank"
+                              style={{
+                                fontSize: "18px",
+                                padding: "20px 25px",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              อ่านต่อ
+                            </Button>
+                          </Flex>
+                        </Flex>
+                      </div>
+                    }
+                  />
+                </Link>
+              </Grid>
+            ))}
           {newcurrentItems.slice(1).map((item) => (
-            <Grid item xs={12} md={4} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
+            <Grid
+              item
+              xs={12}
+              md={4}
+              key={item.id}
+              style={{ marginBottom: "3%", padding: 5 }}
+            >
               <Link
                 to={`/News/News_views/${item.id}`}
                 style={{ textDecoration: "none" }}
@@ -241,13 +281,17 @@ const News_Menu = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+            <LeftCircleOutlined
+              style={{ fontSize: "3rem", color: "#7BBD8F" }}
+            />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= data.length}
           >
-            <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+            <RightCircleOutlined
+              style={{ fontSize: "3rem", color: "#7BBD8F" }}
+            />
           </IconButton>
         </Box>
       </Paper>
