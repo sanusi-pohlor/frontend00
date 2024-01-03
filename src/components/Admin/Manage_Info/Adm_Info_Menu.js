@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Space,
-  Breadcrumb,
-} from "antd";
+import { Table, Space, Breadcrumb } from "antd";
 import AdminMenu from "../Adm_Menu";
-import {
-  EyeOutlined,
-} from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-
 
 const ManageMembers = () => {
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
+  const [province, setProvince] = useState([]);
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -69,6 +65,28 @@ const ManageMembers = () => {
     fetchData();
   }, []);
 
+  const Province = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        const filteredIds = pv.filter(
+          (item) => item.id === data[0].fn_info_province
+        );
+        setProvince(filteredIds);
+        console.log("filteredIds :", filteredIds[0].prov_name);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Province();
+  }, []);
 
   const isEditing = (record) => record.key === editingKey;
 
@@ -103,15 +121,22 @@ const ManageMembers = () => {
       dataIndex: "fn_info_nameid",
       width: "10%",
       render: (fn_info_nameid) => {
-        const user = userInfo ? userInfo.find((user) => user.id === fn_info_nameid) : null;
+        const user = userInfo
+          ? userInfo.find((user) => user.id === fn_info_nameid)
+          : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
-    },    
+    },
     {
       title: "จังหวัด",
       dataIndex: "fn_info_province",
       width: "10%",
-      editable: true,
+      render: (_, record) => {
+        const provinceData = province.find(
+          (item) => item.id === record.fn_info_province
+        );
+        return provinceData ? provinceData.prov_name : "";
+      },
     },
     {
       title: "แจ้งเมื่อ",

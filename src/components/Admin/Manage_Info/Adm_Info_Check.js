@@ -127,12 +127,11 @@ const Adm_Info_Check = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  const parsedId = parseInt(id, 10);
   const onFinish = async (values) => {
-    console.log(fakeNewsInfo);
+    console.log("mfi_fninfo = ",values);
     try {
       const formData = new FormData();
-      formData.append("mfi_fninfo", id);
       formData.append("mfi_time", fakeNewsInfo.created_at);
       formData.append("mfi_province", fakeNewsInfo.fn_info_province);
       formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
@@ -153,6 +152,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_iteration", values.mfi_iteration);
       formData.append("mfi_che_d", values.mfi_che_d);
       formData.append("mfi_data_cha", values.mfi_data_cha);
+      formData.append("mfi_fninfo", parseInt(id, 10));
       for (const pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }

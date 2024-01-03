@@ -50,6 +50,7 @@ const ManageInfo_view = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [info_source, setInfo_source] = useState(null);
+  const { id } = useParams();
   const navigate = useNavigate();
   const fetchUserInfo = async () => {
     try {
@@ -88,26 +89,23 @@ const ManageInfo_view = () => {
   }, []);
 
   const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-
-        // หา ID ที่ตรงกับเงื่อนไข data.mfi_fninfo === id
-        const filteredIds = data.filter(item => item.mfi_fninfo === id);
-
-        // นำ ID ที่ได้ไปใช้ต่อตามที่ต้องการ
-        console.log("Filtered IDs:", filteredIds);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+  try {
+    const response = await fetch(
+      "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+    );
+    if (response.ok) {
+      const data = await response.json();
+      const filteredIds = data.filter(item => item.mfi_fninfo === parseInt(id, 10));
+      setData(filteredIds);
+      console.log("Filtered IDs:", filteredIds); // Logging the filtered IDs
+    } else {
+      console.error("Error fetching data:", response.statusText);
     }
-  };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
 
   useEffect(() => {
     fetchData();
@@ -120,7 +118,7 @@ const ManageInfo_view = () => {
     } else if (fakeNewsInfo.fn_info_status === 1) {
       navigate(`./Adm_Info_Check`);
     } else if (fakeNewsInfo.fn_info_status === 2) {
-      navigate(`/Admin/Manage_Fake_Info_View/${data.id == id}`);
+      navigate(`/Admin/Manage_Fake_Info_View/${data[0].id}`);
     } else {
       setIsModalVisible(false);
     }
@@ -135,7 +133,6 @@ const ManageInfo_view = () => {
     }
 
   };
-  const { id } = useParams();
 
   const handleConfirm = async () => {
     setModalVisible(false);
@@ -164,7 +161,6 @@ const ManageInfo_view = () => {
   };
 
   const fetchFakeNewsInfo = async () => {
-    console.log("id :", id);
     try {
       const response = await fetch(
         `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_show/${id}`

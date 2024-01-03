@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import RegisterDialog from "./Profile_Edit";
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [province, setProvince] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [registerVisible, setRegisterVisible] = useState(false);
   const showModal = () => {
@@ -60,10 +61,34 @@ const Profile = () => {
 
     fetchUser();
   }, []);
+
+  const Province = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        const filteredIds = pv.filter(
+          (item) => item.id === user.province
+        );
+        setProvince(filteredIds);
+        console.log("filteredIds :", filteredIds[0].prov_name);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Province();
+  }, []);
+
   const items = [
     { key: "1", label: "ชื่อ-นามสกุล", children: user && <span>{user.username}</span> },
     { key: "2", label: "นามสกุล", children: user && <span>{user.lastName}</span> },
-    { key: "3", label: "จังหวัดที่อยู่", children: user && <span>{user.province}</span> },
+    { key: "3", label: "จังหวัดที่อยู่", children: <span>{province[0].prov_name}</span>  },
     { key: "4", label: "อีเมล", children: user && <span>{user.email}</span> },
     { key: "5", label: "เบอร์โทรศัพท์", children: user && <span>{user.phone_number}</span> },
     { key: "6", label: "ไลน์ไอดี", children: user && <span>{user.Id_line}</span> },

@@ -14,7 +14,7 @@ const determineSelectedKey = (pathname) => {
   return foundItem ? foundItem.key : '1';
 };
 const MenuProfile = ({ children }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
@@ -47,31 +47,7 @@ const MenuProfile = ({ children }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
   
-        // กรองข้อมูลที่ตรงเงื่อนไขและนับจำนวน
-        const countData = data.filter(item => item.fn_info_nameid === user.id).length;
-        console.log("จำนวน data ที่ fn_info_nameid = user.id:", countData);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -85,7 +61,6 @@ const MenuProfile = ({ children }) => {
         if (response.ok) {
           const data = await response.json();
           setUser(data);
-          console.log("data :" + data);
         } else {
           console.error("User data retrieval failed");
         }
@@ -95,6 +70,30 @@ const MenuProfile = ({ children }) => {
     };
 
     fetchUser();
+  }, []);
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        // กรองข้อมูลที่ตรงเงื่อนไขและนับจำนวน
+        const countData = data.filter(item => item.fn_info_nameid === user.id).length;
+        setData(countData);
+        console.log("จำนวน data ที่ fn_info_nameid = user.id:", countData);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
   }, []);
 
   if (!user) {
@@ -122,10 +121,10 @@ const MenuProfile = ({ children }) => {
     );
   }
   return (
-    <div>
+    <div style={{ backgroundColor: "#f1f1f1" }}>
       <Box
         style={{
-          width: "100%",
+          width: "80%",
           padding: 20,
           margin: "0 auto",
           backgroundColor: '#f1f1f1'
@@ -168,7 +167,7 @@ const MenuProfile = ({ children }) => {
                     height: "100%",
                   }}
                 >
-                  <Title level={5}>จำนวนครั้งที่แจ้งข่าว : </Title>
+                  <Title level={5}>จำนวนครั้งที่แจ้งข่าว : {data}</Title>
                 </div>
               </Card>
             )}
