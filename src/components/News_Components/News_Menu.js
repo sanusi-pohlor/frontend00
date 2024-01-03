@@ -10,6 +10,7 @@ import FilterDialog from "./News_Filter_Dialog";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
 import { useMediaQuery } from "@mui/material";
+import moment from "moment";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -169,8 +170,8 @@ const News_Menu = () => {
                   <Card
                     hoverable
                     style={{
-                      height: "400px", // ปรับส่วนสูงของรูปภาพให้เต็มกรอบ เช่น "100%"
-                      width: "100%", // ปรับส่วนกว้างของรูปภาพให้เต็มกรอบ เช่น "100%"
+                      height: "400px",
+                      width: "100%",
                       margin: "auto",
                       borderRadius: "20px",
                       padding: 10,
@@ -180,7 +181,7 @@ const News_Menu = () => {
                     cover={
                       <div
                         style={{
-                          height: "375px", // ปรับส่วนสูงของรูปภาพให้เล็กลง เช่น "30%" หรือ "40%" ตามที่ต้องการ
+                          height: "375px",
                           width: "100%",
                           borderRadius: "10px",
                           overflow: "hidden",
@@ -189,8 +190,8 @@ const News_Menu = () => {
                         <Flex justify="space-between">
                           <img
                             style={{
-                              height: "375px", // ปรับส่วนสูงของรูปภาพให้เต็มกรอบ เช่น "100%"
-                              width: "100%", // ปรับส่วนกว้างของรูปภาพให้เต็มกรอบ เช่น "100%"
+                              height: "375px",
+                              width: "100%",
                               objectFit: "cover",
                             }}
                             src={item.cover_image}
@@ -202,8 +203,12 @@ const News_Menu = () => {
                             justify="space-between"
                             style={{
                               padding: 32,
+                              fontSize: "25px",
+                              fontFamily: "'Th Sarabun New', sans-serif",
                             }}
                           >
+                            เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                            <br/>
                             {item.title}
                             <Button
                               type="primary"

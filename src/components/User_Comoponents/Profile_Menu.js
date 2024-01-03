@@ -14,6 +14,7 @@ const determineSelectedKey = (pathname) => {
   return foundItem ? foundItem.key : '1';
 };
 const MenuProfile = ({ children }) => {
+  const [data, setData] = useState([]);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
@@ -46,6 +47,30 @@ const MenuProfile = ({ children }) => {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+  
+        // กรองข้อมูลที่ตรงเงื่อนไขและนับจำนวน
+        const countData = data.filter(item => item.fn_info_nameid === user.id).length;
+        console.log("จำนวน data ที่ fn_info_nameid = user.id:", countData);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {

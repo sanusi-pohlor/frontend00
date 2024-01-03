@@ -5,11 +5,12 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Typography, Image } from "antd";
+import { Card, Button, Input, Typography, Flex } from "antd";
 import FilterDialog from "./MdShare_Filter_Dialog";
 import { Link } from "react-router-dom";
 import "./MdShare_Menu.css";
 import { useMediaQuery } from '@mui/material';
+import moment from "moment";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -23,9 +24,9 @@ const MdShare_Menu = () => {
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
   const buttonStyle = {
-    background: "#7BBD8F",
+    background: "#f1f1f1",
     border: "none",
-    color: "white",
+    color: "#7BBD8F",
   };
 
   useEffect(() => {
@@ -85,28 +86,33 @@ const MdShare_Menu = () => {
         elevation={0}
         className="paperContainer"
         style={{
-          backgroundColor: '#f1f1f1'
+          backgroundColor: "#f1f1f1",
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={4}></Grid>
-          <Grid item xs={12} md={4}>
+        <Card
+          style={{
+            borderRadius: "20px",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "70px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              color: "white",
+            }}
+          >
+            สื่อชวนแชร์
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
                 alignItems: "center",
-                height: "100%",
-                textAlign: "center",
-                fontSize: "70px",
-                fontWeight: "bold",
+                justifyContent: "center",
               }}
             >
-              สื่อชวนแชร์
-            </div>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <div style={{ display: "flex", alignItems: "center" }}>
               <Input
                 size="large"
                 placeholder="ค้นหา"
@@ -138,22 +144,101 @@ const MdShare_Menu = () => {
                 />
               )}
             </div>
-          </Grid>
-        </Grid>
+          </div>
+        </Card>
         <br />
         <Grid container spacing={2}>
           {isLargeScreen && currentItems.slice(0, 1).map((item) => (
-            <Grid item xs={8} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
+            <Grid item xs={12} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
               <Link to={`/MdShare/MdShare_views/${item.id}`} style={{ textDecoration: "none" }}
+              >
+                <Card
+                  hoverable
+                  style={{
+                    height: "400px",
+                    width: "100%",
+                    margin: "auto",
+                    borderRadius: "20px",
+                    padding: 10,
+                    fontFamily: "'Th Sarabun New', sans-serif",
+                    fontSize: "25px",
+                  }}
+                  cover={
+                    <div
+                      style={{
+                        height: "375px",
+                        width: "100%",
+                        borderRadius: "10px",
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Flex justify="space-between">
+                        <img
+                          style={{
+                            height: "375px",
+                            width: "100%",
+                            objectFit: "cover",
+                          }}
+                          src={item.cover_image}
+                        />
+                        <Flex
+                          vertical
+                          align="flex-end"
+                          justify="space-between"
+                          style={{
+                            padding: 32,
+                            fontSize: "25px",
+                            fontFamily: "'Th Sarabun New', sans-serif",
+                            textAlign: "left", // ปรับให้ข้อความชิดซ้าย
+                          }}
+                        >
+                          <div>
+                            เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                            <br />
+                            {item.title}
+                          </div>
+                          <Button
+                            type="primary"
+                            href={`/News/News_views/${item.id}`}
+                            target="_blank"
+                            style={{
+                              fontSize: "18px",
+                              padding: "20px 25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              background: "#7BBD8F",
+                              border: "none",
+                              color: "#ffffff",
+                            }}
+                          >
+                            อ่านต่อ
+                          </Button>
+                        </Flex>
+                      </Flex>
+                    </div>
+                  }
+                ></Card>
+              </Link>
+            </Grid>
+          ))}
+          {currentItems.slice(1).map((item) => (
+            <Grid item xs={12} md={4} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
+              <Link
+                to={`/MdShare/MdShare_views/${item.id}`}
+                style={{ textDecoration: "none" }}
               >
                 <Card
                   hoverable
                   style={{
                     margin: "auto",
                     borderRadius: "20px",
-                    padding: 10,
+                    width: "90%",
+                    height: "100%",
+                    padding: 20,
                     fontFamily: "'Th Sarabun New', sans-serif",
                     fontSize: "25px",
+                    textAlign: "left",
                   }}
                   cover={
                     <div
@@ -171,56 +256,34 @@ const MdShare_Menu = () => {
                           objectFit: "cover",
                         }}
                         src={item.cover_image}
+                        alt={item.title}
                       />
+                      เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                      <br />
                       {item.title}
+                      <Button
+                            type="primary"
+                            href={`/News/News_views/${item.id}`}
+                            target="_blank"
+                            style={{
+                              fontSize: "18px",
+                              padding: "20px 25px",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              background: "#7BBD8F",
+                              border: "none",
+                              color: "#ffffff",
+                            }}
+                          >
+                            อ่านต่อ
+                          </Button>
                     </div>
                   }
                 ></Card>
               </Link>
             </Grid>
           ))}
-          {currentItems.slice(1).map((item) => (
-          <Grid item xs={12} md={4} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
-            <Link
-              to={`/MdShare/MdShare_views/${item.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <Card
-                hoverable
-                style={{
-                  margin: "auto",
-                  borderRadius: "20px",
-                  width: "90%",
-                  height: "100%",
-                  padding: 10,
-                  fontFamily: "'Th Sarabun New', sans-serif",
-                  fontSize: "25px",
-                }}
-                cover={
-                  <div
-                    style={{
-                      height: "80%",
-                      width: "100%",
-                      borderRadius: "10px",
-                      overflow: "hidden",
-                    }}
-                  >
-                    <img
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        objectFit: "cover",
-                      }}
-                      src={item.cover_image}
-                      alt={item.title}
-                    />
-                    {item.title}
-                  </div>
-                }
-              ></Card>
-            </Link>
-          </Grid>
-        ))}
         </Grid>
         <Box mt={4} display="flex" justifyContent="center">
           <IconButton

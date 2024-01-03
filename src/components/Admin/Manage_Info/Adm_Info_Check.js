@@ -16,7 +16,7 @@ import {
   Image,
 } from "antd";
 import AdminMenu from "../Adm_Menu";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 const { Option } = Select;
 
@@ -132,6 +132,7 @@ const Adm_Info_Check = () => {
     console.log(fakeNewsInfo);
     try {
       const formData = new FormData();
+      formData.append("mfi_fninfo", id);
       formData.append("mfi_time", fakeNewsInfo.created_at);
       formData.append("mfi_province", fakeNewsInfo.fn_info_province);
       formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
@@ -154,7 +155,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_data_cha", values.mfi_data_cha);
       for (const pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
-      }      
+      }
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
         {
@@ -167,6 +168,7 @@ const Adm_Info_Check = () => {
         message.success("Form data sent successfully");
         form.resetFields();
         fetchData();
+        handleConfirm();
         navigate("/Admin/Manage_Fake_Info_Menu");
       } else {
         message.error("Error sending form data");
@@ -179,6 +181,28 @@ const Adm_Info_Check = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const handleConfirm = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("status", 2);
+      const response = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        fetchFakeNewsInfo();
+        window.location.reload();
+      } else {
+        console.error("Error updating status:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
@@ -311,11 +335,6 @@ const Adm_Info_Check = () => {
   };
   return (
     <AdminMenu>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
       <div
         style={{
           display: "flex",
@@ -689,11 +708,33 @@ const Adm_Info_Check = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            เพิ่ม
-          </Button>
-        </Form.Item>
+        <Row gutter={16}>
+          <Col span={8}>
+            <Form.Item
+              name="mfi_data_cha"
+              label="ผลสรุป"
+              rules={[
+                {
+                  required: false,
+                  message: "Please input the title of collection!",
+                },
+              ]}
+            >
+              <Select
+                placeholder="Select a option and change input text above"
+                onChange={onChange_mfi_data_cha_id}
+                allowClear
+              >
+                {selectOptions_data}
+              </Select>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                บันทึก
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
       </Form>
     </AdminMenu>
   );

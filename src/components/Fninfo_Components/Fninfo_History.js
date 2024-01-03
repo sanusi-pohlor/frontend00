@@ -113,6 +113,12 @@ const NotificationHistory = () => {
       render: (status) => getStatusText(status),
     },
     {
+      title: "ผลการตรวจสอบ",
+      dataIndex: "fn_info_status",
+      width: "15%",
+      render: (status) => getStatusText(status),
+    },
+    {
       title: "จัดการ",
       width: "15%",
       editable: true,

@@ -49,8 +49,7 @@ const FakeNewInformation = () => {
       formData.append("fn_info_num_mem", values.fn_info_num_mem); // Corrected the field name
       formData.append("fn_info_more", values.fn_info_more); // Corrected the field name
       formData.append("fn_info_link", values.fn_info_link); // Corrected the field name
-      const formattedDate = moment(values.fn_info_dmy).format("YYYY-MM-DD");
-      formData.append("fn_info_dmy", formattedDate);
+      formData.append("fn_info_dmy", values.fn_info_dmy);
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
       //formData.append("fn_info_vdo", values.fn_info_vdo[0].originFileObj); // Corrected the field name
       const response = await fetch(

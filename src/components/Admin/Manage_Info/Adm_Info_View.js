@@ -41,6 +41,7 @@ const optionsWithDisabled = [
 ];
 const ManageInfo_view = () => {
   const [form] = Form.useForm();
+  const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [current, setCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -86,15 +87,43 @@ const ManageInfo_view = () => {
     fetchInfo_source();
   }, []);
 
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+
+        // หา ID ที่ตรงกับเงื่อนไข data.mfi_fninfo === id
+        const filteredIds = data.filter(item => item.mfi_fninfo === id);
+
+        // นำ ID ที่ได้ไปใช้ต่อตามที่ต้องการ
+        console.log("Filtered IDs:", filteredIds);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
   const handleCheck = () => {
     if (fakeNewsInfo.fn_info_status === 0) {
       setIsModalVisible(true);
-    } else if (fakeNewsInfo.fn_info_status > 0) {
+    } else if (fakeNewsInfo.fn_info_status === 1) {
       navigate(`./Adm_Info_Check`);
+    } else if (fakeNewsInfo.fn_info_status === 2) {
+      navigate(`/Admin/Manage_Fake_Info_View/${data.id == id}`);
     } else {
       setIsModalVisible(false);
     }
-
   };
   const onChange = (newStatus) => {
     if (newStatus === 1) {

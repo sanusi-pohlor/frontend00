@@ -3,6 +3,10 @@ import { Layout, Space } from "antd";
 import CASLogo from "./Images/CAS.png";
 import WMOLogo from "./Images/WMO.png";
 import { Box, Grid, Paper, IconButton } from "@mui/material";
+import {
+  PhoneOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 import "./Bottom.css";
 const { Footer } = Layout;
 
@@ -49,15 +53,13 @@ const Bottom = () => {
           </div>
         </Grid>
         <Grid item xs={12} md={4}>
-        <div className={textClass}>ติดต่อโครงการวิจัย</div>
-          <div className={textClass}>
-            คณะวิทยาการสื่อสาร
-            มหาวิทยาลัยสงขลานครินทร์
-            วิทยาเขตปัตตานี
-            อำเภอเมือง จังหวัดปัตตานี 94000    
+          <div className="text" style={{ textAlign: "left", marginTop: "auto" }}>
+          <strong>ติดต่อโครงการวิจัย</strong> <br />
+            คณะวิทยาการสื่อสาร มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี <br />
+            อำเภอเมือง จังหวัดปัตตานี 94000 <br />
+            <PhoneOutlined /> โทร. 073 349 692 <br />
+            <MailOutlined /> Email: checkkonproject@gmail.com
           </div>
-          <div className={textClass}>โทร. 073 349 692</div>
-          <div className={textClass}>Email: checkkonproject@gmail.com</div>
         </Grid>
       </Grid>
     </Footer>

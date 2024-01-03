@@ -72,7 +72,7 @@ const MapWidget = () => {
           aria-label="Map of Thailand"
         >
           <Tooltip
-            title={`Nakhon Si Thammarat${getTooltipTitle(4)}`}
+            title={`นครศรีธรรมราช${getTooltipTitle(4)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -88,7 +88,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Krabi${getTooltipTitle(1)}`}
+            title={`กระบี่${getTooltipTitle(1)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -104,7 +104,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Phangnga${getTooltipTitle(7)}`}
+            title={`พังงา${getTooltipTitle(7)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -120,7 +120,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Phuket${getTooltipTitle(9)}`}
+            title={`ภูเก็ต${getTooltipTitle(9)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -136,7 +136,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Surat Thani${getTooltipTitle(14)}`}
+            title={`สุราษฎร์ธานี${getTooltipTitle(14)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -152,7 +152,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Ranong${getTooltipTitle(11)}`}
+            title={`ระนอง${getTooltipTitle(11)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -168,7 +168,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Chumphon${getTooltipTitle(2)}`}
+            title={`ชุมพร${getTooltipTitle(2)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -184,7 +184,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Songkhla${getTooltipTitle(12)}`}
+            title={`สงขลา${getTooltipTitle(12)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -200,7 +200,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Satun${getTooltipTitle(13)}`}
+            title={`สตูล${getTooltipTitle(13)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -216,7 +216,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Trang${getTooltipTitle(3)}`}
+            title={`ตรัง${getTooltipTitle(3)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -232,7 +232,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Phatthalung${getTooltipTitle(8)}`}
+            title={`พัทลุง${getTooltipTitle(8)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -248,7 +248,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Pattani${getTooltipTitle(6)}`}
+            title={`ปัตตานี${getTooltipTitle(6)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -264,7 +264,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Yala${getTooltipTitle(10)}`}
+            title={`ยะลา${getTooltipTitle(10)}`}
             arrow
             placement="top"
             color="#7BBD8F"
@@ -280,7 +280,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`Narathiwat${getTooltipTitle(5)}`}
+            title={`นราธิวาส${getTooltipTitle(5)}`}
             arrow
             placement="top"
             color="#7BBD8F"

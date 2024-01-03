@@ -150,7 +150,7 @@ function Menu_Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2, color: "#7BBD8F" }}>
+      <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
         รู้เท่า ทันสื่อ - Check ก่อน
       </Typography>
       <Divider />
