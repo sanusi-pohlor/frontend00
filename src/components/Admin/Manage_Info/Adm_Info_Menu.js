@@ -72,11 +72,7 @@ const ManageMembers = () => {
       );
       if (response.ok) {
         const pv = await response.json();
-        const filteredIds = pv.filter(
-          (item) => item.id === data[0].fn_info_province
-        );
-        setProvince(filteredIds);
-        console.log("filteredIds :", filteredIds[0].prov_name);
+        setProvince(pv);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -86,7 +82,7 @@ const ManageMembers = () => {
   };
   useEffect(() => {
     Province();
-  }, []);
+  }, [data]);
 
   const isEditing = (record) => record.key === editingKey;
 
@@ -131,13 +127,11 @@ const ManageMembers = () => {
       title: "จังหวัด",
       dataIndex: "fn_info_province",
       width: "10%",
-      render: (_, record) => {
-        const provinceData = province.find(
-          (item) => item.id === record.fn_info_province
-        );
-        return provinceData ? provinceData.prov_name : "";
+      render: (fn_info_province) => {
+        const provinceData = province.find((item) => item.id === fn_info_province);
+        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล"; // แก้ไขให้ระบุข้อความเมื่อไม่พบข้อมูล
       },
-    },
+    },    
     {
       title: "แจ้งเมื่อ",
       dataIndex: "created_at",

@@ -142,7 +142,7 @@ function Menu_Navbar() {
   };
   const handleDrawerToggleProfile = async () => {
     if (user.level === 3) {
-      Navigate("/User/MenuProfile");
+      Navigate("/User/Profile");
     } else {
       Navigate("/Admin/");
     }

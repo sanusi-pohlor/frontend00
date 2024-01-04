@@ -23,6 +23,7 @@ const { Option } = Select;
 const Adm_Info_Check = () => {
   const navigate = useNavigate();
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
+  const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
@@ -58,6 +59,7 @@ const Adm_Info_Check = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
+
   const fetchInfo_source = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
@@ -127,9 +129,36 @@ const Adm_Info_Check = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+          );
+          setProvince(filteredIds);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
+      fetchProvince();
+    }
+  }, [fakeNewsInfo]);
+
   const parsedId = parseInt(id, 10);
   const onFinish = async (values) => {
-    console.log("mfi_fninfo = ",values);
+    console.log("mfi_fninfo = ", values);
     try {
       const formData = new FormData();
       formData.append("mfi_time", fakeNewsInfo.created_at);
@@ -153,6 +182,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_che_d", values.mfi_che_d);
       formData.append("mfi_data_cha", values.mfi_data_cha);
       formData.append("mfi_fninfo", parseInt(id, 10));
+      formData.append("mfi_results", values.mfi_results);
       for (const pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
@@ -295,7 +325,7 @@ const Adm_Info_Check = () => {
   const onChange_mfi_dis_c_id = () => {
     fetchDataAndSetOptions(
       "DetailsNotiChannels_request",
-      "dis_c",
+      "dnc_scop",
       setSelectOptions_dis
     );
   };
@@ -304,14 +334,6 @@ const Adm_Info_Check = () => {
       "TypeInformation_request",
       "type_info",
       setSelectOptions_ty
-    );
-  };
-
-  const onChange_mfi_con_about_id = () => {
-    fetchDataAndSetOptions(
-      "VolunteerMembers_request",
-      "con_about",
-      setSelectOptions_con
     );
   };
 
@@ -355,7 +377,6 @@ const Adm_Info_Check = () => {
           onChange_mfi_fm_d_id();
           onChange_mfi_dis_c_id();
           onChange_mfi_ty_info_id();
-          onChange_mfi_con_about_id();
           onChange_mfi_moti_id();
           onChange_mfi_data_cha_id();
           onChange_dnc_med_id();
@@ -386,26 +407,24 @@ const Adm_Info_Check = () => {
                 disabled
               />
             </Form.Item>
-            <Form.Item
-              //name="mfi_province"
-              label="จังหวัดของท่าน"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={
-                  fakeNewsInfo
-                    ? fakeNewsInfo.fn_info_province
-                    : "No date available"
-                }
-                disabled
-              />
-            </Form.Item>
+            {province && province.length > 0 && (
+              <Form.Item
+                label="จังหวัดของท่าน"
+                //name="fn_info_province"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your email!",
+                  },
+                ]}
+              >
+                <Input
+                  size="large"
+                  placeholder={province[0].prov_name}
+                  disabled
+                />
+              </Form.Item>
+            )}
           </Col>
           <Col span={8}>
             <Form.Item
@@ -622,25 +641,14 @@ const Adm_Info_Check = () => {
                 },
               ]}
             >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="mfi_con_about"
-              label="มีเนื้อหาเกี่ยวกับ"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
               <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_con_about_id}
-                allowClear
-              >
-                {selectOptions_con}
-              </Select>
+              placeholder=""
+              allowClear
+              style={{ width: "100%" }}
+            >
+              <Select.Option value="0">ไม่ใช่</Select.Option>
+              <Select.Option value="1">ใช่</Select.Option>
+            </Select>
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -708,33 +716,67 @@ const Adm_Info_Check = () => {
             </Form.Item>
           </Col>
         </Row>
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item
-              name="mfi_data_cha"
-              label="ผลสรุป"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
+        <Row style={{ marginBottom: '10px' }}>
+          <Form.Item
+            name="mfi_results"
+            label="ผลสรุป"
+            rules={[
+              {
+                required: false,
+                message: "Please input the title of collection!",
+              },
+            ]}
+            style={{
+              marginRight: "10px",
+              width: "50%"
+            }}
+          >
+            <Select
+              placeholder=""
+              allowClear
+              style={{ width: "100%" }}
             >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_data_cha_id}
-                allowClear
-              >
-                {selectOptions_data}
-              </Select>
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                บันทึก
-              </Button>
-            </Form.Item>
-          </Col>
+              <Select.Option value="0">ข่าวจริง</Select.Option>
+              <Select.Option value="1">ข่าวเท็จ</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="mfi_data_cha"
+            label="เกี่ยวกับ"
+            rules={[
+              {
+                required: false,
+                message: "Please input the title of collection!",
+              },
+            ]}
+            style={{
+              width: "50%"
+            }}
+          >
+            <Select
+              placeholder=""
+              onChange={onChange_mfi_data_cha_id}
+              allowClear
+              style={{ width: "100%" }}
+            >
+              {selectOptions_data}
+            </Select>
+          </Form.Item>
         </Row>
+        <Form.Item>
+          <Button type="primary" htmlType="submit" style={{
+            fontSize: "18px",
+            padding: "20px 25px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "#7BBD8F",
+            border: "none",
+            color: "#ffffff",
+          }}>
+            บันทึก
+          </Button>
+        </Form.Item>
       </Form>
     </AdminMenu>
   );

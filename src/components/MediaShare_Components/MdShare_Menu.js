@@ -199,7 +199,7 @@ const MdShare_Menu = () => {
                           </div>
                           <Button
                             type="primary"
-                            href={`/News/News_views/${item.id}`}
+                            href={`/MdShare/MdShare_views/${item.id}`}
                             target="_blank"
                             style={{
                               fontSize: "18px",
@@ -263,7 +263,7 @@ const MdShare_Menu = () => {
                       {item.title}
                       <Button
                             type="primary"
-                            href={`/News/News_views/${item.id}`}
+                            href={`/MdShare/MdShare_views/${item.id}`}
                             target="_blank"
                             style={{
                               fontSize: "18px",

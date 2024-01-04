@@ -23,13 +23,6 @@ const News_Menu = () => {
   const [itemsPerPage] = useState(9);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
-  // ประกาศตัวแปร state สำหรับเก็บขนาดของ Grid item
-  const [gridSize, setGridSize] = useState({ xs: 12, md: 4 });
-
-  // อัพเดทขนาดของ Grid item เมื่อกด RightCircleOutlined
-  const updateGridSize = () => {
-    setGridSize({ xs: 12, md: 4 });
-  };
   const buttonStyle = {
     background: "#f1f1f1",
     border: "none",
@@ -154,7 +147,7 @@ const News_Menu = () => {
           </div>
         </Card>
         <br />
-        <Grid container spacing={0}>
+        <Grid container spacing={2}>
           {isLargeScreen &&
             newcurrentItems.slice(0, 1).map((item) => (
               <Grid
@@ -205,10 +198,11 @@ const News_Menu = () => {
                               padding: 32,
                               fontSize: "25px",
                               fontFamily: "'Th Sarabun New', sans-serif",
+                              textAlign: "left",
                             }}
                           >
                             เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                            <br/>
+                            <br />
                             {item.title}
                             <Button
                               type="primary"
@@ -220,6 +214,9 @@ const News_Menu = () => {
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
+                                background: "#7BBD8F",
+                                border: "none",
+                                color: "#ffffff",
                               }}
                             >
                               อ่านต่อ
@@ -251,9 +248,10 @@ const News_Menu = () => {
                     borderRadius: "20px",
                     width: "90%",
                     height: "100%",
-                    padding: 10,
+                    padding: 20,
                     fontFamily: "'Th Sarabun New', sans-serif",
                     fontSize: "25px",
+                    textAlign: "left",
                   }}
                   cover={
                     <div
@@ -273,7 +271,26 @@ const News_Menu = () => {
                         src={item.cover_image}
                         alt={item.title}
                       />
+                      เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                      <br />
                       {item.title}
+                      <Button
+                        type="primary"
+                        href={`/News/News_views/${item.id}`}
+                        target="_blank"
+                        style={{
+                          fontSize: "18px",
+                          padding: "20px 25px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          background: "#7BBD8F",
+                          border: "none",
+                          color: "#ffffff",
+                        }}
+                      >
+                        อ่านต่อ
+                      </Button>
                     </div>
                   }
                 ></Card>

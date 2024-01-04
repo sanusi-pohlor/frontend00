@@ -20,7 +20,7 @@ const Manage_Fake_Info_Menu = () => {
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
-
+  const [province, setProvince] = useState([]);
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
@@ -86,6 +86,24 @@ const Manage_Fake_Info_Menu = () => {
     setEditingKey("");
   };
 
+  const Province = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setProvince(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Province();
+  }, [data]);
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
@@ -135,11 +153,15 @@ const Manage_Fake_Info_Menu = () => {
       },
     },
     {
-      title: "จังหวัดของท่าน",
+      title: "จังหวัดของผู้แจ้ง",
       dataIndex: "mfi_province",
       width: "10%",
-      editable: true,
-    },
+      render: (mfi_province) => {
+        const provinceId = parseInt(mfi_province, 10); // Assuming base 10
+        const provinceData = province.find((item) => item.id === provinceId);
+        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
+      },
+    },       
     {
       title: "ผู้ส่งรายงาน",
       dataIndex: "mfi_mem",

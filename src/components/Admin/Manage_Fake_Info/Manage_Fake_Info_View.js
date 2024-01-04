@@ -6,39 +6,40 @@ import moment from "moment";
 
 const Manage_Fake_Info_View = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
-  const [current, setCurrent] = useState(0);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [confirmedStep, setConfirmedStep] = useState(-1); // สถานะการยืนยัน
   const { id } = useParams();
-
-  const handleConfirm = async () => {
-    setModalVisible(false);
-    setConfirmedStep(current);
-    console.log("current: ", current);
-
+  const [province, setProvince] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
+  const [info_source, setInfo_source] = useState(null);
+  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
+  const [selectOptions_fm, setSelectOptions_fm] = useState([]);
+  const [selectOptions_dis, setSelectOptions_dis] = useState([]);
+  const [selectOptions_ty, setSelectOptions_ty] = useState([]);
+  const [selectOptions_con, setSelectOptions_con] = useState([]);
+  const [selectOptions_moti, setSelectOptions_moti] = useState([]);
+  const [selectOptions_data, setSelectOptions_data] = useState([]);
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_mfi_dis_c, setSelectOptions_mfi_dis_c] = useState([]);
+  
+  const fetchUserInfo = async () => {
     try {
-      const formData = new FormData();
-      formData.append("status", current); // ใช้ append ให้ถูกต้อง
-
-      const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
-        {
-          method: "POST",
-          body: formData, // ส่งข้อมูลผ่าน FormData
-        }
-      );
+      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
       if (response.ok) {
-        fetchFakeNewsInfo(); // เมื่อส่งข้อมูลสำเร็จให้ดึงข้อมูลอัพเดท
-        window.location.reload(); // รีโหลดหน้าเพื่อแสดงข้อมูลที่อัพเดทแล้ว
+        const userData = await response.json();
+        console.log("user :", userData);
+        setUserInfo(userData);
       } else {
-        console.error("Error updating status:", response.statusText);
+        console.error("Failed to fetch user data");
       }
     } catch (error) {
-      console.error("Error updating status:", error);
+      console.error("Error fetching user data:", error);
     }
   };
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
 
-  // Fetch fake news information based on id
   const fetchFakeNewsInfo = async () => {
     console.log("id :", id);
     try {
@@ -56,10 +57,202 @@ const Manage_Fake_Info_View = () => {
     }
   };
 
-  // Fetch fake news information when the component mounts
   useEffect(() => {
     fetchFakeNewsInfo();
   }, [id]);
+
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+          );
+          setProvince(filteredIds);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
+      fetchProvince();
+    }
+  }, [fakeNewsInfo]);
+
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        console.log("ddd = ",typeCodes);
+        stateSetter(typeCodes);
+      } else {
+        console.error(
+          `Error fetching ${fieldName} codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching ${fieldName} codes:`, error);
+    }
+  };
+
+  const onChange_mfi_med_c_id = () => {
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
+  };
+
+  const onChange_mfi_c_info_id = () => {
+    fetchDataAndSetOptions(
+      "Motivation_request",
+      "c_info",
+      setSelectOptions_c_info
+    );
+  };
+
+  const onChange_mfi_fm_d_id = () => {
+    fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
+  };
+
+  const onChange_mfi_dis_c_id = () => {
+    fetchDataAndSetOptions(
+      "DetailsNotiChannels_request",
+      "dnc_scop",
+      setSelectOptions_dis
+    );
+  };
+  const onChange_mfi_ty_info_id = () => {
+    fetchDataAndSetOptions(
+      "TypeInformation_request",
+      "type_info",
+      setSelectOptions_ty
+    );
+  };
+
+  const onChange_mfi_moti_id = () => {
+    fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
+  };
+
+  const onChange_mfi_data_cha_id = () => {
+    fetchDataAndSetOptions(
+      "DataCharacteristics_request",
+      "data_cha",
+      setSelectOptions_data
+    );
+  };
+  const onChange_dnc_med_id = () => {
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
+  };
+
+  const onChange_mfi_province = () => {
+    fetchDataAndSetOptions(
+      "Province_request",
+      "prov",
+      setSelectOptions_prov
+    );
+  };
+
+  useEffect(() => {
+    onChange_dnc_med_id();
+    onChange_mfi_data_cha_id();
+    onChange_mfi_moti_id();
+    onChange_mfi_ty_info_id();
+    onChange_mfi_dis_c_id();
+    onChange_mfi_fm_d_id();
+    onChange_mfi_c_info_id();
+    onChange_mfi_med_c_id();
+    onChange_mfi_province();
+  }, []);
+
+  const renderReporterInfo = () => {
+    if (!userInfo) {
+      return null;
+    }
+
+    const user = userInfo.find(
+      (user) => user.id === fakeNewsInfo?.mfi_mem
+    );
+
+    return (
+      user && (
+        <>
+          <span>{user.username}</span> <span>{user.lastName}</span>
+        </>
+      )
+    );
+  };
+
+  const renderReporter_fn_info_source = () => {
+    if (!selectOptions_med || !fakeNewsInfo?.mfi_med_c) {
+      return null;
+    }
+  
+    const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_med_c);
+    return source && <span>{source.med_c_name}</span>;
+  };
+  
+  const renderReporter_mfi_dis_c = () => {
+    if (!selectOptions_med || !fakeNewsInfo?.mfi_dis_c) {
+      return null;
+    }
+  
+    const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_dis_c);
+    return source && <span>{source.med_c_name}</span>;
+  };
+
+  const render_fm_d_name = () => {
+    if (!selectOptions_fm || !fakeNewsInfo?.mfi_fm_d) {
+      return null;
+    }
+  
+    const source = selectOptions_fm.find(source => source.id === fakeNewsInfo?.mfi_fm_d);
+    return source && <span>{source.fm_d_name}</span>;
+  };
+
+  const render_prov_name = () => {
+  const provinceId = parseInt(fakeNewsInfo.mfi_province, 10);
+    if (!selectOptions_prov || !provinceId) {
+      return null;
+    }
+  
+    const source = selectOptions_prov.find(source => source.id === provinceId);
+    return source && <span>{source.prov_name}</span>;
+  };
+  
+  const render_mfi_moti_name = () => {
+    if (!selectOptions_moti || !fakeNewsInfo?.mfi_moti) {
+      return null;
+    }
+  
+    const source = selectOptions_moti.find(source => source.id === fakeNewsInfo?.mfi_moti);
+    return source && <span>{source.moti_name}</span>;
+  };
+
+  const render_mfi_data_cha = () => {
+    if (!selectOptions_data || !fakeNewsInfo?.mfi_data_cha) {
+      return null;
+    }
+  
+    const source = selectOptions_data.find(source => source.id === fakeNewsInfo?.mfi_data_cha);
+    return source && <span>{source.data_cha_name}</span>;
+  };
 
   const items = [
     {
@@ -75,17 +268,17 @@ const Manage_Fake_Info_View = () => {
     {
       key: "2",
       label: "จังหวัดของท่าน",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.จังหวัดของท่าน}</span>,
+      children: fakeNewsInfo && <span>{render_prov_name()}</span>,
     },
     {
       key: "3",
       label: "ผู้ส่งรายงาน",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_mem}</span>,
+      children: fakeNewsInfo && <span>{renderReporterInfo()}</span>,
     },
     {
       key: "4",
       label: "แหล่งที่มาของข่าวปลอม",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_med_c}</span>,
+      children: fakeNewsInfo && <span>{renderReporter_fn_info_source()}</span>,
     },
     {
       key: "5",
@@ -110,7 +303,7 @@ const Manage_Fake_Info_View = () => {
       key: "7",
       label: "แหล่งที่มาของข้อมูล",
       span: 3,
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_c_info}</span>,
+      children: fakeNewsInfo && <span>{renderReporter_mfi_dis_c()}</span>,
     },
     {
       key: "8",
@@ -130,7 +323,7 @@ const Manage_Fake_Info_View = () => {
     {
       key: "11",
       label: "รูปแบบของข้อมูล",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_fm_d}</span>,
+      children: fakeNewsInfo && <span>{render_fm_d_name()}</span>,
     },
     {
       key: "12",
@@ -165,7 +358,7 @@ const Manage_Fake_Info_View = () => {
     {
       key: "17",
       label: "แรงจูงใจการเผยแพร่",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_moti}</span>,
+      children: fakeNewsInfo && <span>{render_mfi_moti_name()}</span>,
     },
     {
       key: "18",
@@ -180,7 +373,7 @@ const Manage_Fake_Info_View = () => {
     {
       key: "20",
       label: "ลักษณะข้อมูล",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.mfi_data_cha}</span>,
+      children: fakeNewsInfo && <span>{render_mfi_data_cha()}</span>,
     },
     {
       key: "21",
@@ -215,15 +408,6 @@ const Manage_Fake_Info_View = () => {
   ];
   return (
     <AdminMenu>
-      <Modal
-        title="ยืนยันการเลือกขั้นตอน"
-        visible={modalVisible}
-        onOk={handleConfirm}
-        onCancel={() => setModalVisible(false)}
-      >
-        <p>คุณแน่ใจหรือไม่ที่ต้องการทำขั้นตอนนี้?</p>
-      </Modal>
-      <Divider />
       <Descriptions
         title="รายละเอียดข้อมูลเท็จ"
         layout="vertical"

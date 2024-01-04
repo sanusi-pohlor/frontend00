@@ -21,6 +21,7 @@ const FakeNewInformation = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [form] = Form.useForm();
+  const [province, setProvince] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectednum_mem, setSelectednum_mem] = useState("");
   const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
@@ -101,6 +102,32 @@ const FakeNewInformation = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (user && user.province)
+          );
+          setProvince(filteredIds);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (user && user.province) {
+      fetchProvince();
+    }
+  }, [user]);
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -188,23 +215,25 @@ const FakeNewInformation = () => {
               disabled
             />
           </Form.Item>
-          <Form.Item
-            label="จังหวัดของท่าน"
-            //name="fn_info_province"
-            rules={[
-              {
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input
-              size="large"
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user.province}
-              disabled
-            />
-          </Form.Item>
+          {province && province.length > 0 && (
+            <Form.Item
+              label="จังหวัดของท่าน"
+              //name="fn_info_province"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your email!",
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder={province[0].prov_name}
+                disabled
+              />
+            </Form.Item>
+          )}
           <Form.Item
             label="หัวข้อ"
             name="fn_info_head"
@@ -362,42 +391,23 @@ const FakeNewInformation = () => {
               </div>
             </Upload>
           </Form.Item>
-
-          {/* <Form.Item
-            label="แนบวิดีโอ"
-            name="fn_info_vdo"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: true,
-                message: "กรุณาแนบวิดีโอ",
-              },
-            ]}
-          >
-            <Upload
-            {...uploadProps}
-              name="fn_info_vdo"
-              maxCount={3}
-              action="http://localhost:8000/api/report_f_n_upload"
-              listType="picture-card"
-              multiple
-              showUploadList={{ showPreviewIcon: false }}
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
-          </Form.Item> */}
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
               className="login-form-button"
               size="large"
+              style={{
+                marginRight: "10px",
+                fontSize: "18px",
+                padding: "20px 25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#7BBD8F",
+                border: "none",
+                color: "#ffffff",
+              }}
             >
               ส่งรายงาน
             </Button>

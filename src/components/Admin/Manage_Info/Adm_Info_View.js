@@ -43,6 +43,7 @@ const ManageInfo_view = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
+  const [province, setProvince] = useState([]);
   const [current, setCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmedStep, setConfirmedStep] = useState(-1);
@@ -179,6 +180,32 @@ const ManageInfo_view = () => {
     fetchFakeNewsInfo();
   }, [id]);
 
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+          );
+          setProvince(filteredIds);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
+      fetchProvince();
+    }
+  }, [fakeNewsInfo]);
+
   const renderReporterInfo = () => {
     if (!userInfo) {
       return null;
@@ -228,7 +255,7 @@ const ManageInfo_view = () => {
     {
       key: "3",
       label: "จังหวัด",
-      children: fakeNewsInfo && <span>{fakeNewsInfo.fn_info_province}</span>,
+      children: fakeNewsInfo && <span>{province.length > 0 ? province[0].prov_name : "Loading..."}</span>,
     },
     {
       key: "4",
