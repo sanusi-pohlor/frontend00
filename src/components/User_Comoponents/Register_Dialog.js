@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import { Paper } from "@mui/material";
 import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
 import {
@@ -33,7 +33,7 @@ const RegisterDialog = ({ open, onClose }) => {
       formData.append("password", values.password);
       formData.append("phone_number", values.phone_number);
       formData.append("Id_line", values.Id_line);
-      formData.append("province", selectOptions_prov);
+      formData.append("province", values.province);
       formData.append("receive_ct_email", receive);
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/register",
@@ -94,7 +94,7 @@ const RegisterDialog = ({ open, onClose }) => {
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
+          <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
           </Option>
         ));
@@ -120,16 +120,15 @@ const RegisterDialog = ({ open, onClose }) => {
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
-
+  useEffect(() => {
+    onChange_mfi_province();
+  }, []);
   return (
     <Modal
       visible={visible}
       onCancel={onClose}
       footer={null}
       width={800}
-      onChange={() => {
-        onChange_mfi_province();
-      }}
     >
       <div
         style={{

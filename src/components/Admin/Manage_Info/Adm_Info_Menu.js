@@ -109,7 +109,7 @@ const ManageMembers = () => {
     {
       title: "หัวข้อ",
       dataIndex: "fn_info_head",
-      width: "15%",
+      width: "30%",
       editable: true,
     },
     {
@@ -135,7 +135,7 @@ const ManageMembers = () => {
     {
       title: "แจ้งเมื่อ",
       dataIndex: "created_at",
-      width: "15%",
+      width: "10%",
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
@@ -148,12 +148,18 @@ const ManageMembers = () => {
     {
       title: "สถานะ",
       dataIndex: "fn_info_status",
-      width: "15%",
+      width: "10%",
+      render: (status) => getStatusText(status),
+    },
+    {
+      title: "ผลการตรวจสอบ",
+      dataIndex: "",
+      width: "10%",
       render: (status) => getStatusText(status),
     },
     {
       title: "จัดการ",
-      width: "15%",
+      width: "5%",
       editable: true,
       render: (text, record) => (
         <Space size="middle">

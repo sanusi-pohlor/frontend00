@@ -176,7 +176,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_publ", values.mfi_publ);
       formData.append("mfi_ty_info", values.mfi_ty_info);
       formData.append("mfi_only_cv", values.mfi_only_cv);
-      formData.append("mfi_con_about", values.mfi_con_about);
+      //formData.append("mfi_con_about", values.mfi_con_about);
       formData.append("mfi_moti", values.mfi_moti);
       formData.append("mfi_iteration", values.mfi_iteration);
       formData.append("mfi_che_d", values.mfi_che_d);

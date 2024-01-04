@@ -92,13 +92,13 @@ const NotificationHistory = () => {
     {
       title: "หัวข้อ",
       dataIndex: "fn_info_head",
-      width: "45%",
+      width: "35%",
       editable: true,
     },
     {
       title: "แจ้งเมื่อ",
       dataIndex: "created_at",
-      width: "15%",
+      width: "20%",
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
@@ -109,18 +109,18 @@ const NotificationHistory = () => {
     {
       title: "สถานะ",
       dataIndex: "fn_info_status",
-      width: "15%",
+      width: "20%",
       render: (status) => getStatusText(status),
     },
     {
       title: "ผลการตรวจสอบ",
-      dataIndex: "fn_info_status",
-      width: "15%",
+      dataIndex: "",
+      width: "20%",
       render: (status) => getStatusText(status),
     },
     {
       title: "จัดการ",
-      width: "15%",
+      width: "5%",
       editable: true,
       render: (text, record) => (
         <Space size="middle">

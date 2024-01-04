@@ -140,17 +140,10 @@ const Manage_Fake_Info_Menu = () => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "แจ้งเมื่อ",
-      dataIndex: "mfi_time",
-      width: "15%",
+      title: "หัวข้อ",
+      dataIndex: "",
+      width: "30%",
       editable: true,
-      render: (mfi_time) => {
-        const date = new Date(mfi_time);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(
-          date.getMonth()
-        )} ${date.getFullYear() + 543}`;
-        return formattedDate;
-      },
     },
     {
       title: "จังหวัดของผู้แจ้ง",
@@ -163,7 +156,7 @@ const Manage_Fake_Info_Menu = () => {
       },
     },       
     {
-      title: "ผู้ส่งรายงาน",
+      title: "ผู้ตรวจสอบ",
       dataIndex: "mfi_mem",
       width: "10%",
       render: (fn_info_nameid) => {
@@ -172,12 +165,12 @@ const Manage_Fake_Info_Menu = () => {
       },
     },
     {
-      title: "เพิ่มเมื่อ",
-      dataIndex: "created_at",
-      width: "15%",
+      title: "ตรวจเมื่อ",
+      dataIndex: "mfi_time",
+      width: "10%",
       editable: true,
-      render: (created_at) => {
-        const date = new Date(created_at);
+      render: (mfi_time) => {
+        const date = new Date(mfi_time);
         const formattedDate = `${date.getDate()} ${getThaiMonth(
           date.getMonth()
         )} ${date.getFullYear() + 543}`;
@@ -185,14 +178,20 @@ const Manage_Fake_Info_Menu = () => {
       },
     },
     {
-      title: "สถานะ",
+      title: "สถานะการตรวจสอบ",
       dataIndex: "mfi_status",
-      width: "15%",
+      width: "10%",
+      render: (status) => getStatusText(status),
+    },
+    {
+      title: "ผลการตรวจสอบ",
+      dataIndex: "",
+      width: "10%",
       render: (status) => getStatusText(status),
     },
     {
       title: "จัดการ",
-      width: "15%",
+      width: "5%",
       editable: true,
       render: (text, record) => (
         <Space size="middle">
