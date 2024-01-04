@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const NotificationHistory = () => {
   const [user, setUser] = useState(null);
   const [data, setData] = useState([]);
+  const [datamanage, setDatamanage] = useState([]);
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -63,6 +64,27 @@ const NotificationHistory = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  const fetchData_Manage = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDatamanage(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData_Manage();
+    console.log("mfi_results",datamanage);
+  }, []);
+
   useEffect(() => {
     fetchUser();
   }, []);
@@ -116,7 +138,11 @@ const NotificationHistory = () => {
       title: "ผลการตรวจสอบ",
       dataIndex: "",
       width: "20%",
-      render: (status) => getStatusText(status),
+      render: (id) => {
+        const data = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
+        return data ? data.mfi_results : "ไม่พบข้อมูล";
+        console.log("mfi_results",datamanage);
+      },
     },
     {
       title: "จัดการ",

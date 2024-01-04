@@ -149,7 +149,7 @@ const Article_Menu = () => {
         <Grid container spacing={2}>
           {isLargeScreen && currentItems.slice(0, 1).map((item) => (
             <Grid item xs={12} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
-              <Link to={`/Article/Article_views/${item.id}`}
+              <Link to={`/News/News_views/${item.id}`}
                 style={{ textDecoration: "none" }}
               >
                 <Card

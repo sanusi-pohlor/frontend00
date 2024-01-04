@@ -246,11 +246,6 @@ const M_DB_Adm_Menu = () => {
   };
   return (
     <AdminMenu>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
       <Grid container spacing={2}>
         {options.map((option, index) => (
           <Grid key={index} item xs={12} md={4}>
@@ -298,28 +293,38 @@ const M_DB_Adm_Menu = () => {
         ))}
       </Grid>
       <Divider />
-      <Descriptions title="ข้อมูล" bordered items={items} />
-      <br />
-      <Divider />
-      <Descriptions
+      <Card
         style={{
-          fontSize: "30px",
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "50%",
         }}
-        title="ข้อมูล Admin"
-        items={items}
-      />
-      <br />
-      <Button type="primary" onClick={showModal}>
-        ออกจากระบบ
-      </Button>
-      <Modal
-        title="Basic Modal"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
       >
-        <p>ต้องการออกจากระบบ</p>
-      </Modal>
+        <Descriptions title="ข้อมูล" bordered items={items} />
+        <br />
+        <Divider />
+        <Descriptions
+          style={{
+            fontSize: "30px",
+          }}
+          title="ข้อมูล Admin"
+          items={items}
+        />
+        <br />
+        <Button type="primary" onClick={showModal}>
+          ออกจากระบบ
+        </Button>
+        <Modal
+          title="Basic Modal"
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+        >
+          <p>ต้องการออกจากระบบ</p>
+        </Modal>
+      </Card>
     </AdminMenu>
   );
 };

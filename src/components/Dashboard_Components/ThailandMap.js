@@ -64,7 +64,7 @@ const MapWidget = () => {
           justifyContent: "space-between",
           fontFamily: "'Th Sarabun New', sans-serif",
         }}
-      >แผนที่แสดงข้อมูลการรับแจ้งของเท็จ</div>
+      >จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้</div>
         <Divider />
         <svg
           xmlns="http://www.w3.org/2000/svg"

@@ -16,7 +16,7 @@ const Bottom = () => {
   return (
     <Footer className={footerClass}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
+        <Grid item xs={12} md={9}>
           <img
             src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
             alt="WMO Logo"
@@ -38,7 +38,12 @@ const Bottom = () => {
             <Space align="center">
               <span>
                 <img src={WMOLogo} alt="WMO Logo" className={imageClass} />
-                <div className={textClass}>
+                <div
+                  className={textClass}
+                  style={{
+                    color: "#7BBD8F",
+                  }}
+                >
                   เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้
                 </div>
               </span>
@@ -49,13 +54,11 @@ const Bottom = () => {
             </Space>
           </div>
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3}>
           <div
             className="text"
             style={{ textAlign: "left", marginTop: "auto" }}
           >
-            <br />
-            <br />
             <br />
             <strong>ติดต่อโครงการวิจัย</strong> <br />
             คณะวิทยาการสื่อสาร มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี <br />

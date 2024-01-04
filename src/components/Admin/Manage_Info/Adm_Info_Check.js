@@ -10,7 +10,7 @@ import {
   Modal,
   message,
   Space,
-  Breadcrumb,
+  Card,
   Row,
   Col,
   Image,
@@ -21,6 +21,8 @@ import moment from "moment";
 const { Option } = Select;
 
 const Adm_Info_Check = () => {
+  const curveAngle = 20;
+  const paperColor = "#FFFFFF";
   const navigate = useNavigate();
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [province, setProvince] = useState([]);
@@ -357,6 +359,16 @@ const Adm_Info_Check = () => {
   };
   return (
     <AdminMenu>
+      <Card
+              hoverable
+              style={{
+                margin: "auto",
+                borderRadius: `${curveAngle}px`,
+                backgroundColor: paperColor,
+                width: "100%",
+                height: "100%",
+              }}
+            >
       <div
         style={{
           display: "flex",
@@ -777,7 +789,7 @@ const Adm_Info_Check = () => {
             บันทึก
           </Button>
         </Form.Item>
-      </Form>
+      </Form></Card>
     </AdminMenu>
   );
 };

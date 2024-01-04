@@ -201,7 +201,7 @@ const News_Menu = () => {
                               textAlign: "left",
                             }}
                           >
-                            เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                            <strong>เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}</strong>
                             <br />
                             {item.title}
                             <Button

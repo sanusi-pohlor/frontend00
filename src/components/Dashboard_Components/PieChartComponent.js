@@ -136,7 +136,6 @@ const MyPieChart = () => {
             fontFamily: "'Th Sarabun New', sans-serif",
           }}
         >
-          กราฟข้อมูล
           <div
             style={{
               display: "flex",

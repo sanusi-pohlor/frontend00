@@ -86,7 +86,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
             label="ประเภทข่าว"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please select a type code!",
               },
             ]}
@@ -104,7 +104,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
             label="ช่องทางสื่อ"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input the title of collection!",
               },
             ]}
@@ -126,7 +126,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
             style={{ marginBottom: "10px" }}
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input the title of collection!",
               },
             ]}

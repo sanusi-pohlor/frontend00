@@ -130,7 +130,7 @@ const MyTable = () => {
             justifyContent: "space-between",
             fontFamily: "'Th Sarabun New', sans-serif",
           }}
-        >ตารางข้อมูล
+        >
       <div
             style={{
               display: "flex",

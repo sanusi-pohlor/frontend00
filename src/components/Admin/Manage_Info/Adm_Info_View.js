@@ -8,7 +8,7 @@ import {
   Button,
   Divider,
   Modal,
-  Radio,
+  Card,
   Input,
   Select,
   Form,
@@ -52,10 +52,14 @@ const ManageInfo_view = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [info_source, setInfo_source] = useState(null);
   const { id } = useParams();
+  const curveAngle = 20;
+  const paperColor = "#FFFFFF";
   const navigate = useNavigate();
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -73,7 +77,9 @@ const ManageInfo_view = () => {
 
   const fetchInfo_source = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request"
+      );
       if (response.ok) {
         const Data = await response.json();
         console.log("source :", Data);
@@ -90,28 +96,28 @@ const ManageInfo_view = () => {
   }, []);
 
   const fetchData = async () => {
-  try {
-    const response = await fetch(
-      "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
-    );
-    if (response.ok) {
-      const data = await response.json();
-      const filteredIds = data.filter(item => item.mfi_fninfo === parseInt(id, 10));
-      setData(filteredIds);
-      console.log("Filtered IDs:", filteredIds); // Logging the filtered IDs
-    } else {
-      console.error("Error fetching data:", response.statusText);
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const filteredIds = data.filter(
+          (item) => item.mfi_fninfo === parseInt(id, 10)
+        );
+        setData(filteredIds);
+        console.log("Filtered IDs:", filteredIds); // Logging the filtered IDs
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
-
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
-
 
   const handleCheck = () => {
     if (fakeNewsInfo.fn_info_status === 0) {
@@ -132,7 +138,6 @@ const ManageInfo_view = () => {
     } else {
       setIsModalVisible(false);
     }
-
   };
 
   const handleConfirm = async () => {
@@ -189,7 +194,8 @@ const ManageInfo_view = () => {
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+            (item) =>
+              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
           console.log("Filtered provinces:", filteredIds);
@@ -255,7 +261,11 @@ const ManageInfo_view = () => {
     {
       key: "3",
       label: "จังหวัด",
-      children: fakeNewsInfo && <span>{province.length > 0 ? province[0].prov_name : "Loading..."}</span>,
+      children: fakeNewsInfo && (
+        <span>
+          {province.length > 0 ? province[0].prov_name : "Loading..."}
+        </span>
+      ),
     },
     {
       key: "4",
@@ -314,7 +324,7 @@ const ManageInfo_view = () => {
             width={200}
             src={fakeNewsInfo.fn_info_image}
             alt="รูปภาพข่าวปลอม"
-          //style={{ maxWidth: "100%", height: "auto" }}
+            //style={{ maxWidth: "100%", height: "auto" }}
           />
         </span>
       ),
@@ -330,15 +340,15 @@ const ManageInfo_view = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "processing"
-                  : "success"
+                ? "processing"
+                : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "กำลังตรวจสอบ"
-                  : "ตรวจสอบแล้ว"
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -352,61 +362,71 @@ const ManageInfo_view = () => {
 
   return (
     <AdminMenu>
-      <div
+      <Card
         style={{
-          fontSize: "30px",
-          fontWeight: "bold",
-          display: "flex",
-          justifyContent: "space-between",
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
         }}
       >
-        <span>จัดการข้อมูลรับแจ้ง</span>
-        <Button
-          onClick={handleCheck}
-          type="primary"
-        // style={{
-        //   fontSize: "20px",
-        //   color: "#7BBD8F",
-        // }}
+        <div
+          style={{
+            fontSize: "30px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
         >
-          ตรวจสอบข้อมูล
-        </Button>
-      </div>
-      <Divider />
-      <Steps
-        current={fakeNewsInfo?.fn_info_status}
-        onChange={onChange}
-        items={[
-          {
-            title: "รอรับเรื่อง",
-            description: "สมาชิกแจ้งข้อมูลแล้ว",
-            disabled: true,
-          },
-          {
-            title: "ตรวจสอบ",
-            description: "รับเรื่องไปตรวจสอบ",
-            disabled: fakeNewsInfo?.fn_info_status > 0,
-          },
-          {
-            title: "เสร็จสิ้น",
-            description: "ตรวจสอบเสร็จสิ้น",
-            disabled: true,
-          },
-        ]}
-      />
-      <Modal
-        title="ยืนยันการรับเรื่อง"
-        visible={isModalVisible}
-        onOk={handleConfirm}
-        onCancel={() => setIsModalVisible(false)}
-      ></Modal>
-      <Divider />
-      <Descriptions
-        title="รายละเอียดการแจ้ง"
-        layout="vertical"
-        bordered
-        items={items}
-      />
+          <span>จัดการข้อมูลรับแจ้ง</span>
+          <Button
+            onClick={handleCheck}
+            type="primary"
+            // style={{
+            //   fontSize: "20px",
+            //   color: "#7BBD8F",
+            // }}
+          >
+            ตรวจสอบข้อมูล
+          </Button>
+        </div>
+        <Divider />
+        <Steps
+          current={fakeNewsInfo?.fn_info_status}
+          onChange={onChange}
+          items={[
+            {
+              title: "รอรับเรื่อง",
+              description: "สมาชิกแจ้งข้อมูลแล้ว",
+              disabled: true,
+            },
+            {
+              title: "ตรวจสอบ",
+              description: "รับเรื่องไปตรวจสอบ",
+              disabled: fakeNewsInfo?.fn_info_status > 0,
+            },
+            {
+              title: "เสร็จสิ้น",
+              description: "ตรวจสอบเสร็จสิ้น",
+              disabled: true,
+            },
+          ]}
+        />
+        <Modal
+          title="ยืนยันการรับเรื่อง"
+          visible={isModalVisible}
+          onOk={handleConfirm}
+          onCancel={() => setIsModalVisible(false)}
+        ></Modal>
+        <Divider />
+        <Descriptions
+          title="รายละเอียดการแจ้ง"
+          layout="vertical"
+          bordered
+          items={items}
+        />
+      </Card>
     </AdminMenu>
   );
 };

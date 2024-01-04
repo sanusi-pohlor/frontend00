@@ -1,4 +1,4 @@
 .largeTooltip .ant-tooltip-inner {
-  font-size: 50px; /* ปรับขนาดฟอนต์ของ Tooltip */
-  max-width: 300px; /* กำหนดความกว้างสูงสุดของ Tooltip */
+  font-size: 30px; /* ปรับขนาดฟอนต์ของ Tooltip */
+  max-width: 200px; /* กำหนดความกว้างสูงสุดของ Tooltip */
 }

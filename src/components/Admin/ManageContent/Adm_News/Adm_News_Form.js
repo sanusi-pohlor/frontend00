@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import "react-quill/dist/quill.snow.css";
-import { Form, Input, Button, message, Upload, Select } from "antd";
+import { Form, Input, Button, message, Upload,Card, Select } from "antd";
 import ReactQuill from "react-quill";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 
 const Adm_News_Form = () => {
+  const curveAngle = 20;
+  const paperColor = "#FFFFFF";
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
@@ -135,6 +137,15 @@ const Adm_News_Form = () => {
 
   return (
     <AdminMenu>
+      <Card
+        style={{
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
+        }}
+      >
       <Form
         form={form}
         layout="vertical"
@@ -244,7 +255,7 @@ const Adm_News_Form = () => {
             Submit
           </Button>
         </Form.Item>
-      </Form>
+      </Form></Card>
     </AdminMenu>
   );
 };

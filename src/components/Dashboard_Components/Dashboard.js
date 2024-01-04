@@ -191,6 +191,26 @@ const Dashboard = ({ onSearch }) => {
           />
         </div> */}
         <br />
+        <Card
+          style={{
+            borderRadius: "20px",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "40px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              color: "white",
+            }}
+          >
+            จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+          </div>
+        </Card>
+        <br/>
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <BarChartComponent />
@@ -525,7 +545,7 @@ const Dashboard = ({ onSearch }) => {
               disabled={currentPage === 1}
             >
               <LeftCircleOutlined
-                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+                style={{ fontSize: "3rem", color: "#FFFFFF" }}
               />
             </IconButton>
             <IconButton
@@ -533,7 +553,7 @@ const Dashboard = ({ onSearch }) => {
               disabled={indexOfLastItem >= mdSharedata.length}
             >
               <RightCircleOutlined
-                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+                style={{ fontSize: "3rem", color: "#FFFFFF" }}
               />
             </IconButton>
           </Box>
