@@ -18,7 +18,7 @@ const MyBarChart = () => {
   const paperColor = "#FFFFFF";
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000", "#AF19FF"];
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",

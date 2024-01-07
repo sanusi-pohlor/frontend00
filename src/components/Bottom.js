@@ -41,7 +41,7 @@ const Bottom = () => {
                 <div
                   className={textClass}
                   style={{
-                    color: "#7BBD8F",
+                    color: "#208b99",
                   }}
                 >
                   เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้
@@ -49,7 +49,9 @@ const Bottom = () => {
               </span>
               <span>
                 <img src={CASLogo} alt="CAS Logo" className={imageClass} />
-                <div className={textClass}>สมาคมผู้บริโภคสงขลา</div>
+                <div className={textClass} style={{
+                    color: "#208b99",
+                  }}>สมาคมผู้บริโภคสงขลา</div>
               </span>
             </Space>
           </div>
@@ -60,7 +62,9 @@ const Bottom = () => {
             style={{ textAlign: "left", marginTop: "auto" }}
           >
             <br />
-            <strong>ติดต่อโครงการวิจัย</strong> <br />
+            <strong style={{
+                    color: "#208b99",
+                  }}>ติดต่อโครงการวิจัย</strong> <br />
             คณะวิทยาการสื่อสาร มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี <br />
             อำเภอเมือง จังหวัดปัตตานี 94000 <br />
             <PhoneOutlined /> โทร. 073 349 692 <br />
