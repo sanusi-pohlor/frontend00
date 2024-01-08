@@ -5,7 +5,17 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Typography, Form, DatePicker, Modal, Select, Flex } from "antd";
+import {
+  Card,
+  Button,
+  Input,
+  Typography,
+  Form,
+  DatePicker,
+  Modal,
+  Select,
+  Flex,
+} from "antd";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
 import { useMediaQuery } from "@mui/material";
@@ -14,11 +24,12 @@ const { Option } = Select;
 const { Meta } = Card;
 const { Title } = Typography;
 
-const News_Menu = (open, onClose,) => {
+const News_Menu = (open, onClose) => {
   const [form] = Form.useForm();
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [filterednew, setFilterednew] = useState([]);
   const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -66,22 +77,6 @@ const News_Menu = (open, onClose,) => {
     closeFilterDialog();
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  const parseHtmlString = (htmlString) => {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlString, "text/html");
-    const imgTags = doc.getElementsByTagName("img");
-    const imageSources = [];
-
-    for (let i = 0; i < imgTags.length; i++) {
-      const src = imgTags[i].getAttribute("src");
-      imageSources.push(src);
-    }
-
-    return imageSources;
-  };
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -89,30 +84,24 @@ const News_Menu = (open, onClose,) => {
     article.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleApplyFilters = async () => {
-    try {
-      const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_request`
-      );
-      if (response.ok) {
-        const newsData = await response.json();
-        // Filter data based on form input
-        const filteredData = newsData.filter((data) => {
-          return data.subp_type_id === form.getFieldValue("subp_type_id");
-          // Add more conditions based on other form fields as needed
-        });
+const onFinish = (values) => {
+  const { type_new, med_new, prov_new } = values;
+  console.log("Form values:", { type_new, med_new, prov_new });
 
-        // Send the filtered data to FilterFinish function
-        FilterFinish(filteredData);
-        onClose();
-      } else {
-        console.error("Failed to fetch news data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching news data:", error);
-    }
-  };
+  const filteredArticles = data.filter((article) => {
+    const matchesType = type_new ? article.type_new === type_new : true;
+    const matchesMedia = med_new ? article.med_new === med_new : true;
+    const matchesProvince = prov_new ? article.prov_new === prov_new : true;
 
+    // Logic to filter articles based on all conditions
+    return matchesType && matchesMedia && matchesProvince;
+  });
+
+  setData(filteredArticles);
+  console.log("filterednew:", filterednew);
+};
+  
+  
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -238,6 +227,7 @@ const News_Menu = (open, onClose,) => {
                     layout="vertical"
                     name="normal_login"
                     className="login-form"
+                    onFinish={onFinish}
                     initialValues={{
                       remember: true,
                     }}
@@ -246,7 +236,7 @@ const News_Menu = (open, onClose,) => {
                     }}
                   >
                     <Form.Item
-                      name="subp_type_id"
+                      name="type_new"
                       label="ประเภทข่าว"
                       rules={[
                         {
@@ -264,7 +254,7 @@ const News_Menu = (open, onClose,) => {
                       </Select>
                     </Form.Item>
                     <Form.Item
-                      name="dnc_med_id"
+                      name="med_new"
                       label="ช่องทางสื่อ"
                       rules={[
                         {
@@ -281,11 +271,14 @@ const News_Menu = (open, onClose,) => {
                         {selectOptions_med}
                       </Select>
                     </Form.Item>
-                    <Form.Item label="วัน/เดือน/ปี" style={{ marginBottom: "10px" }}>
+                    <Form.Item
+                      label="วัน/เดือน/ปี"
+                      style={{ marginBottom: "10px" }}
+                    >
                       <DatePicker />
                     </Form.Item>
                     <Form.Item
-                      name="province"
+                      name="prov_new"
                       label="จังหวัด"
                       style={{ marginBottom: "10px" }}
                       rules={[
@@ -309,7 +302,7 @@ const News_Menu = (open, onClose,) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                        onClick={handleApplyFilters}
+                        //onClick={handleApplyFilters}
                       >
                         ค้นหา
                       </Button>
@@ -375,7 +368,10 @@ const News_Menu = (open, onClose,) => {
                               textAlign: "left",
                             }}
                           >
-                            <strong>เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}</strong>
+                            <strong>
+                              เผยแพร่{" "}
+                              {moment(item.created_at).format("DD-MM-YYYY")}
+                            </strong>
                             <br />
                             {item.title}
                             <Button

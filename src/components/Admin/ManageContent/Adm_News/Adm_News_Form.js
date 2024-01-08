@@ -117,10 +117,10 @@ const Adm_News_Form = () => {
       formData.append("video", values.video);
       formData.append("link", values.link);
       formData.append("tag", values.tag);
-      formData.append("type_new", values.video);
-      formData.append("med_new", values.link);
-      formData.append("prov_new", values.tag);
-      formData.append("key_new", values.tag);
+      formData.append("type_new", values.type_new);
+      formData.append("med_new", values.med_new);
+      formData.append("prov_new", values.prov_new);
+      formData.append("key_new", values.key_new);
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_upload",
         {
