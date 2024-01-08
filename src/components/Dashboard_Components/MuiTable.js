@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Select , Divider ,DatePicker} from "antd";
+import { Table, Card, Select, Divider, DatePicker } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
+import "./MuiTable.css";
 
 const MyTable = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -15,18 +16,21 @@ const MyTable = () => {
       value: "TypeInformation_request",
       name: "type_info_name",
       dataIndex: "mfi_ty_info",
+      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
     {
       title: "แหล่งที่มาของข้อมูล",
       value: "MediaChannels_request",
       name: "med_c_name",
       dataIndex: "mfi_med_c",
+      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
     {
       title: "รูปแบบข้อมูล",
       value: "FormatData_request",
       name: "fm_d_name",
       dataIndex: "mfi_fm_d",
+      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
   ]);
 
@@ -122,7 +126,17 @@ const MyTable = () => {
 
   return (
     <div>
-      <div
+      <Card
+        hoverable
+        style={{
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "700px",
+        }}
+      >
+        <div
           style={{
             fontSize: "30px",
             fontWeight: "bold",
@@ -131,7 +145,7 @@ const MyTable = () => {
             fontFamily: "'Th Sarabun New', sans-serif",
           }}
         >
-      <div
+          <div
             style={{
               display: "flex",
               alignItems: "center",
@@ -166,10 +180,10 @@ const MyTable = () => {
               }}
             />
           </div>
-          </div>
+        </div>
         <Divider />
-      <Box />
-      <Table dataSource={tableData} columns={columns} /></div>
+        <Box />
+        <Table dataSource={tableData} columns={columns} /></Card></div>
   );
 };
 

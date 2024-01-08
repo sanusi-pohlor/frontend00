@@ -1,0 +1,9 @@
+.table-font {
+    font-size: 30px;
+    /* ปรับขนาด font ตามต้องการ */
+}
+
+.ant-table-cell {
+    font-size: 30;
+    /* ปรับขนาด font ตามต้องการ */
+}

@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Card, Tooltip, Divider } from "antd";
+import { Card, Tooltip, Divider, DatePicker } from "antd";
+import moment from "moment";
 import "./MapWidget.css";
 
 const MapWidget = () => {
   const [highlightedRegion, setHighlightedRegion] = useState(null);
+  const [formattedDate, setFormattedDate] = useState("");
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [data, setData] = useState([]);
@@ -45,6 +47,14 @@ const MapWidget = () => {
     return ` จำนวน ${count} การรับแจ้ง`;
   };
 
+  const handleSelectDate = (date) => {
+    if (date) {
+      setFormattedDate(date.format("YYYY-MM"));
+      console.log("date.format", date.format("YYYY-MM"));
+    } else {
+      setFormattedDate('');
+    }
+  };
   return (
     <div>
       <Card
@@ -54,7 +64,7 @@ const MapWidget = () => {
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
           width: "100%",
-          height: "100%",
+          height: "700px",
         }}
       ><div
         style={{
@@ -64,7 +74,19 @@ const MapWidget = () => {
           justifyContent: "space-between",
           fontFamily: "'Th Sarabun New', sans-serif",
         }}
-      >จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้</div>
+      >จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+          <DatePicker
+            onChange={handleSelectDate}
+            placeholder="เดือน/ปี"
+            picker="month"
+            size="large"
+            defaultValue={null}
+            style={{
+              marginRight: "10px",
+              fontSize: "30px",
+              height: "50px",
+            }}
+          /></div>
         <Divider />
         <svg
           xmlns="http://www.w3.org/2000/svg"

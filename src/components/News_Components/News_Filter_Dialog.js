@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal, Button, Form,
   Input,
@@ -9,6 +9,9 @@ const { Option } = Select;
 
 const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
   const [form] = Form.useForm();
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_ty, setSelectOptions_ty] = useState([]);
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [filterOptions, setFilterOptions] = useState({
     option1: false,
     option2: false,
@@ -21,19 +24,39 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
     }));
   };
 
-  const handleApplyFilters = () => {
-    // You can use the selected filter options here
-    // For example, pass them to a filtering function
-    FilterFinish(filterOptions);
-    onClose();
-  };
-  const fetchDataAndSetOptions = async (endpoint, fieldName) => {
+  const handleApplyFilters = async () => {
     try {
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_request`
+      );
+      if (response.ok) {
+        const newsData = await response.json();
+        // Filter data based on form input
+        const filteredData = newsData.filter((data) => {
+          return data.subp_type_id === form.getFieldValue("subp_type_id");
+          // Add more conditions based on other form fields as needed
+        });
+
+        // Send the filtered data to FilterFinish function
+        FilterFinish(filteredData);
+        onClose();
+      } else {
+        console.error("Failed to fetch news data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching news data:", error);
+    }
+  };
+  
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
+          <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
           </Option>
         ));
@@ -44,6 +67,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
             value: undefined,
           },
         ]);
+        stateSetter(options);
       } else {
         console.error(
           `Error fetching ${fieldName} codes:`,
@@ -54,13 +78,28 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   };
-
-  const onTypeChange = () => {
-    fetchDataAndSetOptions("TypeInformation_request", "type_info");
+  const onChange_mfi_province = () => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  };
+  const onChange_mfi_ty_info_id = () => {
+    fetchDataAndSetOptions(
+      "TypeInformation_request",
+      "type_info",
+      setSelectOptions_ty
+    );
   };
   const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions("MediaChannels_request", "med_c");
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
   };
+  useEffect(() => {
+    onChange_mfi_province();
+    onChange_dnc_med_id();
+    onChange_mfi_ty_info_id();
+  }, []);
   return (
     <Modal
       title="ตัวกรอง"
@@ -92,11 +131,11 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
             ]}
           >
             <Select
-              placeholder="เลือกประเภท"
-              onChange={onTypeChange}
+              placeholder="Select a option and change input text above"
+              onChange={onChange_mfi_ty_info_id}
               allowClear
             >
-              {/* Populate the options */}
+              {selectOptions_ty}
             </Select>
           </Form.Item>
           <Form.Item
@@ -114,14 +153,14 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
               onChange={onChange_dnc_med_id}
               allowClear
             >
-              {/* Populate the options */}
+              {selectOptions_med}
             </Select>
           </Form.Item>
           <Form.Item label="วัน/เดือน/ปี" style={{ marginBottom: "10px" }}>
             <DatePicker />
           </Form.Item>
           <Form.Item
-            name=""
+            name="province"
             label="จังหวัด"
             style={{ marginBottom: "10px" }}
             rules={[
@@ -131,26 +170,8 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
               },
             ]}
           >
-            <Select
-              placeholder="เลือกจังหวัด"
-              allowClear
-            >
-              <Select.Option value="Krabi">กระบี่</Select.Option>
-              <Select.Option value="Chumphon">ชุมพร</Select.Option>
-              <Select.Option value="Trang">ตรัง</Select.Option>
-              <Select.Option value="NakhonSiThammarat">
-                นครศรีธรรมราช
-              </Select.Option>
-              <Select.Option value="Narathiwat">นราธิวาส</Select.Option>
-              <Select.Option value="Pattani">ปัตตานี</Select.Option>
-              <Select.Option value="PhangNga">พังงา</Select.Option>
-              <Select.Option value="Phattalung">พัทลุง</Select.Option>
-              <Select.Option value="Phuket">ภูเก็ต</Select.Option>
-              <Select.Option value="Yala">ยะลา</Select.Option>
-              <Select.Option value="Ranong">ระนอง</Select.Option>
-              <Select.Option value="Songkhla">สงขลา</Select.Option>
-              <Select.Option value="Satun">สตูล</Select.Option>
-              <Select.Option value="SuratThani">สุราษฎร์ธานี</Select.Option>
+            <Select onChange={onChange_mfi_province} allowClear>
+              {selectOptions_prov}
             </Select>
           </Form.Item>
           <Form.Item label="คำสำคัญ" style={{ marginBottom: "10px" }}>
@@ -163,6 +184,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
               placeholder="เลือกจังหวัด"
               className="login-form-button"
               size="large"
+              onClick={handleApplyFilters}
             >
               ค้นหา
             </Button>

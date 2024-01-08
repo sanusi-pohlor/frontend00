@@ -126,7 +126,7 @@ const MyBarChart = () => {
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
           width: "100%",
-          height: "100%",
+          height: "500px",
         }}
       >
         <div
