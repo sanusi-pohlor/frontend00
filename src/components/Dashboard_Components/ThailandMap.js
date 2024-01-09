@@ -32,12 +32,14 @@ const MapWidget = () => {
   }, []);
 
   const countRegionData = () => {
-    data.forEach((item) => {
-      const regionId = item.fn_info_province;
-      if (regionId) {
-        regionCounts[regionId] = (regionCounts[regionId] || 0) + 1;
-      }
-    });
+    data
+      .filter((item) => item.created_at.startsWith(formattedDate))
+      .forEach((item) => {
+        const regionId = item.fn_info_province;
+        if (regionId) {
+          regionCounts[regionId] = (regionCounts[regionId] || 0) + 1;
+        }
+      });
   };
 
   countRegionData();

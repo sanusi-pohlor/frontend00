@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Select, Divider, DatePicker } from "antd";
+import { Table, Card, Divider, DatePicker } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
 import "./MuiTable.css";
+import { DataGrid } from "@mui/x-data-grid";
+import { Select, MenuItem, Typography } from "@mui/material";
+import th_TH from 'antd/lib/locale/th_TH'; // import locale ภาษาไทย
 
 const MyTable = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -98,8 +101,8 @@ const MyTable = () => {
     }
   };
 
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
   const handleSelectDate = (date) => {
@@ -112,18 +115,14 @@ const MyTable = () => {
   };
 
   const columns = [
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Value",
-      dataIndex: "value",
-      key: "value",
-    },
+    { field: "name", headerName: "Name", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+    { field: "value", headerName: "Value", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
   ];
 
+  const tableDataWithId = tableData.map((row, index) => ({
+    ...row,
+    id: index + 1, // ใช้ค่า index + 1 เป็น id ชั่วคราว (คุณอาจต้องการสร้าง id ให้แต่ละแถวให้เป็นค่าที่ไม่ซ้ำกันเอง)
+  }));
   return (
     <div>
       <Card
@@ -157,14 +156,16 @@ const MyTable = () => {
               onChange={handleSelectChange}
               style={{
                 marginRight: "10px",
-                fontSize: "50px",
                 height: "50px",
+              }}
+              sx={{
+                fontSize: "30px", // ปรับขนาดตัวอักษรใน Select ที่นี่
               }}
             >
               {options.map((option) => (
-                <Select.Option key={option.value} value={option.title}>
-                  {option.title}
-                </Select.Option>
+                <MenuItem key={option.value} value={option.title}>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                </MenuItem>
               ))}
             </Select>
             <DatePicker
@@ -183,7 +184,9 @@ const MyTable = () => {
         </div>
         <Divider />
         <Box />
-        <Table dataSource={tableData} columns={columns} /></Card></div>
+        <DataGrid rows={tableDataWithId} columns={columns} pageSize={5} />
+      </Card>
+    </div>
   );
 };
 

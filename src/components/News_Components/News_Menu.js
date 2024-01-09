@@ -84,24 +84,26 @@ const News_Menu = (open, onClose) => {
     article.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-const onFinish = (values) => {
-  const { type_new, med_new, prov_new } = values;
-  console.log("Form values:", { type_new, med_new, prov_new });
+  const onFinish = (values) => {
+    console.log("Form values:",values.created_at.format("YYYY-MM-DD"));
+   
+    const { type_new, med_new, prov_new, created_at } = values;
 
-  const filteredArticles = data.filter((article) => {
-    const matchesType = type_new ? article.type_new === type_new : true;
-    const matchesMedia = med_new ? article.med_new === med_new : true;
-    const matchesProvince = prov_new ? article.prov_new === prov_new : true;
+    console.log("Form values:", { type_new, med_new, prov_new, created_at });
 
-    // Logic to filter articles based on all conditions
-    return matchesType && matchesMedia && matchesProvince;
-  });
+    const filteredArticles = data.filter((article) => {
+      console.log("article created_at:",article.created_at.format("YYYY-MM-DD"));
+      const matchesType = type_new ? article.type_new === type_new : true;
+      const matchesMedia = med_new ? article.med_new === med_new : true;
+      const matchesProvince = prov_new ? article.prov_new === prov_new : true;
+      const matchesDate = created_at ? article.created_at.format("YYYY-MM-DD") === created_at.format("YYYY-MM-DD") : true;
+      return matchesType && matchesMedia && matchesProvince && matchesDate;
+    });
 
-  setData(filteredArticles);
-  console.log("filterednew:", filterednew);
-};
-  
-  
+    setData(filteredArticles);
+    console.log("filteredArticles:", filteredArticles);
+  };
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -272,10 +274,11 @@ const onFinish = (values) => {
                       </Select>
                     </Form.Item>
                     <Form.Item
+                      name="created_at"
                       label="วัน/เดือน/ปี"
                       style={{ marginBottom: "10px" }}
                     >
-                      <DatePicker />
+                      <DatePicker/>
                     </Form.Item>
                     <Form.Item
                       name="prov_new"
@@ -302,7 +305,7 @@ const onFinish = (values) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                        //onClick={handleApplyFilters}
+                      //onClick={handleApplyFilters}
                       >
                         ค้นหา
                       </Button>

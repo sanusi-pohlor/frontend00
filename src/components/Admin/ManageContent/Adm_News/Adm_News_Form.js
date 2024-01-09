@@ -346,9 +346,6 @@ const Adm_News_Form = () => {
               {selectOptions_prov}
             </Select>
           </Form.Item>
-          <Form.Item name="key_new" label="คำสำคัญ" rules={[{ required: false }]}>
-            <Input />
-          </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading}>
               Submit
