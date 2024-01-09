@@ -31,6 +31,7 @@ const News_Menu = (open, onClose) => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [filterednew, setFilterednew] = useState([]);
   const isLargeScreen = useMediaQuery("(min-width:1300px)");
+  const [dataOrg, setDataOrg] = useState([]);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +48,7 @@ const News_Menu = (open, onClose) => {
     fetch("https://fakenews001-392577897f69.herokuapp.com/api/News_request")
       .then((response) => response.json())
       .then((data) => {
+        setDataOrg(data);
         setData(data);
       })
       .catch((error) => {
@@ -85,24 +87,27 @@ const News_Menu = (open, onClose) => {
   );
 
   const onFinish = (values) => {
-    console.log("Form values:",values.created_at.format("YYYY-MM-DD"));
-   
-    const { type_new, med_new, prov_new, created_at } = values;
+    const { type_new, med_new, prov_new } = values;
+    const created_at = values.created_at
+      ? new Date(values.created_at).toISOString().split("T")[0]
+      : null;
 
     console.log("Form values:", { type_new, med_new, prov_new, created_at });
 
-    const filteredArticles = data.filter((article) => {
-      console.log("article created_at:",article.created_at.format("YYYY-MM-DD"));
+    const filteredArticles = dataOrg.filter((article) => {
+      const articleDate = article.created_at
+        ? new Date(article.created_at).toISOString().split("T")[0]
+        : null;
       const matchesType = type_new ? article.type_new === type_new : true;
       const matchesMedia = med_new ? article.med_new === med_new : true;
       const matchesProvince = prov_new ? article.prov_new === prov_new : true;
-      const matchesDate = created_at ? article.created_at.format("YYYY-MM-DD") === created_at.format("YYYY-MM-DD") : true;
+      const matchesDate = created_at ? articleDate === created_at : true;
       return matchesType && matchesMedia && matchesProvince && matchesDate;
     });
-
     setData(filteredArticles);
     console.log("filteredArticles:", filteredArticles);
   };
+  
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -278,7 +283,7 @@ const News_Menu = (open, onClose) => {
                       label="วัน/เดือน/ปี"
                       style={{ marginBottom: "10px" }}
                     >
-                      <DatePicker/>
+                      <DatePicker />
                     </Form.Item>
                     <Form.Item
                       name="prov_new"
@@ -305,7 +310,7 @@ const News_Menu = (open, onClose) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                      //onClick={handleApplyFilters}
+                        //onClick={handleApplyFilters}
                       >
                         ค้นหา
                       </Button>
