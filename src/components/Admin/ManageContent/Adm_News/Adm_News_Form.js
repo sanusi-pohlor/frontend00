@@ -16,20 +16,45 @@ const Adm_News_Form = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
-  const options = [];
+  const [options, setOptions] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e && e.fileList;
   };
+  const handleTagCreation = (value) => {
+    fetch('/api/addTag', {
+      method: 'POST',
+      body: JSON.stringify({ tagName: value }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setOptions(data.updatedTags);
+      })
+      .catch((error) => {
+        console.error('Error adding tag:', error);
+      });
+  };
 
-  for (let i = 10; i < 36; i++) {
-    options.push({
-      value: i.toString(36) + i,
-      label: i.toString(36) + i,
-    });
-  }
+  useEffect(() => {
+    fetch('URL_ของ_API')
+      .then((response) => response.json())
+      .then((data) => {
+        const formattedOptions = data.map((item) => ({
+          label: item.label,
+          value: item.value,
+        }));
+        setOptions(formattedOptions);
+      })
+      .catch((error) => {
+        console.error('Error fetching tags:', error);
+      });
+  }, []);
+
   const handleChangetag = (value) => {
     console.log(`selected ${value}`);
   };
@@ -271,30 +296,6 @@ const Adm_News_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          {/* <Form.Item
-          label="วิดีโอ"
-          name="video"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-          rules={[
-            {
-              required: false,
-              message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
-            },
-          ]}
-        >
-          <Upload
-            name="video"
-            maxCount={3}
-            listType="picture-card"
-            beforeUpload={() => false}
-          >
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-        </Form.Item> */}
           <Form.Item name="link" label="Link" rules={[{ required: false }]}>
             <Input />
           </Form.Item>
@@ -302,10 +303,11 @@ const Adm_News_Form = () => {
             <Select
               mode="tags"
               style={{
-                width: "100%",
+                width: '100%',
               }}
+              placeholder="Tags Mode"
               onChange={handleChangetag}
-              tokenSeparators={[","]}
+              onSelect={handleTagCreation}
               options={options}
             />
           </Form.Item>
@@ -326,20 +328,6 @@ const Adm_News_Form = () => {
             >
               {selectOptions_med}
             </Select>
-          </Form.Item>
-          <Form.Item name="month" label="เดือน/ปี" rules={[{ required: false }]}>
-            <DatePicker
-              //onChange={handleSelectDate}
-              placeholder="เดือน/ปี"
-              picker="month"
-              size="large"
-              defaultValue={null}
-              style={{
-                marginRight: "10px",
-                fontSize: "30px",
-                height: "50px",
-              }}
-            />
           </Form.Item>
           <Form.Item name="prov_new" label="จังหวัด" rules={[{ required: false }]}>
             <Select onChange={onChange_mfi_province} allowClear>

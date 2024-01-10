@@ -38,6 +38,7 @@ const News_Menu = (open, onClose) => {
   const [itemsPerPage] = useState(9);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
+
   const buttonStyle = {
     background: "#f1f1f1",
     border: "none",
@@ -58,7 +59,7 @@ const News_Menu = (open, onClose) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const newcurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -107,7 +108,7 @@ const News_Menu = (open, onClose) => {
     setData(filteredArticles);
     console.log("filteredArticles:", filteredArticles);
   };
-  
+
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -196,20 +197,12 @@ const News_Menu = (open, onClose) => {
               }}
             >
               <Input
-                type="text"
                 size="large"
-                placeholder="Search articles"
+                placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
                 value={searchTerm}
-                onChange={handleSearch}
+                prefix={<SearchOutlined className="site-form-item-icon" />}
               />
-              <Button
-                size="large"
-                type="primary"
-                style={{ ...buttonStyle, marginRight: "20px" }}
-              >
-                ค้นหา
-              </Button>
               <Button
                 size="large"
                 type="primary"
@@ -310,7 +303,7 @@ const News_Menu = (open, onClose) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                        //onClick={handleApplyFilters}
+                      //onClick={handleApplyFilters}
                       >
                         ค้นหา
                       </Button>
@@ -324,7 +317,7 @@ const News_Menu = (open, onClose) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            newcurrentItems.slice(0, 1).map((item) => (
+            currentItems.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}

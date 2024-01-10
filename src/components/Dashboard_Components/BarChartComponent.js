@@ -9,8 +9,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Select, DatePicker, Divider, Form, Button } from "antd";
+import { Card, DatePicker, Divider, Form, Button } from "antd";
 import moment from "moment";
+import { Select, MenuItem, Typography } from "@mui/material";
 
 const MyBarChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -44,12 +45,12 @@ const MyBarChart = () => {
     if (!selectedOption) {
       setSelectedOption(options[0].title);
     }
-    
+
     if (!formattedDate) {
       setFormattedDate('');
     }
   }, [options, selectedOption, formattedDate]);
-  
+
   useEffect(() => {
     if (selectedOption) {
       const selected = options.find((opt) => opt.title === selectedOption);
@@ -58,7 +59,7 @@ const MyBarChart = () => {
       }
     }
   }, [selectedOption, formattedDate]);
-  
+
 
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
@@ -111,7 +112,7 @@ const MyBarChart = () => {
   const handleSelectDate = (date) => {
     if (date) {
       setFormattedDate(date.format("YYYY-MM"));
-      console.log("date.format",date.format("YYYY-MM"));
+      console.log("date.format", date.format("YYYY-MM"));
     } else {
       setFormattedDate('');
     }
@@ -138,7 +139,7 @@ const MyBarChart = () => {
             fontFamily: "'Th Sarabun New', sans-serif",
           }}
         >
-          
+
           <div
             style={{
               display: "flex",
@@ -146,33 +147,35 @@ const MyBarChart = () => {
               justifyContent: "center",
             }}
           >
-              <Select
-                value={selectedOption}
-                onChange={handleSelectChange}
-                style={{
-                  marginRight: "10px",
-                  fontSize: "50px",
-                  height: "50px",
-                }}
-              >
-                {options.map((option) => (
-                  <Select.Option key={option.value} value={option.title}>
-                    {option.title}
-                  </Select.Option>
-                ))}
-              </Select>
-              <DatePicker
-                onChange={handleSelectDate}
-                placeholder="เดือน/ปี"
-                picker="month"
-                size="large"
-                defaultValue={null} 
-                style={{
-                  marginRight: "10px",
-                  fontSize: "30px",
-                  height: "50px",
-                }}
-              />
+            <Select
+              value={selectedOption}
+              onChange={handleSelectChange}
+              style={{
+                marginRight: "10px",
+                height: "50px",
+              }}
+              sx={{
+                fontSize: "30px",
+              }}
+            >
+              {options.map((option) => (
+                <MenuItem key={option.value} value={option.title}>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                </MenuItem>
+              ))}
+            </Select>
+            <DatePicker
+              onChange={handleSelectDate}
+              placeholder="เดือน/ปี"
+              picker="month"
+              size="large"
+              defaultValue={null}
+              style={{
+                marginRight: "10px",
+                fontSize: "30px",
+                height: "50px",
+              }}
+            />
           </div>
         </div>
         <Divider />

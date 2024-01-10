@@ -70,7 +70,7 @@ const routes = [
   { path: "/Article/Article_view/:id", element: <Article_view /> },
   { path: "/Article_Menu", element: <Article /> },
 
-  { path: "/MediaShare_view/:id", element: <MediaShare_view /> },
+  { path: "/MediaShare/MediaShare_view/:id", element: <MediaShare_view /> },
   { path: "/MediaShare_Menu", element: <MediaShare /> },
 
   { path: "/News/News_views/:id", element: <News_views /> },
@@ -97,7 +97,7 @@ const routes = [
   },
   { path: "/Admin/ManageMembers", element: <ManageMembers /> },
   { path: "/Admin/Adm_Dashboard_View", element: <Adm_Dashboard_View /> },
-  
+
   { path: "/Admin/Adm_Dashboard_Menu", element: <Adm_Dashboard_Menu /> },
   { path: "/Admin/Adm_News_Menu", element: <Adm_News_Menu /> },
   { path: "/Admin/Adm_Article_Menu", element: <Adm_Article_Menu /> },

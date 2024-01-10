@@ -115,24 +115,7 @@ const MenuProfile = ({ children }) => {
   if (!user) {
     return (
       <div>
-        <Modal
-          title="Please log in or register first"
-          visible={isModalVisible}
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={[
-            <Button
-              key="ok"
-              type="primary"
-              onClick={handleOk}
-              style={buttonStyle}
-            >
-              OK
-            </Button>,
-          ]}
-        >
           <p>Please log in or register first</p>
-        </Modal>
       </div>
     );
   }

@@ -7,8 +7,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Select, Divider, DatePicker } from "antd";
+import { Card, Divider, DatePicker } from "antd";
 import moment from "moment";
+import { Select, MenuItem, Typography } from "@mui/material";
 
 const MyPieChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -146,14 +147,16 @@ const MyPieChart = () => {
               onChange={handleSelectChange}
               style={{
                 marginRight: "10px",
-                fontSize: "50px",
                 height: "50px",
+              }}
+              sx={{
+                fontSize: "30px",
               }}
             >
               {options.map((option) => (
-                <Select.Option key={option.value} value={option.title}>
-                  {option.title}
-                </Select.Option>
+                <MenuItem key={option.value} value={option.title}>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                </MenuItem>
               ))}
             </Select>
             <DatePicker

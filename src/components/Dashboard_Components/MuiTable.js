@@ -19,21 +19,18 @@ const MyTable = () => {
       value: "TypeInformation_request",
       name: "type_info_name",
       dataIndex: "mfi_ty_info",
-      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
     {
       title: "แหล่งที่มาของข้อมูล",
       value: "MediaChannels_request",
       name: "med_c_name",
       dataIndex: "mfi_med_c",
-      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
     {
       title: "รูปแบบข้อมูล",
       value: "FormatData_request",
       name: "fm_d_name",
       dataIndex: "mfi_fm_d",
-      render: text => <span style={{ fontSize: '30px' }}>{text}</span>,
     },
   ]);
 
@@ -115,8 +112,8 @@ const MyTable = () => {
   };
 
   const columns = [
-    { field: "name", headerName: "Name", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
-    { field: "value", headerName: "Value", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+    { field: "name", headerName: "title", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+    { field: "value", headerName: "จำนวน", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
   ];
 
   const tableDataWithId = tableData.map((row, index) => ({
@@ -159,7 +156,7 @@ const MyTable = () => {
                 height: "50px",
               }}
               sx={{
-                fontSize: "30px", // ปรับขนาดตัวอักษรใน Select ที่นี่
+                fontSize: "30px",
               }}
             >
               {options.map((option) => (
