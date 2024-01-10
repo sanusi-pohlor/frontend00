@@ -49,9 +49,14 @@ const Bottom = () => {
               </span>
               <span>
                 <img src={CASLogo} alt="CAS Logo" className={imageClass} />
-                <div className={textClass} style={{
+                <div
+                  className={textClass}
+                  style={{
                     color: "#208b99",
-                  }}>สมาคมผู้บริโภคสงขลา</div>
+                  }}
+                >
+                  สมาคมผู้บริโภคสงขลา
+                </div>
               </span>
             </Space>
           </div>
@@ -62,9 +67,14 @@ const Bottom = () => {
             style={{ textAlign: "left", marginTop: "auto" }}
           >
             <br />
-            <strong style={{
-                    color: "#208b99",
-                  }}>ติดต่อโครงการวิจัย</strong> <br />
+            <strong
+              style={{
+                color: "#208b99",
+              }}
+            >
+              ติดต่อโครงการวิจัย
+            </strong>{" "}
+            <br />
             คณะวิทยาการสื่อสาร มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตปัตตานี <br />
             อำเภอเมือง จังหวัดปัตตานี 94000 <br />
             <PhoneOutlined /> โทร. 073 349 692 <br />

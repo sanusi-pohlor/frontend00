@@ -105,8 +105,8 @@ const MyBarChart = () => {
     }
   };
 
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.value);
   };
 
   const handleSelectDate = (date) => {
