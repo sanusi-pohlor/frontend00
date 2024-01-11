@@ -8,6 +8,7 @@ import {
   MessageOutlined,
   LockOutlined,
 } from "@ant-design/icons";
+import { Typography } from "@mui/material";
 
 const RegisterDialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -95,7 +96,7 @@ const RegisterDialog = ({ open, onClose }) => {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
+           <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography> 
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -286,7 +287,7 @@ const RegisterDialog = ({ open, onClose }) => {
           ]}
         >
           <Select onChange={onChange_mfi_province} allowClear>
-            {selectOptions_prov}
+            ผ{selectOptions_prov}
           </Select>
         </Form.Item>
         <Form.Item name="CheckboxContent">

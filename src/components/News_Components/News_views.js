@@ -135,10 +135,6 @@ const News_views = () => {
           <h1 style={commonStyles}>โดย : "ชื่อ-สกุล"</h1>
           <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
           <div
-            style={commonStyles}
-            dangerouslySetInnerHTML={{ __html: Data.details }}
-          />
-          <div
             style={{
               display: "flex",
               justifyContent: "center",
@@ -156,9 +152,13 @@ const News_views = () => {
               alt="Cover"
             />
           </div>
-          {Data.video !== "undefined"  && (
+          <div
+            style={commonStyles}
+            dangerouslySetInnerHTML={{ __html: Data.details }}
+          />
+          {/* {Data.video !== "undefined"  && (
             <p style={commonStyles}>Video: {Data.video}</p>
-          )}
+          )} */}
           {Data.link !== "undefined" && (
             <Link style={commonStyles}>Link: {Data.link}</Link>
           )}

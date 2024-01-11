@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Popconfirm, Button, } from "antd";
+import {  Space, Popconfirm, Button, } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
+import {  Table, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 const NotificationHistory = () => {
   const [user, setUser] = useState(null);
@@ -192,21 +193,10 @@ const NotificationHistory = () => {
         console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
       });
   };
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
+  const mergedColumns = columns.map((col) => ({
+    ...col,
+  }));
 
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "age" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-      }),
-    };
-  });
   if (!user) {
     return (
       <UserProfile>
@@ -216,16 +206,28 @@ const NotificationHistory = () => {
   } else {
     return (
       <UserProfile>
-        <div style={{ overflowX: "auto" }}>
-          {" "}
-          {/* Add a container with horizontal scroll */}
-          <Table
-            bordered
-            dataSource={data}
-            columns={mergedColumns}
-            rowClassName="editable-row"
-          />
-        </div>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left" width={column.width}>
+                    {column.title}
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            {data.map((row) => (
+              <TableRow key={row.id} >
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left">
+                    {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </Table>
+        </TableContainer>
       </UserProfile>
     );
   }

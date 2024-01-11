@@ -136,7 +136,7 @@ const FakeNewInformation = () => {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -304,17 +304,13 @@ const FakeNewInformation = () => {
               onChange={handlenum_memChange}
               value={selectednum_mem}
             >
-              <Select.Option value="less50">น้อยกว่า 50</Select.Option>
-              <Select.Option value="51-100">51-100</Select.Option>
-              <Select.Option value="101-150">101-150</Select.Option>
-              <Select.Option value="151-200">151-200</Select.Option>
-              <Select.Option value="201-250">201-250</Select.Option>
-              <Select.Option value="251-300">251-300</Select.Option>
-              <Select.Option value="301-350">301-350</Select.Option>
-              <Select.Option value="351-400">351-400</Select.Option>
-              <Select.Option value="401-450">401-450</Select.Option>
-              <Select.Option value="Ot451-500her">451-500</Select.Option>
-              <Select.Option value="MoreThan501">มากกว่า 501</Select.Option>
+              {[...Array(10).keys()].map((index) => (
+                <Select.Option key={index} value={`${index * 50 + 1}-${index * 50 + 50}`}>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                    {index === 9 ? `มากกว่า 501` : `${index * 50 + 1}-${index * 50 + 50}`}
+                  </Typography>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
@@ -334,7 +330,6 @@ const FakeNewInformation = () => {
               placeholder="รายละเอียดเพิ่มเติม"
             />
           </Form.Item>
-
           <Form.Item
             label="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
             name="fn_info_link"

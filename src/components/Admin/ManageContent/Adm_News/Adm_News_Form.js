@@ -24,7 +24,7 @@ const Adm_News_Form = () => {
     return e && e.fileList;
   };
   const handleTagCreation = (value) => {
-    fetch('/api/addTag', {
+    fetch('https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload', {
       method: 'POST',
       body: JSON.stringify({ tagName: value }),
       headers: {
@@ -41,7 +41,7 @@ const Adm_News_Form = () => {
   };
 
   useEffect(() => {
-    fetch('URL_ของ_API')
+    fetch('https://fakenews001-392577897f69.herokuapp.com/api/Tags_request')
       .then((response) => response.json())
       .then((data) => {
         const formattedOptions = data.map((item) => ({

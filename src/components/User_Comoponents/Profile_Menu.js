@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Avatar, Divider, Box } from "@mui/material";
-import { Card, Tabs, FloatButton, Modal, Button, Typography } from "antd";
+import { Grid, Avatar, Divider, Box, Typography } from "@mui/material";
+import { Card, Tabs, FloatButton, Modal, Button } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
-const { Title } = Typography;
 const { TabPane } = Tabs;
 const items = [
   { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
@@ -173,9 +172,9 @@ const MenuProfile = ({ children }) => {
                     height: "100%",
                   }}
                 >
-                  <Title level={5}>
+                  <Typography sx={{ fontSize: "20px" }}>
                     จำนวนครั้งที่แจ้งข่าว : {data}
-                  </Title>
+                  </Typography>
                 </div>
               </Card>
             )}
@@ -193,7 +192,7 @@ const MenuProfile = ({ children }) => {
               <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
                   <TabPane
-                    tab={<Link to={item.link}>{item.label}</Link>}
+                    tab={<Link to={item.link}><Typography variant="body1" sx={{ fontSize: "20px" }}>{item.label}</Typography></Link>}
                     key={item.key}
                   >
                     {children}

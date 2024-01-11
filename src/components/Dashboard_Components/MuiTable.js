@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Divider, DatePicker } from "antd";
+import { Table, Card, Divider, DatePicker,Select } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
 import "./MuiTable.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { Select, MenuItem, Typography } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 import th_TH from 'antd/lib/locale/th_TH'; // import locale ภาษาไทย
+const { Option } = Select;
 
 const MyTable = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -98,8 +99,8 @@ const MyTable = () => {
     }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleSelectChange = (value) => {
+    setSelectedOption(value);
   };
 
   const handleSelectDate = (date) => {
@@ -160,9 +161,9 @@ const MyTable = () => {
               }}
             >
               {options.map((option) => (
-                <MenuItem key={option.value} value={option.title}>
+                <Option key={option.value} value={option.title}>
                   <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
-                </MenuItem>
+                </Option>
               ))}
             </Select>
             <DatePicker

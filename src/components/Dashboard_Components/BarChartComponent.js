@@ -9,9 +9,10 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, DatePicker, Divider, Form, Button } from "antd";
+import { Card, DatePicker, Divider, Form,Select, Button } from "antd";
 import moment from "moment";
-import { Select, MenuItem, Typography } from "@mui/material";
+import {  MenuItem, Typography } from "@mui/material";
+const { Option } = Select;
 
 const MyBarChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -105,8 +106,8 @@ const MyBarChart = () => {
     }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleSelectChange = (value) => {
+    setSelectedOption(value);
   };
 
   const handleSelectDate = (date) => {
@@ -159,9 +160,9 @@ const MyBarChart = () => {
               }}
             >
               {options.map((option) => (
-                <MenuItem key={option.value} value={option.title}>
+                <Option key={option.value} value={option.title}>
                   <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
-                </MenuItem>
+                </Option>
               ))}
             </Select>
             <DatePicker
