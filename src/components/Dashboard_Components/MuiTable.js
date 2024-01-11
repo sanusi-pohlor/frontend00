@@ -125,12 +125,11 @@ const MyTable = () => {
     <div>
       <Card
         hoverable
+        className="CardContainer"
         style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
-          width: "100%",
-          height: "700px",
         }}
       >
         <div

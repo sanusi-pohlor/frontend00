@@ -188,7 +188,7 @@ const MdShare_Menu = (open) => {
               color: "white",
             }}
           >
-            ข่าวสาร
+            สื่อชวนแชร์
             <div
               style={{
                 display: "flex",

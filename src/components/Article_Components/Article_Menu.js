@@ -188,7 +188,7 @@ const Article_Menu = (open) => {
               color: "white",
             }}
           >
-            ข่าวสาร
+            บทความ
             <div
               style={{
                 display: "flex",

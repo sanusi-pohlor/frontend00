@@ -121,6 +121,7 @@ const MyPieChart = () => {
     <div>
       <Card
         hoverable
+        className="BarChartContainer"
         style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,

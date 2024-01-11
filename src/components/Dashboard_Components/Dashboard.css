@@ -34,7 +34,7 @@
 /* Responsive styles */
 @media (max-width: 2000px) {
   .paperContainer {
-    width: 70%;
+    width: 80%;
     padding: 30px;
   }
 }

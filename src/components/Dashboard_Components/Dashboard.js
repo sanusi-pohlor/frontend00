@@ -28,7 +28,7 @@ import Flickity from "react-flickity-component";
 import { Link } from "react-router-dom";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import "./Dashboard.css";
+
 const { Option } = Select;
 const { Meta } = Card;
 const { Title } = Typography;
@@ -157,39 +157,6 @@ const Dashboard = ({ onSearch }) => {
           backgroundColor: "#f1f1f1",
         }}
       >
-        {/* <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Select
-            onChange={onTypeChange}
-            size="large"
-            placeholder="ประเภท"
-            allowClear
-            style={{
-              marginRight: "20px",
-              flex: 1,
-              fontSize: "50px",
-              height: "50px",
-            }}
-          >
-            {selectOptions_type}
-          </Select>
-          <DatePicker
-            placeholder="เดือน/ปี"
-            picker="month"
-            size="large"
-            style={{
-              marginRight: "20px",
-              flex: 1,
-              fontSize: "30px",
-              height: "50px",
-            }}
-          />
-        </div> */}
         <br />
         <Card
           style={{

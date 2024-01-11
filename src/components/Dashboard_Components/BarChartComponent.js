@@ -123,12 +123,11 @@ const MyBarChart = () => {
     <div>
       <Card
         hoverable
+        className="BarChartContainer"
         style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
-          width: "100%",
-          height: "500px",
         }}
       >
         <div
@@ -180,7 +179,7 @@ const MyBarChart = () => {
           </div>
         </div>
         <Divider />
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData}>
             <XAxis dataKey="name" />
             <YAxis />

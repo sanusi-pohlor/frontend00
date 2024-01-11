@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card, Tooltip, Divider, DatePicker } from "antd";
 import moment from "moment";
-import "./MapWidget.css";
 
 const MapWidget = () => {
   const [highlightedRegion, setHighlightedRegion] = useState(null);
@@ -61,12 +60,11 @@ const MapWidget = () => {
     <div>
       <Card
         hoverable
+        className="CardContainer"
         style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
-          width: "100%",
-          height: "700px",
         }}
       ><div
         style={{
@@ -99,7 +97,6 @@ const MapWidget = () => {
             title={`นครศรีธรรมราช${getTooltipTitle(4)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -115,7 +112,6 @@ const MapWidget = () => {
             title={`กระบี่${getTooltipTitle(1)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -131,7 +127,6 @@ const MapWidget = () => {
             title={`พังงา${getTooltipTitle(7)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -147,7 +142,6 @@ const MapWidget = () => {
             title={`ภูเก็ต${getTooltipTitle(9)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -163,7 +157,6 @@ const MapWidget = () => {
             title={`สุราษฎร์ธานี${getTooltipTitle(14)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -179,7 +172,6 @@ const MapWidget = () => {
             title={`ระนอง${getTooltipTitle(11)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -195,7 +187,6 @@ const MapWidget = () => {
             title={`ชุมพร${getTooltipTitle(2)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -211,7 +202,6 @@ const MapWidget = () => {
             title={`สงขลา${getTooltipTitle(12)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -227,7 +217,6 @@ const MapWidget = () => {
             title={`สตูล${getTooltipTitle(13)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -243,7 +232,6 @@ const MapWidget = () => {
             title={`ตรัง${getTooltipTitle(3)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -259,7 +247,6 @@ const MapWidget = () => {
             title={`พัทลุง${getTooltipTitle(8)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -275,7 +262,6 @@ const MapWidget = () => {
             title={`ปัตตานี${getTooltipTitle(6)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -291,7 +277,6 @@ const MapWidget = () => {
             title={`ยะลา${getTooltipTitle(10)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >
@@ -307,7 +292,6 @@ const MapWidget = () => {
             title={`นราธิวาส${getTooltipTitle(5)}`}
             arrow
             placement="top"
-            color="#7BBD8F"
             key="#FFFFFF"
             overlayStyle={{ fontSize: '25px' }}
           >

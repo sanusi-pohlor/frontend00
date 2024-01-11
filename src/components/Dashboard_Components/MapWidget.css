@@ -2,3 +2,69 @@
   font-size: 30px; /* ปรับขนาดฟอนต์ของ Tooltip */
   max-width: 200px; /* กำหนดความกว้างสูงสุดของ Tooltip */
 }
+
+.table-font {
+  font-size: 30px;
+  /* ปรับขนาด font ตามต้องการ */
+}
+
+.ant-table-cell {
+  font-size: 30;
+  /* ปรับขนาด font ตามต้องการ */
+}
+
+.header-class {
+  font-size: 30px; /* ปรับขนาดตัวอักษรส่วนหัวตาราง */
+}
+
+.cell-class {
+  font-size: 25px; /* ปรับขนาดตัวอักษรของข้อมูลในตาราง */
+}
+
+@media (max-width: 2000px) {
+  .CardContainer {
+    width: 100%;
+    padding: 30px;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 1800px) {
+  .CardContainer {
+    width: 80%;
+    padding: 30px;
+  }
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+  .CardContainer {
+    width: 100%;
+    padding: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .CardContainer {
+    width: 90%; /* Adjust width for smaller screens */
+    padding: 30px; /* Modify padding for smaller screens */
+  }
+
+  .articleTitle {
+    font-size: 50px; /* Adjust font size for smaller screens */
+  }
+
+  /* Add more responsive styles as needed */
+}
+@media (max-width: 390px) {
+  .CardContainer {
+    width: 90%; /* Adjust width for smaller screens */
+    padding: 10px; /* Modify padding for smaller screens */
+  }
+
+  .articleTitle {
+    font-size: 50px; /* Adjust font size for smaller screens */
+  }
+
+  /* Add more responsive styles as needed */
+}
