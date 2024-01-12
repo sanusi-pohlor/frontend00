@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Divider, DatePicker,Select } from "antd";
+import { Table, Card, Divider, DatePicker, Select } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
 import "./MuiTable.css";
@@ -113,14 +113,15 @@ const MyTable = () => {
   };
 
   const columns = [
-    { field: "name", headerName: "title", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+    { field: "name", headerName: "", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
     { field: "value", headerName: "จำนวน", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
   ];
 
   const tableDataWithId = tableData.map((row, index) => ({
     ...row,
-    id: index + 1, // ใช้ค่า index + 1 เป็น id ชั่วคราว (คุณอาจต้องการสร้าง id ให้แต่ละแถวให้เป็นค่าที่ไม่ซ้ำกันเอง)
+    id: index + 1,
   }));
+
   return (
     <div>
       <Card
@@ -156,7 +157,7 @@ const MyTable = () => {
                 height: "50px",
               }}
               sx={{
-                fontSize: "30px",
+                fontSize: "20px",
               }}
             >
               {options.map((option) => (
@@ -181,7 +182,18 @@ const MyTable = () => {
         </div>
         <Divider />
         <Box />
-        <DataGrid rows={tableDataWithId} columns={columns} pageSize={5} />
+        <DataGrid 
+          rows={tableDataWithId} 
+          columns={columns} 
+          pageSize={5} 
+          autoHeight 
+          components={{
+            Toolbar: () => null, // Hiding the toolbar to prevent overlapping
+          }}
+          style={{
+            fontSize: "25px", // Adjust the font size as needed
+          }}
+        />
       </Card>
     </div>
   );
