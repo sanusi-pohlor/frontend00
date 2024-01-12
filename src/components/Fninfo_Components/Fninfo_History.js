@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {  Space, Popconfirm, Button, } from "antd";
+import { Space, Popconfirm, Button, } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
-import {  Table, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 const NotificationHistory = () => {
   const [user, setUser] = useState(null);
@@ -83,7 +83,7 @@ const NotificationHistory = () => {
   };
   useEffect(() => {
     fetchData_Manage();
-    console.log("mfi_results",datamanage);
+    console.log("mfi_results", datamanage);
   }, []);
 
   useEffect(() => {
@@ -106,11 +106,18 @@ const NotificationHistory = () => {
         return "ตรวจสอบเสร็จสิ้น";
     }
   };
+  const renderResultText = (id) => {
+    const dataA = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
+    const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "ไม่พบ")) : "ไม่พบข้อมูล";
+    console.log("resultText ", id);
+    return resultText;
+  };
+
   const columns = [
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "หัวข้อ",
@@ -139,11 +146,7 @@ const NotificationHistory = () => {
       title: "ผลการตรวจสอบ",
       dataIndex: "",
       width: "20%",
-      render: (id) => {
-        const data = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
-        return data ? data.mfi_results : "ไม่พบข้อมูล";
-        console.log("mfi_results",datamanage);
-      },
+      render: (id) => renderResultText(id),
     },
     {
       title: "จัดการ",
@@ -152,12 +155,12 @@ const NotificationHistory = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/FakeNews/fninfoview/${record.id}`}>
-            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} /> {/* Blue color for "ดู" */}
+            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
           </Link>
           {record.fn_info_status === 0 && (
             <>
               <Link to={`/FakeNews/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: '16px', color: 'green' }} /> {/* Green color for "แก้ไข" */}
+                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
               </Link>
               <Popconfirm
                 title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -166,7 +169,7 @@ const NotificationHistory = () => {
                 cancelText="ไม่"
               >
                 <Button type="link">
-                  <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} /> {/* Red color for "ลบ" */}
+                  <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
                 </Button>
               </Popconfirm>
             </>
@@ -209,10 +212,10 @@ const NotificationHistory = () => {
         <TableContainer>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left" width={column.width}>
-                    {column.title}
+                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
                   </TableCell>
                 ))}
               </TableRow>
@@ -221,7 +224,7 @@ const NotificationHistory = () => {
               <TableRow key={row.id} >
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left">
-                    {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
                   </TableCell>
                 ))}
               </TableRow>

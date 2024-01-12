@@ -35,7 +35,7 @@ const MdShare_Menu = (open) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
+  const [itemsPerPage] = useState(10);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
 
@@ -59,7 +59,7 @@ const MdShare_Menu = (open) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const mdSharecurrentItems = data.slice(indexOfFirstItem,indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -317,7 +317,7 @@ const MdShare_Menu = (open) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            currentItems.slice(0, 1).map((item) => (
+            mdSharecurrentItems.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -400,7 +400,7 @@ const MdShare_Menu = (open) => {
                 </Link>
               </Grid>
             ))}
-          {filteredArticles.slice(1).map((item) => (
+          {mdSharecurrentItems.slice(1).map((item) => (
             <Grid
               item
               xs={12}

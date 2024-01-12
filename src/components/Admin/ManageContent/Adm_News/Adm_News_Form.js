@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import "react-quill/dist/quill.snow.css";
-import { Form, Input, Button, message, Upload, Card, Select, DatePicker } from "antd";
+import { Form, Input, Button, message, Upload, Card, Select, DatePicker, Space } from "antd";
 import ReactQuill from "react-quill";
-import { PlusOutlined, UserOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusCircleOutlined, UserOutlined } from "@ant-design/icons";
 const { Option } = Select;
 
 const Adm_News_Form = () => {
@@ -130,8 +130,12 @@ const Adm_News_Form = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("values :", values);
+
     console.log("values :", editorHtml);
+    const linkData = values.link.map((link, index) => ({
+      link
+    }));
+    console.log("link :", JSON.stringify(values.link));
     try {
       setLoading(true);
       const formData = new FormData();
@@ -140,7 +144,7 @@ const Adm_News_Form = () => {
       formData.append("details", editorHtml);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("video", values.video);
-      formData.append("link", values.link);
+      formData.append("link", JSON.stringify(values.link));
       formData.append("tag", values.tag);
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
@@ -296,9 +300,41 @@ const Adm_News_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item name="link" label="Link" rules={[{ required: false }]}>
-            <Input />
-          </Form.Item>
+          <Form.List name="link">
+            {(fields, { add, remove }) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <Space
+                    key={key}
+                    style={{
+                      display: 'flex',
+                      marginBottom: 12,
+                    }}
+                    align="baseline"
+                  >
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'first']}  // Include 'first' here in the name prop
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Missing first name',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Link" style={{ width: '100%' }} />
+                    </Form.Item>
+                    <MinusCircleOutlined onClick={() => remove(name)} />
+                  </Space>
+                ))}
+                <Form.Item>
+                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                    เพิ่มลิงค์
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
           <Form.Item name="tag" label="Tag" rules={[{ required: false }]}>
             <Select
               mode="tags"

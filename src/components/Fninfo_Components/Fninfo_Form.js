@@ -24,7 +24,7 @@ const FakeNewInformation = () => {
   const [province, setProvince] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectednum_mem, setSelectednum_mem] = useState("");
-  const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
 
   const handlenum_memChange = (value) => {
     setSelectednum_mem(value);
@@ -42,17 +42,16 @@ const FakeNewInformation = () => {
     console.log("values:", values);
     try {
       const formData = new FormData();
-      formData.append("fn_info_nameid", user.id); // Corrected the field name
+      formData.append("fn_info_nameid", user.id);
       formData.append("fn_info_province", user.province);
-      formData.append("fn_info_head", values.fn_info_head); // Corrected the field name
-      formData.append("fn_info_content", values.fn_info_content); // Corrected the field name
-      formData.append("fn_info_source", values.fn_info_source); // Corrected the field name
-      formData.append("fn_info_num_mem", values.fn_info_num_mem); // Corrected the field name
-      formData.append("fn_info_more", values.fn_info_more); // Corrected the field name
-      formData.append("fn_info_link", values.fn_info_link); // Corrected the field name
+      formData.append("fn_info_head", values.fn_info_head);
+      formData.append("fn_info_content", values.fn_info_content);
+      formData.append("fn_info_source", values.fn_info_source);
+      formData.append("fn_info_num_mem", values.fn_info_num_mem);
+      formData.append("fn_info_more", values.fn_info_more);
+      formData.append("fn_info_link", values.fn_info_link);
       formData.append("fn_info_dmy", values.fn_info_dmy);
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
-      //formData.append("fn_info_vdo", values.fn_info_vdo[0].originFileObj); // Corrected the field name
       const response = await fetch(
         "https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_upload",
         {
@@ -199,8 +198,8 @@ const FakeNewInformation = () => {
           enctype="multipart/form-data"
         >
           <Form.Item
-            label="ผู้ส่งรายงาน"
-            //name="fn_info_nameid"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
+            name="fn_info_nameid"
             rules={[
               {
                 required: true,
@@ -217,7 +216,7 @@ const FakeNewInformation = () => {
           </Form.Item>
           {province && province.length > 0 && (
             <Form.Item
-              label="จังหวัดของท่าน"
+              label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัดของท่าน</Typography>}
               //name="fn_info_province"
               rules={[
                 {
@@ -235,7 +234,7 @@ const FakeNewInformation = () => {
             </Form.Item>
           )}
           <Form.Item
-            label="หัวข้อ"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>หัวข้อ</Typography>}
             name="fn_info_head"
             rules={[
               {
@@ -251,7 +250,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label="เนื้อหา"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>เนื้อหา</Typography>}
             name="fn_info_content"
             rules={[
               {
@@ -268,7 +267,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label="แหล่งที่มาของข่าวปลอม"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>แหล่งที่มาของข่าวปลอม</Typography>}
             name="fn_info_source"
             rules={[
               {
@@ -289,7 +288,7 @@ const FakeNewInformation = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label="จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ</Typography>}
             name="fn_info_num_mem"
             rules={[
               {
@@ -314,7 +313,7 @@ const FakeNewInformation = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label="รายละเอียดเพิ่มเติม"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รายละเอียดเพิ่มเติม</Typography>}
             name="fn_info_more"
             rules={[
               {
@@ -331,7 +330,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ระบุลิ้งค์ข้อมูล(ถ้ามี)</Typography>}
             name="fn_info_link"
             rules={[
               {
@@ -347,7 +346,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label="วัน/เดือน/ปี ที่เกิดเหตุ"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
             name="fn_info_dmy"
             rules={[
               {
@@ -363,7 +362,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label="ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ</Typography>}
             name="fn_info_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -404,7 +403,7 @@ const FakeNewInformation = () => {
                 color: "#ffffff",
               }}
             >
-              ส่งรายงาน
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งรายงาน</Typography>
             </Button>
           </Form.Item>
         </Form>

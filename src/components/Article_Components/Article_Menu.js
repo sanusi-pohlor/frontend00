@@ -46,7 +46,7 @@ const Article_Menu = (open) => {
   };
 
   useEffect(() => {
-    fetch("https://fakenews001-392577897f69.herokuapp.com/api/News_request")
+    fetch("https://fakenews001-392577897f69.herokuapp.com/api/Article_request")
       .then((response) => response.json())
       .then((data) => {
         setDataOrg(data);

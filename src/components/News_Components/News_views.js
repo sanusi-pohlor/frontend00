@@ -91,7 +91,7 @@ const News_views = () => {
 
   const commonStyles = {
     fontFamily: "'Th Sarabun New', sans-serif",
-    fontSize: isMobile ? "20px" : "30px",
+    fontSize: isMobile ? "20px" : "25px",
     color: "gray",
   };
   const commonStyles1 = {
@@ -104,7 +104,7 @@ const News_views = () => {
     <div style={{ backgroundColor: '#f1f1f1' }}>
       <Paper
         elevation={0}
-        style={{ width: "70%", padding: 30, margin: "0 auto", backgroundColor: '#f1f1f1' }}
+        style={{ width: "80%", padding: 30, margin: "0 auto", backgroundColor: '#f1f1f1' }}
       ><Card
         style={{
           borderRadius: "20px",
@@ -128,45 +128,23 @@ const News_views = () => {
           style={{
             borderRadius: "20px",
             backgroundColor: '#ffffff',
-            padding: 20,
+            padding: 30,
           }}
         >
           <h1 style={commonStyles}>{Data.title}</h1>
-          <h1 style={commonStyles}>โดย : "ชื่อ-สกุล"</h1>
+          <h1 style={commonStyles}>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</h1>
           <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              style={{
-                maxHeight: "100%",
-                maxWidth: "100%",
-                width: "50%",
-                height: "50%",
-                objectFit: "cover",
-              }}
-              src={Data.cover_image}
-              alt="Cover"
-            />
-          </div>
           <div
             style={commonStyles}
             dangerouslySetInnerHTML={{ __html: Data.details }}
           />
-          {/* {Data.video !== "undefined"  && (
-            <p style={commonStyles}>Video: {Data.video}</p>
-          )} */}
-          {Data.link !== "undefined" && (
-            <Link style={commonStyles}>Link: {Data.link}</Link>
-          )}
-          {Data.tag !== "undefined" && (
-            <p style={commonStyles}>Tag: {Data.tag}</p>
-          )}
-
-
+          <div>
+            {Data.link && JSON.parse(Data.link).map((item, index) => (
+              <p key={index} style={commonStyles}>
+                Link: <a href={item.first}>{item.first}</a>
+              </p>
+            ))}
+          </div>
           <p style={commonStyles} onClick={showModal}>
             โปรไฟลผู้เขียน
           </p>

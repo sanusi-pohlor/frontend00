@@ -67,7 +67,6 @@ function Menu_Navbar() {
   };
   const handleButtonClick = () => {
     window.location.href = 'https://www.facebook.com/MediaLiteracyforCitizen';
-    // This will navigate the user to the specified Facebook URL when the button is clicked
   };
   const loginbuttonStyle = {
     background: "#7BBD8F",

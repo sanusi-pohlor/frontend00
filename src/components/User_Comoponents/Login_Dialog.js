@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Form, Button, Input, Modal } from "antd";
 import {
-  Paper,
+  Paper,Typography
 } from "@mui/material";
 
 const LoginDialog = ({ open, onClose }) => {
@@ -78,7 +78,7 @@ const LoginDialog = ({ open, onClose }) => {
         size="large"
       >
         <Form.Item
-          label="อีเมล"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>อีเมล</Typography>}
           name="email"
           rules={[
             {
@@ -93,7 +93,7 @@ const LoginDialog = ({ open, onClose }) => {
           />
         </Form.Item>
         <Form.Item
-          label="รหัสผ่าน"
+          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รหัสผ่าน</Typography>}
           name="password"
           rules={[
             {
@@ -114,8 +114,17 @@ const LoginDialog = ({ open, onClose }) => {
             htmlType="submit"
             className="login-form-button"
             size="large"
+            style={{
+              padding: "20px 25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
+            }}
           >
-            เข้าสู่ระบบ
+            <Typography variant="body1" sx={{ fontSize: "25px" }}>เข้าสู่ระบบ</Typography>
           </Button>
         </Form.Item>
       </Form>

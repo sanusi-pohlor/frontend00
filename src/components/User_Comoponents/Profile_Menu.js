@@ -72,11 +72,9 @@ const MenuProfile = ({ children }) => {
           setUser(userData);
         } else {
           console.error("Failed to retrieve user data");
-          // Handle error condition here (e.g., redirect to login)
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-        // Handle error condition here
       }
     };
 
@@ -153,10 +151,10 @@ const MenuProfile = ({ children }) => {
                     </Avatar>
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5">
+                    <Typography variant="h5" sx={{ fontSize: "25px" }}>
                       ชื่อ-สกุล : {user.username}
                     </Typography>
-                    <Typography variant="body1">
+                    <Typography variant="body1" sx={{ fontSize: "25px" }}>
                       อีเมล : {user.email}
                     </Typography>
                   </Grid>
@@ -172,7 +170,7 @@ const MenuProfile = ({ children }) => {
                     height: "100%",
                   }}
                 >
-                  <Typography sx={{ fontSize: "20px" }}>
+                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
                     จำนวนครั้งที่แจ้งข่าว : {data}
                   </Typography>
                 </div>
@@ -192,7 +190,7 @@ const MenuProfile = ({ children }) => {
               <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
                   <TabPane
-                    tab={<Link to={item.link}><Typography variant="body1" sx={{ fontSize: "20px" }}>{item.label}</Typography></Link>}
+                    tab={<Link to={item.link}><Typography variant="body1" sx={{ fontSize: "25px" }}>{item.label}</Typography></Link>}
                     key={item.key}
                   >
                     {children}

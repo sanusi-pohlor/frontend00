@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import UserProfile from "./Profile_Menu";
 import { Button, Modal, Descriptions } from "antd";
 import RegisterDialog from "./Profile_Edit";
+import { Typography } from "@mui/material";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -85,14 +86,18 @@ const Profile = () => {
     }
   }, [user]);
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>{label}: {text}</Typography>
+  );
+
   const items = [
-    { key: "1", label: "ชื่อ-นามสกุล", children: <span>{user?.username}</span> },
-    { key: "2", label: "นามสกุล", children: <span>{user?.lastName}</span> },
-    { key: "3", label: "จังหวัดที่อยู่", children: <span>{province.length > 0 ? province[0].prov_name : "Loading..."}</span> },
-    { key: "4", label: "อีเมล", children: <span>{user?.email}</span> },
-    { key: "5", label: "เบอร์โทรศัพท์", children: <span>{user?.phone_number}</span> },
-    { key: "6", label: "ไลน์ไอดี", children: <span>{user?.Id_line}</span> },
-    { key: "7", label: "รับข้อมูลผ่านอีเมล", children: <span>{user?.receive_ct_email}</span> },
+    { key: "1", label: "ชื่อ-นามสกุล", children: user && createTypography("ชื่อ-นามสกุล", user.username) },
+    { key: "2", label: "นามสกุล", children: user && createTypography("นามสกุล", user.lastName) },
+    { key: "3", label: "จังหวัดที่อยู่", children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name) },
+    { key: "4", label: "อีเมล", children: user && createTypography("อีเมล", user.email) },
+    { key: "5", label: "เบอร์โทรศัพท์", children: user && createTypography("เบอร์โทรศัพท์", user.phone_number) },
+    { key: "6", label: "ไลน์ไอดี", children: user && createTypography("ไลน์ไอดี", user.Id_line) },
+    { key: "7", label: "รับข้อมูลผ่านอีเมล", children: user && createTypography("รับข้อมูลผ่านอีเมล", user.receive_ct_email) },
   ];
 
   if (!user) {
@@ -113,25 +118,25 @@ const Profile = () => {
           justifyContent: "space-between",
         }}
       >
-        <span>ข้อมูลสมาชิก</span>
+        <Typography variant="body1" sx={{ fontSize: "45px" }}>ข้อมูลสมาชิก</Typography>
         <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+          <Button type="primary" target="_blank" onClick={showRegisterDialog}
+            style={{
+              marginRight: "10px",
+              fontSize: "18px",
+              padding: "20px 25px",
               display: "flex",
-              alignItems: "center",
               justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
             }}>
-          <Button type="primary" target="_blank" onClick={showRegisterDialog} 
-          style={{
-            marginRight: "10px",
-            fontSize: "18px",
-            padding: "20px 25px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#7BBD8F",
-            border: "none",
-            color: "#ffffff",
-          }}>
-            แก้ไขข้อมูลสมาชิก
+            {createTypography("แก้ไขข้อมูลสมาชิก", "")}
           </Button>
           {registerVisible && (
             <RegisterDialog
@@ -141,18 +146,18 @@ const Profile = () => {
               RegisterFinish={RegisterFinish}
             />
           )}
-          <Button type="primary" target="_blank" onClick={showModal} 
-          style={{
-            fontSize: "18px",
-            padding: "20px 25px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#7BBD8F",
-            border: "none",
-            color: "#ffffff",
-          }}>
-            ออกจากระบบ
+          <Button type="primary" target="_blank" onClick={showModal}
+            style={{
+              fontSize: "18px",
+              padding: "20px 25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
+            }}>
+            {createTypography("ออกจากระบบ", "")}
           </Button>
           <Modal
             title="Basic Modal"
@@ -160,7 +165,7 @@ const Profile = () => {
             onOk={handleOk}
             onCancel={handleCancel}
           >
-            <p>ต้องการออกจากระบบ</p>
+            {createTypography("ต้องการออกจากระบบ", "")}
           </Modal></div>
       </div>
       <br />

@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Paper } from "@mui/material";
 import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
 import {
@@ -96,7 +96,7 @@ const RegisterDialog = ({ open, onClose }) => {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-           <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography> 
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -146,159 +146,167 @@ const RegisterDialog = ({ open, onClose }) => {
         สมัครสมาชิก
       </div>
       <Paper
-      elevation={0}
-      style={{
-        width: "80%",
-        margin: "0 auto",
-      }}
-    >
-      <Form
-        form={form}
-        layout="vertical"
-        name="form_register"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
+        elevation={0}
         style={{
-          maxWidth: "100%",
-          fontSize: "50px",
+          width: "80%",
+          margin: "0 auto",
         }}
-        labelCol={{ style: { fontSize: '18px' } }} 
       >
-        <Form.Item
-          label="ชื่อ"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "กรุณาเพิ่มชื่อ!",
-            },
-          ]}
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_register"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
           style={{
-            display: "inline-block",
-            width: "calc(50% - 8px)",
+            maxWidth: "100%",
+            fontSize: "50px",
           }}
+          labelCol={{ style: { fontSize: '18px' } }}
         >
-          <Input
-            size="large"
-            prefix={<UserOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="นามสกุล"
-          name="lastName"
-          rules={[
-            {
-              required: true,
-              message: "กรุณาเพิ่มนามสกุล!",
-            },
-          ]}
-          style={{
-            display: "inline-block",
-            width: "calc(50% - 8px)",
-            margin: "0 8px",
-          }}
-        >
-          <Input size="large" />
-        </Form.Item>
-        <Form.Item
-          label="อีเมล"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: "กรุณาเพิ่มอีเมล!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<MailOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="รหัสผ่าน"
-          name="password"
-          rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
-        >
-          <Input.Password
-            size="large"
-            prefix={<LockOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="รหัสผ่านยืนยัน"
-          name="Confirm Password"
-          dependencies={["password"]}
-          rules={[
-            { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ชื่อ</Typography>}
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มชื่อ!",
               },
-            }),
-          ]}
-        >
-          <Input.Password
-            size="large"
-            prefix={<LockOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="เบอร์ติดต่อ"
-          name="phone_number"
-          rules={[
-            {
-              required: true,
-              message: "กรูณาเพิ่มเบอร์ติดต่อ!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<PhoneOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="ไอดีไลน์"
-          name="Id_line"
-          rules={[
-            {
-              required: true,
-              message: "กรุณาเพิ่มไอดีไลน์!",
-            },
-          ]}
-        >
-          <Input
-            size="large"
-            prefix={<MessageOutlined className="site-form-item-icon" />}
-          />
-        </Form.Item>
-        <Form.Item
-          label="จังหวัดที่สังกัด"
-          name="province"
-          rules={[
-            {
-              required: true,
-              message: "กรุณาเลือกจังหวัดที่สังกัด!",
-            },
-          ]}
-        >
-          <Select onChange={onChange_mfi_province} allowClear>
-            ผ{selectOptions_prov}
-          </Select>
-        </Form.Item>
-        <Form.Item name="CheckboxContent">
-          <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            ลงทะเบียน
-          </Button>
-        </Form.Item>
-      </Form></Paper>
+            ]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+            }}
+          >
+            <Input
+              size="large"
+              prefix={<UserOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>นามสกุล</Typography>}
+            name="lastName"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มนามสกุล!",
+              },
+            ]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              margin: "0 8px",
+            }}
+          >
+            <Input size="large" />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>อีเมล</Typography>}
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มอีเมล!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<MailOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รหัสผ่าน</Typography>}
+            name="password"
+            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+          >
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รหัสผ่านยืนยัน</Typography>}
+            name="Confirm Password"
+            dependencies={["password"]}
+            rules={[
+              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              size="large"
+              prefix={<LockOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>เบอร์ติดต่อ</Typography>}
+            name="phone_number"
+            rules={[
+              {
+                required: true,
+                message: "กรูณาเพิ่มเบอร์ติดต่อ!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<PhoneOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ไอดีไลน์</Typography>}
+            name="Id_line"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มไอดีไลน์!",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              prefix={<MessageOutlined className="site-form-item-icon" />}
+            />
+          </Form.Item>
+          <Form.Item
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัดที่สังกัด</Typography>}
+            name="province"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเลือกจังหวัดที่สังกัด!",
+              },
+            ]}
+          >
+            <Select onChange={onChange_mfi_province} allowClear>
+              {selectOptions_prov}
+            </Select>
+          </Form.Item>
+          <Form.Item name="CheckboxContent">
+            <Checkbox onChange={onChange}><Typography variant="body1" sx={{ fontSize: "25px" }}>รับคอนเทนต์ผ่านอีเมล</Typography></Checkbox>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} style={{
+              padding: "20px 25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
+            }}>
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>ลงทะเบียน</Typography>
+            </Button>
+          </Form.Item>
+        </Form></Paper>
     </Modal>
   );
 };

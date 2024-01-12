@@ -35,7 +35,7 @@ const News_Menu = (open, onClose) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
+  const [itemsPerPage] = useState(10);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
 
@@ -59,7 +59,8 @@ const News_Menu = (open, onClose) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const newcurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+ 
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -317,7 +318,7 @@ const News_Menu = (open, onClose) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            currentItems.slice(0, 1).map((item) => (
+            newcurrentItems.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -400,7 +401,7 @@ const News_Menu = (open, onClose) => {
                 </Link>
               </Grid>
             ))}
-          {filteredArticles.slice(1).map((item) => (
+          {newcurrentItems.slice(1).map((item) =>(
             <Grid
               item
               xs={12}

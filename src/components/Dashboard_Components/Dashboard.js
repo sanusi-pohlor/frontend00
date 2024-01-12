@@ -81,10 +81,12 @@ const Dashboard = ({ onSearch }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const newcurrentItems = newdata.slice(indexOfFirstItem, indexOfLastItem);
+  
   const articlecurrentItems = articledata.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
+  
   const mdSharecurrentItems = mdSharedata.slice(
     indexOfFirstItem,
     indexOfLastItem
