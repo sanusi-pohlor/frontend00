@@ -4,7 +4,7 @@ import { Paper } from "@mui/material";
 import { Modal, Divider, Descriptions, Card } from "antd";
 import moment from "moment";
 
-const News_views = () => {
+const News_view = () => {
   const { id } = useParams();
   const [Data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -162,9 +162,10 @@ const News_views = () => {
               title=""
               items={items}
             />
-          </Modal></Card>
+          </Modal>
+          </Card>
       </Paper></div>
   );
 };
 
-export default News_views;
+export default News_view;

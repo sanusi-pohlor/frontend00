@@ -83,8 +83,8 @@ const MdShare_Menu = (open) => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-  const filteredArticles = data.filter((article) =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredMdShare = data.filter((MdShare) =>
+  MdShare.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const onFinish = (values) => {
@@ -95,18 +95,17 @@ const MdShare_Menu = (open) => {
 
     console.log("Form values:", { type_new, med_new, prov_new, created_at });
 
-    const filteredArticles = dataOrg.filter((article) => {
-      const articleDate = article.created_at
-        ? new Date(article.created_at).toISOString().split("T")[0]
+    const filteredMdShare = dataOrg.filter((MdShare) => {
+      const MdShareDate = MdShare.created_at
+        ? new Date(MdShare.created_at).toISOString().split("T")[0]
         : null;
-      const matchesType = type_new ? article.type_new === type_new : true;
-      const matchesMedia = med_new ? article.med_new === med_new : true;
-      const matchesProvince = prov_new ? article.prov_new === prov_new : true;
-      const matchesDate = created_at ? articleDate === created_at : true;
+      const matchesType = type_new ? MdShare.type_new === type_new : true;
+      const matchesMedia = med_new ? MdShare.med_new === med_new : true;
+      const matchesProvince = prov_new ? MdShare.prov_new === prov_new : true;
+      const matchesDate = created_at ? MdShareDate === created_at : true;
       return matchesType && matchesMedia && matchesProvince && matchesDate;
     });
-    setData(filteredArticles);
-    console.log("filteredArticles:", filteredArticles);
+    setData(filteredMdShare);
   };
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
@@ -200,7 +199,8 @@ const MdShare_Menu = (open) => {
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
-                value={searchTerm}
+                onChange={(e) => handleSearch(e)}
+                //value={searchTerm}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
               <Button
@@ -317,7 +317,7 @@ const MdShare_Menu = (open) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            mdSharecurrentItems.slice(0, 1).map((item) => (
+            filteredMdShare.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -400,7 +400,7 @@ const MdShare_Menu = (open) => {
                 </Link>
               </Grid>
             ))}
-          {mdSharecurrentItems.slice(1).map((item) => (
+          {filteredMdShare.slice(1).map((item) => (
             <Grid
               item
               xs={12}

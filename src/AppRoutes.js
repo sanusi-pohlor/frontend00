@@ -5,7 +5,7 @@ import Bottom from "./components/Bottom";
 import Dashboard from "./components/Dashboard_Components/Dashboard";
 
 import News from "./components/News_Components/News_Menu";
-import News_views from "./components/News_Components/News_views";
+import News_view from "./components/News_Components/News_view";
 
 import Article from "./components/Article_Components/Article_Menu";
 import Article_view from "./components/Article_Components/Article_view";
@@ -67,13 +67,13 @@ import { Box } from "@mui/material";
 const routes = [
   { path: "/", element: <Dashboard /> },
 
-  { path: "/Article/Article_view/:id", element: <Article_view /> },
+  { path: "/Article_Menu/Article_view/:id", element: <Article_view /> },
   { path: "/Article_Menu", element: <Article /> },
 
-  { path: "/MediaShare/MediaShare_view/:id", element: <MediaShare_view /> },
+  { path: "/MediaShare_Menu/MediaShare_view/:id", element: <MediaShare_view /> },
   { path: "/MediaShare_Menu", element: <MediaShare /> },
 
-  { path: "/News/News_views/:id", element: <News_views /> },
+  { path: "/News_Menu/News_view/:id", element: <News_view /> },
   { path: "/News_Menu", element: <News /> },
 
   { path: "/FakeNews_Menu", element: <FakeNewInformation /> },

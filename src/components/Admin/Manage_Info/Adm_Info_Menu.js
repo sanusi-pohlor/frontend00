@@ -9,6 +9,7 @@ const ManageMembers = () => {
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
+  const [datamanage, setDatamanage] = useState([]);
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -25,8 +26,24 @@ const ManageMembers = () => {
       console.error("Error fetching user data:", error);
     }
   };
+  const fetchData_Manage = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDatamanage(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     fetchUserInfo();
+    fetchData_Manage();
   }, []);
 
   function getThaiMonth(month) {
@@ -100,6 +117,14 @@ const ManageMembers = () => {
         return "ตรวจสอบเสร็จสิ้น";
     }
   };
+
+  const renderResultText = (id) => {
+    const dataA = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
+    const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "ไม่พบ")) : "ไม่พบข้อมูล";
+    console.log("resultText ", id);
+    return resultText;
+  };
+
   const columns = [
     {
       title: "ลำดับ",
@@ -153,9 +178,9 @@ const ManageMembers = () => {
     },
     {
       title: "ผลการตรวจสอบ",
-      dataIndex: "",
+      dataIndex: "id",
       width: "10%",
-      render: (status) => getStatusText(status),
+      render: (id) => renderResultText(id),
     },
     {
       title: "จัดการ",

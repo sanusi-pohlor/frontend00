@@ -200,7 +200,8 @@ const Article_Menu = (open) => {
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
-                value={searchTerm}
+                onChange={(e) => handleSearch(e)}
+                //value={searchTerm}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
               <Button
@@ -317,7 +318,7 @@ const Article_Menu = (open) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            currentItems.slice(0, 1).map((item) => (
+            filteredArticles.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -325,7 +326,7 @@ const Article_Menu = (open) => {
                 style={{ marginBottom: "3%", padding: 5 }}
               >
                 <Link
-                  to={`/Article/Article_views/${item.id}`}
+                  to={`/Article_Menu/Article_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
@@ -377,7 +378,7 @@ const Article_Menu = (open) => {
                             {item.title}
                             <Button
                               type="primary"
-                              href={`/News/News_views/${item.id}`}
+                              href={`/Article_Menu/Article_view/${item.id}`}
                               target="_blank"
                               style={{
                                 fontSize: "18px",
@@ -409,7 +410,7 @@ const Article_Menu = (open) => {
               style={{ marginBottom: "3%", padding: 5 }}
             >
               <Link
-                to={`/Article/Article_views/${item.id}`}
+                to={`/Article_Menu/Article_view/${item.id}`}
                 style={{ textDecoration: "none" }}
               >
                 <Card
@@ -447,7 +448,7 @@ const Article_Menu = (open) => {
                       {item.title}
                       <Button
                         type="primary"
-                        href={`/Article/Article_views/${item.id}`}
+                        href={`/Article_Menu/Article_view/${item.id}`}
                         target="_blank"
                         style={{
                           fontSize: "18px",

@@ -60,7 +60,7 @@ const News_Menu = (open, onClose) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const newcurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
- 
+
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -84,8 +84,8 @@ const News_Menu = (open, onClose) => {
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-  const filteredArticles = data.filter((article) =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredNews = data.filter((News) =>
+  News.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const onFinish = (values) => {
@@ -96,18 +96,17 @@ const News_Menu = (open, onClose) => {
 
     console.log("Form values:", { type_new, med_new, prov_new, created_at });
 
-    const filteredArticles = dataOrg.filter((article) => {
-      const articleDate = article.created_at
-        ? new Date(article.created_at).toISOString().split("T")[0]
+    const filteredNews = dataOrg.filter((News) => {
+      const NewsDate = News.created_at
+        ? new Date(News.created_at).toISOString().split("T")[0]
         : null;
-      const matchesType = type_new ? article.type_new === type_new : true;
-      const matchesMedia = med_new ? article.med_new === med_new : true;
-      const matchesProvince = prov_new ? article.prov_new === prov_new : true;
-      const matchesDate = created_at ? articleDate === created_at : true;
+      const matchesType = type_new ? News.type_new === type_new : true;
+      const matchesMedia = med_new ? News.med_new === med_new : true;
+      const matchesProvince = prov_new ? News.prov_new === prov_new : true;
+      const matchesDate = created_at ? NewsDate === created_at : true;
       return matchesType && matchesMedia && matchesProvince && matchesDate;
     });
-    setData(filteredArticles);
-    console.log("filteredArticles:", filteredArticles);
+    setData(filteredNews);
   };
 
 
@@ -198,10 +197,12 @@ const News_Menu = (open, onClose) => {
               }}
             >
               <Input
+              type="text"
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
-                value={searchTerm}
+                //value={searchTerm}
+                onChange={(e) => handleSearch(e)}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
               <Button
@@ -318,7 +319,7 @@ const News_Menu = (open, onClose) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            newcurrentItems.slice(0, 1).map((item) => (
+            filteredNews.slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -326,7 +327,7 @@ const News_Menu = (open, onClose) => {
                 style={{ marginBottom: "3%", padding: 5 }}
               >
                 <Link
-                  to={`/News/News_views/${item.id}`}
+                  to={`/News_Menu/News_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
@@ -378,7 +379,7 @@ const News_Menu = (open, onClose) => {
                             {item.title}
                             <Button
                               type="primary"
-                              href={`/News/News_views/${item.id}`}
+                              href={`/News_Menu/News_view/${item.id}`}
                               target="_blank"
                               style={{
                                 fontSize: "18px",
@@ -401,7 +402,7 @@ const News_Menu = (open, onClose) => {
                 </Link>
               </Grid>
             ))}
-          {newcurrentItems.slice(1).map((item) =>(
+          {filteredNews.slice(1).map((item) => (
             <Grid
               item
               xs={12}
@@ -410,7 +411,7 @@ const News_Menu = (open, onClose) => {
               style={{ marginBottom: "3%", padding: 5 }}
             >
               <Link
-                to={`/News/News_views/${item.id}`}
+                to={`/News_Menu/News_view/${item.id}`}
                 style={{ textDecoration: "none" }}
               >
                 <Card
@@ -448,7 +449,7 @@ const News_Menu = (open, onClose) => {
                       {item.title}
                       <Button
                         type="primary"
-                        href={`/News/News_views/${item.id}`}
+                        href={`/News_Menu/News_view/${item.id}`}
                         target="_blank"
                         style={{
                           fontSize: "18px",

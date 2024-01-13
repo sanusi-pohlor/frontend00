@@ -135,7 +135,7 @@ const Adm_News_Form = () => {
     const linkData = values.link.map((link, index) => ({
       link
     }));
-    console.log("link :", JSON.stringify(values.link));
+    console.log("tag :", JSON.stringify(values.tag));
     try {
       setLoading(true);
       const formData = new FormData();
