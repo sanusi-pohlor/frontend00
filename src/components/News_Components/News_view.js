@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Paper } from "@mui/material";
-import { Modal, Divider, Descriptions, Card } from "antd";
+import { Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
 import moment from "moment";
 
 const News_view = () => {
@@ -12,37 +12,46 @@ const News_view = () => {
   const isMobile = window.innerWidth <= 768;
   const thaiDate = moment(Data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
-  const handleOk = () => setIsModalOpen(false);
   const handleCancel = () => setIsModalOpen(false);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    fetch(`https://fakenews001-392577897f69.herokuapp.com/api/News_show/${id}`)
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error("Error fetching news data:", error));
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/News_show/${id}`);
+        const data = await response.json();
+        setData(data);
+        setTags(JSON.parse(data.tag) || []);
+        console.log("tags :", tags);
+      } catch (error) {
+        console.error("Error fetching news data:", error);
+      }
+    };
+
+    fetchData();
   }, [id]);
 
-  const fetchUser = async () => {
-    try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        console.error("User data retrieval failed");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error("User data retrieval failed");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
     fetchUser();
   }, []);
 
@@ -52,9 +61,7 @@ const News_view = () => {
       label: "",
       children: user && (
         <img
-          src={
-            "https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"
-          }
+          src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"
           alt="Profile"
           style={{ width: "100px", height: "100px", borderRadius: "50%" }}
         />
@@ -84,8 +91,7 @@ const News_view = () => {
     {
       key: "6",
       label: "เกี่ยวกับผู้เขียน",
-      children:
-        "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน",
+      children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
 
@@ -94,32 +100,34 @@ const News_view = () => {
     fontSize: isMobile ? "20px" : "25px",
     color: "gray",
   };
-  const commonStyles1 = {
-    fontFamily: "'Th Sarabun New', sans-serif",
-    fontSize: isMobile ? "30px" : "50px",
-    color: "gray",
-  };
 
   return (
-    <div style={{ backgroundColor: '#f1f1f1' }}>
+    <div style={{ backgroundColor: "#f1f1f1" }}>
       <Paper
         elevation={0}
-        style={{ width: "80%", padding: 30, margin: "0 auto", backgroundColor: '#f1f1f1' }}
-      ><Card
         style={{
-          borderRadius: "20px",
-          backgroundColor: '#7BBD8F'
-        }}
-      ><div
-        style={{
-          fontSize: "70px",
-          fontWeight: "bold",
-          display: "flex",
-          justifyContent: "space-between",
-          fontFamily: "'Th Sarabun New', sans-serif",
-          color: "white",
+          width: "80%",
+          padding: 30,
+          margin: "0 auto",
+          backgroundColor: "#f1f1f1",
         }}
       >
+        <Card
+          style={{
+            borderRadius: "20px",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "70px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              color: "white",
+            }}
+          >
             ข่าวสาร
           </div>
         </Card>
@@ -127,23 +135,35 @@ const News_view = () => {
         <Card
           style={{
             borderRadius: "20px",
-            backgroundColor: '#ffffff',
+            backgroundColor: "#ffffff",
             padding: 30,
           }}
         >
           <h1 style={commonStyles}>{Data.title}</h1>
-          <h1 style={commonStyles}>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</h1>
-          <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1><Divider />
+          <h1 style={commonStyles}>
+            โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
+          </h1>
+          <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1>
+          <Divider />
           <div
             style={commonStyles}
             dangerouslySetInnerHTML={{ __html: Data.details }}
           />
           <div>
-            {Data.link && JSON.parse(Data.link).map((item, index) => (
-              <p key={index} style={commonStyles}>
-                Link: <a href={item.first}>{item.first}</a>
-              </p>
-            ))}
+            {Data.link &&
+              JSON.parse(Data.link).map((item, index) => (
+                <p key={index} style={commonStyles}>
+                  Link: <a href={item.first}>{item.first}</a>
+                </p>
+              ))}
+          </div>
+          <div>
+          <Space size={[0, 10]} wrap>
+            {Data.tag &&
+              JSON.parse(Data.tag).map((tag, index) => (
+                <Tag key={index}>#{tag}</Tag>
+              ))}
+              </Space>
           </div>
           <p style={commonStyles} onClick={showModal}>
             โปรไฟลผู้เขียน
@@ -163,8 +183,9 @@ const News_view = () => {
               items={items}
             />
           </Modal>
-          </Card>
-      </Paper></div>
+        </Card>
+      </Paper>
+    </div>
   );
 };
 

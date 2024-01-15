@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import "react-quill/dist/quill.snow.css";
-import { Form, Input, Button, message, Upload, Card, Select, DatePicker, Space } from "antd";
+import {
+  Form,
+  Input,
+  Button,
+  message,
+  Upload,
+  Card,
+  Select,
+  Space,
+} from "antd";
 import ReactQuill from "react-quill";
-import { PlusOutlined, MinusCircleOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  PlusOutlined,
+  MinusCircleOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 const { Option } = Select;
 
 const Adm_News_Form = () => {
@@ -23,35 +36,44 @@ const Adm_News_Form = () => {
     }
     return e && e.fileList;
   };
-  const handleTagCreation = (value) => {
-    fetch('https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload', {
-      method: 'POST',
-      body: JSON.stringify({ tagName: value }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setOptions(data.updatedTags);
-      })
-      .catch((error) => {
-        console.error('Error adding tag:', error);
-      });
+  const handleTagCreation = async (value) => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload",
+        {
+          method: "POST",
+          body: JSON.stringify({ tag_name: value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          { label: data.tag_name, value: data.tag_name },
+        ]);
+      } else {
+        console.error("Error adding tag:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding tag:", error);
+    }
   };
 
   useEffect(() => {
-    fetch('https://fakenews001-392577897f69.herokuapp.com/api/Tags_request')
+    fetch("https://fakenews001-392577897f69.herokuapp.com/api/Tags_request")
       .then((response) => response.json())
       .then((data) => {
         const formattedOptions = data.map((item) => ({
-          label: item.label,
-          value: item.value,
+          label: item.tag_name,
+          value: item.tag_name,
         }));
         setOptions(formattedOptions);
       })
       .catch((error) => {
-        console.error('Error fetching tags:', error);
+        console.error("Error fetching tags:", error);
       });
   }, []);
 
@@ -61,12 +83,15 @@ const Adm_News_Form = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -130,11 +155,7 @@ const Adm_News_Form = () => {
   };
 
   const onFinish = async (values) => {
-
-    console.log("values :", editorHtml);
-    const linkData = values.link.map((link, index) => ({
-      link
-    }));
+    console.log("link :", JSON.stringify(values.link));
     console.log("tag :", JSON.stringify(values.tag));
     try {
       setLoading(true);
@@ -145,7 +166,7 @@ const Adm_News_Form = () => {
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("video", values.video);
       formData.append("link", JSON.stringify(values.link));
-      formData.append("tag", values.tag);
+      formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
       formData.append("prov_new", values.prov_new);
@@ -201,6 +222,7 @@ const Adm_News_Form = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   };
+
   const onChange_mfi_ty_info_id = () => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
@@ -218,11 +240,13 @@ const Adm_News_Form = () => {
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
   }, []);
+
   return (
     <AdminMenu>
       <Card
@@ -243,7 +267,6 @@ const Adm_News_Form = () => {
         >
           <Form.Item
             label="ผู้เขียน"
-            //name="fn_info_nameid"
             rules={[
               {
                 required: true,
@@ -266,13 +289,13 @@ const Adm_News_Form = () => {
             label="รายละเอียด"
             rules={[{ required: false }]}
           >
-            <div style={{ height: "300px" }}>
+            <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
                 placeholder="Write something..."
                 formats={formats}
                 modules={modules}
-                style={{ height: "250px" }}
+                style={{ height: "950px" }}
               />
             </div>
           </Form.Item>
@@ -307,28 +330,33 @@ const Adm_News_Form = () => {
                   <Space
                     key={key}
                     style={{
-                      display: 'flex',
+                      display: "flex",
                       marginBottom: 12,
                     }}
                     align="baseline"
                   >
                     <Form.Item
                       {...restField}
-                      name={[name, 'first']}  // Include 'first' here in the name prop
+                      name={[name, "first"]}
                       rules={[
                         {
                           required: true,
-                          message: 'Missing first name',
+                          message: "Missing first name",
                         },
                       ]}
                     >
-                      <Input placeholder="Link" style={{ width: '100%' }} />
+                      <Input placeholder="Link" style={{ width: "100%" }} />
                     </Form.Item>
                     <MinusCircleOutlined onClick={() => remove(name)} />
                   </Space>
                 ))}
                 <Form.Item>
-                  <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
                     เพิ่มลิงค์
                   </Button>
                 </Form.Item>
@@ -338,16 +366,21 @@ const Adm_News_Form = () => {
           <Form.Item name="tag" label="Tag" rules={[{ required: false }]}>
             <Select
               mode="tags"
-              style={{
-                width: '100%',
-              }}
+              style={{ width: "100%" }}
               placeholder="Tags Mode"
-              onChange={handleChangetag}
-              onSelect={handleTagCreation}
+              onSearch={(value) => {
+                if (Array.isArray(options)) {
+                  handleTagCreation(value);
+                }
+              }}
               options={options}
             />
           </Form.Item>
-          <Form.Item name="type_new" label="ประเภทข่าว" rules={[{ required: false }]}>
+          <Form.Item
+            name="type_new"
+            label="ประเภทข่าว"
+            rules={[{ required: false }]}
+          >
             <Select
               placeholder="Select a option and change input text above"
               onChange={onChange_mfi_ty_info_id}
@@ -356,7 +389,11 @@ const Adm_News_Form = () => {
               {selectOptions_ty}
             </Select>
           </Form.Item>
-          <Form.Item name="med_new" label="ช่องทางสื่อ" rules={[{ required: false }]}>
+          <Form.Item
+            name="med_new"
+            label="ช่องทางสื่อ"
+            rules={[{ required: false }]}
+          >
             <Select
               placeholder="เลือกช่องทางสื่อ"
               onChange={onChange_dnc_med_id}
@@ -365,7 +402,11 @@ const Adm_News_Form = () => {
               {selectOptions_med}
             </Select>
           </Form.Item>
-          <Form.Item name="prov_new" label="จังหวัด" rules={[{ required: false }]}>
+          <Form.Item
+            name="prov_new"
+            label="จังหวัด"
+            rules={[{ required: false }]}
+          >
             <Select onChange={onChange_mfi_province} allowClear>
               {selectOptions_prov}
             </Select>
@@ -375,7 +416,8 @@ const Adm_News_Form = () => {
               Submit
             </Button>
           </Form.Item>
-        </Form></Card>
+        </Form>
+      </Card>
     </AdminMenu>
   );
 };
