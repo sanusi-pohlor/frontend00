@@ -158,15 +158,18 @@ const News_view = () => {
               ))}
           </div>
           <div>
-          <Space size={[0, 10]} wrap>
-            {Data.tag &&
-              JSON.parse(Data.tag).map((tag, index) => (
-                <Tag key={index}>#{tag}</Tag>
-              ))}
-              </Space>
+            <Space size={[4, 8]} wrap>
+              {Data.tag &&
+                JSON.parse(Data.tag).map((tag, index) => (
+                  <Tag key={index} style={{
+                    fontSize: "20px",
+                    textAlign: "center",
+                  }}>#{tag}</Tag>
+                ))}
+            </Space>
           </div>
           <p style={commonStyles} onClick={showModal}>
-            โปรไฟลผู้เขียน
+            โปรไฟลผู้เขียน <span>{user && user.username}</span>
           </p>
           <Modal
             title="โปรไฟล์ผู้เขียน"

@@ -38,7 +38,7 @@ const News_Menu = (open, onClose) => {
   const [itemsPerPage] = useState(10);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
-
+  const [options, setOptions] = useState([]);
   const buttonStyle = {
     background: "#f1f1f1",
     border: "none",
@@ -60,7 +60,6 @@ const News_Menu = (open, onClose) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const newcurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -85,8 +84,23 @@ const News_Menu = (open, onClose) => {
     setSearchTerm(event.target.value);
   };
   const filteredNews = data.filter((News) =>
-  News.title.toLowerCase().includes(searchTerm.toLowerCase())
+    News.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+    fetch("https://fakenews001-392577897f69.herokuapp.com/api/Tags_request")
+      .then((response) => response.json())
+      .then((data) => {
+        const formattedOptions = data.map((item) => ({
+          label: item.tag_name,
+          value: item.id,
+        }));
+        setOptions(formattedOptions);
+      })
+      .catch((error) => {
+        console.error("Error fetching tag:", error);
+      });
+  }, []);
 
   const onFinish = (values) => {
     const { type_new, med_new, prov_new } = values;
@@ -108,7 +122,6 @@ const News_Menu = (open, onClose) => {
     });
     setData(filteredNews);
   };
-
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -197,7 +210,7 @@ const News_Menu = (open, onClose) => {
               }}
             >
               <Input
-              type="text"
+                type="text"
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
@@ -214,12 +227,7 @@ const News_Menu = (open, onClose) => {
                 ตัวกรอง
               </Button>
               <Modal
-                open={filterVisible}
-                onClose={closeFilterDialog}
-                handleSubmit={handleSubmit}
-                FilterFinish={FilterFinish}
-                title="ตัวกรอง"
-                visible={open}
+                visible={filterVisible}
                 onCancel={closeFilterDialog}
                 footer={null}
               >
@@ -295,8 +303,14 @@ const News_Menu = (open, onClose) => {
                         {selectOptions_prov}
                       </Select>
                     </Form.Item>
-                    <Form.Item label="คำสำคัญ" style={{ marginBottom: "10px" }}>
-                      <Input />
+                    <Form.Item name="tag" label="คำสำคัญ" style={{ marginBottom: "10px" }}>
+                      <Select
+                        mode="tags"
+                        style={{ width: "100%" }}
+                        placeholder="Tags Mode"
+                        options={options}
+                        name="tag"
+                      />
                     </Form.Item>
                     <Form.Item>
                       <Button
