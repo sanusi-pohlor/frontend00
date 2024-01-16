@@ -93,7 +93,7 @@ const News_Menu = (open, onClose) => {
       .then((data) => {
         const formattedOptions = data.map((item) => ({
           label: item.tag_name,
-          value: item.id,
+          value: item.tag_name,
         }));
         setOptions(formattedOptions);
       })
@@ -103,12 +103,20 @@ const News_Menu = (open, onClose) => {
   }, []);
 
   const onFinish = (values) => {
-    const { type_new, med_new, prov_new } = values;
+    console.log("tags:", values.tags);
+    const { type_new, med_new, prov_new, tags } = values;
+    const formattedTags = tags || [];
     const created_at = values.created_at
       ? new Date(values.created_at).toISOString().split("T")[0]
       : null;
 
-    console.log("Form values:", { type_new, med_new, prov_new, created_at });
+    console.log("Form values:", {
+      type_new,
+      med_new,
+      prov_new,
+      created_at,
+      tags,
+    });
 
     const filteredNews = dataOrg.filter((News) => {
       const NewsDate = News.created_at
@@ -118,7 +126,25 @@ const News_Menu = (open, onClose) => {
       const matchesMedia = med_new ? News.med_new === med_new : true;
       const matchesProvince = prov_new ? News.prov_new === prov_new : true;
       const matchesDate = created_at ? NewsDate === created_at : true;
-      return matchesType && matchesMedia && matchesProvince && matchesDate;
+
+      let newsTags = [];
+      try {
+        newsTags = JSON.parse(News.tag || "[]");
+        console.log("newsTags:", newsTags);
+      } catch (error) {
+        console.error("Error parsing news.tag:", error);
+      }
+      const matchesAnyTag =
+        formattedTags.length === 0 ||
+        formattedTags.every((formattedTag) => newsTags.includes(formattedTag));
+
+      return (
+        matchesType &&
+        matchesMedia &&
+        matchesProvince &&
+        matchesDate &&
+        matchesAnyTag
+      );
     });
     setData(filteredNews);
   };
@@ -303,13 +329,17 @@ const News_Menu = (open, onClose) => {
                         {selectOptions_prov}
                       </Select>
                     </Form.Item>
-                    <Form.Item name="tag" label="คำสำคัญ" style={{ marginBottom: "10px" }}>
+                    <Form.Item
+                      name="tags"
+                      label="คำสำคัญ"
+                      style={{ marginBottom: "10px" }}
+                    >
                       <Select
                         mode="tags"
                         style={{ width: "100%" }}
                         placeholder="Tags Mode"
                         options={options}
-                        name="tag"
+                        name="tags"
                       />
                     </Form.Item>
                     <Form.Item>
@@ -319,7 +349,7 @@ const News_Menu = (open, onClose) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                      //onClick={handleApplyFilters}
+                        //onClick={handleApplyFilters}
                       >
                         ค้นหา
                       </Button>
