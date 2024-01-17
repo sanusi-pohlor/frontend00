@@ -4,6 +4,9 @@ import MenuNavbar from "./components/Menu_Navbar";
 import Bottom from "./components/Bottom";
 import Dashboard from "./components/Dashboard_Components/Dashboard";
 
+import FakenewsSearch from "./components/FakenewsSearch_Components/FakenewsSearch_Menu";
+import FakenewsSearch_view from "./components/FakenewsSearch_Components/FakenewsSearch_View";
+
 import News from "./components/News_Components/News_Menu";
 import News_view from "./components/News_Components/News_view";
 
@@ -67,6 +70,9 @@ import { Box } from "@mui/material";
 const routes = [
   { path: "/", element: <Dashboard /> },
 
+  { path: "/FakenewsSearch/FakenewsSearch_view/:id", element: <FakenewsSearch_view /> },
+  { path: "/FakenewsSearch", element: <FakenewsSearch /> },
+  
   { path: "/Article_Menu/Article_view/:id", element: <Article_view /> },
   { path: "/Article_Menu", element: <Article /> },
 

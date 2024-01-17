@@ -25,7 +25,7 @@ import {
   DatePicker,
 } from "antd";
 import Flickity from "react-flickity-component";
-import { Link } from "react-router-dom";
+import { Link,useNavigate  } from "react-router-dom";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 
@@ -46,7 +46,7 @@ const Dashboard = ({ onSearch }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
   const [showPaper, setShowPaper] = useState(true);
-
+  const navigate = useNavigate();
   const togglePaper = () => {
     setShowPaper(!showPaper);
   };
@@ -81,12 +81,12 @@ const Dashboard = ({ onSearch }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const newcurrentItems = newdata.slice(indexOfFirstItem, indexOfLastItem);
-  
+
   const articlecurrentItems = articledata.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
-  
+
   const mdSharecurrentItems = mdSharedata.slice(
     indexOfFirstItem,
     indexOfLastItem
@@ -179,7 +179,7 @@ const Dashboard = ({ onSearch }) => {
             จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
           </div>
         </Card>
-        <br/>
+        <br />
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <BarChartComponent />
@@ -194,11 +194,47 @@ const Dashboard = ({ onSearch }) => {
             <ThailandMap />
           </Grid>
           <Grid item xs={12} md={6}>
-              <MuiTable/>
+            <MuiTable />
           </Grid>
         </Grid>
+        <br />
+        <Card
+          style={{
+            borderRadius: "20px",
+            backgroundColor: "#7BBD8F",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "40px",
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "space-between",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              color: "white",
+            }}
+          >ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
+            <Button
+              size="large"
+              type="primary"
+              style={{
+                padding: "30px 35px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#ffffff",
+                border: "#ffffff",
+                color: "#7BBD8F",
+                fontSize: "25px",
+              }}
+              onClick={() => navigate('/FakenewsSearch')}
+            >
+              ไปค้นหา
+            </Button>
+          </div>
+        </Card>
+        <br />
       </Paper>
-      <br /> <br /> <br />
       <Paper
         elevation={0}
         style={{

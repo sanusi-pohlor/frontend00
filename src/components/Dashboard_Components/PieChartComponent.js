@@ -11,21 +11,14 @@ import { Card, Divider, Select,DatePicker } from "antd";
 import moment from "moment";
 import {  MenuItem, Typography } from "@mui/material";
 const { Option } = Select;
-const generateRandomColor = () => {
-  const letters = "0123456789ABCDEF";
-  let color = "#";
-  for (let i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-};
+
 const MyPieChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const COLORS = Array.from({ length: 6 }, () => generateRandomColor());
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",

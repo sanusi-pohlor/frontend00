@@ -21,6 +21,8 @@ import AdminMenu from "../Adm_Menu";
 import { Grid } from "@mui/material";
 
 const M_DB_Adm_Menu = () => {
+  const [data, setData] = useState([]);
+  const [datamanage, setDatamanage] = useState([]);
   const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
@@ -38,7 +40,6 @@ const M_DB_Adm_Menu = () => {
           },
         }
       );
-
       if (response.ok) {
         const data = await response.json();
         setUser(data);
@@ -49,9 +50,42 @@ const M_DB_Adm_Menu = () => {
       console.error("Error:", error);
     }
   };
+  const fetchDataInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchData_Manage = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDatamanage(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     fetchUser();
-  },);
+    fetchDataInfo();
+    fetchData_Manage();
+  }, []);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -65,13 +99,21 @@ const M_DB_Adm_Menu = () => {
     setIsModalOpen(false);
   };
 
+  const countByStatus = (status) => {
+    return data.filter((item) => item.fn_info_status === status).length;
+  };
+  const countByresults = (result) => {
+    return datamanage.filter((item) => item.mfi_results === result).length;
+  };
+  
+  
   const items = [
-    { key: "1", label: "จำนวนข้อมูลที่แจ้ง", children: "20" },
-    { key: "2", label: "จำนวนข้อมูลที่ยังไม่ตรวจสอบ", children: "5" },
-    { key: "3", label: "จำนวนข้อมูลทีกำลังตรวจสอบ", children: "8" },
-    { key: "4", label: "จำนวนข้อมูลทีตรวจสอบเรียบร้อย", children: "7" },
-    { key: "5", label: "จำนวนข้อมูลทีเป็นข่าวจริง", children: "2" },
-    { key: "6", label: "จำนวนข้อมูลทีเป็นข่าวเท็จ", children: "5" },
+    { key: "1", label: "จำนวนข้อมูลที่แจ้ง", children: data.length },
+    { key: "2", label: "จำนวนข้อมูลที่ยังไม่ตรวจสอบ", children: countByStatus(0) },
+    { key: "3", label: "จำนวนข้อมูลทีกำลังตรวจสอบ", children: countByStatus(1) },
+    { key: "4", label: "จำนวนข้อมูลทีตรวจสอบเรียบร้อย", children: countByStatus(2) },
+    { key: "5", label: "จำนวนข้อมูลทีเป็นข่าวจริง", children: countByresults(1) },
+    { key: "6", label: "จำนวนข้อมูลทีเป็นข่าวเท็จ", children: countByresults(0) },
   ];
 
   const items2 = [
