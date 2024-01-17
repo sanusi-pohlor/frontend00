@@ -9,7 +9,6 @@ import {
   Card,
   Button,
   Input,
-  Typography,
   Form,
   DatePicker,
   Modal,
@@ -18,11 +17,11 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
-import { useMediaQuery } from "@mui/material";
+import { Typography, useMediaQuery } from "@mui/material";
 import moment from "moment";
 const { Option } = Select;
 const { Meta } = Card;
-const { Title } = Typography;
+
 
 const News_Menu = (open, onClose) => {
   const [form] = Form.useForm();
@@ -258,6 +257,20 @@ const News_Menu = (open, onClose) => {
                 footer={null}
               >
                 <div>
+                <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                      textAlign: "center",
+                      fontSize: "35px",
+                      fontWeight: "bold",
+                      fontFamily: "'Th Sarabun New', sans-serif",
+                    }}
+                  >
+                    กรองข้อมูล
+                  </div>
                   <Form
                     form={form}
                     layout="vertical"
@@ -269,20 +282,16 @@ const News_Menu = (open, onClose) => {
                     }}
                     style={{
                       maxWidth: "100%",
+                      padding: 20,
                     }}
                   >
                     <Form.Item
                       name="type_new"
-                      label="ประเภทข่าว"
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please select a type code!",
-                        },
-                      ]}
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ประเภทข่าว</Typography>}
                     >
                       <Select
-                        placeholder="Select a option and change input text above"
+                        size="large"
+                        placeholder="เลือกประเภทข่าว"
                         onChange={onChange_mfi_ty_info_id}
                         allowClear
                       >
@@ -291,15 +300,10 @@ const News_Menu = (open, onClose) => {
                     </Form.Item>
                     <Form.Item
                       name="med_new"
-                      label="ช่องทางสื่อ"
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please input the title of collection!",
-                        },
-                      ]}
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ช่องทางสื่อ</Typography>}
                     >
                       <Select
+                        size="large"
                         placeholder="เลือกช่องทางสื่อ"
                         onChange={onChange_dnc_med_id}
                         allowClear
@@ -309,37 +313,32 @@ const News_Menu = (open, onClose) => {
                     </Form.Item>
                     <Form.Item
                       name="created_at"
-                      label="วัน/เดือน/ปี"
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี</Typography>}
                       style={{ marginBottom: "10px" }}
                     >
-                      <DatePicker />
+                      <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
                     </Form.Item>
                     <Form.Item
                       name="prov_new"
-                      label="จังหวัด"
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
                       style={{ marginBottom: "10px" }}
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please input the title of collection!",
-                        },
-                      ]}
                     >
-                      <Select onChange={onChange_mfi_province} allowClear>
+                      <Select size="large" placeholder="เลือกจังหวัด" onChange={onChange_mfi_province} allowClear>
                         {selectOptions_prov}
                       </Select>
                     </Form.Item>
                     <Form.Item
                       name="tags"
-                      label="คำสำคัญ"
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
                       style={{ marginBottom: "10px" }}
                     >
                       <Select
+                        size="large"
                         mode="tags"
                         style={{ width: "100%" }}
-                        placeholder="Tags Mode"
                         options={options}
                         name="tags"
+                        placeholder="เลือกคำสำคัญ"
                       />
                     </Form.Item>
                     <Form.Item>
@@ -349,9 +348,17 @@ const News_Menu = (open, onClose) => {
                         placeholder="เลือกจังหวัด"
                         className="login-form-button"
                         size="large"
-                        //onClick={handleApplyFilters}
+                        style={{
+                          padding: "20px 25px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          background: "#7BBD8F",
+                          border: "none",
+                          color: "#ffffff",
+                        }}
                       >
-                        ค้นหา
+                        <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
                       </Button>
                     </Form.Item>
                   </Form>

@@ -9,18 +9,25 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, DatePicker, Divider, Form,Select, Button } from "antd";
+import { Card, DatePicker, Divider, Form, Select, Button } from "antd";
 import moment from "moment";
-import {  MenuItem, Typography } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 const { Option } = Select;
-
+const generateRandomColor = () => {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+};
 const MyBarChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000", "#AF19FF"];
+  const COLORS = Array.from({ length: 6 }, () => generateRandomColor());
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",
@@ -41,7 +48,7 @@ const MyBarChart = () => {
       dataIndex: "mfi_ty_info",
     },
   ]);
-
+  
   useEffect(() => {
     if (!selectedOption) {
       setSelectedOption(options[0].title);
@@ -180,11 +187,16 @@ const MyBarChart = () => {
         </div>
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData}>
-            <XAxis dataKey="name" />
+          <BarChart data={chartData} style={{
+            fontSize: "25px",
+            fontWeight: "bold",
+            fontFamily: "'Th Sarabun New', sans-serif",
+          }}
+          >
+            <XAxis/>
             <YAxis />
             <Tooltip />
-            <Legend />
+            <Legend payload={chartData.map((entry, index) => ({ value: entry.name, color: COLORS[index % COLORS.length] }))} />
             <Bar dataKey="value" nameKey="name">
               {chartData.map((entry, index) => (
                 <Cell

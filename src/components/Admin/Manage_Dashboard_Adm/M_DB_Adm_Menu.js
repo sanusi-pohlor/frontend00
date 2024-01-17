@@ -21,11 +21,10 @@ import AdminMenu from "../Adm_Menu";
 import { Grid } from "@mui/material";
 
 const M_DB_Adm_Menu = () => {
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"]; // Array of different colors
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
   const [user, setUser] = useState(null);
 
   const fetchUser = async () => {
@@ -50,7 +49,9 @@ const M_DB_Adm_Menu = () => {
       console.error("Error:", error);
     }
   };
-
+  useEffect(() => {
+    fetchUser();
+  },);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -65,36 +66,12 @@ const M_DB_Adm_Menu = () => {
   };
 
   const items = [
-    {
-      key: "1",
-      label: "จำนวนข้อมูลที่แจ้ง",
-      children: "20",
-    },
-    {
-      key: "2",
-      label: "จำนวนข้อมูลที่ยังไม่ตรวจสอบ",
-      children: "5",
-    },
-    {
-      key: "3",
-      label: "จำนวนข้อมูลทีกำลังตรวจสอบ",
-      children: "8",
-    },
-    {
-      key: "4",
-      label: "จำนวนข้อมูลทีตรวจสอบเรียบร้อย",
-      children: "7",
-    },
-    {
-      key: "5",
-      label: "จำนวนข้อมูลทีเป็นข่าวจริง",
-      children: "2",
-    },
-    {
-      key: "6",
-      label: "จำนวนข้อมูลทีเป็นข่าวเท็จ",
-      children: "5",
-    },
+    { key: "1", label: "จำนวนข้อมูลที่แจ้ง", children: "20" },
+    { key: "2", label: "จำนวนข้อมูลที่ยังไม่ตรวจสอบ", children: "5" },
+    { key: "3", label: "จำนวนข้อมูลทีกำลังตรวจสอบ", children: "8" },
+    { key: "4", label: "จำนวนข้อมูลทีตรวจสอบเรียบร้อย", children: "7" },
+    { key: "5", label: "จำนวนข้อมูลทีเป็นข่าวจริง", children: "2" },
+    { key: "6", label: "จำนวนข้อมูลทีเป็นข่าวเท็จ", children: "5" },
   ];
 
   const items2 = [
@@ -111,27 +88,11 @@ const M_DB_Adm_Menu = () => {
         />
       ),
     },
-    {
-      key: "1",
-      label: "ชื่อ-สกุล",
-      children: user && <span>{user.username}</span>,
-    },
-    {
-      key: "2",
-      label: "เบอร์ติดต่อ",
-      children: user && <span>{user.phone_number}</span>,
-    },
-    {
-      key: "3",
-      label: "ไอดีไลน์",
-      children: user && <span>{user.Id_line}</span>,
-    },
+    { key: "1", label: "ชื่อ-สกุล", children: user && <span>{user.username}</span> },
+    { key: "2", label: "เบอร์ติดต่อ", children: user && <span>{user.phone_number}</span> },
+    { key: "3", label: "ไอดีไลน์", children: user && <span>{user.Id_line}</span> },
     { key: "4", label: "อีเมล", children: user && <span>{user.email}</span> },
-    {
-      key: "5",
-      label: "จังหวัด",
-      children: user && <span>{user.province}</span>,
-    },
+    { key: "5", label: "จังหวัด", children: user && <span>{user.province}</span> },
     {
       key: "6",
       label: "เกี่ยวกับผู้เขียน",
@@ -139,65 +100,31 @@ const M_DB_Adm_Menu = () => {
         "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน",
     },
   ];
-  const [chartData, setChartData] = useState([]);
 
-  const fetchData = async (endpoint, name, dataIndex) => {
-    try {
-      const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const data = await response.json();
+  const [chartData1, setChartData1] = useState([]);
+  const [chartData2, setChartData2] = useState([]);
+  const [chartData3, setChartData3] = useState([]);
 
-        const countByCategory = data.map((item) => {
-          return {
-            name: item[name],
-            value: item[dataIndex],
-          };
-        });
-
-        setChartData(countByCategory);
-      } else {
-        console.error("Failed to fetch data");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  // useEffect(() => {
-  //   if (options.length > 0) {
-  //     options.forEach((option) => {
-  //       fetchData(option.value, option.name, option.dataIndex);
-  //     });
-  //   }
-  // }, [options]);
   const [options] = useState([
     {
-      title: "แหล่งที่มาของข้อมูล",
+      title: "ประเภทสื่อ",
       value: "MediaChannels_request",
       name: "med_c_name",
       dataIndex: "mfi_med_c",
     },
     {
-      title: "รูปแบบข้อมูล",
+      title: "รูปแบบข่าว",
       value: "FormatData_request",
       name: "fm_d_name",
       dataIndex: "mfi_fm_d",
     },
     {
-      title: "ประเภทข้อมูล",
-      value: "TypeInformation_request",
-      name: "type_info_name",
-      dataIndex: "mfi_ty_info",
+      title: "จังหวัด",
+      value: "Province_request",
+      name: "prov_name",
+      dataIndex: "mfi_province",
     },
   ]);
-
-  useEffect(() => {
-    if (options.length > 0 && !selectedOption) {
-      setSelectedOption(options[0].title);
-    }
-  }, [options, selectedOption]);
 
   useEffect(() => {
     const fetchData = async (endpoint, name, dataIndex) => {
@@ -224,73 +151,135 @@ const M_DB_Adm_Menu = () => {
             };
           });
 
-          setChartData(countByMedCId);
+          return countByMedCId;
         } else {
           console.error("Failed to fetch data");
+          return [];
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+        return [];
       }
     };
 
-    if (selectedOption) {
-      const selected = options.find((opt) => opt.title === selectedOption);
-      if (selected) {
-        fetchData(selected.value, selected.name, selected.dataIndex);
-      }
-    }
-  }, [selectedOption, options]);
+    Promise.all(
+      options.map((option) => fetchData(option.value, option.name, option.dataIndex))
+    ).then((data) => {
+      setChartData1(data[0]);
+      setChartData2(data[1]);
+      setChartData3(data[2]);
+    });
 
-  const handleSelectChange = (value) => {
-    setSelectedOption(value);
-  };
+  }, []);
+
   return (
     <AdminMenu>
       <Grid container spacing={2}>
-        {options.map((option, index) => (
-          <Grid key={index} item xs={12} md={4}>
-            <Card
-              hoverable
-              style={{
-                margin: "auto",
-                borderRadius: `${curveAngle}px`,
-                backgroundColor: paperColor,
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <Select value={selectedOption} onChange={handleSelectChange}>
-                {options.map((option) => (
-                  <Select.Option key={option.value} value={option.title}>
-                    {option.title}
-                  </Select.Option>
-                ))}
-              </Select>
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Tooltip />
-                  <Legend />
-                  <Pie
-                    data={chartData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    label
-                  >
-                    {chartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Card>
-          </Grid>
-        ))}
+        <Grid item xs={12} md={4}>
+          <Card
+            hoverable
+            style={{
+              margin: "auto",
+              borderRadius: `${curveAngle}px`,
+              backgroundColor: paperColor,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend />
+                <Pie
+                  data={chartData1}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                >
+                  {chartData1.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card
+            hoverable
+            style={{
+              margin: "auto",
+              borderRadius: `${curveAngle}px`,
+              backgroundColor: paperColor,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend />
+                <Pie
+                  data={chartData2}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                >
+                  {chartData2.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card
+            hoverable
+            style={{
+              margin: "auto",
+              borderRadius: `${curveAngle}px`,
+              backgroundColor: paperColor,
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Tooltip />
+                <Legend />
+                <Pie
+                  data={chartData3}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                >
+                  {chartData3.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
       </Grid>
       <Divider />
       <Card
@@ -310,7 +299,7 @@ const M_DB_Adm_Menu = () => {
             fontSize: "30px",
           }}
           title="ข้อมูล Admin"
-          items={items}
+          items={items2}
         />
         <br />
         <Button type="primary" onClick={showModal}>
@@ -318,7 +307,7 @@ const M_DB_Adm_Menu = () => {
         </Button>
         <Modal
           title="Basic Modal"
-          open={isModalOpen}
+          open={isModalOpen} ห
           onOk={handleOk}
           onCancel={handleCancel}
         >

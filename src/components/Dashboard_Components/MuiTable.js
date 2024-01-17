@@ -14,6 +14,7 @@ const MyTable = () => {
   const paperColor = "#FFFFFF";
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
+  const [selectedOptionColumns, setSelectedOptionColumns] = useState([]);
   const [options] = useState([
     {
       title: "ประเภทข้อมูล",
@@ -112,16 +113,26 @@ const MyTable = () => {
     }
   };
 
-  const columns = [
-    { field: "name", headerName: "", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
-    { field: "value", headerName: "จำนวน", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
-  ];
+  useEffect(() => {
+    if (selectedOption) {
+      const selected = options.find((opt) => opt.title === selectedOption);
+      if (selected) {
+        const columns = [
+          { field: "name", headerName: selected.title, flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+          { field: "value", headerName: "จำนวน", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+        ];
+        setSelectedOptionColumns(columns);
+      }
+    }
+  }, [selectedOption]);
 
   const tableDataWithId = tableData.map((row, index) => ({
     ...row,
     id: index + 1,
   }));
-
+  const CustomPagination = () => {
+    return null; // Return null to hide the pagination
+  };
   return (
     <div>
       <Card
@@ -184,14 +195,14 @@ const MyTable = () => {
         <Box />
         <DataGrid 
           rows={tableDataWithId} 
-          columns={columns} 
+          columns={selectedOptionColumns}
           pageSize={5} 
           autoHeight 
           components={{
-            Toolbar: () => null, // Hiding the toolbar to prevent overlapping
+            Pagination: CustomPagination,
           }}
           style={{
-            fontSize: "25px", // Adjust the font size as needed
+            fontSize: "25px",
           }}
         />
       </Card>

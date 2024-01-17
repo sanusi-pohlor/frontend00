@@ -4,16 +4,19 @@ const theme = createTheme({
   typography: {
     fontFamily: [
       "Th Sarabun New",
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
       "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
+    ].join(","),
+  },
+  Form: {
+    fontFamily: [
+      "Th Sarabun New",
+      "sans-serif",
+    ].join(","),
+  },
+  barchart: {
+    fontFamily: [
+      "Th Sarabun New",
+      "sans-serif",
     ].join(","),
   },
 });
