@@ -21,8 +21,10 @@ const FnInfoEdit = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [img, setImg] = useState(null);
+  const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
+  const [med, setmed] = useState("");
   const [selectednum_mem, setSelectednum_mem] = useState("");
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const navigate = useNavigate();
@@ -37,6 +39,25 @@ const FnInfoEdit = () => {
     return e && e.fileList;
   };
 
+  const fetchmed = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request"
+      );
+      if (response.ok) {
+        const userData = await response.json();
+        setmed(userData);
+      } else {
+        console.error("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchmed();
+  }, []);
+
   useEffect(() => {
     fetchFakeNewsData(); // Modify the function name accordingly
   }, [id]);
@@ -49,11 +70,13 @@ const FnInfoEdit = () => {
       if (response.ok) {
         const data = await response.json();
         setImg(data);
-        // Set initial form values based on the fetched data
+        const filteredIds = med.filter(
+          (item) => item.id === (data && data.fn_info_source)
+        );
         form.setFieldsValue({
           fn_info_head: data.fn_info_head,
           fn_info_content: data.fn_info_content,
-          fn_info_source: data.fn_info_source,
+          fn_info_source: filteredIds[0].med_c_name,
           fn_info_num_mem: data.fn_info_num_mem,
           fn_info_more: data.fn_info_more,
           fn_info_link: data.fn_info_link,
@@ -88,7 +111,6 @@ const FnInfoEdit = () => {
       const formattedDate = moment(values.fn_info_dmy).format("YYYY-MM-DD");
       formData.append("fn_info_dmy", formattedDate);
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
-
       const response = await fetch(
         `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_update/${id}`,
         {
@@ -139,23 +161,42 @@ const FnInfoEdit = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (user && user.province)
+          );
+          setProvince(filteredIds[0]);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (user && user.province) {
+      fetchProvince();
+    }
+  }, [user]);
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
+        const options = typeCodes.map((code) => ({
+          key: code[`${fieldName}_id`],
+          value: code[`${fieldName}_id`],
+          label: code[`${fieldName}_name`],
+        }));
         stateSetter(options);
       } else {
         console.error(
@@ -229,23 +270,25 @@ const FnInfoEdit = () => {
               disabled
             />
           </Form.Item>
-          <Form.Item
-            label="จังหวัดของท่าน"
-            //name="fn_info_province"
-            rules={[
-              {
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input
-              size="large"
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user.province}
-              disabled
-            />
-          </Form.Item>
+          {province && province.length > 0 && (
+            <Form.Item
+              label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัดของท่าน</Typography>}
+              //name="fn_info_province"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your email!",
+                },
+              ]}
+            >
+              <Input
+                size="large"
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder={province[0].prov_name}
+                disabled
+              />
+            </Form.Item>
+          )}
           <Form.Item
             label="หัวข้อ"
             name="fn_info_head"
