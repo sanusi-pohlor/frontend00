@@ -91,13 +91,13 @@ const Profile = () => {
   );
 
   const items = [
-    { key: "1", label: "ชื่อ-นามสกุล", children: user && createTypography("ชื่อ-นามสกุล", user.username) },
-    { key: "2", label: "นามสกุล", children: user && createTypography("นามสกุล", user.lastName) },
-    { key: "3", label: "จังหวัดที่อยู่", children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name) },
-    { key: "4", label: "อีเมล", children: user && createTypography("อีเมล", user.email) },
-    { key: "5", label: "เบอร์โทรศัพท์", children: user && createTypography("เบอร์โทรศัพท์", user.phone_number) },
-    { key: "6", label: "ไลน์ไอดี", children: user && createTypography("ไลน์ไอดี", user.Id_line) },
-    { key: "7", label: "รับข้อมูลผ่านอีเมล", children: user && createTypography("รับข้อมูลผ่านอีเมล", user.receive_ct_email) },
+    { key: "1", label: createTypography("ชื่อ-นามสกุล"), children: user && createTypography("ชื่อ-นามสกุล", user.username) },
+    { key: "2", label: createTypography("นามสกุล"), children: user && createTypography("นามสกุล", user.lastName) },
+    { key: "3", label: createTypography("จังหวัดที่อยู่"), children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name) },
+    { key: "4", label: createTypography("อีเมล"), children: user && createTypography("อีเมล", user.email) },
+    { key: "5", label: createTypography("เบอร์โทรศัพท์"), children: user && createTypography("เบอร์โทรศัพท์", user.phone_number) },
+    { key: "6", label: createTypography("ไลน์ไอดี"), children: user && createTypography("ไลน์ไอดี", user.Id_line) },
+    { key: "7", label: createTypography("รับข้อมูลผ่านอีเมล"), children: user && createTypography("รับข้อมูลผ่านอีเมล", user.receive_ct_email) },
   ];
 
   if (!user) {
@@ -160,12 +160,13 @@ const Profile = () => {
             {createTypography("ออกจากระบบ", "")}
           </Button>
           <Modal
-            title="Basic Modal"
             visible={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
+            okText="ยืนยัน"
+            cancelText="ยกเลิก"
           >
-            {createTypography("ต้องการออกจากระบบ", "")}
+            <p>{createTypography("ต้องการออกจากระบบ")}</p>
           </Modal></div>
       </div>
       <br />

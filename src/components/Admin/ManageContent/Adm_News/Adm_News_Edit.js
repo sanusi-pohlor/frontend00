@@ -229,30 +229,6 @@ const Adm_News_Edit = () => {
             </div>
           </Upload>
         </Form.Item>
-        {/* <Form.Item
-          label="วิดีโอ"
-          name="video"
-          valuePropName="fileList"
-          getValueFromEvent={normFile}
-          rules={[
-            {
-              required: false,
-              message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
-            },
-          ]}
-        >
-          <Upload
-            name="video"
-            maxCount={3}
-            listType="picture-card"
-            beforeUpload={() => false}
-          >
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>Upload</div>
-            </div>
-          </Upload>
-        </Form.Item> */}
         <Form.Item name="link" label="Link" rules={[{ required: false }]}>
           <Input />
         </Form.Item>

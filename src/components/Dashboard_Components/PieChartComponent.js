@@ -18,7 +18,14 @@ const MyPieChart = () => {
   const paperColor = "#FFFFFF";
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
+  const COLORS = [
+    "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#6A5ACD",
+    "#B22222", "#7FFFD4", "#3CB371", "#FFD700", "#FF4500",
+    "#4169E1", "#32CD32", "#FFD700", "#808080", "#800080",
+    "#FF1493", "#8A2BE2", "#00FA9A", "#AF19FF", "#20B2AA",
+    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
+    "#FF00FF", "#000000", "#808000", "#800000"
+  ];
   const [options] = useState([
     {
       title: "แหล่งที่มาของข้อมูล",

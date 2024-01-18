@@ -5,10 +5,12 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Table, Breadcrumb, Button, Popconfirm, Switch } from "antd";
+import { Space,  Breadcrumb, Button, Popconfirm, Switch } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+
 
 const Adm_News_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -114,7 +116,7 @@ const Adm_News_Menu = () => {
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => dataSource.indexOf(record) + 1,
     },
     {
       title: "Title",
@@ -200,13 +202,12 @@ const Adm_News_Menu = () => {
     },
   ];
 
+  const mergedColumns = columns.map((col) => ({
+    ...col,
+  }));
+
   return (
     <AdminMenu>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
       <div
         style={{
           display: "flex",
@@ -223,6 +224,16 @@ const Adm_News_Menu = () => {
               shape="round"
               icon={<PlusCircleOutlined />}
               size="large"
+              style={{
+                fontSize: "18px",
+                padding: "20px 25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#7BBD8F",
+                border: "none",
+                color: "#ffffff",
+              }}
             >
               เพิ่มข่าว
             </Button>
@@ -230,7 +241,29 @@ const Adm_News_Menu = () => {
         </div>
       </div>
       <br />
-      <Table dataSource={dataSource} columns={columns} />
+      {/* <Table dataSource={dataSource} columns={columns} /> */}
+      <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left" width={column.width}>
+                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            {dataSource.map((row) => (
+              <TableRow key={row.id} >
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left">
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </Table>
+        </TableContainer>
     </AdminMenu>
   );
 };

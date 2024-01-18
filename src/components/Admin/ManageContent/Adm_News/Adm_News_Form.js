@@ -17,6 +17,8 @@ import {
   MinusCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
+import { Typography } from "@mui/material";
+
 const { Option } = Select;
 
 const Adm_News_Form = () => {
@@ -111,7 +113,13 @@ const Adm_News_Form = () => {
   const modules = {
     toolbar: {
       handlers: {
-        //image: imageHandler,
+        // image: {
+        //   // Set the maximum file size in bytes (here, 5MB as an example)
+        //   size: {
+        //     height: 5000,
+        //     width: 5000,
+        //   },
+        // },
       },
       container: [
         [
@@ -127,6 +135,7 @@ const Adm_News_Form = () => {
         ["link", "image", "video"],
         ["clean"],
         ["code-block"],
+        [{ align: [] }],
       ],
     },
     clipboard: {
@@ -148,6 +157,7 @@ const Adm_News_Form = () => {
     "link",
     "image",
     "video",
+    "align",
   ];
 
   const handleChange = (html) => {
@@ -247,6 +257,10 @@ const Adm_News_Form = () => {
     onChange_mfi_ty_info_id();
   }, []);
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+  );
+
   return (
     <AdminMenu>
       <Card
@@ -266,33 +280,33 @@ const Adm_News_Form = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            label="ผู้เขียน"
+            label={createTypography("ผู้เขียน")}
             rules={[
               {
                 required: true,
-                message: "Please input your email!",
+                message: createTypography("Please input your email!"),
               },
             ]}
           >
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user ? user.username : "Username"}
+              placeholder={user ? user.username : createTypography("Username")}
               disabled
             />
           </Form.Item>
-          <Form.Item name="title" label="หัวข้อ" rules={[{ required: true }]}>
+          <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item
             name="details"
-            label="รายละเอียด"
+            label={createTypography("รายละเอียด")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder="Write something..."
+                placeholder={createTypography("Write something...")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -300,14 +314,14 @@ const Adm_News_Form = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label="รูปภาพหน้าปก"
+            label={createTypography("รูปภาพหน้าปก")}
             name="cover_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
             rules={[
               {
                 required: false,
-                message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
+                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
               },
             ]}
           >
@@ -341,7 +355,7 @@ const Adm_News_Form = () => {
                       rules={[
                         {
                           required: true,
-                          message: "Missing first name",
+                          message: createTypography("Missing first name"),
                         },
                       ]}
                     >
@@ -363,11 +377,11 @@ const Adm_News_Form = () => {
               </>
             )}
           </Form.List>
-          <Form.Item name="tag" label="Tag" rules={[{ required: false }]}>
+          <Form.Item name="tag" label={createTypography("Tag")} rules={[{ required: false }]}>
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder="Tags Mode"
+              placeholder={createTypography("ผู้เขียน")}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
@@ -378,11 +392,11 @@ const Adm_News_Form = () => {
           </Form.Item>
           <Form.Item
             name="type_new"
-            label="ประเภทข่าว"
+            label={createTypography("ประเภทข่าว")}
             rules={[{ required: false }]}
           >
             <Select
-              placeholder="Select a option and change input text above"
+              placeholder={createTypography("Select a option and change input text above")}
               onChange={onChange_mfi_ty_info_id}
               allowClear
             >
@@ -391,11 +405,11 @@ const Adm_News_Form = () => {
           </Form.Item>
           <Form.Item
             name="med_new"
-            label="ช่องทางสื่อ"
+            label={createTypography("ช่องทางสื่อ")}
             rules={[{ required: false }]}
           >
             <Select
-              placeholder="เลือกช่องทางสื่อ"
+              placeholder={createTypography("เลือกช่องทางสื่อ")}
               onChange={onChange_dnc_med_id}
               allowClear
             >
@@ -404,7 +418,7 @@ const Adm_News_Form = () => {
           </Form.Item>
           <Form.Item
             name="prov_new"
-            label="จังหวัด"
+            label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
             <Select onChange={onChange_mfi_province} allowClear>
@@ -412,8 +426,17 @@ const Adm_News_Form = () => {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
-              Submit
+            <Button type="primary" htmlType="submit" loading={loading} style={{
+            fontSize: "18px",
+            padding: "20px 25px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            background: "#7BBD8F",
+            border: "none",
+            color: "#ffffff",
+          }}>
+              {createTypography("บันทึก")}
             </Button>
           </Form.Item>
         </Form>

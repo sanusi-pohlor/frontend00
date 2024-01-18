@@ -18,12 +18,22 @@ import {
   Cell,
 } from "recharts";
 import AdminMenu from "../Adm_Menu";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { format } from 'date-fns-tz';
+import thLocale from 'date-fns/locale/th';
 
 const M_DB_Adm_Menu = () => {
   const [data, setData] = useState([]);
+  const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
+  const COLORS = [
+    "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#6A5ACD",
+    "#B22222", "#7FFFD4", "#3CB371", "#FFD700", "#FF4500",
+    "#4169E1", "#32CD32", "#FFD700", "#808080", "#800080",
+    "#FF1493", "#8A2BE2", "#00FA9A", "#AF19FF", "#20B2AA",
+    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
+    "#FF00FF", "#000000", "#808000", "#800000"
+  ];
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -86,6 +96,32 @@ const M_DB_Adm_Menu = () => {
     fetchData_Manage();
   }, []);
 
+  useEffect(() => {
+    const fetchProvince = async () => {
+      try {
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        );
+        if (response.ok) {
+          const pv = await response.json();
+          const filteredIds = pv.filter(
+            (item) => item.id === (user && user.province)
+          );
+          setProvince(filteredIds);
+          console.log("Filtered provinces:", filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
+      }
+    };
+
+    if (user && user.province) {
+      fetchProvince();
+    }
+  }, [user]);
+
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -105,42 +141,28 @@ const M_DB_Adm_Menu = () => {
   const countByresults = (result) => {
     return datamanage.filter((item) => item.mfi_results === result).length;
   };
-  
-  
+
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+  );
+
   const items = [
-    { key: "1", label: "จำนวนข้อมูลที่แจ้ง", children: data.length },
-    { key: "2", label: "จำนวนข้อมูลที่ยังไม่ตรวจสอบ", children: countByStatus(0) },
-    { key: "3", label: "จำนวนข้อมูลทีกำลังตรวจสอบ", children: countByStatus(1) },
-    { key: "4", label: "จำนวนข้อมูลทีตรวจสอบเรียบร้อย", children: countByStatus(2) },
-    { key: "5", label: "จำนวนข้อมูลทีเป็นข่าวจริง", children: countByresults(1) },
-    { key: "6", label: "จำนวนข้อมูลทีเป็นข่าวเท็จ", children: countByresults(0) },
+    { key: "1", label: createTypography("จำนวนข้อมูลที่แจ้ง"), children: createTypography(data.length) },
+    { key: "2", label: createTypography("จำนวนข้อมูลที่ยังไม่ตรวจสอบ"), children: createTypography(countByStatus(0)) },
+    { key: "3", label: createTypography("จำนวนข้อมูลทีกำลังตรวจสอบ"), children: createTypography(countByStatus(1)) },
+    { key: "4", label: createTypography("จำนวนข้อมูลทีตรวจสอบเรียบร้อย"), children: createTypography(countByStatus(2)) },
+    { key: "5", label: createTypography("จำนวนข้อมูลทีเป็นข่าวจริง"), children: createTypography(countByresults(1)) },
+    { key: "6", label: createTypography("จำนวนข้อมูลทีเป็นข่าวเท็จ"), children: createTypography(countByresults(0)) },
   ];
 
   const items2 = [
-    {
-      key: "0",
-      label: "",
-      children: user && (
-        <img
-          src={
-            "https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"
-          }
-          alt="Profile"
-          style={{ width: "100px", height: "100px", borderRadius: "50%" }}
-        />
-      ),
-    },
-    { key: "1", label: "ชื่อ-สกุล", children: user && <span>{user.username}</span> },
-    { key: "2", label: "เบอร์ติดต่อ", children: user && <span>{user.phone_number}</span> },
-    { key: "3", label: "ไอดีไลน์", children: user && <span>{user.Id_line}</span> },
-    { key: "4", label: "อีเมล", children: user && <span>{user.email}</span> },
-    { key: "5", label: "จังหวัด", children: user && <span>{user.province}</span> },
-    {
-      key: "6",
-      label: "เกี่ยวกับผู้เขียน",
-      children:
-        "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน",
-    },
+    { key: "0", label: "", children: user && (<img src={"https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"} alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} />), },
+    { key: "1", label: createTypography("ชื่อ-สกุล"), children: user && createTypography(user.username, user.lastname) },
+    { key: "2", label: createTypography("เบอร์ติดต่อ"), children: user && createTypography(user.phone_number) },
+    { key: "3", label: createTypography("ไอดีไลน์"), children: user && createTypography(user.Id_line) },
+    { key: "4", label: createTypography("อีเมล"), children: user && createTypography(user.email) },
+    { key: "5", label: createTypography("จังหวัด"), children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name) },
+    { key: "6", label: createTypography("เกี่ยวกับผู้เขียน"), children: user && createTypography("เกี่ยวกับผู้เขียน", "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน") },
   ];
 
   const [chartData1, setChartData1] = useState([]);
@@ -214,6 +236,24 @@ const M_DB_Adm_Menu = () => {
 
   }, []);
 
+  const validData = data.filter(item => item.created_at && Date.parse(item.created_at));
+  const dateObjects = validData.map(item => new Date(item.created_at));
+
+  if (dateObjects.length === 0) {
+    // Handle the case when there is no valid date data
+    console.error('No valid date data found.');
+    return null; // or return some default content, depending on your requirements
+  }
+
+  // Find the oldest and newest months and years
+  const oldestDate = dateObjects.reduce((minDate, currentDate) => (currentDate < minDate ? currentDate : minDate), dateObjects[0]);
+  const newestDate = dateObjects.reduce((maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate), dateObjects[0]);
+
+  // Format the result in Thai language
+  const thaiLocale = { locale: thLocale }; // Use the Thai locale
+  const oldestMonthYear = format(oldestDate, 'LLLL yyyy', thaiLocale);
+  const newestMonthYear = format(newestDate, 'LLLL yyyy', thaiLocale);
+
   return (
     <AdminMenu>
       <Grid container spacing={2}>
@@ -229,7 +269,11 @@ const M_DB_Adm_Menu = () => {
             }}
           >
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -264,7 +308,11 @@ const M_DB_Adm_Menu = () => {
             }}
           >
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -299,7 +347,11 @@ const M_DB_Adm_Menu = () => {
             }}
           >
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart style={{
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -330,10 +382,12 @@ const M_DB_Adm_Menu = () => {
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
           width: "100%",
-          height: "50%",
+          height: "65%",
         }}
       >
-        <Descriptions title="ข้อมูล" bordered items={items} />
+        <Typography variant="body1" sx={{ fontSize: "35px" }}>ข้อมูลตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear} (ปัจจุบัน)</Typography>
+        <br />
+        <Descriptions title={createTypography("ข้อมูล")} bordered items={items} />
         <br />
         <Divider />
         <Descriptions
@@ -344,18 +398,29 @@ const M_DB_Adm_Menu = () => {
           items={items2}
         />
         <br />
-        <Button type="primary" onClick={showModal}>
-          ออกจากระบบ
+        <Button type="primary" onClick={showModal} style={{
+          fontSize: "18px",
+          padding: "20px 25px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          background: "#7BBD8F",
+          border: "none",
+          color: "#ffffff",
+        }}>
+          {createTypography("ออกจากระบบ")}
         </Button>
         <Modal
-          title="Basic Modal"
-          open={isModalOpen} ห
+          open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
+          okText="ยืนยัน"
+          cancelText="ยกเลิก"
         >
-          <p>ต้องการออกจากระบบ</p>
+          <p>{createTypography("ต้องการออกจากระบบ")}</p>
         </Modal>
       </Card>
+      <Divider />
     </AdminMenu>
   );
 };
