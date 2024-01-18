@@ -109,7 +109,7 @@ const NotificationHistory = () => {
   
   const renderResultText = (id) => {
     const dataA = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
-    const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "ไม่พบ")) : "ไม่พบข้อมูล";
+    const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "รอตรวจสอบ")) : "รอตรวจสอบ";
     console.log("resultText ", id);
     return resultText;
   };

@@ -199,7 +199,7 @@ const FakeNewInformation = () => {
         >
           <Form.Item
             label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
-            name="fn_info_nameid"
+            //name="fn_info_nameid"
             rules={[
               {
                 required: true,
