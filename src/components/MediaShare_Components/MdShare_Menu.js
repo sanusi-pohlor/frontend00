@@ -325,7 +325,7 @@ const MdShare_Menu = (open) => {
                 style={{ marginBottom: "3%", padding: 5 }}
               >
                 <Link
-                  to={`/MediaShare/MediaShare_view/${item.id}`}
+                  to={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
@@ -377,7 +377,7 @@ const MdShare_Menu = (open) => {
                             {item.title}
                             <Button
                               type="primary"
-                              href={`/MediaShare/MediaShare_view/${item.id}`}
+                              href={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                               target="_blank"
                               style={{
                                 fontSize: "18px",
@@ -409,7 +409,7 @@ const MdShare_Menu = (open) => {
               style={{ marginBottom: "3%", padding: 5 }}
             >
               <Link
-                to={`/MediaShare/MediaShare_view/${item.id}`}
+                to={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                 style={{ textDecoration: "none" }}
               >
                 <Card
@@ -447,7 +447,7 @@ const MdShare_Menu = (open) => {
                       {item.title}
                       <Button
                         type="primary"
-                        href={`/MediaShare/MediaShare_view/${item.id}`}
+                        href={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                         target="_blank"
                         style={{
                           fontSize: "18px",

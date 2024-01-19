@@ -9,20 +9,19 @@ const News_view = () => {
   const [Data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [tags, setTags] = useState([]);
   const isMobile = window.innerWidth <= 768;
   const thaiDate = moment(Data.created_at).locale("th").format("Do MMMM YYYY");
-  const showModal = () => setIsModalOpen(true);
-  const handleCancel = () => setIsModalOpen(false);
-  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/News_show/${id}`);
+        const response = await fetch(
+          `https://fakenews001-392577897f69.herokuapp.com/api/News_show/${id}`
+        );
         const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
-        console.log("tags :", tags);
       } catch (error) {
         console.error("Error fetching news data:", error);
       }
@@ -34,12 +33,15 @@ const News_view = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        });
+        const response = await fetch(
+          "https://fakenews001-392577897f69.herokuapp.com/api/user",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -54,6 +56,20 @@ const News_view = () => {
 
     fetchUser();
   }, []);
+
+  const commonStyles = {
+    fontFamily: "'Th Sarabun New', sans-serif",
+    fontSize: isMobile ? "20px" : "30px",
+    color: "gray",
+  };
+  const commonStyles1 = {
+    fontFamily: "'Th Sarabun New', sans-serif",
+    fontSize: isMobile ? "30px" : "35px",
+    color: "gray",
+  };
+
+  const showModal = () => setIsModalOpen(true);
+  const handleCancel = () => setIsModalOpen(false);
 
   const items = [
     {
@@ -95,12 +111,6 @@ const News_view = () => {
     },
   ];
 
-  const commonStyles = {
-    fontFamily: "'Th Sarabun New', sans-serif",
-    fontSize: isMobile ? "20px" : "25px",
-    color: "gray",
-  };
-
   return (
     <div style={{ backgroundColor: "#f1f1f1" }}>
       <Paper
@@ -112,12 +122,7 @@ const News_view = () => {
           backgroundColor: "#f1f1f1",
         }}
       >
-        <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
+        <Card style={{ borderRadius: "20px", backgroundColor: "#7BBD8F" }}>
           <div
             style={{
               fontSize: "70px",
@@ -136,14 +141,14 @@ const News_view = () => {
           style={{
             borderRadius: "20px",
             backgroundColor: "#ffffff",
-            padding: 30,
+            padding: 50,
           }}
         >
-          <h1 style={commonStyles}>{Data.title}</h1>
-          <h1 style={commonStyles}>
+          <h1 style={commonStyles1}>{Data.title}</h1>
+          <h1 style={commonStyles1}>
             โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
           </h1>
-          <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1>
+          <h1 style={commonStyles1}>ลงเมื่อ : {thaiDate}</h1>
           <Divider />
           <div
             style={commonStyles}
@@ -153,19 +158,20 @@ const News_view = () => {
             {Data.link &&
               JSON.parse(Data.link).map((item, index) => (
                 <p key={index} style={commonStyles}>
-                  Link: <a href={item.first}>{item.first}</a>
+                  Link: <a href={item.first}>{item.first.substring(0, 100)}...</a>
                 </p>
               ))}
           </div>
           <div>
             <Space size={[4, 8]} wrap>
-              {Data.tag &&
-                JSON.parse(Data.tag).map((tag, index) => (
-                  <Tag key={index} style={{
-                    fontSize: "20px",
-                    textAlign: "center",
-                  }}>#{tag}</Tag>
-                ))}
+              {tags.map((tag, index) => (
+                <Tag
+                  key={index}
+                  style={{ fontSize: "20px", textAlign: "center" }}
+                >
+                  #{tag}
+                </Tag>
+              ))}
             </Space>
           </div>
           <p style={commonStyles} onClick={showModal}>
@@ -178,10 +184,7 @@ const News_view = () => {
             onCancel={handleCancel}
           >
             <Descriptions
-              style={{
-                fontSize: "30px",
-                textAlign: "center",
-              }}
+              style={{ fontSize: "30px", textAlign: "center" }}
               title=""
               items={items}
             />

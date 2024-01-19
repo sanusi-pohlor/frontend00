@@ -4,7 +4,7 @@ import { Paper } from "@mui/material";
 import { Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
 import moment from "moment";
 
-const News_view = () => {
+const MdShare_view = () => {
   const { id } = useParams();
   const [Data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,7 +97,12 @@ const News_view = () => {
 
   const commonStyles = {
     fontFamily: "'Th Sarabun New', sans-serif",
-    fontSize: isMobile ? "20px" : "25px",
+    fontSize: isMobile ? "20px" : "30px",
+    color: "gray",
+  };
+  const commonStyles1 = {
+    fontFamily: "'Th Sarabun New', sans-serif",
+    fontSize: isMobile ? "30px" : "35px",
     color: "gray",
   };
 
@@ -139,11 +144,11 @@ const News_view = () => {
             padding: 30,
           }}
         >
-          <h1 style={commonStyles}>{Data.title}</h1>
-          <h1 style={commonStyles}>
+          <h1 style={commonStyles1}>{Data.title}</h1>
+          <h1 style={commonStyles1}>
             โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
           </h1>
-          <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1>
+          <h1 style={commonStyles1}>ลงเมื่อ : {thaiDate}</h1>
           <Divider />
           <div
             style={commonStyles}
@@ -153,7 +158,7 @@ const News_view = () => {
             {Data.link &&
               JSON.parse(Data.link).map((item, index) => (
                 <p key={index} style={commonStyles}>
-                  Link: <a href={item.first}>{item.first}</a>
+                  Link: <a href={item.first}>{item.first.substring(0, 100)}...</a>
                 </p>
               ))}
           </div>
@@ -192,4 +197,4 @@ const News_view = () => {
   );
 };
 
-export default News_view;
+export default MdShare_view;

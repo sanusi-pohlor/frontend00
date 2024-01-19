@@ -214,7 +214,7 @@ const Adm_MdShare_Menu = () => {
       >
         <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าสื่อชวนแชร์</Typography>
         <div>
-          <Link to="/Admin/Adm_News_Form">
+          <Link to="/Admin/Adm_MdShare_Form">
             <Button
               type="primary"
               shape="round"

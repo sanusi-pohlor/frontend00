@@ -5,21 +5,30 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Breadcrumb, Button, Popconfirm, Switch } from "antd";
+import { Space, Card, Button, Popconfirm, Switch } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 const Adm_Article_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-
+  const curveAngle = 20;
+  const paperColor = "#FFFFFF";
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -57,7 +66,9 @@ const Adm_Article_Menu = () => {
   }
   const fetchData = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_request");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_request"
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
@@ -75,7 +86,10 @@ const Adm_Article_Menu = () => {
 
   const updateStatus = async (id, Status) => {
     try {
-      const response = await axios.put(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_update_status/${id}`, { status: Status });
+      const response = await axios.put(
+        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_update_status/${id}`,
+        { status: Status }
+      );
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
       } else {
@@ -86,24 +100,30 @@ const Adm_Article_Menu = () => {
     }
   };
 
-  const handleDelete = (id) => {
-    console.log(`ลบรายการ: ${id}`);
-    fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_delete/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Fake News deleted successfully") {
-          console.log("รายการถูกลบสำเร็จ");
-          fetchData();
-        } else {
-          console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
+  const handleDelete = async (id) => {
+    try {
+      console.log(`Deleting item with id: ${id}`);
+
+      const response = await fetch(
+        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_delete/${id}`,
+        {
+          method: "DELETE",
         }
-      })
-      .catch((error) => {
-        console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
-      });
+      );
+
+      const data = await response.json();
+
+      if (response.ok && data === "Article deleted successfully") {
+        console.log("Item deleted successfully");
+        fetchData();
+      } else {
+        console.error("Error deleting item:", data);
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
   };
+
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -136,7 +156,9 @@ const Adm_Article_Menu = () => {
       dataIndex: "Author",
       key: "Author",
       render: (Author) => {
-        const user = userInfo ? userInfo.find(user => user.id === Author) : null;
+        const user = userInfo
+          ? userInfo.find((user) => user.id === Author)
+          : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
     },
@@ -147,7 +169,9 @@ const Adm_Article_Menu = () => {
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
+        const formattedDate = `${date.getDate()} ${getThaiMonth(
+          date.getMonth()
+        )} ${date.getFullYear() + 543}`;
         return formattedDate;
       },
     },
@@ -178,10 +202,10 @@ const Adm_Article_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Adm_Article_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
+            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
           </Link>
           <Link to={`/Admin/Adm_Article_edit/${record.id}`}>
-            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+            <EditOutlined style={{ fontSize: "16px", color: "green" }} />
           </Link>
           <Popconfirm
             title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -190,7 +214,7 @@ const Adm_Article_Menu = () => {
             cancelText="ไม่"
           >
             <Button type="link">
-              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+              <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
             </Button>
           </Popconfirm>
         </Space>
@@ -204,62 +228,91 @@ const Adm_Article_Menu = () => {
 
   return (
     <AdminMenu>
-      <div
+      <Card
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "16px",
-          alignItems: "center",
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
         }}
       >
-        <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าบทความ</Typography>
-        <div>
-          <Link to="/Admin/Adm_News_Form">
-            <Button
-              type="primary"
-              shape="round"
-              icon={<PlusCircleOutlined />}
-              size="large"
-              style={{
-                fontSize: "18px",
-                padding: "20px 25px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#7BBD8F",
-                border: "none",
-                color: "#ffffff",
-              }}
-            >
-              เพิ่มข่าว
-            </Button>
-          </Link>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            gap: "16px",
+            alignItems: "center",
+          }}
+        >
+          <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>
+            จัดการคอนเท็นหน้าบทความ
+          </Typography>
+          <div>
+            <Link to="/Admin/Adm_Article_Form">
+              <Button
+                type="primary"
+                shape="round"
+                icon={<PlusCircleOutlined />}
+                size="large"
+                style={{
+                  fontSize: "18px",
+                  padding: "20px 25px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#7BBD8F",
+                  border: "none",
+                  color: "#ffffff",
+                }}
+              >
+                เพิ่มข่าว
+              </Button>
+            </Link>
+          </div>
         </div>
-      </div>
-      <br />
-      {/* <Table dataSource={dataSource} columns={columns} /> */}
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow style={{ background: "#7BBD8F" }}>
-              {mergedColumns.map((column) => (
-                <TableCell key={column.title} align="left" width={column.width}>
-                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          {dataSource.map((row) => (
-            <TableRow key={row.id} >
-              {mergedColumns.map((column) => (
-                <TableCell key={column.title} align="left">
-                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </Table>
-      </TableContainer>
+        <br />
+        {/* <Table dataSource={dataSource} columns={columns} /> */}
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
+                {mergedColumns.map((column) => (
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            {dataSource.map((row) => (
+              <TableRow key={row.id}>
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left">
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                      {column.render
+                        ? column.render(row[column.dataIndex], row)
+                        : row[column.dataIndex]}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </Table>
+        </TableContainer>
+      </Card>
     </AdminMenu>
   );
 };

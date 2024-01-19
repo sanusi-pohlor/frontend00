@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Form,
-  Button,
-  Popconfirm,
-  Space,
-  Breadcrumb,
-} from "antd";
+import { Table, Form, Button, Popconfirm, Space, Breadcrumb } from "antd";
 import AdminMenu from "../Adm_Menu";
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 const Manage_Fake_Info_Menu = () => {
@@ -21,9 +10,17 @@ const Manage_Fake_Info_Menu = () => {
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
+  const [sortOrder, setSortOrder] = useState({ field: "created_at", order: "desc" });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10, // Set your desired page size
+    total: data.length, // Assuming 'data' is your entire dataset
+  });
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -38,7 +35,7 @@ const Manage_Fake_Info_Menu = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  
+
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -107,9 +104,12 @@ const Manage_Fake_Info_Menu = () => {
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
-    fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`, {
-      method: "DELETE",
-    })
+    fetch(
+      `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.message === "Fake News deleted successfully") {
@@ -154,13 +154,15 @@ const Manage_Fake_Info_Menu = () => {
         const provinceData = province.find((item) => item.id === provinceId);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
-    },       
+    },
     {
       title: "ผู้ตรวจสอบ",
       dataIndex: "mfi_mem",
       width: "10%",
       render: (fn_info_nameid) => {
-        const user = userInfo ? userInfo.find((user) => user.id === fn_info_nameid) : null;
+        const user = userInfo
+          ? userInfo.find((user) => user.id === fn_info_nameid)
+          : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
     },
@@ -195,9 +197,7 @@ const Manage_Fake_Info_Menu = () => {
       editable: true,
       render: (text, record) => (
         <Space size="middle">
-          <Link
-            to={`/Admin/Manage_Fake_Info_View/${record.id}`}
-          >
+          <Link to={`/Admin/Manage_Fake_Info_View/${record.id}`}>
             <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
           </Link>
           {record.status === 0 && (
@@ -239,10 +239,23 @@ const Manage_Fake_Info_Menu = () => {
     };
   });
 
+  const handleTableChange = (pagination, filters, sorter) => {
+    setPagination(pagination);
+    if (sorter.field) {
+      setSortOrder({ field: sorter.field, order: sorter.order === "descend" ? "desc" : "asc" });
+    }
+  };
+
   return (
     <AdminMenu>
       <h1>จัดการข้อมูลเท็จ</h1>
       <Table
+          pagination={{
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            total: pagination.total,
+          }}
+          onChange={handleTableChange}
         components={{
           body: {
             //cell: EditableCell,
@@ -253,9 +266,9 @@ const Manage_Fake_Info_Menu = () => {
         columns={mergedColumns}
         rowClassName="editable-row"
         //loading={loading}
-        pagination={{
-          onChange: cancel,
-        }}
+        // pagination={{
+        //   onChange: cancel,
+        // }}
       />
     </AdminMenu>
   );

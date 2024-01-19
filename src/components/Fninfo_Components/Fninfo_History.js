@@ -9,6 +9,11 @@ const NotificationHistory = () => {
   const [user, setUser] = useState(null);
   const [data, setData] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10, // Set your desired page size
+    total: data.length, // Assuming 'data' is your entire dataset
+  });
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -211,7 +216,10 @@ const NotificationHistory = () => {
     return (
       <UserProfile>
         <TableContainer>
-          <Table>
+          <Table 
+          pagination={pagination}
+          onChange={(pagination) => setPagination(pagination)}
+          >
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (

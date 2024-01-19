@@ -748,8 +748,8 @@ const Adm_Info_Check = () => {
               allowClear
               style={{ width: "100%" }}
             >
-              <Select.Option value="0">ข่าวจริง</Select.Option>
-              <Select.Option value="1">ข่าวเท็จ</Select.Option>
+              <Select.Option value="0">ข่าวเท็จ</Select.Option>
+              <Select.Option value="1">ข่าวจริง</Select.Option>
             </Select>
           </Form.Item>
           <Form.Item
