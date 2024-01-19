@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { PlusCircleOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { Modal, Space, Table, Breadcrumb, Button, Popconfirm, Switch } from "antd";
+import {
+  PlusCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
+import { Space, Breadcrumb, Button, Popconfirm, Switch } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+
 
 const Adm_Article_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
 
   // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
@@ -29,37 +34,33 @@ const Adm_Article_Menu = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  const handleSwitchChange = (checked, record) => {
-    setSelectedRecord(record);
-    if (checked) {
-      setModalVisible(true);
-    } else {
-      updateStatus(record.id, 0);
-    }
-  };
-
-  const handleConfirmation = () => {
-    updateStatus(selectedRecord.id, 1);
-    setModalVisible(false);
-  };
 
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
   };
-
   function getThaiMonth(month) {
     const thaiMonths = [
-      "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-      "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",
+      "มกราคม",
+      "กุมภาพันธ์",
+      "มีนาคม",
+      "เมษายน",
+      "พฤษภาคม",
+      "มิถุนายน",
+      "กรกฎาคม",
+      "สิงหาคม",
+      "กันยายน",
+      "ตุลาคม",
+      "พฤศจิกายน",
+      "ธันวาคม",
     ];
     return thaiMonths[month];
   }
-
   const fetchData = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_request");
       if (response.ok) {
         const data = await response.json();
+        console.log(data.status);
         setDataSource(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -68,7 +69,6 @@ const Adm_Article_Menu = () => {
       console.error("Error fetching data:", error);
     }
   };
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -78,7 +78,6 @@ const Adm_Article_Menu = () => {
       const response = await axios.put(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_update_status/${id}`, { status: Status });
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
-        fetchData(); // Fetch updated data after status update
       } else {
         console.error(`เกิดข้อผิดพลาดในการอัปเดต status สำหรับ ID: ${id}`);
       }
@@ -94,9 +93,9 @@ const Adm_Article_Menu = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data.message === "Fake Article deleted successfully") {
+        if (data.message === "Fake News deleted successfully") {
           console.log("รายการถูกลบสำเร็จ");
-          fetchData(); // Fetch updated data after deletion
+          fetchData();
         } else {
           console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
         }
@@ -105,23 +104,19 @@ const Adm_Article_Menu = () => {
         console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
       });
   };
-
   const getStatusText = (status) => {
     switch (status) {
       case 0:
         return "ปิดเผยแพร่";
       case 1:
         return "เปิดเผยแพร่";
-      default:
-        return "";
     }
   };
-
   const columns = [
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => dataSource.indexOf(record) + 1,
     },
     {
       title: "Title",
@@ -149,6 +144,7 @@ const Adm_Article_Menu = () => {
       title: "ลงเมื่อ",
       dataIndex: "created_at",
       width: "15%",
+      editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
         const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
@@ -156,57 +152,58 @@ const Adm_Article_Menu = () => {
       },
     },
     {
-      title: 'status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "status",
+      dataIndex: "status",
+      key: "status",
       render: (status, record) => (
-        <Space direction="vertical">
-          <Switch
-            checkedChildren="เปิด"
-            unCheckedChildren="ปิด"
-            defaultChecked={status === 1}
-            onChange={(checked) => handleSwitchChange(checked, record)}
-          />
-        </Space>
+        <>
+          <Space direction="vertical">
+            <Switch
+              checkedChildren="เปิด"
+              unCheckedChildren="ปิด"
+              defaultChecked={status === 1}
+              onChange={(checked) => {
+                const Status = checked ? 1 : 0;
+                updateStatus(record.id, Status);
+              }}
+            />
+          </Space>
+        </>
       ),
     },
     {
       title: "จัดการ",
       width: "15%",
+      editable: true,
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Adm_Article_View/${record.id}`}>
             <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
           </Link>
-          {record.status === 0 && (
-            <>
-              <Link to={`/Admin/Adm_Article/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
-              </Link>
-              <Popconfirm
-                title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
-                onConfirm={() => handleDelete(record.id)}
-                okText="ใช่"
-                cancelText="ไม่"
-              >
-                <Button type="link">
-                  <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
-                </Button>
-              </Popconfirm>
-            </>
-          )}
+          <Link to={`/Admin/Adm_Article_edit/${record.id}`}>
+            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+          </Link>
+          <Popconfirm
+            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ใช่"
+            cancelText="ไม่"
+          >
+            <Button type="link">
+              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
+  const mergedColumns = columns.map((col) => ({
+    ...col,
+  }));
+
   return (
     <AdminMenu>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item>List</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
-      </Breadcrumb>
       <div
         style={{
           display: "flex",
@@ -215,14 +212,24 @@ const Adm_Article_Menu = () => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ margin: 0 }}>จัดการคอนเท็นหน้าข่าว</h1>
+        <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าบทความ</Typography>
         <div>
-          <Link to="/Admin/Adm_Article_Form">
+          <Link to="/Admin/Adm_News_Form">
             <Button
               type="primary"
               shape="round"
               icon={<PlusCircleOutlined />}
               size="large"
+              style={{
+                fontSize: "18px",
+                padding: "20px 25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#7BBD8F",
+                border: "none",
+                color: "#ffffff",
+              }}
             >
               เพิ่มข่าว
             </Button>
@@ -230,15 +237,29 @@ const Adm_Article_Menu = () => {
         </div>
       </div>
       <br />
-      <Table dataSource={dataSource} columns={columns} />
-      <Modal
-        title="ยืนยันการเปลี่ยนสถานะ"
-        visible={modalVisible}
-        onOk={handleConfirmation}
-        onCancel={() => setModalVisible(false)}
-      >
-        <p>คุณแน่ใจหรือไม่ที่ต้องการเปลี่ยนสถานะนี้?</p>
-      </Modal>
+      {/* <Table dataSource={dataSource} columns={columns} /> */}
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow style={{ background: "#7BBD8F" }}>
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left" width={column.width}>
+                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {dataSource.map((row) => (
+            <TableRow key={row.id} >
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left">
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </Table>
+      </TableContainer>
     </AdminMenu>
   );
 };

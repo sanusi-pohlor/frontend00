@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space,  Breadcrumb, Button, Popconfirm, Switch } from "antd";
+import { Space, Breadcrumb, Button, Popconfirm, Switch } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -16,7 +16,6 @@ const Adm_News_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
 
-  // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
@@ -34,7 +33,7 @@ const Adm_News_Menu = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  
+
   const onChange = (checked) => {
     console.log(`switch to ${checked}`);
   };
@@ -139,7 +138,7 @@ const Adm_News_Menu = () => {
         const user = userInfo ? userInfo.find(user => user.id === Author) : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
-    },    
+    },
     {
       title: "ลงเมื่อ",
       dataIndex: "created_at",
@@ -180,23 +179,19 @@ const Adm_News_Menu = () => {
           <Link to={`/Admin/Adm_News_View/${record.id}`}>
             <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
           </Link>
-          {record.status === 0 && (
-            <>
-              <Link to={`/Admin/Adm_News/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
-              </Link>
-              <Popconfirm
-                title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
-                onConfirm={() => handleDelete(record.id)}
-                okText="ใช่"
-                cancelText="ไม่"
-              >
-                <Button type="link">
-                  <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
-                </Button>
-              </Popconfirm>
-            </>
-          )}
+          <Link to={`/Admin/Adm_News_edit/${record.id}`}>
+            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+          </Link>
+          <Popconfirm
+            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ใช่"
+            cancelText="ไม่"
+          >
+            <Button type="link">
+              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -216,7 +211,7 @@ const Adm_News_Menu = () => {
           alignItems: "center",
         }}
       >
-        <h1 style={{ margin: 0 }}>จัดการคอนเท็นหน้าข่าว</h1>
+        <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าข่าว</Typography>
         <div>
           <Link to="/Admin/Adm_News_Form">
             <Button
@@ -243,27 +238,27 @@ const Adm_News_Menu = () => {
       <br />
       {/* <Table dataSource={dataSource} columns={columns} /> */}
       <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow style={{ background: "#7BBD8F" }}>
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left" width={column.width}>
-                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            {dataSource.map((row) => (
-              <TableRow key={row.id} >
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </Table>
-        </TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow style={{ background: "#7BBD8F" }}>
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left" width={column.width}>
+                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {dataSource.map((row) => (
+            <TableRow key={row.id} >
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left">
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </Table>
+      </TableContainer>
     </AdminMenu>
   );
 };

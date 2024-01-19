@@ -79,10 +79,6 @@ const Adm_News_Form = () => {
       });
   }, []);
 
-  const handleChangetag = (value) => {
-    console.log(`selected ${value}`);
-  };
-
   const fetchUser = async () => {
     try {
       const response = await fetch(

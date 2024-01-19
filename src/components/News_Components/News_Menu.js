@@ -243,7 +243,7 @@ const News_Menu = (open, onClose) => {
                 onChange={(e) => handleSearch(e)}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
-              <Button
+              {/* <Button
                 size="large"
                 type="primary"
                 style={buttonStyle}
@@ -363,7 +363,7 @@ const News_Menu = (open, onClose) => {
                     </Form.Item>
                   </Form>
                 </div>
-              </Modal>
+              </Modal> */}
             </div>
           </div>
         </Card>
