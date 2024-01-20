@@ -23,7 +23,7 @@ const Adm_Article_Menu = () => {
   const [userInfo, setUserInfo] = useState(null);
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
-  // ฟังก์ชันสำหรับดึงข้อมูลผู้ใช้จาก API
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -44,9 +44,6 @@ const Adm_Article_Menu = () => {
     fetchUserInfo();
   }, []);
 
-  const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
-  };
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -103,16 +100,13 @@ const Adm_Article_Menu = () => {
   const handleDelete = async (id) => {
     try {
       console.log(`Deleting item with id: ${id}`);
-
       const response = await fetch(
         `https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_delete/${id}`,
         {
           method: "DELETE",
         }
       );
-
       const data = await response.json();
-
       if (response.ok && data === "Article deleted successfully") {
         console.log("Item deleted successfully");
         fetchData();
@@ -156,9 +150,7 @@ const Adm_Article_Menu = () => {
       dataIndex: "Author",
       key: "Author",
       render: (Author) => {
-        const user = userInfo
-          ? userInfo.find((user) => user.id === Author)
-          : null;
+        const user = userInfo ? userInfo.find(user => user.id === Author) : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
     },

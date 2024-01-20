@@ -187,9 +187,11 @@ const Manage_Fake_Info_Menu = () => {
     },
     {
       title: "ผลการตรวจสอบ",
-      dataIndex: "",
+      dataIndex: "mfi_status",
       width: "10%",
-      render: (status) => getStatusText(status),
+      render: (mfi_results) => (
+        mfi_results === 0 ? "ข่าวเท็จ" : (mfi_results === 1 ? "ข่าวจริง" : "กำลังตรวจสอบ")
+      )
     },
     {
       title: "จัดการ",
