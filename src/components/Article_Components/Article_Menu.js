@@ -109,7 +109,6 @@ const Article_Menu = (open) => {
     console.log("filteredArticles:", filteredArticles);
   };
 
-
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -436,17 +435,18 @@ const Article_Menu = (open) => {
                     >
                       <img
                         style={{
-                          height: "100%",
+                          height: "300px",
                           width: "100%",
                           objectFit: "cover",
                         }}
                         src={item.cover_image}
-                        alt={item.title}
                       />
                       เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
                       <br />
-                      {item.title}
-                      <Button
+                      {item.title.length > 200
+                        ? `${item.title.slice(0, 200)}...`
+                        : item.title}
+                      {/* <Button
                         type="primary"
                         href={`/Article_Menu/Article_view/${item.id}`}
                         target="_blank"
@@ -462,7 +462,7 @@ const Article_Menu = (open) => {
                         }}
                       >
                         อ่านต่อ
-                      </Button>
+                      </Button> */}
                     </div>
                   }
                 ></Card>

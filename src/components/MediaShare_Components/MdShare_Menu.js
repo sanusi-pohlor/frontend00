@@ -59,7 +59,7 @@ const MdShare_Menu = (open) => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const mdSharecurrentItems = data.slice(indexOfFirstItem,indexOfLastItem);
+  const mdSharecurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -84,7 +84,7 @@ const MdShare_Menu = (open) => {
     setSearchTerm(event.target.value);
   };
   const filteredMdShare = data.filter((MdShare) =>
-  MdShare.title.toLowerCase().includes(searchTerm.toLowerCase())
+    MdShare.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const onFinish = (values) => {
@@ -160,7 +160,6 @@ const MdShare_Menu = (open) => {
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
   }, []);
-
 
   return (
     <div style={{ backgroundColor: "#f1f1f1" }}>
@@ -415,6 +414,8 @@ const MdShare_Menu = (open) => {
                 <Card
                   hoverable
                   style={{
+                    height: "100%",
+                    width: "100%",
                     margin: "auto",
                     borderRadius: "20px",
                     width: "90%",
@@ -435,17 +436,18 @@ const MdShare_Menu = (open) => {
                     >
                       <img
                         style={{
-                          height: "100%",
+                          height: "300px",
                           width: "100%",
                           objectFit: "cover",
                         }}
                         src={item.cover_image}
-                        alt={item.title}
                       />
                       เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
                       <br />
-                      {item.title}
-                      <Button
+                      {item.title.length > 200
+                        ? `${item.title.slice(0, 200)}...`
+                        : item.title}
+                      {/* <Button
                         type="primary"
                         href={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                         target="_blank"
@@ -461,7 +463,7 @@ const MdShare_Menu = (open) => {
                         }}
                       >
                         อ่านต่อ
-                      </Button>
+                      </Button> */}
                     </div>
                   }
                 ></Card>

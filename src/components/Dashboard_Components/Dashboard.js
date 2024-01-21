@@ -25,9 +25,10 @@ import {
   DatePicker,
 } from "antd";
 import Flickity from "react-flickity-component";
-import { Link,useNavigate  } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import moment from "moment";
 
 const { Option } = Select;
 const { Meta } = Card;
@@ -213,7 +214,8 @@ const Dashboard = ({ onSearch }) => {
               fontFamily: "'Th Sarabun New', sans-serif",
               color: "white",
             }}
-          >ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
+          >
+            ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
               size="large"
               type="primary"
@@ -227,7 +229,7 @@ const Dashboard = ({ onSearch }) => {
                 color: "#7BBD8F",
                 fontSize: "25px",
               }}
-              onClick={() => navigate('/FakenewsSearch')}
+              onClick={() => navigate("/FakenewsSearch")}
             >
               ไปค้นหา
             </Button>
@@ -284,11 +286,14 @@ const Dashboard = ({ onSearch }) => {
                   <Card
                     hoverable
                     style={{
+                      height: "100%",
+                      width: "100%",
                       margin: "auto",
                       borderRadius: "20px",
-                      padding: 10,
+                      padding: 20,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
+                      textAlign: "left",
                     }}
                     cover={
                       <div
@@ -301,17 +306,21 @@ const Dashboard = ({ onSearch }) => {
                       >
                         <img
                           style={{
-                            height: "100%",
+                            height: "300px",
                             width: "100%",
                             objectFit: "cover",
                           }}
                           src={item.cover_image}
-                          alt={item.title}
+                          //alt={item.title}
                         />
-                        {item.title}
+                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                        <br />
+                        {item.title.length > 200
+                          ? `${item.title.slice(0, 200)}...`
+                          : item.title}
                       </div>
                     }
-                  ></Card>
+                  />
                 </Link>
               </Grid>
             ))}
@@ -392,11 +401,14 @@ const Dashboard = ({ onSearch }) => {
                   <Card
                     hoverable
                     style={{
+                      height: "100%",
+                      width: "100%",
                       margin: "auto",
                       borderRadius: "20px",
-                      padding: 10,
+                      padding: 20,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
+                      textAlign: "left",
                     }}
                     cover={
                       <div
@@ -409,16 +421,20 @@ const Dashboard = ({ onSearch }) => {
                       >
                         <img
                           style={{
-                            height: "100%",
+                            height: "300px",
                             width: "100%",
                             objectFit: "cover",
                           }}
                           src={item.cover_image}
                         />
-                        {item.title}
+                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                        <br />
+                        {item.title.length > 200
+                          ? `${item.title.slice(0, 200)}...`
+                          : item.title}
                       </div>
                     }
-                  ></Card>
+                  />
                 </Link>
               </Grid>
             ))}
@@ -493,11 +509,14 @@ const Dashboard = ({ onSearch }) => {
                   <Card
                     hoverable
                     style={{
+                      height: "100%",
+                      width: "100%",
                       margin: "auto",
                       borderRadius: "20px",
-                      padding: 10,
+                      padding: 20,
                       fontFamily: "'Th Sarabun New', sans-serif",
                       fontSize: "25px",
+                      textAlign: "left",
                     }}
                     cover={
                       <div
@@ -510,16 +529,20 @@ const Dashboard = ({ onSearch }) => {
                       >
                         <img
                           style={{
-                            height: "100%",
+                            height: "300px",
                             width: "100%",
                             objectFit: "cover",
                           }}
                           src={item.cover_image}
                         />
-                        {item.title}
+                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                        <br />
+                        {item.title.length > 200
+                          ? `${item.title.slice(0, 200)}...`
+                          : item.title}
                       </div>
                     }
-                  ></Card>
+                  />
                 </Link>
               </Grid>
             ))}

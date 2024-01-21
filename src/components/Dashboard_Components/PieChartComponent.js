@@ -28,6 +28,12 @@ const MyPieChart = () => {
   ];
   const [options] = useState([
     {
+      title: "ประเภทข้อมูล",
+      value: "TypeInformation_request",
+      name: "type_info_name",
+      dataIndex: "mfi_ty_info",
+    },
+    {
       title: "แหล่งที่มาของข้อมูล",
       value: "MediaChannels_request",
       name: "med_c_name",
@@ -38,12 +44,6 @@ const MyPieChart = () => {
       value: "FormatData_request",
       name: "fm_d_name",
       dataIndex: "mfi_fm_d",
-    },
-    {
-      title: "ประเภทข้อมูล",
-      value: "TypeInformation_request",
-      name: "type_info_name",
-      dataIndex: "mfi_ty_info",
     },
   ]);
 
@@ -111,8 +111,8 @@ const MyPieChart = () => {
     }
   };
 
-  const handleSelectChange = (event) => {
-    setSelectedOption(event.target.value);
+  const handleSelectChange = (value) => {
+    setSelectedOption(value);
   };
 
   const handleSelectDate = (date) => {

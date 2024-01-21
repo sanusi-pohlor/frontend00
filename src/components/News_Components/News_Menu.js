@@ -22,7 +22,6 @@ import moment from "moment";
 const { Option } = Select;
 const { Meta } = Card;
 
-
 const News_Menu = (open, onClose) => {
   const [form] = Form.useForm();
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -488,36 +487,38 @@ const News_Menu = (open, onClose) => {
                     >
                       <img
                         style={{
-                          height: "100%",
+                          height: "300px",
                           width: "100%",
                           objectFit: "cover",
                         }}
                         src={item.cover_image}
-                        alt={item.title}
                       />
                       เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
                       <br />
-                      {item.title}
-                      <Button
-                        type="primary"
-                        href={`/News_Menu/News_view/${item.id}`}
-                        target="_blank"
-                        style={{
-                          fontSize: "18px",
-                          padding: "20px 25px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "#7BBD8F",
-                          border: "none",
-                          color: "#ffffff",
-                        }}
-                      >
-                        อ่านต่อ
-                      </Button>
+                      {item.title.length > 200
+                        ? `${item.title.slice(0, 200)}...`
+                        : item.title}
+                      {/* <Button
+                      type="primary"
+                      href={`/News_Menu/News_view/${item.id}`}
+                      target="_blank"
+                      style={{
+                        fontSize: "18px",
+                        padding: "20px 25px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        background: "#7BBD8F",
+                        border: "none",
+                        color: "#ffffff",
+                        marginTop: "20px",  // Add margin-top to create space between text and button
+                      }}
+                    >
+                      อ่านต่อ
+                    </Button> */}
                     </div>
                   }
-                ></Card>
+                />
               </Link>
             </Grid>
           ))}
