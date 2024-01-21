@@ -35,7 +35,12 @@
     padding: 30px;
   }
 }
-
+@media (max-width: 1700px) {
+  .CardContainer {
+    width: 80%;
+    padding: 30px;
+  }
+}
 /* Responsive styles */
 @media (max-width: 1200px) {
   .CardContainer {

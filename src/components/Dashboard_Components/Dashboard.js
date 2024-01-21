@@ -227,7 +227,8 @@ const Dashboard = ({ onSearch }) => {
                 background: "#ffffff",
                 border: "#ffffff",
                 color: "#7BBD8F",
-                fontSize: "25px",
+                fontSize: "35px",
+                fontFamily: "'Th Sarabun New', sans-serif",
               }}
               onClick={() => navigate("/FakenewsSearch")}
             >
@@ -313,10 +314,13 @@ const Dashboard = ({ onSearch }) => {
                           src={item.cover_image}
                           //alt={item.title}
                         />
-                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                        <strong>
+                          เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
+                        </strong>
+
                         <br />
-                        {item.title.length > 200
-                          ? `${item.title.slice(0, 200)}...`
+                        {item.title.length > 150
+                          ? `${item.title.slice(0, 150)}...`
                           : item.title}
                       </div>
                     }
@@ -427,10 +431,12 @@ const Dashboard = ({ onSearch }) => {
                           }}
                           src={item.cover_image}
                         />
-                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
+                        <strong>
+                          เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
+                        </strong>
                         <br />
-                        {item.title.length > 200
-                          ? `${item.title.slice(0, 200)}...`
+                        {item.title.length > 150
+                          ? `${item.title.slice(0, 150)}...`
                           : item.title}
                       </div>
                     }

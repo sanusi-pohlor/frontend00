@@ -440,6 +440,7 @@ const News_Menu = (open, onClose) => {
                                 background: "#7BBD8F",
                                 border: "none",
                                 color: "#ffffff",
+                                fontFamily: "'Th Sarabun New', sans-serif",
                               }}
                             >
                               อ่านต่อ

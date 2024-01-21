@@ -306,7 +306,7 @@ const M_DB_Adm_Menu = () => {
               width: "100%",
               height: "100%",
             }}
-          >
+          >text
             <ResponsiveContainer width="100%" height={300}>
               <PieChart style={{
                 fontSize: "20px",
@@ -385,7 +385,7 @@ const M_DB_Adm_Menu = () => {
           height: "65%",
         }}
       >
-        <Typography variant="body1" sx={{ fontSize: "35px" }}>ข้อมูลตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear} (ปัจจุบัน)</Typography>
+        <Typography variant="body1" sx={{ fontSize: "35px" }}>ข้อมูลที่แจ้งตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear} (ปัจจุบัน)</Typography>
         <br />
         <Descriptions title={createTypography("ข้อมูล")} bordered items={items} />
         <br />
