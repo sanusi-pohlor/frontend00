@@ -40,8 +40,33 @@ const Adm_Info_Check = () => {
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [info_source, setInfo_source] = useState(null);
+  const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
+
+  const fetchTag = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_request",
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const formattedOptions = data.map((item) => ({
+          label: item.tag_name,
+          //value: item.tag_name,
+        }));
+        setOptions(formattedOptions);
+      } else {
+        console.error("Tag data retrieval failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  useEffect(() => {
+    fetchTag();
+  }, []);
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -62,6 +87,31 @@ const Adm_Info_Check = () => {
     fetchUserInfo();
   }, []);
 
+  const handleTagCreation = async (value) => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload",
+        {
+          method: "POST",
+          body: JSON.stringify({ tag_name: value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          { label: data.tag_name },
+        ]);
+      } else {
+        console.error("Error adding tag:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error adding tag:", error);
+    }
+  };
   const fetchInfo_source = async () => {
     try {
       const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
@@ -185,6 +235,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_data_cha", values.mfi_data_cha);
       formData.append("mfi_fninfo", parseInt(id, 10));
       formData.append("mfi_results", values.mfi_results);
+      formData.append("mfi_tag", JSON.stringify(values.mfi_tag));
       for (const pair of formData.entries()) {
         console.log(pair[0] + ': ' + pair[1]);
       }
@@ -360,436 +411,464 @@ const Adm_Info_Check = () => {
   return (
     <AdminMenu>
       <Card
-              hoverable
-              style={{
-                margin: "auto",
-                borderRadius: `${curveAngle}px`,
-                backgroundColor: paperColor,
-                width: "100%",
-                height: "100%",
-              }}
-            >
-      <div
+        hoverable
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
         }}
       >
-        <h1>จัดการข้อมูลรับแจ้ง</h1>
-      </div>
-      <Form
-        form={form}
-        layout="vertical"
-        name="member_form"
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        onClick={() => {
-          onChange_mfi_c_info_id();
-          onChange_mfi_fm_d_id();
-          onChange_mfi_dis_c_id();
-          onChange_mfi_ty_info_id();
-          onChange_mfi_moti_id();
-          onChange_mfi_data_cha_id();
-          onChange_dnc_med_id();
-        }}
-      >
-        <Row gutter={16}>
-          <Col span={8}>
-            <Form.Item
-              //name="mfi_time"
-              label="ประทับเวลา"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={
-                  fakeNewsInfo
-                    ? fakeNewsInfo.created_at &&
-                    moment(fakeNewsInfo.created_at)
-                      .locale("th")
-                      .format("DD MMMM YYYY")
-                    : "No date available"
-                }
-                disabled
-              />
-            </Form.Item>
-            {province && province.length > 0 && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h1>จัดการข้อมูลรับแจ้ง</h1>
+        </div>
+        <Form
+          form={form}
+          layout="vertical"
+          name="member_form"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          onClick={() => {
+            onChange_mfi_c_info_id();
+            onChange_mfi_fm_d_id();
+            onChange_mfi_dis_c_id();
+            onChange_mfi_ty_info_id();
+            onChange_mfi_moti_id();
+            onChange_mfi_data_cha_id();
+            onChange_dnc_med_id();
+          }}
+        >
+          <Row gutter={16}>
+            <Col span={8}>
               <Form.Item
-                label="จังหวัดของท่าน"
-                //name="fn_info_province"
+                //name="mfi_time"
+                label="ประทับเวลา"
                 rules={[
                   {
-                    required: true,
-                    message: "Please input your email!",
+                    required: false,
+                    message: "Please input the title of collection!",
                   },
                 ]}
               >
                 <Input
                   size="large"
-                  placeholder={province[0].prov_name}
+                  placeholder={
+                    fakeNewsInfo
+                      ? fakeNewsInfo.created_at &&
+                      moment(fakeNewsInfo.created_at)
+                        .locale("th")
+                        .format("DD MMMM YYYY")
+                      : "No date available"
+                  }
                   disabled
                 />
               </Form.Item>
-            )}
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              //name="mfi_mem"
-              label="ผู้ส่งรายงาน"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                value={renderReporterInfo()}
-                disabled
-              />
-            </Form.Item>
-            <Form.Item
-              name="mfi_med_c"
-              label="แหล่งที่มาของข่าวปลอม"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              {renderReporter_fn_info_source()}
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="mfi_img"
-              label="ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Image
-                width={200}
-                src={fakeNewsInfo && fakeNewsInfo.fn_info_image}
-                alt="รูปภาพข่าวปลอม"
-              />
-            </Form.Item>
-            <Form.Item
-              name="mfi_link"
-              label="ระบุลิ้งค์ข้อมูล (ถ้ามี)"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={
-                  fakeNewsInfo
-                    ? fakeNewsInfo.fn_info_link
-                    : "No date available"
-                }
-                disabled
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="mfi_c_info"
-              label="แหล่งที่มาของข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_dnc_med_id}
-                allowClear
+              {province && province.length > 0 && (
+                <Form.Item
+                  label="จังหวัดของท่าน"
+                  //name="fn_info_province"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your email!",
+                    },
+                  ]}
+                >
+                  <Input
+                    size="large"
+                    placeholder={province[0].prov_name}
+                    disabled
+                  />
+                </Form.Item>
+              )}
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                //name="mfi_mem"
+                label="ผู้ส่งรายงาน"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
               >
-                {selectOptions_med}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="mfi_num_mem"
-              label="จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input
-                size="large"
-                placeholder={
-                  fakeNewsInfo
-                    ? fakeNewsInfo.fn_info_num_mem
-                    : "No date available"
-                }
-                disabled
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="mfi_agency"
-              label="หน่วยงานที่เก็บข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="mfi_d_topic"
-              label="หัวข้อข้อมูลผิดพลาด"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="mfi_fm_d"
-              label="รูปแบบของข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_fm_d_id}
-                allowClear
+                <Input
+                  size="large"
+                  value={renderReporterInfo()}
+                  disabled
+                />
+              </Form.Item>
+              <Form.Item
+                name="mfi_med_c"
+                label="แหล่งที่มาของข่าวปลอม"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
               >
-                {selectOptions_fm}
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="mfi_dis_c"
-              label="ช่องทางการเผยแพร่"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_dis_c_id}
-                allowClear
+                {renderReporter_fn_info_source()}
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                name="mfi_img"
+                label="ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
               >
-                {selectOptions_dis}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="mfi_publ"
-              label="ผู้เผยแพร่ข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name="mfi_ty_info"
-              label="ประเภทของข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_ty_info_id}
-                allowClear
+                <Image
+                  width={200}
+                  src={fakeNewsInfo && fakeNewsInfo.fn_info_image}
+                  alt="รูปภาพข่าวปลอม"
+                />
+              </Form.Item>
+              <Form.Item
+                name="mfi_link"
+                label="ระบุลิ้งค์ข้อมูล (ถ้ามี)"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
               >
-                {selectOptions_ty}
-              </Select>
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item
-              name="mfi_only_cv"
-              label="เฉพาะโควิด-15"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-              placeholder=""
-              allowClear
-              style={{ width: "100%" }}
-            >
-              <Select.Option value="0">ไม่ใช่</Select.Option>
-              <Select.Option value="1">ใช่</Select.Option>
-            </Select>
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="mfi_moti"
-              label="แรงจูงใจการเผยแพร่"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Select
-                placeholder="Select a option and change input text above"
-                onChange={onChange_mfi_moti_id}
-                allowClear
+                <Input
+                  size="large"
+                  placeholder={
+                    fakeNewsInfo
+                      ? fakeNewsInfo.fn_info_link
+                      : "No date available"
+                  }
+                  disabled
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="mfi_c_info"
+                label="แหล่งที่มาของข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
               >
-                {selectOptions_moti}
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_dnc_med_id}
+                  allowClear
+                >
+                  {selectOptions_med}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="mfi_num_mem"
+                label="จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input
+                  size="large"
+                  placeholder={
+                    fakeNewsInfo
+                      ? fakeNewsInfo.fn_info_num_mem
+                      : "No date available"
+                  }
+                  disabled
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="mfi_agency"
+                label="หน่วยงานที่เก็บข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="mfi_d_topic"
+                label="หัวข้อข้อมูลผิดพลาด"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                name="mfi_fm_d"
+                label="รูปแบบของข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_mfi_fm_d_id}
+                  allowClear
+                >
+                  {selectOptions_fm}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="mfi_dis_c"
+                label="ช่องทางการเผยแพร่"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_mfi_dis_c_id}
+                  allowClear
+                >
+                  {selectOptions_dis}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                name="mfi_publ"
+                label="ผู้เผยแพร่ข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="mfi_ty_info"
+                label="ประเภทของข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_mfi_ty_info_id}
+                  allowClear
+                >
+                  {selectOptions_ty}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                name="mfi_only_cv"
+                label="เฉพาะโควิด-15"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder=""
+                  allowClear
+                  style={{ width: "100%" }}
+                >
+                  <Select.Option value="0">ไม่ใช่</Select.Option>
+                  <Select.Option value="1">ใช่</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="mfi_moti"
+                label="แรงจูงใจการเผยแพร่"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_mfi_moti_id}
+                  allowClear
+                >
+                  {selectOptions_moti}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="mfi_iteration"
+                label="จำนวนการวนซ้ำ"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="mfi_che_d"
+                label="การตรวจสอบข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name="mfi_data_cha"
+                label="ลักษณะข้อมูล"
+                rules={[
+                  {
+                    required: false,
+                    message: "Please input the title of collection!",
+                  },
+                ]}
+              >
+                <Select
+                  placeholder="Select a option and change input text above"
+                  onChange={onChange_mfi_data_cha_id}
+                  allowClear
+                >
+                  {selectOptions_data}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row style={{ marginBottom: '10px' }}>
+            <Form.Item
+              name="mfi_results"
+              label="ผลสรุป"
+              rules={[
+                {
+                  required: false,
+                  message: "Please input the title of collection!",
+                },
+              ]}
+              style={{
+                marginRight: "10px",
+                width: "50%"
+              }}
+            >
+              <Select
+                placeholder=""
+                allowClear
+                style={{ width: "100%" }}
+              >
+                <Select.Option value="0">ข่าวเท็จ</Select.Option>
+                <Select.Option value="1">ข่าวจริง</Select.Option>
               </Select>
-            </Form.Item>
-            <Form.Item
-              name="mfi_iteration"
-              label="จำนวนการวนซ้ำ"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="mfi_che_d"
-              label="การตรวจสอบข้อมูล"
-              rules={[
-                {
-                  required: false,
-                  message: "Please input the title of collection!",
-                },
-              ]}
-            >
-              <Input />
             </Form.Item>
             <Form.Item
               name="mfi_data_cha"
-              label="ลักษณะข้อมูล"
+              label="เกี่ยวกับ"
               rules={[
                 {
                   required: false,
                   message: "Please input the title of collection!",
                 },
               ]}
+              style={{
+                width: "50%"
+              }}
             >
               <Select
-                placeholder="Select a option and change input text above"
+                placeholder=""
                 onChange={onChange_mfi_data_cha_id}
                 allowClear
+                style={{ width: "100%" }}
               >
                 {selectOptions_data}
               </Select>
             </Form.Item>
-          </Col>
-        </Row>
-        <Row style={{ marginBottom: '10px' }}>
-          <Form.Item
-            name="mfi_results"
-            label="ผลสรุป"
-            rules={[
-              {
-                required: false,
-                message: "Please input the title of collection!",
-              },
-            ]}
-            style={{
-              marginRight: "10px",
-              width: "50%"
-            }}
-          >
-            <Select
-              placeholder=""
-              allowClear
-              style={{ width: "100%" }}
+          </Row>
+          <Row style={{ marginBottom: '10px' }}>
+            <Form.Item
+              name="mfi_tag"
+              label="แท็ก"
+              rules={[
+                {
+                  required: false,
+                  message: "Please input the title of collection!",
+                },
+              ]}
+              style={{
+                marginRight: "10px",
+                width: "50%"
+              }}
             >
-              <Select.Option value="0">ข่าวเท็จ</Select.Option>
-              <Select.Option value="1">ข่าวจริง</Select.Option>
-            </Select>
+              <Select
+                mode="tags"
+                style={{ width: "100%" }}
+                placeholder="ผู้เขียน"
+                onSearch={(value) => {
+                  if (Array.isArray(options)) {
+                    handleTagCreation(value);
+                  }
+                }}
+                options={options}
+              />
+            </Form.Item>
+          </Row>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" style={{
+              fontSize: "18px",
+              padding: "20px 25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
+            }}>
+              บันทึก
+            </Button>
           </Form.Item>
-          <Form.Item
-            name="mfi_data_cha"
-            label="เกี่ยวกับ"
-            rules={[
-              {
-                required: false,
-                message: "Please input the title of collection!",
-              },
-            ]}
-            style={{
-              width: "50%"
-            }}
-          >
-            <Select
-              placeholder=""
-              onChange={onChange_mfi_data_cha_id}
-              allowClear
-              style={{ width: "100%" }}
-            >
-              {selectOptions_data}
-            </Select>
-          </Form.Item>
-        </Row>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" style={{
-            fontSize: "18px",
-            padding: "20px 25px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#7BBD8F",
-            border: "none",
-            color: "#ffffff",
-          }}>
-            บันทึก
-          </Button>
-        </Form.Item>
-      </Form></Card>
+        </Form></Card>
     </AdminMenu>
   );
 };

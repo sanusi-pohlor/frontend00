@@ -1,30 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Paper, IconButton } from "@mui/material";
 import {
-  SearchOutlined,
-  RightCircleOutlined,
-  LeftCircleOutlined,
-} from "@ant-design/icons";
-import {
   Card,
   Button,
-  Input,
+  Table,
   Form,
   DatePicker,
   Modal,
   Select,
-  Flex,
+  Space,
 } from "antd";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
 import { Typography, useMediaQuery } from "@mui/material";
+import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import moment from "moment";
 const { Option } = Select;
 const { Meta } = Card;
 
-
 const FakenewsSearch_Menu = (open, onClose) => {
   const [form] = Form.useForm();
+  const [province, setProvince] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
@@ -34,34 +31,42 @@ const FakenewsSearch_Menu = (open, onClose) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState({ field: "created_at", order: "desc" });
   const [itemsPerPage] = useState(10);
   const curveAngle = 20;
   const [filterVisible, setFilterVisible] = useState(false);
   const [options, setOptions] = useState([]);
+  const [editingKey, setEditingKey] = useState("");
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10, // Set your desired page size
+    total: data.length, // Assuming 'data' is your entire dataset
+  });
   const buttonStyle = {
     background: "#f1f1f1",
     border: "none",
     color: "#7BBD8F",
   };
-
-  useEffect(() => {
-    fetch("https://fakenews001-392577897f69.herokuapp.com/api/News_request")
-      .then((response) => response.json())
-      .then((data) => {
-        setDataOrg(data);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
         setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+        setDataOrg(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
   }, []);
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const newcurrentItems = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  
   const showFilterDialog = () => {
     setFilterVisible(true);
   };
@@ -69,22 +74,6 @@ const FakenewsSearch_Menu = (open, onClose) => {
   const closeFilterDialog = () => {
     setFilterVisible(false);
   };
-
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
-  };
-
-  const FilterFinish = (values) => {
-    console.log("Filter values:", values);
-    closeFilterDialog();
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  const filteredNews = data.filter((News) =>
-    News.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   useEffect(() => {
     fetch("https://fakenews001-392577897f69.herokuapp.com/api/Tags_request")
@@ -200,6 +189,75 @@ const FakenewsSearch_Menu = (open, onClose) => {
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
   }, []);
+  const isEditing = (record) => record.key === editingKey;
+  const columns = [
+    {
+      title: "ลำดับ",
+      width: "5%",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "หัวข้อ",
+      dataIndex: "",
+      width: "30%",
+      editable: true,
+    },
+    {
+      title: "จังหวัดของผู้แจ้ง",
+      dataIndex: "mfi_province",
+      width: "10%",
+      render: (mfi_province) => {
+        const provinceId = parseInt(mfi_province, 10); // Assuming base 10
+        const provinceData = province.find((item) => item.id === provinceId);
+        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
+      },
+    },
+    {
+      title: "ผลการตรวจสอบ",
+      dataIndex: "mfi_status",
+      width: "10%",
+      render: (mfi_results) => (
+        mfi_results === 0 ? "ข่าวเท็จ" : (mfi_results === 1 ? "ข่าวจริง" : "กำลังตรวจสอบ")
+      )
+    },
+    {
+      title: "จัดการ",
+      width: "5%",
+      editable: true,
+      render: (text, record) => (
+        <Space size="middle">
+          <Link to={`/FakenewsSearch/FakenewsSearch_view/${record.id}`}>
+            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+          </Link>
+        </Space>
+      ),
+    },
+  ];
+
+const mergedColumns = columns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+
+    return {
+      ...col,
+      onCell: (record) => ({
+        record,
+        inputType: col.dataIndex === "vol_mem_id" ? "number" : "text",
+        dataIndex: col.dataIndex,
+        title: col.title,
+        editing: isEditing(record),
+      }),
+    };
+  });
+
+  const handleTableChange = (pagination, filters, sorter) => {
+    setPagination(pagination);
+    if (sorter.field) {
+      setSortOrder({ field: sorter.field, order: sorter.order === "descend" ? "desc" : "asc" });
+    }
+  };
+
 
   return (
     <div style={{ backgroundColor: "#f1f1f1" }}>
@@ -368,94 +426,27 @@ const FakenewsSearch_Menu = (open, onClose) => {
           </div>
         </Card>
         <br /><br />
-        <Grid container spacing={2}>
-          {filteredNews.slice(1).map((item) => (
-            <Grid
-              item
-              xs={12}
-              md={4}
-              key={item.id}
-              style={{ marginBottom: "3%", padding: 5 }}
-            >
-              <Link
-                to={`/FakenewsSearch/FakenewsSearch_view/${item.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Card
-                  hoverable
-                  style={{
-                    margin: "auto",
-                    borderRadius: "20px",
-                    width: "90%",
-                    height: "100%",
-                    padding: 20,
-                    fontFamily: "'Th Sarabun New', sans-serif",
-                    fontSize: "25px",
-                    textAlign: "left",
-                  }}
-                  cover={
-                    <div
-                      style={{
-                        height: "80%",
-                        width: "100%",
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <img
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
-                        }}
-                        src={item.cover_image}
-                        alt={item.title}
-                      />
-                      เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                      <br />
-                      {item.title}
-                      <Button
-                        type="primary"
-                        href={`/FakenewsSearch/FakenewsSearch_view/${item.id}`}
-                        target="_blank"
-                        style={{
-                          fontSize: "18px",
-                          padding: "20px 25px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "#7BBD8F",
-                          border: "none",
-                          color: "#ffffff",
-                        }}
-                      >
-                        อ่านต่อ
-                      </Button>
-                    </div>
-                  }
-                ></Card>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-        <Box mt={4} display="flex" justifyContent="center">
-          <IconButton
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#7BBD8F" }}
-            />
-          </IconButton>
-          <IconButton
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastItem >= data.length}
-          >
-            <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#7BBD8F" }}
-            />
-          </IconButton>
-        </Box>
+        <Table
+          pagination={{
+            current: pagination.current,
+            pageSize: pagination.pageSize,
+            total: pagination.total,
+          }}
+          onChange={handleTableChange}
+        components={{
+          body: {
+            //cell: EditableCell,
+          },
+        }}
+        bordered
+        dataSource={data}
+        columns={mergedColumns}
+        rowClassName="editable-row"
+        //loading={loading}
+        // pagination={{
+        //   onChange: cancel,
+        // }}
+      />
       </Paper>
     </div>
   );

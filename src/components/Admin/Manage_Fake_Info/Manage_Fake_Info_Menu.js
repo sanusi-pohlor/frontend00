@@ -252,12 +252,12 @@ const Manage_Fake_Info_Menu = () => {
     <AdminMenu>
       <h1>จัดการข้อมูลเท็จ</h1>
       <Table
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-          }}
-          onChange={handleTableChange}
+        pagination={{
+          current: pagination.current,
+          pageSize: pagination.pageSize,
+          total: pagination.total,
+        }}
+        onChange={handleTableChange}
         components={{
           body: {
             //cell: EditableCell,
@@ -267,10 +267,10 @@ const Manage_Fake_Info_Menu = () => {
         dataSource={data}
         columns={mergedColumns}
         rowClassName="editable-row"
-        //loading={loading}
-        // pagination={{
-        //   onChange: cancel,
-        // }}
+      //loading={loading}
+      // pagination={{
+      //   onChange: cancel,
+      // }}
       />
     </AdminMenu>
   );
