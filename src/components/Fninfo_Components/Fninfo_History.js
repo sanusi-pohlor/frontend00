@@ -34,7 +34,7 @@ const NotificationHistory = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -53,7 +53,7 @@ const NotificationHistory = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_request"
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -74,7 +74,7 @@ const NotificationHistory = () => {
   const fetchData_Manage = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -186,7 +186,7 @@ const NotificationHistory = () => {
   ];
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
-    fetch(`https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_delete/${id}`, {
+    fetch(`https://checkkonproject-sub.com/api/FakeNewsInfo_delete/${id}`, {
       method: "DELETE",
     })
       .then((response) => response.json())

@@ -139,7 +139,7 @@
 //       formData.append("link", values.link);
 //       formData.append("tag", values.tag);
 //       const response = await fetch(
-//         `https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_update/${id}`,
+//         `https://checkkonproject-sub.com/api/Adm_Article_update/${id}`,
 //         {
 //           method: "POST",
 //           body: formData,
@@ -322,7 +322,7 @@ const Adm_Article_Edit = () => {
   const handleTagCreation = async (value) => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload",
+        "https://checkkonproject-sub.com/api/Tags_upload",
         {
           method: "POST",
           body: JSON.stringify({ tag_name: value }),
@@ -346,7 +346,7 @@ const Adm_Article_Edit = () => {
   };
 
   useEffect(() => {
-    fetch("https://fakenews001-392577897f69.herokuapp.com/api/Tags_request")
+    fetch("https://checkkonproject-sub.com/api/Tags_request")
       .then((response) => response.json())
       .then((data) => {
         const formattedOptions = data.map((item) => ({
@@ -363,7 +363,7 @@ const Adm_Article_Edit = () => {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/user",
+        "https://checkkonproject-sub.com/api/user",
         {
           method: "GET",
           headers: {
@@ -459,7 +459,7 @@ const Adm_Article_Edit = () => {
       formData.append("prov_new", values.prov_new);
       formData.append("key_new", values.key_new);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Adm_Article_upload",
+        "https://checkkonproject-sub.com/api/Adm_Article_upload",
         {
           method: "POST",
           body: formData,
@@ -482,7 +482,7 @@ const Adm_Article_Edit = () => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

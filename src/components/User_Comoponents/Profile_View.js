@@ -38,7 +38,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
+        const response = await fetch("https://checkkonproject-sub.com/api/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -64,7 +64,7 @@ const Profile = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();

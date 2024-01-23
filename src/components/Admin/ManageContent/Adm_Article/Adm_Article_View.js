@@ -22,7 +22,7 @@ const Adm_Article_View = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Article_show/${id}`);
+        const response = await fetch(`https://checkkonproject-sub.com/api/Article_show/${id}`);
         const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
@@ -38,7 +38,7 @@ const Adm_Article_View = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
+        const response = await fetch("https://checkkonproject-sub.com/api/user", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,

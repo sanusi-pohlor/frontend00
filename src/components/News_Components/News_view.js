@@ -17,7 +17,7 @@ const News_view = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://fakenews001-392577897f69.herokuapp.com/api/News_show/${id}`
+          `https://checkkonproject-sub.com/api/News_show/${id}`
         );
         const data = await response.json();
         setData(data);
@@ -34,7 +34,7 @@ const News_view = () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/user",
+          "https://checkkonproject-sub.com/api/user",
           {
             method: "GET",
             headers: {

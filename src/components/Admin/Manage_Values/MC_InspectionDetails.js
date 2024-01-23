@@ -48,7 +48,7 @@ const MC_InspectionDetails = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Subpoint_request"
+        "https://checkkonproject-sub.com/api/Subpoint_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -73,7 +73,7 @@ const MC_InspectionDetails = () => {
       formData.append("subp_name", values.subp_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Subpoint_upload",
+        "https://checkkonproject-sub.com/api/Subpoint_upload",
         {
           method: "POST",
           body: formData,
@@ -205,7 +205,7 @@ const MC_InspectionDetails = () => {
   });
   const onGenderChange_ins_dt_che_id = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/TypeInformation_request");
+      const response = await fetch("https://checkkonproject-sub.com/api/TypeInformation_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -228,7 +228,7 @@ const MC_InspectionDetails = () => {
   };
   const onGenderChange_ins_dt_info_id = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/TypeInformation_request");
+      const response = await fetch("https://checkkonproject-sub.com/api/TypeInformation_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

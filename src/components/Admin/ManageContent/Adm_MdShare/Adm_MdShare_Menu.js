@@ -19,7 +19,7 @@ const Adm_MdShare_Menu = () => {
   const paperColor = "#FFFFFF";
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -54,7 +54,7 @@ const Adm_MdShare_Menu = () => {
   }
   const fetchData = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/Adm_MdShare_request");
+      const response = await fetch("https://checkkonproject-sub.com/api/Adm_MdShare_request");
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
@@ -72,7 +72,7 @@ const Adm_MdShare_Menu = () => {
 
   const updateStatus = async (id, Status) => {
     try {
-      const response = await axios.put(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_MdShare_update_status/${id}`, { status: Status });
+      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`, { status: Status });
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
       } else {
@@ -86,7 +86,7 @@ const Adm_MdShare_Menu = () => {
   const handleDelete = async (id) => {
     try {
       console.log(`ลบรายการ: ${id}`);
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_MdShare_delete/${id}`,
+      const response = await fetch(`https://checkkonproject-sub.com/api/Adm_MdShare_delete/${id}`,
         {
           method: "DELETE",
         }

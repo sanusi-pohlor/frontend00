@@ -61,7 +61,7 @@ const Adm_Dashboard_Form = () => {
       setLoading(true);
       // Send other form data to the server
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Dashboard_upload",
+        "https://checkkonproject-sub.com/api/Dashboard_upload",
         {
           method: "POST",
           headers: {

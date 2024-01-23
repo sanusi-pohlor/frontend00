@@ -24,7 +24,7 @@ const Manage_Fake_Info_View = () => {
   
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -44,7 +44,7 @@ const Manage_Fake_Info_View = () => {
     console.log("id :", id);
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_show/${id}`
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -65,7 +65,7 @@ const Manage_Fake_Info_View = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();
@@ -90,7 +90,7 @@ const Manage_Fake_Info_View = () => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

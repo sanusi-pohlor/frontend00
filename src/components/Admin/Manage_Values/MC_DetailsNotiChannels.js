@@ -53,7 +53,7 @@ const MC_DetailsNotiChannels = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/DetailsNotiChannels_request"
+        "https://checkkonproject-sub.com/api/DetailsNotiChannels_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -86,7 +86,7 @@ const MC_DetailsNotiChannels = () => {
       formData.append("dnc_link", values.dnc_link);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/DetailsNotiChannels_upload",
+        "https://checkkonproject-sub.com/api/DetailsNotiChannels_upload",
         {
           method: "POST",
           body: formData,
@@ -248,7 +248,7 @@ const MC_DetailsNotiChannels = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

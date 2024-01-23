@@ -46,7 +46,7 @@ const MC_Publisher = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Publisher_request"
+        "https://checkkonproject-sub.com/api/Publisher_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -70,7 +70,7 @@ const MC_Publisher = () => {
       formData.append("pub_name", values.pub_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Publisher_upload",
+        "https://checkkonproject-sub.com/api/Publisher_upload",
         {
           method: "POST",
           body: formData,

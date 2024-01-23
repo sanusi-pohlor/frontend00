@@ -56,7 +56,7 @@ const MC_ActionType = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ActionType_request"
+        "https://checkkonproject-sub.com/api/ActionType_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -80,7 +80,7 @@ const MC_ActionType = () => {
       formData.append("act_ty_name", values.act_ty_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ActionType_upload",
+        "https://checkkonproject-sub.com/api/ActionType_upload",
         {
           method: "POST",
           body: formData,

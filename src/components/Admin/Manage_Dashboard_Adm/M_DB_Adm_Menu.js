@@ -42,7 +42,7 @@ const M_DB_Adm_Menu = () => {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/user",
+        "https://checkkonproject-sub.com/api/user",
         {
           method: "GET",
           headers: {
@@ -63,7 +63,7 @@ const M_DB_Adm_Menu = () => {
   const fetchDataInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
+        "https://checkkonproject-sub.com/api/ManageInfo_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -78,7 +78,7 @@ const M_DB_Adm_Menu = () => {
   const fetchData_Manage = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -100,7 +100,7 @@ const M_DB_Adm_Menu = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();
@@ -194,10 +194,10 @@ const M_DB_Adm_Menu = () => {
     const fetchData = async (endpoint, name, dataIndex) => {
       try {
         const Manage_Fake_Info = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
         );
         const MediaChannels = await fetch(
-          `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+          `https://checkkonproject-sub.com/api/${endpoint}`
         );
 
         if (Manage_Fake_Info.ok && MediaChannels.ok) {

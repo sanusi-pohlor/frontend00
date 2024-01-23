@@ -46,7 +46,7 @@ const MC_FormatData = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/FormatData_request"
+        "https://checkkonproject-sub.com/api/FormatData_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -70,7 +70,7 @@ const MC_FormatData = () => {
       formData.append("fm_d_name", values.fm_d_name);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/FormatData_upload",
+        "https://checkkonproject-sub.com/api/FormatData_upload",
         {
           method: "POST",
           body: formData,

@@ -58,7 +58,7 @@ const MenuProfile = ({ children }) => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/user",
+          "https://checkkonproject-sub.com/api/user",
           {
             method: "GET",
             headers: {
@@ -84,7 +84,7 @@ const MenuProfile = ({ children }) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ManageInfo_request"
+        "https://checkkonproject-sub.com/api/ManageInfo_request"
       );
       if (response.ok) {
         const data = await response.json();

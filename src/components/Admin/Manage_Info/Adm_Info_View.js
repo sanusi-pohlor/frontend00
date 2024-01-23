@@ -58,7 +58,7 @@ const ManageInfo_view = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+        "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -78,7 +78,7 @@ const ManageInfo_view = () => {
   const fetchInfo_source = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request"
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
         const Data = await response.json();
@@ -98,7 +98,7 @@ const ManageInfo_view = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -149,7 +149,7 @@ const ManageInfo_view = () => {
       const formData = new FormData();
       formData.append("status", 1);
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
+        `https://checkkonproject-sub.com/api/updateFakeNewsStatus/${id}`,
         {
           method: "POST",
           body: formData,
@@ -169,7 +169,7 @@ const ManageInfo_view = () => {
   const fetchFakeNewsInfo = async () => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_show/${id}`
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -189,7 +189,7 @@ const ManageInfo_view = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();

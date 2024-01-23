@@ -42,7 +42,7 @@ const FnInfoEdit = () => {
   const fetchmed = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request"
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -65,7 +65,7 @@ const FnInfoEdit = () => {
   const fetchFakeNewsData = async () => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_edit/${id}`
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_edit/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -112,7 +112,7 @@ const FnInfoEdit = () => {
       formData.append("fn_info_dmy", formattedDate);
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_update/${id}`,
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
         {
           method: "POST", // Use the appropriate HTTP method for updating
           body: formData,
@@ -139,7 +139,7 @@ const FnInfoEdit = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/user", {
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -165,7 +165,7 @@ const FnInfoEdit = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();
@@ -189,7 +189,7 @@ const FnInfoEdit = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => ({

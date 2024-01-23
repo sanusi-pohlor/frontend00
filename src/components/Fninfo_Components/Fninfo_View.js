@@ -48,7 +48,7 @@ const FnInfoView = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();
@@ -73,7 +73,7 @@ const FnInfoView = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+        "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -95,7 +95,7 @@ const FnInfoView = () => {
   const fetchDataAndSetOptions = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request"
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
         const userData = await response.json();

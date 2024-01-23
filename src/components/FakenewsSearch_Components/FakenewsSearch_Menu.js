@@ -50,7 +50,7 @@ const FakenewsSearch_Menu = (open, onClose) => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -76,7 +76,7 @@ const FakenewsSearch_Menu = (open, onClose) => {
   };
 
   useEffect(() => {
-    fetch("https://fakenews001-392577897f69.herokuapp.com/api/Tags_request")
+    fetch("https://checkkonproject-sub.com/api/Tags_request")
       .then((response) => response.json())
       .then((data) => {
         const formattedOptions = data.map((item) => ({
@@ -140,7 +140,7 @@ const FakenewsSearch_Menu = (open, onClose) => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

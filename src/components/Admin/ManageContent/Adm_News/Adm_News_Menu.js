@@ -20,7 +20,7 @@ const Adm_News_Menu = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/AmUser");
+      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -55,7 +55,7 @@ const Adm_News_Menu = () => {
   }
   const fetchData = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_request");
+      const response = await fetch("https://checkkonproject-sub.com/api/Adm_News_request");
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
@@ -73,7 +73,7 @@ const Adm_News_Menu = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const response = await axios.put(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_update_status/${id}`, { status });
+      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_News_update_status/${id}`, { status });
 
       if (response.status === 200) {
         console.log(`Status updated successfully for ID: ${id}`);
@@ -88,7 +88,7 @@ const Adm_News_Menu = () => {
   const handleDelete = async (id) => {
     try {
       console.log(`ลบรายการ: ${id}`);
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_delete/${id}`,
+      const response = await fetch(`https://checkkonproject-sub.com/api/Adm_News_delete/${id}`,
         {
           method: "DELETE",
         }

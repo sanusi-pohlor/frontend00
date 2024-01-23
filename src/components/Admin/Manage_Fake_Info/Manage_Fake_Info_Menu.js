@@ -19,7 +19,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+        "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -56,7 +56,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -86,7 +86,7 @@ const Manage_Fake_Info_Menu = () => {
   const Province = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+        "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -105,7 +105,7 @@ const Manage_Fake_Info_Menu = () => {
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
     fetch(
-      `https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_delete/${id}`,
+      `https://checkkonproject-sub.com/api/Manage_Fake_Info_delete/${id}`,
       {
         method: "DELETE",
       }

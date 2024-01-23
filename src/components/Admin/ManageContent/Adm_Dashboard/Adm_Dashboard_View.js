@@ -12,7 +12,7 @@ const Adm_Dashboard_View = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://fakenews001-392577897f69.herokuapp.com/api/Dashboard_show/${id}`
+          `https://checkkonproject-sub.com/api/Dashboard_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();

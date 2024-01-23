@@ -48,7 +48,7 @@ const MProblem = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ProblemManagement_request"
+        "https://checkkonproject-sub.com/api/ProblemManagement_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -72,7 +72,7 @@ const MProblem = () => {
       formData.append("prob_m_way", values.prob_m_way);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/ProblemManagement_upload",
+        "https://checkkonproject-sub.com/api/ProblemManagement_upload",
         {
           method: "POST",
           body: formData,

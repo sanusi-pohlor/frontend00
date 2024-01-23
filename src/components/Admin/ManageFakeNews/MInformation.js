@@ -66,7 +66,7 @@ const MInformation = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Information_request"
+        "https://checkkonproject-sub.com/api/Information_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -99,7 +99,7 @@ const MInformation = () => {
       formData.append("info_cont_topic", values.info_cont_topic);
       console.log(formData);
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Information_upload",
+        "https://checkkonproject-sub.com/api/Information_upload",
         {
           method: "POST",
           body: formData,
@@ -268,7 +268,7 @@ const MInformation = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`);
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (

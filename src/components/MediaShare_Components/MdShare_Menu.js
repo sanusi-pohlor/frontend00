@@ -46,7 +46,7 @@ const MdShare_Menu = (open) => {
   };
 
   useEffect(() => {
-    fetch("https://fakenews001-392577897f69.herokuapp.com/api/MdShare_request")
+    fetch("https://checkkonproject-sub.com/api/MdShare_request")
       .then((response) => response.json())
       .then((data) => {
         setDataOrg(data);
@@ -111,7 +111,7 @@ const MdShare_Menu = (open) => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

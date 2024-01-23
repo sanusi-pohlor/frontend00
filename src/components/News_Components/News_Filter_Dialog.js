@@ -27,7 +27,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
   const handleApplyFilters = async () => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/Adm_News_request`
+        `https://checkkonproject-sub.com/api/Adm_News_request`
       );
       if (response.ok) {
         const newsData = await response.json();
@@ -51,7 +51,7 @@ const FilterDialog = ({ open, onClose, handleSubmit, FilterFinish }) => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();

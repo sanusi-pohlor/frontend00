@@ -47,7 +47,7 @@ const Adm_Info_Check = () => {
   const fetchTag = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_request",
+        "https://checkkonproject-sub.com/api/Tags_request",
       );
       if (response.ok) {
         const data = await response.json();
@@ -70,7 +70,7 @@ const Adm_Info_Check = () => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/AmUser"
+        "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
         const userData = await response.json();
@@ -90,7 +90,7 @@ const Adm_Info_Check = () => {
   const handleTagCreation = async (value) => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Tags_upload",
+        "https://checkkonproject-sub.com/api/Tags_upload",
         {
           method: "POST",
           body: JSON.stringify({ tag_name: value }),
@@ -114,7 +114,7 @@ const Adm_Info_Check = () => {
   };
   const fetchInfo_source = async () => {
     try {
-      const response = await fetch("https://fakenews001-392577897f69.herokuapp.com/api/MediaChannels_request");
+      const response = await fetch("https://checkkonproject-sub.com/api/MediaChannels_request");
       if (response.ok) {
         const Data = await response.json();
         console.log("source :", Data);
@@ -134,7 +134,7 @@ const Adm_Info_Check = () => {
     console.log("id :", id);
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_show/${id}`
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -166,7 +166,7 @@ const Adm_Info_Check = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -186,7 +186,7 @@ const Adm_Info_Check = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://fakenews001-392577897f69.herokuapp.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
           const pv = await response.json();
@@ -240,7 +240,7 @@ const Adm_Info_Check = () => {
         console.log(pair[0] + ': ' + pair[1]);
       }
       const response = await fetch(
-        "https://fakenews001-392577897f69.herokuapp.com/api/Manage_Fake_Info_upload",
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_upload",
         {
           method: "POST",
           body: formData,
@@ -271,7 +271,7 @@ const Adm_Info_Check = () => {
       const formData = new FormData();
       formData.append("status", 2);
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/updateFakeNewsStatus/${id}`,
+        `https://checkkonproject-sub.com/api/updateFakeNewsStatus/${id}`,
         {
           method: "POST",
           body: formData,
@@ -291,7 +291,7 @@ const Adm_Info_Check = () => {
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
-        `https://fakenews001-392577897f69.herokuapp.com/api/${endpoint}`
+        `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
         const typeCodes = await response.json();
