@@ -281,7 +281,7 @@ const Dashboard = ({ onSearch }) => {
                 style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
-                  to={`/News/News_views/${item.id}`}
+                  to={`/News_Menu/News_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
@@ -399,7 +399,7 @@ const Dashboard = ({ onSearch }) => {
                 style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
-                  to={`/Article/Article_views/${item.id}`}
+                  to={`/Article_Menu/Article_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
@@ -509,7 +509,7 @@ const Dashboard = ({ onSearch }) => {
                 style={{ marginBottom: "4%", padding: 20 }}
               >
                 <Link
-                  to={`/MdShare/MdShare_views/${item.id}`}
+                  to={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
