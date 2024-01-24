@@ -256,6 +256,25 @@ const M_DB_Adm_Menu = () => {
 
   return (
     <AdminMenu>
+      <Card
+        style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          หน้าหลักแอดมิน
+        </div>
+      </Card>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
           <Card
@@ -268,6 +287,18 @@ const M_DB_Adm_Menu = () => {
               height: "100%",
             }}
           >
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}
+            >
+              ประเภทสื่อ
+            </div>
+            <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart style={{
                 fontSize: "20px",
@@ -306,7 +337,19 @@ const M_DB_Adm_Menu = () => {
               width: "100%",
               height: "100%",
             }}
-          >text
+          >
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}
+            >
+              รูปแบบข่าว
+            </div>
+            <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart style={{
                 fontSize: "20px",
@@ -346,6 +389,18 @@ const M_DB_Adm_Menu = () => {
               height: "100%",
             }}
           >
+            <div
+              style={{
+                fontSize: "30px",
+                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                fontFamily: "'Th Sarabun New', sans-serif",
+              }}
+            >
+              จังหวัด
+            </div>
+            <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart style={{
                 fontSize: "20px",

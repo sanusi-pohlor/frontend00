@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Steps, Divider, Modal } from "antd";
-import { useParams } from "react-router-dom";
+import { Badge, Descriptions, Image, Button, Divider, Modal } from "antd";
+import { useParams, Link } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
+import {
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 
 const Manage_Fake_Info_View = () => {
+  const [fnInfo, setFnInfo] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const { id } = useParams();
   const [province, setProvince] = useState([]);
@@ -21,7 +25,7 @@ const Manage_Fake_Info_View = () => {
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_mfi_dis_c, setSelectOptions_mfi_dis_c] = useState([]);
-  
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
@@ -41,7 +45,6 @@ const Manage_Fake_Info_View = () => {
   }, []);
 
   const fetchFakeNewsInfo = async () => {
-    console.log("id :", id);
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
@@ -56,10 +59,30 @@ const Manage_Fake_Info_View = () => {
       console.error("Error fetching data:", error);
     }
   };
-
   useEffect(() => {
     fetchFakeNewsInfo();
   }, [id]);
+
+  const fetchFNInfo = async () => {
+    if (fakeNewsInfo && fakeNewsInfo.mfi_fninfo) {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${fakeNewsInfo.mfi_fninfo}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setFnInfo(data);
+        } else {
+          console.error("Error fetching fake news info data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching fake news info data:", error);
+      }
+    }
+  };
+  useEffect(() => {
+    fetchFNInfo();
+  }, [fakeNewsInfo]);
 
   useEffect(() => {
     const fetchProvince = async () => {
@@ -94,7 +117,7 @@ const Manage_Fake_Info_View = () => {
       );
       if (response.ok) {
         const typeCodes = await response.json();
-        console.log("ddd = ",typeCodes);
+        console.log("ddd = ", typeCodes);
         stateSetter(typeCodes);
       } else {
         console.error(
@@ -203,16 +226,16 @@ const Manage_Fake_Info_View = () => {
     if (!selectOptions_med || !fakeNewsInfo?.mfi_med_c) {
       return null;
     }
-  
+
     const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_med_c);
     return source && <span>{source.med_c_name}</span>;
   };
-  
+
   const renderReporter_mfi_dis_c = () => {
     if (!selectOptions_med || !fakeNewsInfo?.mfi_dis_c) {
       return null;
     }
-  
+
     const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_dis_c);
     return source && <span>{source.med_c_name}</span>;
   };
@@ -221,26 +244,26 @@ const Manage_Fake_Info_View = () => {
     if (!selectOptions_fm || !fakeNewsInfo?.mfi_fm_d) {
       return null;
     }
-  
+
     const source = selectOptions_fm.find(source => source.id === fakeNewsInfo?.mfi_fm_d);
     return source && <span>{source.fm_d_name}</span>;
   };
 
   const render_prov_name = () => {
-  const provinceId = parseInt(fakeNewsInfo.mfi_province, 10);
+    const provinceId = parseInt(fakeNewsInfo.mfi_province, 10);
     if (!selectOptions_prov || !provinceId) {
       return null;
     }
-  
+
     const source = selectOptions_prov.find(source => source.id === provinceId);
     return source && <span>{source.prov_name}</span>;
   };
-  
+
   const render_mfi_moti_name = () => {
     if (!selectOptions_moti || !fakeNewsInfo?.mfi_moti) {
       return null;
     }
-  
+
     const source = selectOptions_moti.find(source => source.id === fakeNewsInfo?.mfi_moti);
     return source && <span>{source.moti_name}</span>;
   };
@@ -249,7 +272,7 @@ const Manage_Fake_Info_View = () => {
     if (!selectOptions_data || !fakeNewsInfo?.mfi_data_cha) {
       return null;
     }
-  
+
     const source = selectOptions_data.find(source => source.id === fakeNewsInfo?.mfi_data_cha);
     return source && <span>{source.data_cha_name}</span>;
   };
@@ -408,6 +431,18 @@ const Manage_Fake_Info_View = () => {
   ];
   return (
     <AdminMenu>
+      <div>
+        <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
+          <Button
+            type="primary"
+            shape="round"
+            icon={<PlusCircleOutlined />}
+            size="large"
+          >
+            แก้ไข
+          </Button>
+        </Link>
+      </div>
       <Descriptions
         title="รายละเอียดข้อมูลเท็จ"
         layout="vertical"

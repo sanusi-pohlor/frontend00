@@ -1,0 +1,295 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Th Sarabun New', sans-serif;
+  }
+
+.your-typography {
+    flex-grow: 1;
+    margin-right: 5px;
+    font-family: 'Th Sarabun New', sans-serif;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    color: gray;
+    font-size: 250%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.login-button {
+    background: #7BBD8F;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+
+.image-style {
+    width: 200px;
+    height: auto;
+}
+
+.register-button {
+    border: 1px solid #7BBD8F;
+    color: gray;
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+  }
+  
+
+.custom-font {
+    font-family: 'Th Sarabun New', sans-serif;
+}
+
+.AppBarContainer {
+    background-color: #ffffff;
+    color: #7BBD8F;
+    height: 10%;
+}
+
+.menu-button {
+    border: 1px solid #7BBD8F;
+    color: gray;
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.menu-button-primary {
+    background: #7BBD8F;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+.menu-button-icon {
+    font-size: 2rem;
+    color: #7BBD8F;
+    padding: 0;
+}
+
+.float-button-group {
+    right: 80px;
+}
+
+.custom-icon-button {
+    margin-right: 2px;
+    display: flex;
+}
+
+@media screen and (max-width: 959px) {
+    .custom-icon-button {
+        display: none;
+    }
+}
+
+.footer {
+    text-align: center;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 40vh;
+    width: 100%;
+    font-family: 'Th Sarabun New', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    font-family: 'Th Sarabun New', sans-serif;
+    font-size: 20px;
+    color: gray;
+}
+
+.text strong {
+    font-size: 30px;
+}
+
+.image-1 {
+    width: 25%;
+    height: 25%;
+}
+
+.image {
+    width: 80px;
+    height: 80px;
+}
+
+.custom-font {
+    font-family: 'Th Sarabun New', sans-serif;
+}
+
+body {
+    font-family: 'Th Sarabun New', sans-serif;
+}
+
+.largeTag {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.paperContainer {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.articleTitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-size: 80px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+@media (max-width: 2000px) {
+
+    .text,
+    .image-1,
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 80%;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 1800px) {
+
+    .text,
+    .image-1,
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 1200px) {
+
+    .text,
+    .image-1,
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 70%;
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .text,
+    .image-1,
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 30px;
+    }
+
+    .articleTitle {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 390px) {
+
+    .text,
+    .image-1,
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 100%;
+        padding: 1px;
+    }
+
+    .articleTitle {
+        font-size: 50px;
+    }
+}
+
+.header-class {
+    background-color: #7BBD8F;
+    font-size: 30px;
+}
+
+.largeTooltip .ant-tooltip-inner {
+    font-size: 30px;
+    max-width: 200px;
+}
+
+.table-font,
+.ant-table-cell {
+    font-size: 30px;
+}
+
+.cell-class {
+    font-size: 25px;
+}
+
+.fade-enter {
+    opacity: 0;
+}
+
+.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-exit {
+    opacity: 1;
+}
+
+.fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+}
+
+.container-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Th Sarabun New', sans-serif;
+  }
+  
+  .form-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .form-item-label {
+    font-size: 25px;
+  }
+  
+  .submit-button {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #7BBD8F;
+    border: none;
+    color: #ffffff;
+  }
+  
+  .checkbox-label {
+    font-size: 25px;
+  }

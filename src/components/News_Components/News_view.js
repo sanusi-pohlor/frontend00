@@ -117,7 +117,7 @@ const News_view = () => {
         elevation={0}
         style={{
           width: "80%",
-          padding: 30,
+          padding: 50,
           margin: "0 auto",
           backgroundColor: "#f1f1f1",
         }}

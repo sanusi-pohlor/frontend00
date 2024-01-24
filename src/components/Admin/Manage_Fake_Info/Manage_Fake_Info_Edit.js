@@ -20,7 +20,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import moment from "moment";
 const { Option } = Select;
 
-const Adm_Info_Check = () => {
+const Manage_Fake_Info_Edit = () => {
   const curveAngle = 20;
   const paperColor = "#FFFFFF";
   const navigate = useNavigate();
@@ -209,6 +209,53 @@ const Adm_Info_Check = () => {
   }, [fakeNewsInfo]);
 
   const parsedId = parseInt(id, 10);
+  useEffect(() => {
+    fetchManage_Fake_Info_Edit();
+  }, [id]);
+  const fetchManage_Fake_Info_Edit = async () => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_edit/${id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        //setImg(data);
+        form.setFieldsValue({
+          mfi_time: data.mfi_time,
+          mfi_province: data.mfi_province,
+          mfi_mem: data.mfi_mem,
+          mfi_med_c: data.mfi_med_c,
+          mfi_img: data.mfi_img,
+          mfi_link: data.mfi_link,
+          mfi_c_info: data.mfi_c_info,
+          mfi_num_mem: data.mfi_num_mem,
+          mfi_agency: data.mfi_agency,
+          mfi_d_topic: data.mfi_d_topic,
+          mfi_fm_d: data.mfi_fm_d,
+          mfi_dis_c: data.mfi_dis_c,
+          mfi_publ: data.mfi_publ,
+          mfi_ty_info: data.mfi_ty_info,
+          mfi_only_cv: data.mfi_only_cv,
+          mfi_moti: data.mfi_moti,
+          mfi_iteration: data.mfi_iteration,
+          mfi_che_d: data.mfi_che_d,
+          mfi_data_cha: data.mfi_data_cha,
+          mfi_fninfo: data.mfi_fninfo,
+          mfi_results: data.mfi_results,
+          mfi_tag: data.mfi_tag,
+          //formData.append("mfi_con_about", values.mfi_con_about);
+        });
+      } else {
+        console.error("Invalid date received from the server");
+        form.setFieldsValue({
+          //fn_info_dmy: moment(),
+        });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const onFinish = async (values) => {
     console.log("mfi_fninfo = ", values);
     try {
@@ -322,7 +369,6 @@ const Adm_Info_Check = () => {
     if (!info_source) {
       return null;
     }
-
     const source = info_source.find(
       (source) => source.id === fakeNewsInfo?.fn_info_source
     );
@@ -873,4 +919,4 @@ const Adm_Info_Check = () => {
   );
 };
 
-export default Adm_Info_Check;
+export default Manage_Fake_Info_Edit;

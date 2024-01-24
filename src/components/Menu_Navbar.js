@@ -192,7 +192,7 @@ function Menu_Navbar() {
           <img
             src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
             alt="WMO Logo"
-            style={imageStyle}
+            className="image-style"
           />
           <div style={{ margin: "15px" }}></div>
           <YourTypography variant="h6">
@@ -262,15 +262,9 @@ function Menu_Navbar() {
                 }}
               >
                 <Button
-                  className="menu-button"
+                  className="register-button"
                   size="large"
                   type="primary"
-                  style={{
-                    ...registerbuttonStyle,
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    whiteSpace: "nowrap",
-                  }}
                   onClick={showRegisterDialog}
                 >
                   สมัครสมาชิก
@@ -285,15 +279,9 @@ function Menu_Navbar() {
                 )}
                 <div style={{ margin: "5px" }}></div>
                 <Button
-                  className="menu-button"
+                  className="login-button"
                   size="large"
                   type="primary"
-                  style={{
-                    ...loginbuttonStyle,
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    whiteSpace: "nowrap",
-                  }}
                   onClick={showLoginDialog}
                 >
                   เข้าสู่ระบบ
@@ -319,7 +307,7 @@ function Menu_Navbar() {
           }}
           icon={<CommentOutlined />}
         >
-          <FloatButton icon={<FacebookOutlined/>} onClick={handleButtonClick} />
+          <FloatButton icon={<FacebookOutlined />} onClick={handleButtonClick} />
         </FloatButton.Group>
       </>
     </Box>

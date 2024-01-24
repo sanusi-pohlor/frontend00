@@ -26,6 +26,7 @@ import Adm_Info_Check from "./components/Admin/Manage_Info/Adm_Info_Check";
 
 import Manage_Fake_Info_Menu from "./components/Admin/Manage_Fake_Info/Manage_Fake_Info_Menu";
 import Manage_Fake_Info_View from "./components/Admin/Manage_Fake_Info/Manage_Fake_Info_View";
+import Manage_Fake_Info_Edit from "./components/Admin/Manage_Fake_Info/Manage_Fake_Info_Edit";
 
 import ManageMembers from "./components/Admin/Manage_Members/Adm_Mm_Menu";
 
@@ -99,6 +100,8 @@ const routes = [
 
   { path: "/Admin/Manage_Fake_Info_Menu", element: <Manage_Fake_Info_Menu /> },
   { path: "/Admin/Manage_Fake_Info_View/:id", element: <Manage_Fake_Info_View /> },
+  { path: "/Admin/Manage_Fake_Info_Edit/:id", element: <Manage_Fake_Info_Edit /> },
+ 
   {
     path: "/Admin/ManageInfo/ManageInfo_view/:id", element: <ManageInfo_view />,
   },

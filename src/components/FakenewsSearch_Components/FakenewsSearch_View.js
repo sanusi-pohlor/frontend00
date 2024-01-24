@@ -270,11 +270,6 @@ const FakenewsSearch_View = () => {
       children: fakeNewsInfo && <span>{render_prov_name()}</span>,
     },
     {
-      key: "3",
-      label: "ผู้ส่งรายงาน",
-      children: fakeNewsInfo && <span>{renderReporterInfo()}</span>,
-    },
-    {
       key: "4",
       label: "แหล่งที่มาของข่าวปลอม",
       children: fakeNewsInfo && <span>{renderReporter_fn_info_source()}</span>,
@@ -378,31 +373,6 @@ const FakenewsSearch_View = () => {
       key: "21",
       label: "เพิ่มเมื่อ",
       children: fakeNewsInfo && <span>{fakeNewsInfo.created_at}</span>,
-    },
-    {
-      key: "22",
-      label: "สถานะ",
-      span: 3,
-      children: fakeNewsInfo && (
-        <React.Fragment>
-          <Badge
-            status={
-              fakeNewsInfo.fn_info_status === 0
-                ? "warning" // ถ้าสถานะเท่ากับ 1 (รอตรวจสอบ)
-                : fakeNewsInfo.fn_info_status === 1
-                  ? "processing" // ถ้าสถานะเท่ากับ 0 (กำลังตรวจสอบ)
-                  : "success" // ถ้าสถานะเท่ากับอื่น ๆ (ตรวจสอบแล้ว)
-            }
-            text={
-              fakeNewsInfo.fn_info_status === 0
-                ? "รอตรวจสอบ"
-                : fakeNewsInfo.fn_info_status === 1
-                  ? "กำลังตรวจสอบ"
-                  : "ตรวจสอบแล้ว"
-            }
-          />
-        </React.Fragment>
-      ),
     },
   ];
   return (

@@ -280,14 +280,14 @@ const Adm_News_Form = () => {
             rules={[
               {
                 required: true,
-                message: createTypography("Please input your email!"),
+                message: createTypography("กรุณาเพิ่มผู้เขียน!"),
               },
             ]}
           >
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user ? user.username : createTypography("Username")}
+              placeholder={user ? user.username : createTypography("ผู้เขียน")}
               disabled
             />
           </Form.Item>
@@ -296,13 +296,13 @@ const Adm_News_Form = () => {
           </Form.Item>
           <Form.Item
             name="details"
-            label={createTypography("รายละเอียด")}
+            label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder={createTypography("Write something...")}
+                placeholder={createTypography("รายละเอียดเพิ่มเติม")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -333,7 +333,7 @@ const Adm_News_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item label={createTypography("Link")} rules={[{ required: false }]}>
+          <Form.Item label={createTypography("ลิงค์")} rules={[{ required: false }]}>
             <Form.List name="link">
               {(fields, { add, remove }) => (
                 <>
@@ -352,11 +352,11 @@ const Adm_News_Form = () => {
                         rules={[
                           {
                             required: true,
-                            message: createTypography("Missing first name"),
+                            message: createTypography("กรุณาเพิ่มลิงค์"),
                           },
                         ]}
                       >
-                        <Input placeholder="Link" style={{ width: "100%" }} />
+                        <Input placeholder="ลิงค์" style={{ width: "100%" }} />
                       </Form.Item>
                       <MinusCircleOutlined onClick={() => remove(name)} />
                     </Space>

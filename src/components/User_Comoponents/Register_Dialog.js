@@ -9,6 +9,7 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
+import "../App.css";
 
 const RegisterDialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -131,26 +132,12 @@ const RegisterDialog = ({ open, onClose }) => {
       footer={null}
       width={800}
     >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          textAlign: "center",
-          fontSize: "50px",
-          fontWeight: "bold",
-          fontFamily: "'Th Sarabun New', sans-serif",
-        }}
-      >
+      <div className="container-title">
         สมัครสมาชิก
       </div>
       <Paper
         elevation={0}
-        style={{
-          width: "80%",
-          margin: "0 auto",
-        }}
+        className="form-container"
       >
         <Form
           form={form}
@@ -165,7 +152,7 @@ const RegisterDialog = ({ open, onClose }) => {
           labelCol={{ style: { fontSize: '18px' } }}
         >
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ชื่อ</Typography>}
+            label={<Typography variant="body1" className="form-item-label">ชื่อ</Typography>}
             name="username"
             rules={[
               {
@@ -294,16 +281,8 @@ const RegisterDialog = ({ open, onClose }) => {
             <Checkbox onChange={onChange}><Typography variant="body1" sx={{ fontSize: "25px" }}>รับคอนเทนต์ผ่านอีเมล</Typography></Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} style={{
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
-              <Typography variant="body1" sx={{ fontSize: "25px" }}>ลงทะเบียน</Typography>
+            <Button type="primary" htmlType="submit" loading={loading} className="submit-button">
+              <Typography variant="body1" className="submit-button-text">ลงทะเบียน</Typography>
             </Button>
           </Form.Item>
         </Form></Paper>

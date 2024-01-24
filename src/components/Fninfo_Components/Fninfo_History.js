@@ -111,7 +111,7 @@ const NotificationHistory = () => {
         return "ตรวจสอบเสร็จสิ้น";
     }
   };
-  
+
   const renderResultText = (id) => {
     const dataA = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
     const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "รอตรวจสอบ")) : "รอตรวจสอบ";
@@ -215,10 +215,21 @@ const NotificationHistory = () => {
   } else {
     return (
       <UserProfile>
+        <div
+          style={{
+            fontSize: "30px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+          }}
+        >
+          ประวัติการแจ้งข้อมูล
+        </div>
         <TableContainer>
-          <Table 
-          pagination={pagination}
-          onChange={(pagination) => setPagination(pagination)}
+          <Table
+            pagination={pagination}
+            onChange={(pagination) => setPagination(pagination)}
           >
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
