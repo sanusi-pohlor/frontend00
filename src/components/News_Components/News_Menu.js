@@ -369,7 +369,7 @@ const News_Menu = (open, onClose) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredNews.slice(0, 1).map((item) => (
+            filteredNews.filter((item) => item.status === 1).slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -453,7 +453,7 @@ const News_Menu = (open, onClose) => {
                 </Link>
               </Grid>
             ))}
-          {filteredNews.slice(1).map((item) => (
+          {filteredNews.filter((item) => item.status === 1).slice(1).map((item) => (
             <Grid
               item
               xs={12}

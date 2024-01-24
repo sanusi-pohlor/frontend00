@@ -293,3 +293,78 @@ body {
   .checkbox-label {
     font-size: 25px;
   }
+
+  /* Bottom.css */
+
+/* Footer Style */
+.footer {
+    text-align: center;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 40vh;
+    width: 100%;
+    font-family: 'Th Sarabun New', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Text Style */
+  .text {
+    font-family: 'Th Sarabun New', sans-serif;
+    font-size: 20px;
+    color: gray;
+  }
+  
+  /* Responsive Text Style */
+  @media (max-width: 2000px) {
+    .text {
+      font-size: 25px;
+    }
+      /* Image Style 1 */
+  .image-1 {
+    width: 25%;
+    height: 25%;
+  }
+  
+  }
+  @media (max-width: 1200px) {
+    .text {
+      font-size: 25px;
+    }
+      /* Image Style 1 */
+  .image-1 {
+    width: 30%;
+    height: 30%;
+  }
+  
+  }
+  @media (max-width: 768px) {
+    .text {
+      font-size: 25px;
+    }
+    .image-1 {
+        width: 80%;
+        height: 80%;
+      }
+  }
+  @media (max-width: 390px) {
+    .text {
+      font-size: 20px;
+    }
+    .image-1 {
+        width: 80%;
+        height: 80%;
+      }
+  }
+  
+  /* Image Style */
+  .image {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .text strong {
+    font-size: 30px;
+  }
