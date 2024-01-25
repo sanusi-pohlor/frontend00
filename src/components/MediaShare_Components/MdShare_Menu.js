@@ -316,7 +316,7 @@ const MdShare_Menu = (open) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredMdShare.slice(0, 1).map((item) => (
+            filteredMdShare.filter((item) => item.status === 1).slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -399,7 +399,7 @@ const MdShare_Menu = (open) => {
                 </Link>
               </Grid>
             ))}
-          {filteredMdShare.slice(1).map((item) => (
+          {filteredMdShare.filter((item) => item.status === 1).slice(1).map((item) => (
             <Grid
               item
               xs={12}

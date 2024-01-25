@@ -85,7 +85,7 @@ const Adm_Article_Menu = () => {
     try {
       const response = await axios.put(
         `https://checkkonproject-sub.com/api/Adm_Article_update_status/${id}`,
-        { status: Status }
+        { status }
       );
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);

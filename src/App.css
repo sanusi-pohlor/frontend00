@@ -7,7 +7,7 @@
     font-size: 50px;
     font-weight: bold;
     font-family: 'Th Sarabun New', sans-serif;
-  }
+}
 
 .your-typography {
     flex-grow: 1;
@@ -29,7 +29,7 @@
     font-weight: bold;
     font-size: 20px;
     white-space: nowrap;
-  }
+}
 
 .image-style {
     width: 200px;
@@ -42,8 +42,8 @@
     font-weight: bold;
     font-size: 20px;
     white-space: nowrap;
-  }
-  
+}
+
 
 .custom-font {
     font-family: 'Th Sarabun New', sans-serif;
@@ -269,6 +269,122 @@ body {
     font-size: 50px;
     font-weight: bold;
     font-family: 'Th Sarabun New', sans-serif;
+}
+
+.form-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.form-item-label {
+    font-size: 25px;
+}
+
+.submit-button {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #7BBD8F;
+    border: none;
+    color: #ffffff;
+}
+
+.checkbox-label {
+    font-size: 25px;
+}
+
+/* Bottom.css */
+
+/* Footer Style */
+.footer {
+    text-align: center;
+    color: #ffffff;
+    background-color: #ffffff;
+    height: 40vh;
+    width: 100%;
+    font-family: 'Th Sarabun New', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Text Style */
+.text {
+    font-family: 'Th Sarabun New', sans-serif;
+    font-size: 20px;
+    color: gray;
+}
+
+/* Responsive Text Style */
+@media (max-width: 2000px) {
+    .text {
+        font-size: 25px;
+    }
+
+    /* Image Style 1 */
+    .image-1 {
+        width: 25%;
+        height: 25%;
+    }
+
+}
+
+@media (max-width: 1200px) {
+    .text {
+        font-size: 25px;
+    }
+
+    /* Image Style 1 */
+    .image-1 {
+        width: 30%;
+        height: 30%;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .text {
+        font-size: 25px;
+    }
+
+    .image-1 {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+@media (max-width: 390px) {
+    .text {
+        font-size: 20px;
+    }
+
+    .image-1 {
+        width: 80%;
+        height: 80%;
+    }
+}
+
+/* Image Style */
+.image {
+    width: 80px;
+    height: 80px;
+}
+
+.text strong {
+    font-size: 30px;
+}
+
+.container-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    font-size: 50px;
+    font-weight: bold;
+    font-family: 'Th Sarabun New', sans-serif;
   }
   
   .form-container {
@@ -294,77 +410,6 @@ body {
     font-size: 25px;
   }
 
-  /* Bottom.css */
-
-/* Footer Style */
-.footer {
-    text-align: center;
-    color: #ffffff;
-    background-color: #ffffff;
-    height: 40vh;
-    width: 100%;
-    font-family: 'Th Sarabun New', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Text Style */
-  .text {
-    font-family: 'Th Sarabun New', sans-serif;
-    font-size: 20px;
-    color: gray;
-  }
-  
-  /* Responsive Text Style */
-  @media (max-width: 2000px) {
-    .text {
-      font-size: 25px;
-    }
-      /* Image Style 1 */
-  .image-1 {
-    width: 25%;
-    height: 25%;
-  }
-  
-  }
-  @media (max-width: 1200px) {
-    .text {
-      font-size: 25px;
-    }
-      /* Image Style 1 */
-  .image-1 {
-    width: 30%;
-    height: 30%;
-  }
-  
-  }
-  @media (max-width: 768px) {
-    .text {
-      font-size: 25px;
-    }
-    .image-1 {
-        width: 80%;
-        height: 80%;
-      }
-  }
-  @media (max-width: 390px) {
-    .text {
-      font-size: 20px;
-    }
-    .image-1 {
-        width: 80%;
-        height: 80%;
-      }
-  }
-  
-  /* Image Style */
-  .image {
-    width: 80px;
-    height: 80px;
-  }
-  
-  .text strong {
-    font-size: 30px;
+  .button {
+    font-size: 25px;
   }

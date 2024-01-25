@@ -72,7 +72,7 @@ const Adm_MdShare_Menu = () => {
 
   const updateStatus = async (id, Status) => {
     try {
-      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`, { status: Status });
+      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`, { status });
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
       } else {

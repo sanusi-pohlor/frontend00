@@ -281,7 +281,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Checkbox onChange={onChange}><Typography variant="body1" sx={{ fontSize: "25px" }}>รับคอนเทนต์ผ่านอีเมล</Typography></Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="submit-button">
+            <Button type="primary" htmlType="submit" loading={loading} className="menu-button">
               <Typography variant="body1" className="submit-button-text">ลงทะเบียน</Typography>
             </Button>
           </Form.Item>

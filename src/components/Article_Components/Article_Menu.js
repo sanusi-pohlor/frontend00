@@ -317,7 +317,7 @@ const Article_Menu = (open) => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredArticles.slice(0, 1).map((item) => (
+            filteredArticles.filter((item) => item.status === 1).slice(0, 1).map((item) => (
               <Grid
                 item
                 xs={12}
@@ -400,7 +400,7 @@ const Article_Menu = (open) => {
                 </Link>
               </Grid>
             ))}
-          {filteredArticles.slice(1).map((item) => (
+          {filteredArticles.filter((item) => item.status === 1).slice(1).map((item) => (
             <Grid
               item
               xs={12}
