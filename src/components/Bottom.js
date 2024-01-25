@@ -8,7 +8,6 @@ import "../App.css";
 const { Footer } = Layout;
 
 const Bottom = () => {
-
   return (
     <Footer className="footer">
       <Grid container spacing={2}>
@@ -16,7 +15,7 @@ const Bottom = () => {
           <img
             src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
             alt="WMO Logo"
-            className="image-1"
+            className="commsci-image"
           />
           <div className="text">
             สร้างสรรค์โดย โครงการวิจัย เรื่อง
@@ -33,25 +32,33 @@ const Bottom = () => {
           <div>
             <Space align="center">
               <span>
-                <img src={WMOLogo} alt="WMO Logo" className="image" />
+                <img src={WMOLogo} alt="WMO Logo" className="partner-image" />
                 <div
                   className="text"
-                  style={{
-                    color: "#208b99",
-                  }}
+                  style={{ textAlign: "left", marginTop: "auto" }}
                 >
-                  เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้
+                  <strong
+                    style={{
+                      color: "#208b99",
+                    }}
+                  >
+                    เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้
+                  </strong>
                 </div>
               </span>
               <span>
-                <img src={CASLogo} alt="CAS Logo" className="image" />
+                <img src={CASLogo} alt="CAS Logo" className="partner-image" />
                 <div
                   className="text"
-                  style={{
-                    color: "#208b99",
-                  }}
+                  style={{ textAlign: "left", marginTop: "auto" }}
                 >
-                  สมาคมผู้บริโภคสงขลา
+                  <strong
+                    style={{
+                      color: "#208b99",
+                    }}
+                  >
+                    สมาคมผู้บริโภคสงขลา
+                  </strong>
                 </div>
               </span>
             </Space>

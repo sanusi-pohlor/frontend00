@@ -70,7 +70,7 @@ const Adm_MdShare_Menu = () => {
     fetchData();
   }, []);
 
-  const updateStatus = async (id, Status) => {
+  const updateStatus = async (id, status) => {
     try {
       const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`, { status });
       if (response.status === 200) {

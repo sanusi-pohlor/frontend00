@@ -48,15 +48,7 @@ const Dashboard = ({ onSearch }) => {
   const [itemsPerPage] = useState(6);
   const [showPaper, setShowPaper] = useState(true);
   const navigate = useNavigate();
-  const togglePaper = () => {
-    setShowPaper(!showPaper);
-  };
 
-  const buttonStyle = {
-    background: "#7BBD8F",
-    border: "none",
-    color: "white",
-  };
   useEffect(() => {
     const fetchData = async (endpoint, setter) => {
       try {
@@ -93,14 +85,7 @@ const Dashboard = ({ onSearch }) => {
     indexOfLastItem
   );
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-  const handleSearchSubmit = () => {
-    onSearch(searchTerm);
-  };
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -132,51 +117,13 @@ const Dashboard = ({ onSearch }) => {
     }
   };
 
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-  const onTypeChange = () => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_type
-    );
-  };
-
   return (
-    <div style={{ backgroundColor: "#f1f1f1" }}>
+    <div className="backgroundColor">
       <Carousel />
-      <Paper
-        elevation={0}
-        style={{
-          width: "90%",
-          padding: 10,
-          margin: "0 auto",
-          textAlign: "center",
-          backgroundColor: "#f1f1f1",
-        }}
-      >
+      <div elevation={0} className="paperContainer">
         <br />
-        <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "40px",
-              fontWeight: "bold",
-              display: "flex",
-              justifyContent: "space-between",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              color: "white",
-            }}
-          >
+        <Card className="cardsection">
+          <div className="cardsectionContent">
             จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
           </div>
         </Card>
@@ -199,37 +146,11 @@ const Dashboard = ({ onSearch }) => {
           </Grid>
         </Grid>
         <br />
-        <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "40px",
-              fontWeight: "bold",
-              display: "flex",
-              justifyContent: "space-between",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              color: "white",
-            }}
-          >
+        <Card className="cardsection">
+          <div className="cardsectionContent">
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
-              size="large"
-              type="primary"
-              style={{
-                padding: "30px 35px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#ffffff",
-                border: "#ffffff",
-                color: "#7BBD8F",
-                fontSize: "35px",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}
+              className="buttonfilterStyle"
               onClick={() => navigate("/FakenewsSearch")}
             >
               ไปค้นหา
@@ -237,7 +158,7 @@ const Dashboard = ({ onSearch }) => {
           </div>
         </Card>
         <br />
-      </Paper>
+      </div>
       <Paper
         elevation={0}
         style={{

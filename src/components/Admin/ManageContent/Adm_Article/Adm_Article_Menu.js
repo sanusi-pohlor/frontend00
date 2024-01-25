@@ -81,7 +81,7 @@ const Adm_Article_Menu = () => {
     fetchData();
   }, []);
 
-  const updateStatus = async (id, Status) => {
+  const updateStatus = async (id, status) => {
     try {
       const response = await axios.put(
         `https://checkkonproject-sub.com/api/Adm_Article_update_status/${id}`,

@@ -25,7 +25,8 @@ const Manage_Fake_Info_View = () => {
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_mfi_dis_c, setSelectOptions_mfi_dis_c] = useState([]);
-
+  const curveAngle = 20;
+  const paperColor = "#FFFFFF";
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/AmUser");

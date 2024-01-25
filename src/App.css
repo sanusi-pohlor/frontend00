@@ -1,3 +1,157 @@
+
+@media (max-width: 2000px) {
+    .text {
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: rgb(0, 0, 0);
+    }
+    .text strong {
+        font-size: 30px;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+    .commsci-image {
+        width: 30%;
+    }
+    .partner-image {
+        width: 80px;
+        height: 80px;
+    }
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 80%;
+        padding: 20px;
+        margin: 0 auto;
+        text-align: center;
+        background: #f1f1f1;
+    }
+    .cardsection {
+        border-radius: 40px;
+        background: #7BBD8F;
+    }
+    .cardsectionContent {
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: white;
+    }
+    .buttonfilterStyle {
+        padding: 30px 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        color: #7BBD8F;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+}
+
+@media (max-width: 1800px) {
+    .text {
+        font-size: 25px;
+    }
+    .commsci-image {
+        width: 30%;
+    }
+    .partner-image {
+        width: 80px;
+        height: 80px;
+    }
+
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        background: #f1f1f1;
+    }
+}
+
+@media (max-width: 1200px) {
+    .text {
+        font-size: 25px;
+    }
+    .commsci-image {
+        width: 30%;
+    }
+    .partner-image {
+        width: 80px;
+        height: 80px;
+    }
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        background: #f1f1f1;
+    }
+}
+
+@media (max-width: 768px) {
+    .text {
+        font-size: 25px;
+    }
+    .commsci-image {
+        width: 30%;
+    }
+    .partner-image {
+        width: 80px;
+        height: 80px;
+    }
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        background: #f1f1f1;
+    }
+
+    .articleTitle {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 390px) {
+    .text {
+        font-size: 25px;
+    }
+    .commsci-image {
+        width: 30%;
+    }
+    .partner-image {
+        width: 80px;
+        height: 80px;
+    }
+    .CardContainer,
+    .BarChartContainer,
+    .paperContainer {
+        width: 90%;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        background: #f1f1f1;
+    }
+
+    .articleTitle {
+        font-size: 50px;
+    }
+}
+.backgroundColor {
+    background: #f1f1f1;
+}
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -106,20 +260,8 @@
     justify-content: center;
 }
 
-.text {
-    font-family: 'Th Sarabun New', sans-serif;
-    font-size: 20px;
-    color: gray;
-}
 
-.text strong {
-    font-size: 30px;
-}
 
-.image-1 {
-    width: 25%;
-    height: 25%;
-}
 
 .image {
     width: 80px;
@@ -139,10 +281,6 @@ body {
     font-weight: bold;
 }
 
-.paperContainer {
-    margin: 0 auto;
-    text-align: center;
-}
 
 .articleTitle {
     display: flex;
@@ -153,74 +291,6 @@ body {
     font-size: 80px;
     font-weight: bold;
     color: #ffffff;
-}
-
-@media (max-width: 2000px) {
-
-    .text,
-    .image-1,
-    .CardContainer,
-    .BarChartContainer,
-    .paperContainer {
-        width: 80%;
-        padding: 30px;
-    }
-}
-
-@media (max-width: 1800px) {
-
-    .text,
-    .image-1,
-    .CardContainer,
-    .BarChartContainer,
-    .paperContainer {
-        width: 90%;
-        padding: 30px;
-    }
-}
-
-@media (max-width: 1200px) {
-
-    .text,
-    .image-1,
-    .CardContainer,
-    .BarChartContainer,
-    .paperContainer {
-        width: 70%;
-        padding: 30px;
-    }
-}
-
-@media (max-width: 768px) {
-
-    .text,
-    .image-1,
-    .CardContainer,
-    .BarChartContainer,
-    .paperContainer {
-        width: 90%;
-        padding: 30px;
-    }
-
-    .articleTitle {
-        font-size: 50px;
-    }
-}
-
-@media (max-width: 390px) {
-
-    .text,
-    .image-1,
-    .CardContainer,
-    .BarChartContainer,
-    .paperContainer {
-        width: 100%;
-        padding: 1px;
-    }
-
-    .articleTitle {
-        font-size: 50px;
-    }
 }
 
 .header-class {
@@ -308,72 +378,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/* Text Style */
-.text {
-    font-family: 'Th Sarabun New', sans-serif;
-    font-size: 20px;
-    color: gray;
-}
-
-/* Responsive Text Style */
-@media (max-width: 2000px) {
-    .text {
-        font-size: 25px;
-    }
-
-    /* Image Style 1 */
-    .image-1 {
-        width: 25%;
-        height: 25%;
-    }
-
-}
-
-@media (max-width: 1200px) {
-    .text {
-        font-size: 25px;
-    }
-
-    /* Image Style 1 */
-    .image-1 {
-        width: 30%;
-        height: 30%;
-    }
-
-}
-
-@media (max-width: 768px) {
-    .text {
-        font-size: 25px;
-    }
-
-    .image-1 {
-        width: 80%;
-        height: 80%;
-    }
-}
-
-@media (max-width: 390px) {
-    .text {
-        font-size: 20px;
-    }
-
-    .image-1 {
-        width: 80%;
-        height: 80%;
-    }
-}
-
-/* Image Style */
-.image {
-    width: 80px;
-    height: 80px;
-}
-
-.text strong {
-    font-size: 30px;
 }
 
 .container-title {
