@@ -133,7 +133,7 @@ const Adm_News_view = () => {
                 color: "white",
               }}
             >
-              ข่าวสาร
+              ตัวอย่างข่าวสาร
             </div>
             <div>
               <Link to={`/Admin/Adm_News/edit/${id}`}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, Table, Form, Input, Button, Popconfirm, Select, Modal, InputNumber, message } from 'antd';
+import { DatePicker, Table, Form, Input, Button, Popconfirm, Select, Modal, InputNumber, message, Card } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -294,23 +294,39 @@ const MC_DetailsNotiChannels = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h1>จัดการช่องทางสื่อ</h1>
-        <Button
-          type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
-          onClick={() => {
-            setModalVisible(true);
-            onChange_dnc_med_id();
-            onChange_dnc_info_id();
-            onChange_dnc_pub_id();
-            onChange_dnc_fm_d_id();
-            onChange_dnc_prob_id();
+      <Card
+        style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
           }}
-          style={{ marginBottom: 16 }}
         >
-          เพิ่มช่องทางสื่อ
-        </Button>
-      </div>
+          จัดการช่องทางสื่อ
+          <Button
+            type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
+            onClick={() => {
+              setModalVisible(true);
+              onChange_dnc_med_id();
+              onChange_dnc_info_id();
+              onChange_dnc_pub_id();
+              onChange_dnc_fm_d_id();
+              onChange_dnc_prob_id();
+            }}
+            style={{ marginBottom: 16 }}
+          >
+            เพิ่มช่องทางสื่อ
+          </Button>
+        </div>
+      </Card>
       <Modal
         title="เพิ่มช่องทางสื่อ"
         visible={modalVisible}

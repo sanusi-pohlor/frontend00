@@ -597,7 +597,7 @@ const Manage_Fake_Info_Edit = () => {
                   placeholder={
                     fakeNewsInfo
                       ? fakeNewsInfo.fn_info_link
-                      : "ลิ้งค์ข้อมูล"
+                      : "เพิ่มลิ้งค์ข้อมูล"
                   }
                   disabled
                 />
@@ -654,7 +654,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="เพิ่มหน่วยงานที่เก็บข้อมูล"/>
               </Form.Item>
               <Form.Item
                 name="mfi_d_topic"
@@ -666,7 +666,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input />
+                <Input placeholder="เพิ่มหัวข้อข้อมูลผิดพลาด"/>
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -681,7 +681,7 @@ const Manage_Fake_Info_Edit = () => {
                 ]}
               >
                 <Select
-                  placeholder="รูปแบบของข้อมูล"
+                  placeholder="เลือกรูปแบบของข้อมูล"
                   onChange={onChange_mfi_fm_d_id}
                   allowClear
                 >
@@ -699,7 +699,7 @@ const Manage_Fake_Info_Edit = () => {
                 ]}
               >
                 <Select
-                  placeholder="ช่องทางการเผยแพร่"
+                  placeholder="เลือกช่องทางการเผยแพร่"
                   onChange={onChange_mfi_dis_c_id}
                   allowClear
                 >
@@ -731,7 +731,7 @@ const Manage_Fake_Info_Edit = () => {
                 ]}
               >
                 <Select
-                  placeholder="ประเภทของข้อมูล"
+                  placeholder="เลือกประเภทของข้อมูล"
                   onChange={onChange_mfi_ty_info_id}
                   allowClear
                 >
@@ -742,16 +742,16 @@ const Manage_Fake_Info_Edit = () => {
             <Col span={8}>
               <Form.Item
                 name="mfi_only_cv"
-                label="เฉพาะโควิด-15"
+                label="เป็นเนื้อหาเกี่ยวกับโควิด-15"
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเพิ่มเฉพาะโควิด-15!",
+                    message: "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?!",
                   },
                 ]}
               >
                 <Select
-                  placeholder="เฉพาะโควิด-15"
+                  placeholder="เลือกเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?"
                   allowClear
                   style={{ width: "100%" }}
                 >
@@ -816,7 +816,7 @@ const Manage_Fake_Info_Edit = () => {
                 ]}
               >
                 <Select
-                  placeholder="ลักษณะข้อมูล"
+                  placeholder="เลือกลักษณะข้อมูล"
                   onChange={onChange_mfi_data_cha_id}
                   allowClear
                 >
@@ -841,7 +841,7 @@ const Manage_Fake_Info_Edit = () => {
               }}
             >
               <Select
-                placeholder="ผลสรุป"
+                placeholder="เลือกผลสรุปของข้อมูล"
                 allowClear
                 style={{ width: "100%" }}
               >
@@ -863,7 +863,7 @@ const Manage_Fake_Info_Edit = () => {
               }}
             >
               <Select
-                placeholder="เกี่ยวกับ"
+                placeholder="เลือกเกี่ยวกับ"
                 onChange={onChange_mfi_data_cha_id}
                 allowClear
                 style={{ width: "100%" }}
@@ -890,7 +890,7 @@ const Manage_Fake_Info_Edit = () => {
               <Select
                 mode="tags"
                 style={{ width: "100%" }}
-                placeholder="แท็ก"
+                placeholder="เลือกแท็ก"
                 onSearch={(value) => {
                   if (Array.isArray(options)) {
                     handleTagCreation(value);

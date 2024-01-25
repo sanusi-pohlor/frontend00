@@ -215,15 +215,25 @@ const ManageMembers = () => {
   });
   return (
     <AdminMenu>
-      <div
+      <Card
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
         }}
       >
-        <h1>จัดการข้อมูลรับแจ้ง</h1>
-      </div>
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          จัดการข้อมูลรับแจ้ง
+        </div>
+      </Card>
       <Table
         components={{
           body: {

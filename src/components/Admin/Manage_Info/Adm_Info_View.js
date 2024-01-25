@@ -324,7 +324,7 @@ const ManageInfo_view = () => {
             width={200}
             src={fakeNewsInfo.fn_info_image}
             alt="รูปภาพข่าวปลอม"
-            //style={{ maxWidth: "100%", height: "auto" }}
+          //style={{ maxWidth: "100%", height: "auto" }}
           />
         </span>
       ),
@@ -340,15 +340,15 @@ const ManageInfo_view = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -364,13 +364,22 @@ const ManageInfo_view = () => {
     <AdminMenu>
       <Card
         style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
         }}
       >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          จัดการข้อมูลรับแจ้ง
+        </div>
         <div
           style={{
             fontSize: "30px",
@@ -379,19 +388,27 @@ const ManageInfo_view = () => {
             justifyContent: "space-between",
           }}
         >
-          <span>จัดการข้อมูลรับแจ้ง</span>
           <Button
             onClick={handleCheck}
             type="primary"
-            // style={{
-            //   fontSize: "20px",
-            //   color: "#7BBD8F",
-            // }}
+          // style={{
+          //   fontSize: "20px",
+          //   color: "#7BBD8F",
+          // }}
           >
             ตรวจสอบข้อมูล
           </Button>
         </div>
-        <Divider />
+      </Card>
+      <Card
+        style={{
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
+        }}
+      >
         <Steps
           current={fakeNewsInfo?.fn_info_status}
           onChange={onChange}

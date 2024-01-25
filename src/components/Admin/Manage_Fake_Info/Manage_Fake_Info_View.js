@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Button, Divider, Modal } from "antd";
+import { Badge, Descriptions, Image, Button, Card, Modal } from "antd";
 import { useParams, Link } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
@@ -431,6 +431,15 @@ const Manage_Fake_Info_View = () => {
   ];
   return (
     <AdminMenu>
+      <Card
+        style={{
+          margin: "auto",
+          borderRadius: `${curveAngle}px`,
+          backgroundColor: paperColor,
+          width: "100%",
+          height: "100%",
+        }}
+      >
       <div>
         <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
           <Button
@@ -448,7 +457,7 @@ const Manage_Fake_Info_View = () => {
         layout="vertical"
         bordered
         items={items}
-      />
+      /></Card>
     </AdminMenu>
   );
 };

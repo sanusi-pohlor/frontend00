@@ -261,6 +261,25 @@ const Adm_Article_Edit = () => {
     <AdminMenu>
       <Card
         style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          แก้ไขบทความ
+        </div>
+      </Card>
+      <Card
+        style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
@@ -280,29 +299,29 @@ const Adm_Article_Edit = () => {
             rules={[
               {
                 required: true,
-                message: createTypography("Please input your email!"),
+                message: createTypography("กรุณาเพิ่มผู้เขียน!"),
               },
             ]}
           >
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user ? user.username : createTypography("Username")}
+              placeholder={user ? user.username : createTypography("ผู้เขียน")}
               disabled
             />
           </Form.Item>
           <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
-            <Input />
+            <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
             name="details"
-            label={createTypography("รายละเอียด")}
+            label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder={createTypography("Write something...")}
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -333,51 +352,53 @@ const Adm_Article_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.List name="link">
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, ...restField }) => (
-                  <Space
-                    key={key}
-                    style={{
-                      display: "flex",
-                      marginBottom: 12,
-                    }}
-                    align="baseline"
-                  >
-                    <Form.Item
-                      {...restField}
-                      name={[name, "first"]}
-                      rules={[
-                        {
-                          required: true,
-                          message: createTypography("Missing first name"),
-                        },
-                      ]}
+          <Form.Item label={createTypography("ลิงค์เพิ่มเติม")} rules={[{ required: false }]}>
+            <Form.List name="link">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{
+                        display: "flex",
+                        marginBottom: 12,
+                      }}
+                      align="baseline"
                     >
-                      <Input placeholder="Link" style={{ width: "100%" }} />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                  </Space>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    เพิ่มลิงค์
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-          <Form.Item name="tag" label={createTypography("Tag")} rules={[{ required: false }]}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "first"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: createTypography("กรุณาเพิ่มลิงค์!"),
+                          },
+                        ]}
+                      >
+                        <Input placeholder="เพิ่มลิงค์เพิ่มเติม" style={{ width: "100%" }} />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      เพิ่มลิงค์
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          </Form.Item>
+          <Form.Item name="tag" label={createTypography("แท็ก")} rules={[{ required: false }]}>
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={createTypography("ผู้เขียน")}
+              placeholder={createTypography("เพิ่มแท็ก")}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
@@ -392,7 +413,7 @@ const Adm_Article_Edit = () => {
             rules={[{ required: false }]}
           >
             <Select
-              placeholder={createTypography("Select a option and change input text above")}
+              placeholder={createTypography("เลือกประเภทข่าว")}
               onChange={onChange_mfi_ty_info_id}
               allowClear
             >
@@ -423,15 +444,15 @@ const Adm_Article_Edit = () => {
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} style={{
-            fontSize: "18px",
-            padding: "20px 25px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            background: "#7BBD8F",
-            border: "none",
-            color: "#ffffff",
-          }}>
+              fontSize: "18px",
+              padding: "20px 25px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              background: "#7BBD8F",
+              border: "none",
+              color: "#ffffff",
+            }}>
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

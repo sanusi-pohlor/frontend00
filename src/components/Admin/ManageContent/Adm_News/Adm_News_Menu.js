@@ -209,6 +209,25 @@ const Adm_News_Menu = () => {
     <AdminMenu>
       <Card
         style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          จัดการข่าวสาร
+        </div>
+      </Card>
+      <Card
+        style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,

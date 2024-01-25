@@ -70,7 +70,7 @@ const Adm_News_Form = () => {
       .then((data) => {
         const formattedOptions = data.map((item) => ({
           label: item.tag_name,
-          value: item.tag_name,
+          //value: item.tag_name,
         }));
         setOptions(formattedOptions);
       })
@@ -261,6 +261,25 @@ const Adm_News_Form = () => {
     <AdminMenu>
       <Card
         style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          เพิ่มข่าวสาร
+        </div>
+      </Card>
+      <Card
+        style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
@@ -292,7 +311,7 @@ const Adm_News_Form = () => {
             />
           </Form.Item>
           <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
-            <Input />
+            <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
             name="details"
@@ -302,7 +321,7 @@ const Adm_News_Form = () => {
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder={createTypography("รายละเอียดเพิ่มเติม")}
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -333,7 +352,7 @@ const Adm_News_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item label={createTypography("ลิงค์")} rules={[{ required: false }]}>
+          <Form.Item label={createTypography("ลิงค์เพิ่มเติม")} rules={[{ required: false }]}>
             <Form.List name="link">
               {(fields, { add, remove }) => (
                 <>
@@ -352,11 +371,11 @@ const Adm_News_Form = () => {
                         rules={[
                           {
                             required: true,
-                            message: createTypography("กรุณาเพิ่มลิงค์"),
+                            message: createTypography("กรุณาเพิ่มลิงค์!"),
                           },
                         ]}
                       >
-                        <Input placeholder="ลิงค์" style={{ width: "100%" }} />
+                        <Input placeholder="เพิ่มลิงค์เพิ่มเติม" style={{ width: "100%" }} />
                       </Form.Item>
                       <MinusCircleOutlined onClick={() => remove(name)} />
                     </Space>
@@ -379,7 +398,7 @@ const Adm_News_Form = () => {
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={createTypography("ผู้เขียน")}
+              placeholder={createTypography("เพิ่มแท็ก")}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
@@ -419,7 +438,7 @@ const Adm_News_Form = () => {
             label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select onChange={onChange_mfi_province} allowClear placeholder={createTypography("เลือกจังหวัด")}>
               {selectOptions_prov}
             </Select>
           </Form.Item>

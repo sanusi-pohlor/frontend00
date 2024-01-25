@@ -250,7 +250,25 @@ const Manage_Fake_Info_Menu = () => {
 
   return (
     <AdminMenu>
-      <h1>จัดการข้อมูลเท็จ</h1>
+      <Card
+        style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          จัดการข้อมูลเท็จ
+        </div>
+      </Card>
       <Table
         pagination={{
           current: pagination.current,

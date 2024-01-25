@@ -261,6 +261,25 @@ const Adm_MdShare_Form = () => {
     <AdminMenu>
       <Card
         style={{
+          borderRadius: "20px",
+          backgroundColor: "#7BBD8F",
+        }}
+      >
+        <div
+          style={{
+            fontSize: "70px",
+            fontWeight: "bold",
+            display: "flex",
+            justifyContent: "space-between",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            color: "white",
+          }}
+        >
+          เพิ่มสื่อขวนแชร์
+        </div>
+      </Card>
+      <Card
+        style={{
           margin: "auto",
           borderRadius: `${curveAngle}px`,
           backgroundColor: paperColor,
@@ -280,14 +299,14 @@ const Adm_MdShare_Form = () => {
             rules={[
               {
                 required: true,
-                message: createTypography("Please input your email!"),
+                message: createTypography("กรุณาเพิ่มผู้เขียน!"),
               },
             ]}
           >
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder={user ? user.username : createTypography("Username")}
+              placeholder={user ? user.username : createTypography("ผู้เขียน")}
               disabled
             />
           </Form.Item>
@@ -296,13 +315,13 @@ const Adm_MdShare_Form = () => {
           </Form.Item>
           <Form.Item
             name="details"
-            label={createTypography("รายละเอียด")}
+            label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder={createTypography("Write something...")}
+                placeholder={createTypography("รายละเอียดเพิ่มเติม")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -333,51 +352,53 @@ const Adm_MdShare_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.List name="link">
-            {(fields, { add, remove }) => (
-              <>
-                {fields.map(({ key, name, ...restField }) => (
-                  <Space
-                    key={key}
-                    style={{
-                      display: "flex",
-                      marginBottom: 12,
-                    }}
-                    align="baseline"
-                  >
-                    <Form.Item
-                      {...restField}
-                      name={[name, "first"]}
-                      rules={[
-                        {
-                          required: true,
-                          message: createTypography("Missing first name"),
-                        },
-                      ]}
+          <Form.Item label={createTypography("เพิ่มลิงค์")} rules={[{ required: false }]}>
+            <Form.List name="link">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <Space
+                      key={key}
+                      style={{
+                        display: "flex",
+                        marginBottom: 12,
+                      }}
+                      align="baseline"
                     >
-                      <Input placeholder="Link" style={{ width: "100%" }} />
-                    </Form.Item>
-                    <MinusCircleOutlined onClick={() => remove(name)} />
-                  </Space>
-                ))}
-                <Form.Item>
-                  <Button
-                    type="dashed"
-                    onClick={() => add()}
-                    block
-                    icon={<PlusOutlined />}
-                  >
-                    เพิ่มลิงค์
-                  </Button>
-                </Form.Item>
-              </>
-            )}
-          </Form.List>
-          <Form.Item name="tag" label={createTypography("Tag")} rules={[{ required: false }]}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "first"]}
+                        rules={[
+                          {
+                            required: true,
+                            message: createTypography("กรุณาเพิ่มลิงค์"),
+                          },
+                        ]}
+                      >
+                        <Input placeholder="เพิ่มลิงค์" style={{ width: "100%" }} />
+                      </Form.Item>
+                      <MinusCircleOutlined onClick={() => remove(name)} />
+                    </Space>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      เพิ่มลิงค์
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
+          </Form.Item>
+          <Form.Item name="tag" label={createTypography("แท็ก")} rules={[{ required: false }]}>
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={createTypography("ผู้เขียน")}
+              placeholder={createTypography("เพิ่มแท็ก")}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
@@ -392,7 +413,7 @@ const Adm_MdShare_Form = () => {
             rules={[{ required: false }]}
           >
             <Select
-              placeholder={createTypography("Select a option and change input text above")}
+              placeholder={createTypography("เลือกประเภทข่าว")}
               onChange={onChange_mfi_ty_info_id}
               allowClear
             >
@@ -417,7 +438,7 @@ const Adm_MdShare_Form = () => {
             label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select onChange={onChange_mfi_province} allowClear placeholder={createTypography("เลือกจังหวัด")}>
               {selectOptions_prov}
             </Select>
           </Form.Item>

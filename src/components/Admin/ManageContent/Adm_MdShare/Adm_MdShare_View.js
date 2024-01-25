@@ -133,7 +133,7 @@ const Adm_MdShare_View = () => {
                 color: "white",
               }}
             >
-              ข่าวสาร
+              ตัวอย่างสื่อชวนแชร์
             </div>
             <div>
               <Link to={`/Admin/Adm_MdShare/edit/${id}`}>
