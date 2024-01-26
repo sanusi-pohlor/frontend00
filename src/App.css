@@ -26,11 +26,10 @@
         padding: 20px;
         margin: 0 auto;
         text-align: center;
-        background: #f1f1f1;
     }
 
     .cardsection {
-        border-radius: 40px;
+        border-radius: 20px;
         background: #7BBD8F;
     }
 
@@ -55,6 +54,7 @@
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
+
     .cardContent {
         height: 100%;
         width: 100%;
@@ -65,16 +65,16 @@
         font-size: 25px;
         text-align: left;
     }
-    
+
     .cardCover {
-        height: 300px; /* Define the desired height */
+        height: 300px;
         width: 100%;
         border-radius: 10px;
         overflow: hidden;
         position: relative;
-      }
-      
-      .cardCover .image {
+    }
+
+    .cardCover .image {
         position: absolute;
         top: 0;
         left: 0;
@@ -82,7 +82,42 @@
         height: 100%;
         background-size: cover;
         background-position: center;
-      }
+    }
+
+    .paperContent {
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .gridItem {
+        margin-bottom: 4%;
+        padding: 20px;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItemCover {
+        height: 80%;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cardImage {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
 }
 
 @media (max-width: 1800px) {
@@ -106,7 +141,6 @@
         padding: 10px;
         margin: 0 auto;
         text-align: center;
-        background: #f1f1f1;
     }
 }
 
@@ -131,7 +165,6 @@
         padding: 10px;
         margin: 0 auto;
         text-align: center;
-        background: #f1f1f1;
     }
 }
 
@@ -156,7 +189,6 @@
         padding: 10px;
         margin: 0 auto;
         text-align: center;
-        background: #f1f1f1;
     }
 
     .articleTitle {
@@ -185,7 +217,6 @@
         padding: 10px;
         margin: 0 auto;
         text-align: center;
-        background: #f1f1f1;
     }
 
     .articleTitle {
@@ -194,7 +225,7 @@
 }
 
 .backgroundColor {
-    background: #f1f1f1;
+    background: #e4e4e4;
 }
 
 .container {

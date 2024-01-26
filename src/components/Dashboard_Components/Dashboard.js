@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {
-  RightCircleOutlined,
-  LeftCircleOutlined,
-} from "@ant-design/icons";
-import { Paper, Grid, Box, IconButton  } from "@mui/material";
+import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import { Paper, Grid, Box, IconButton } from "@mui/material";
 import Carousel from "./Carousel";
 import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
-import {
-  Button,
-  Card,
-  FloatButton,
-} from "antd";
+import { Button, Card, FloatButton } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
+import "../../App.css";
 
 const Dashboard = () => {
   const [newdata, setNewData] = useState([]);
@@ -104,10 +98,8 @@ const Dashboard = () => {
       </div>
       <Paper
         elevation={0}
+        className="paperContent"
         style={{
-          padding: 50,
-          margin: "0 auto",
-          textAlign: "center",
           color: "#FFFFFF",
           backgroundColor: "#7BBD8F",
         }}
@@ -117,8 +109,7 @@ const Dashboard = () => {
           <Grid item xs={12} md={4}>
             <div className="articleTitle">ข่าวสาร</div>
           </Grid>
-          <Grid item xs={12} md={4}>
-          </Grid>
+          <Grid item xs={12} md={4}></Grid>
         </Grid>
         <Paper
           elevation={0}
@@ -129,46 +120,17 @@ const Dashboard = () => {
         >
           <Grid container spacing={2}>
             {newcurrentItems.map((item) => (
-              <Grid
-                item
-                xs={12}
-                md={4}
-                key={item.id}
-                style={{ marginBottom: "4%", padding: 20 }}
-              >
+              <Grid item xs={12} md={4} key={item.id} className="gridItem">
                 <Link
                   to={`/News_Menu/News_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
                     hoverable
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      margin: "auto",
-                      borderRadius: "20px",
-                      padding: 20,
-                      fontFamily: "'Th Sarabun New', sans-serif",
-                      fontSize: "25px",
-                      textAlign: "left",
-                    }}
+                    className="cardItem"
                     cover={
-                      <div
-                        style={{
-                          height: "80%",
-                          width: "100%",
-                          borderRadius: "10px",
-                          overflow: "hidden",
-                        }}
-                      >
-                        <img
-                          style={{
-                            height: "300px",
-                            width: "100%",
-                            objectFit: "cover",
-                          }}
-                          src={item.cover_image}
-                        />
+                      <div className="cardItemCover">
+                        <img className="cardImage" src={item.cover_image} />
                         <strong>
                           เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
                         </strong>
@@ -224,8 +186,7 @@ const Dashboard = () => {
               บทความ
             </div>
           </Grid>
-          <Grid item xs={12} md={4}>
-          </Grid>
+          <Grid item xs={12} md={4}></Grid>
         </Grid>
         <br />
         <Paper
@@ -326,8 +287,7 @@ const Dashboard = () => {
           <Grid item xs={12} md={4}>
             <div className="articleTitle">สื่อชวนแชร์</div>
           </Grid>
-          <Grid item xs={12} md={4}>
-          </Grid>
+          <Grid item xs={12} md={4}></Grid>
         </Grid>
         <br />
         <Paper

@@ -32,7 +32,7 @@ const Article_Menu = (open) => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);l
+  const [itemsPerPage] = useState(9);
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/Article_request")
