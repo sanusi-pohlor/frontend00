@@ -14,6 +14,7 @@ import {
   Modal,
   Select,
   Flex,
+  Skeleton,
 } from "antd";
 import { Link } from "react-router-dom";
 import "./News_Menu.css";
@@ -242,306 +243,205 @@ const News_Menu = (open, onClose) => {
                 onChange={(e) => handleSearch(e)}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
-              {/* <Button
-                size="large"
-                type="primary"
-                style={buttonStyle}
-                onClick={showFilterDialog}
-              >
-                ตัวกรอง
-              </Button>
-              <Modal
-                visible={filterVisible}
-                onCancel={closeFilterDialog}
-                footer={null}
-              >
-                <div>
-                <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100%",
-                      textAlign: "center",
-                      fontSize: "35px",
-                      fontWeight: "bold",
-                      fontFamily: "'Th Sarabun New', sans-serif",
-                    }}
-                  >
-                    กรองข้อมูล
-                  </div>
-                  <Form
-                    form={form}
-                    layout="vertical"
-                    name="normal_login"
-                    className="login-form"
-                    onFinish={onFinish}
-                    initialValues={{
-                      remember: true,
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      padding: 20,
-                    }}
-                  >
-                    <Form.Item
-                      name="type_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ประเภทข่าว</Typography>}
-                    >
-                      <Select
-                        size="large"
-                        placeholder="เลือกประเภทข่าว"
-                        onChange={onChange_mfi_ty_info_id}
-                        allowClear
-                      >
-                        {selectOptions_ty}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="med_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ช่องทางสื่อ</Typography>}
-                    >
-                      <Select
-                        size="large"
-                        placeholder="เลือกช่องทางสื่อ"
-                        onChange={onChange_dnc_med_id}
-                        allowClear
-                      >
-                        {selectOptions_med}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="created_at"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
-                    </Form.Item>
-                    <Form.Item
-                      name="prov_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Select size="large" placeholder="เลือกจังหวัด" onChange={onChange_mfi_province} allowClear>
-                        {selectOptions_prov}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="tags"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Select
-                        size="large"
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        options={options}
-                        name="tags"
-                        placeholder="เลือกคำสำคัญ"
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        placeholder="เลือกจังหวัด"
-                        className="login-form-button"
-                        size="large"
-                        style={{
-                          padding: "20px 25px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "#7BBD8F",
-                          border: "none",
-                          color: "#ffffff",
-                        }}
-                      >
-                        <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </div>
-              </Modal> */}
             </div>
           </div>
         </Card>
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredNews.filter((item) => item.status === 1).slice(0, 1).map((item) => (
-              <Grid
-                item
-                xs={12}
-                key={item.id}
-                style={{ marginBottom: "3%", padding: 5 }}
-              >
-                <Link
-                  to={`/News_Menu/News_view/${item.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Card
-                    hoverable
-                    style={{
-                      height: "400px",
-                      width: "100%",
-                      margin: "auto",
-                      borderRadius: "20px",
-                      padding: 10,
-                      fontFamily: "'Th Sarabun New', sans-serif",
-                      fontSize: "25px",
-                    }}
-                    cover={
-                      <div
+            (loading ? ( // Assuming loading state indicates whether data is being fetched
+              <Grid item xs={12} key="loading">
+                <Skeleton active />
+              </Grid>
+            ) : (
+              filteredNews
+                .filter((item) => item.status === 1)
+                .slice(0, 1)
+                .map((item) => (
+                  <Grid
+                    item
+                    xs={12}
+                    key={item.id}
+                    style={{ marginBottom: '3%', padding: 5 }}
+                  >
+                    <Link
+                      to={`/News_Menu/News_view/${item.id}`}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <Card
+                        hoverable
                         style={{
-                          height: "375px",
-                          width: "100%",
-                          borderRadius: "10px",
-                          overflow: "hidden",
+                          height: '400px',
+                          width: '100%',
+                          margin: 'auto',
+                          borderRadius: '20px',
+                          padding: 10,
+                          fontFamily: "'Th Sarabun New', sans-serif",
+                          fontSize: '25px',
                         }}
-                      >
-                        <Flex justify="space-between">
-                          <img
+                        cover={
+                          <div
                             style={{
-                              height: "375px",
-                              width: "100%",
-                              objectFit: "cover",
-                            }}
-                            src={item.cover_image}
-                            alt={item.title}
-                          />
-                          <Flex
-                            vertical
-                            align="flex-end"
-                            justify="space-between"
-                            style={{
-                              padding: 32,
-                              fontSize: "25px",
-                              fontFamily: "'Th Sarabun New', sans-serif",
-                              textAlign: "left",
+                              height: '375px',
+                              width: '100%',
+                              borderRadius: '10px',
+                              overflow: 'hidden',
                             }}
                           >
-                            <strong>
-                              เผยแพร่{" "}
-                              {moment(item.created_at).format("DD-MM-YYYY")}
-                            </strong>
-                            <br />
-                            {item.title}
-                            <Button
-                              type="primary"
-                              href={`/News_Menu/News_view/${item.id}`}
-                              target="_blank"
-                              style={{
-                                fontSize: "18px",
-                                padding: "20px 25px",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                background: "#7BBD8F",
-                                border: "none",
-                                color: "#ffffff",
-                                fontFamily: "'Th Sarabun New', sans-serif",
-                              }}
-                            >
-                              อ่านต่อ
-                            </Button>
-                          </Flex>
-                        </Flex>
-                      </div>
-                    }
-                  />
-                </Link>
-              </Grid>
-            ))}
-          {filteredNews.filter((item) => item.status === 1).slice(1).map((item) => (
-            <Grid
-              item
-              xs={12}
-              md={4}
-              key={item.id}
-              style={{ marginBottom: "3%", padding: 5 }}
-            >
-              <Link
-                to={`/News_Menu/News_view/${item.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Card
-                  hoverable
-                  style={{
-                    margin: "auto",
-                    borderRadius: "20px",
-                    width: "90%",
-                    height: "100%",
-                    padding: 20,
-                    fontFamily: "'Th Sarabun New', sans-serif",
-                    fontSize: "25px",
-                    textAlign: "left",
-                  }}
-                  cover={
-                    <div
-                      style={{
-                        height: "80%",
-                        width: "100%",
-                        borderRadius: "10px",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <img
-                        style={{
-                          height: "300px",
-                          width: "100%",
-                          objectFit: "cover",
-                        }}
-                        src={item.cover_image}
+                            <Flex justify="space-between">
+                              <img
+                                style={{
+                                  height: '375px',
+                                  width: '100%',
+                                  objectFit: 'cover',
+                                }}
+                                src={item.cover_image}
+                                alt={item.title}
+                              />
+                              <Flex
+                                vertical
+                                align="flex-end"
+                                justify="space-between"
+                                style={{
+                                  padding: 32,
+                                  fontSize: '25px',
+                                  fontFamily: "'Th Sarabun New', sans-serif",
+                                  textAlign: 'left',
+                                }}
+                              >
+                                <strong>
+                                  เผยแพร่{' '}
+                                  {moment(item.created_at).format('DD-MM-YYYY')}
+                                </strong>
+                                <br />
+                                {item.title}
+                                <Button
+                                  type="primary"
+                                  href={`/News_Menu/News_view/${item.id}`}
+                                  target="_blank"
+                                  style={{
+                                    fontSize: '18px',
+                                    padding: '20px 25px',
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    background: '#7BBD8F',
+                                    border: 'none',
+                                    color: '#ffffff',
+                                    fontFamily: "'Th Sarabun New', sans-serif",
+                                  }}
+                                >
+                                  อ่านต่อ
+                                </Button>
+                              </Flex>
+                            </Flex>
+                          </div>
+                        }
                       />
-                      เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                      <br />
-                      {item.title.length > 200
-                        ? `${item.title.slice(0, 200)}...`
-                        : item.title}
-                      {/* <Button
-                      type="primary"
-                      href={`/News_Menu/News_view/${item.id}`}
-                      target="_blank"
-                      style={{
-                        fontSize: "18px",
-                        padding: "20px 25px",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        background: "#7BBD8F",
-                        border: "none",
-                        color: "#ffffff",
-                        marginTop: "20px",  // Add margin-top to create space between text and button
-                      }}
-                    >
-                      อ่านต่อ
-                    </Button> */}
-                    </div>
-                  }
-                />
-              </Link>
+                    </Link>
+                  </Grid>
+                ))
+            ))}
+          {loading ? (
+            <Grid item xs={12} md={4} key="loading">
+              <Skeleton active />
             </Grid>
-          ))}
+          ) : (
+            filteredNews
+              .filter((item) => item.status === 1)
+              .slice(1)
+              .map((item) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={4}
+                  key={item.id}
+                  style={{ marginBottom: '3%', padding: 5 }}
+                >
+                  <Link
+                    to={`/News_Menu/News_view/${item.id}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Card
+                      hoverable
+                      style={{
+                        margin: 'auto',
+                        borderRadius: '20px',
+                        width: '90%',
+                        height: '100%',
+                        padding: 20,
+                        fontFamily: "'Th Sarabun New', sans-serif",
+                        fontSize: '25px',
+                        textAlign: 'left',
+                      }}
+                      cover={
+                        <div
+                          style={{
+                            height: '80%',
+                            width: '100%',
+                            borderRadius: '10px',
+                            overflow: 'hidden',
+                          }}
+                        >
+                          <img
+                            style={{
+                              height: '300px',
+                              width: '100%',
+                              objectFit: 'cover',
+                            }}
+                            src={item.cover_image}
+                          />
+                          เมื่อ {moment(item.created_at).format('DD-MM-YYYY')}
+                          <br />
+                          {item.title.length > 200
+                            ? `${item.title.slice(0, 200)}...`
+                            : item.title}
+                          {/* <Button
+                    type="primary"
+                    href={`/News_Menu/News_view/${item.id}`}
+                    target="_blank"
+                    style={{
+                      fontSize: "18px",
+                      padding: "20px 25px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      background: "#7BBD8F",
+                      border: "none",
+                      color: "#ffffff",
+                      marginTop: "20px",  // Add margin-top to create space between text and button
+                    }}
+                  >
+                    อ่านต่อ
+                  </Button> */}
+                        </div>
+                      }
+                    />
+                  </Link>
+                </Grid>
+              ))
+          )}
         </Grid>
-        <Box mt={4} display="flex" justifyContent="center">
-          <IconButton
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#7BBD8F" }}
-            />
-          </IconButton>
-          <IconButton
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastItem >= data.length}
-          >
-            <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#7BBD8F" }}
-            />
-          </IconButton>
-        </Box>
+        {data.length > 0 && (
+          <Box mt={4} display="flex" justifyContent="center">
+            <IconButton
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <LeftCircleOutlined
+                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() => paginate(currentPage + 1)}
+              disabled={indexOfLastItem >= data.length}
+            >
+              <RightCircleOutlined
+                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+              />
+            </IconButton>
+          </Box>
+        )}
       </Paper>
     </div>
   );

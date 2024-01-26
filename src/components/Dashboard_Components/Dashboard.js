@@ -1,52 +1,28 @@
 import React, { useState, useEffect } from "react";
 import {
-  SearchOutlined,
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Paper, Grid, Box, IconButton, Grow } from "@mui/material";
+import { Paper, Grid, Box, IconButton  } from "@mui/material";
 import Carousel from "./Carousel";
 import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
-import { CSSTransition } from "react-transition-group";
 import {
-  Divider,
   Button,
   Card,
-  Flex,
-  Typography,
-  Select,
-  Input,
   FloatButton,
-  Form,
-  Space,
-  DatePicker,
 } from "antd";
-import Flickity from "react-flickity-component";
 import { Link, useNavigate } from "react-router-dom";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import moment from "moment";
 
-const { Option } = Select;
-const { Meta } = Card;
-const { Title } = Typography;
-const flickityOptions = {
-  initialIndex: 2,
-};
-const Dashboard = ({ onSearch }) => {
+const Dashboard = () => {
   const [newdata, setNewData] = useState([]);
   const [articledata, setArticleData] = useState([]);
   const [mdSharedata, setMdShareData] = useState([]);
-  const [form] = Form.useForm();
-  const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [selectOptions_type, setSelectOptions_type] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(6);
-  const [showPaper, setShowPaper] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -65,7 +41,6 @@ const Dashboard = ({ onSearch }) => {
         console.error(`Error fetching ${endpoint}:`, error);
       }
     };
-
     fetchData("News_request", setNewData);
     fetchData("Article_request", setArticleData);
     fetchData("MdShare_request", setMdShareData);
@@ -74,48 +49,15 @@ const Dashboard = ({ onSearch }) => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const newcurrentItems = newdata.slice(indexOfFirstItem, indexOfLastItem);
-
   const articlecurrentItems = articledata.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
-
   const mdSharecurrentItems = mdSharedata.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
 
   return (
     <div className="backgroundColor">
@@ -151,6 +93,7 @@ const Dashboard = ({ onSearch }) => {
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
               className="buttonfilterStyle"
+              shape="circle"
               onClick={() => navigate("/FakenewsSearch")}
             >
               ไปค้นหา
@@ -175,14 +118,6 @@ const Dashboard = ({ onSearch }) => {
             <div className="articleTitle">ข่าวสาร</div>
           </Grid>
           <Grid item xs={12} md={4}>
-            {/* <Input
-              size="large"
-              placeholder="ค้นหา"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onPressEnter={handleSearchSubmit}
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-            /> */}
           </Grid>
         </Grid>
         <Paper
@@ -233,12 +168,10 @@ const Dashboard = ({ onSearch }) => {
                             objectFit: "cover",
                           }}
                           src={item.cover_image}
-                          //alt={item.title}
                         />
                         <strong>
                           เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
                         </strong>
-
                         <br />
                         {item.title.length > 150
                           ? `${item.title.slice(0, 150)}...`
@@ -292,14 +225,6 @@ const Dashboard = ({ onSearch }) => {
             </div>
           </Grid>
           <Grid item xs={12} md={4}>
-            {/* <Input
-              size="large"
-              placeholder="ค้นหา"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onPressEnter={handleSearchSubmit}
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-            /> */}
           </Grid>
         </Grid>
         <br />
@@ -402,14 +327,6 @@ const Dashboard = ({ onSearch }) => {
             <div className="articleTitle">สื่อชวนแชร์</div>
           </Grid>
           <Grid item xs={12} md={4}>
-            {/* <Input
-              size="large"
-              placeholder="ค้นหา"
-              value={searchTerm}
-              onChange={handleSearchChange}
-              onPressEnter={handleSearchSubmit}
-              prefix={<SearchOutlined className="site-form-item-icon" />}
-            /> */}
           </Grid>
         </Grid>
         <br />

@@ -103,14 +103,6 @@ const Adm_MdShare_Menu = () => {
     }
   };
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 0:
-        return "ปิดเผยแพร่";
-      case 1:
-        return "เปิดเผยแพร่";
-    }
-  };
   const columns = [
     {
       title: "ลำดับ",
@@ -204,20 +196,10 @@ const Adm_MdShare_Menu = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการสื่อชวนแชร์
         </div>

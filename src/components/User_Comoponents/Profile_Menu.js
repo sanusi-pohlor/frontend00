@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Avatar, Divider, Box, Typography } from "@mui/material";
-import { Card, Tabs, FloatButton, Modal, Button } from "antd";
+import { Card, Tabs, FloatButton, Result, Button } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
 const { TabPane } = Tabs;
@@ -33,26 +33,6 @@ const MenuProfile = ({ children }) => {
 
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  const buttonStyle = {
-    background: "#7BBD8F",
-    border: "none",
-    color: "white",
-  };
-
-  const [isModalVisible, setIsModalVisible] = useState(true);
-
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
-
-  const handleOk = () => {
-    setIsModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -111,9 +91,14 @@ const MenuProfile = ({ children }) => {
 
   if (!user) {
     return (
-      <div>
-          <p>Please log in or register first</p>
-      </div>
+      <Result
+        title="กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อน"
+        extra={
+          <Button type="primary" key="console">
+            เข้าสู่ระบบ
+          </Button>
+        }
+      />
     );
   }
 
@@ -171,7 +156,13 @@ const MenuProfile = ({ children }) => {
                   }}
                 >
                   <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                    จำนวนครั้งที่แจ้งข่าว : {data}
+                    จำนวนข่าวที่แจ้ง : {data}
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                    จำนวนข่าวที่ได้รับการตรวจสอบเสร็จสิ้น : {data}
+                  </Typography>
+                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                    จำนวนข่าวที่ได้รอการตรวจสอบ : {data}
                   </Typography>
                 </div>
               </Card>

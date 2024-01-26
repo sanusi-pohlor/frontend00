@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Table, Card, Divider, DatePicker, Select } from "antd";
+import {  Card, Divider, DatePicker, Select } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
 import "./MuiTable.css";
 import { DataGrid } from "@mui/x-data-grid";
-import { MenuItem, Typography } from "@mui/material";
-import th_TH from 'antd/lib/locale/th_TH'; // import locale ภาษาไทย
+import { Typography } from "@mui/material";
 const { Option } = Select;
 
 const MyTable = () => {
@@ -131,7 +130,7 @@ const MyTable = () => {
     id: index + 1,
   }));
   const CustomPagination = () => {
-    return null; // Return null to hide the pagination
+    return null;
   };
   return (
     <div>

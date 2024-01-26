@@ -1,21 +1,24 @@
-
 @media (max-width: 2000px) {
     .text {
         font-size: 25px;
         font-family: 'Th Sarabun New', sans-serif;
         color: rgb(0, 0, 0);
     }
+
     .text strong {
         font-size: 30px;
         font-family: 'Th Sarabun New', sans-serif;
     }
+
     .commsci-image {
         width: 30%;
     }
+
     .partner-image {
         width: 80px;
         height: 80px;
     }
+
     .CardContainer,
     .BarChartContainer,
     .paperContainer {
@@ -25,10 +28,12 @@
         text-align: center;
         background: #f1f1f1;
     }
+
     .cardsection {
         border-radius: 40px;
         background: #7BBD8F;
     }
+
     .cardsectionContent {
         font-size: 40px;
         font-weight: bold;
@@ -37,6 +42,7 @@
         font-family: 'Th Sarabun New', sans-serif;
         color: white;
     }
+
     .buttonfilterStyle {
         padding: 30px 35px;
         display: flex;
@@ -49,15 +55,45 @@
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
+    .cardContent {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+    
+    .cardCover {
+        height: 300px; /* Define the desired height */
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+      }
+      
+      .cardCover .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+      }
 }
 
 @media (max-width: 1800px) {
     .text {
         font-size: 25px;
     }
+
     .commsci-image {
         width: 30%;
     }
+
     .partner-image {
         width: 80px;
         height: 80px;
@@ -78,13 +114,16 @@
     .text {
         font-size: 25px;
     }
+
     .commsci-image {
         width: 30%;
     }
+
     .partner-image {
         width: 80px;
         height: 80px;
     }
+
     .CardContainer,
     .BarChartContainer,
     .paperContainer {
@@ -100,13 +139,16 @@
     .text {
         font-size: 25px;
     }
+
     .commsci-image {
         width: 30%;
     }
+
     .partner-image {
         width: 80px;
         height: 80px;
     }
+
     .CardContainer,
     .BarChartContainer,
     .paperContainer {
@@ -126,13 +168,16 @@
     .text {
         font-size: 25px;
     }
+
     .commsci-image {
         width: 30%;
     }
+
     .partner-image {
         width: 80px;
         height: 80px;
     }
+
     .CardContainer,
     .BarChartContainer,
     .paperContainer {
@@ -147,10 +192,10 @@
         font-size: 50px;
     }
 }
+
 .backgroundColor {
     background: #f1f1f1;
 }
-
 
 .container {
     display: flex;
@@ -364,9 +409,6 @@ body {
     font-size: 25px;
 }
 
-/* Bottom.css */
-
-/* Footer Style */
 .footer {
     text-align: center;
     color: #ffffff;
@@ -389,18 +431,18 @@ body {
     font-size: 50px;
     font-weight: bold;
     font-family: 'Th Sarabun New', sans-serif;
-  }
-  
-  .form-container {
+}
+
+.form-container {
     width: 80%;
     margin: 0 auto;
-  }
-  
-  .form-item-label {
+}
+
+.form-item-label {
     font-size: 25px;
-  }
-  
-  .submit-button {
+}
+
+.submit-button {
     padding: 20px 25px;
     display: flex;
     justify-content: center;
@@ -408,12 +450,12 @@ body {
     background: #7BBD8F;
     border: none;
     color: #ffffff;
-  }
-  
-  .checkbox-label {
-    font-size: 25px;
-  }
+}
 
-  .button {
+.checkbox-label {
     font-size: 25px;
-  }
+}
+
+.button {
+    font-size: 25px;
+}

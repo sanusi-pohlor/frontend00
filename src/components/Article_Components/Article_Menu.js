@@ -17,33 +17,22 @@ import {
   Flex,
 } from "antd";
 import { Link } from "react-router-dom";
-import "./Article_Menu.css";
+import "../../App.css";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
 const { Option } = Select;
-const { Meta } = Card;
-const { Title } = Typography;
 
 const Article_Menu = (open) => {
   const [form] = Form.useForm();
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [filterednew, setFilterednew] = useState([]);
   const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [dataOrg, setDataOrg] = useState([]);
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(9);
-  const curveAngle = 20;
-  const [filterVisible, setFilterVisible] = useState(false);
-
-  const buttonStyle = {
-    background: "#f1f1f1",
-    border: "none",
-    color: "#7BBD8F",
-  };
+  const [itemsPerPage] = useState(9);l
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/Article_request")
@@ -63,51 +52,12 @@ const Article_Menu = (open) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const showFilterDialog = () => {
-    setFilterVisible(true);
-  };
-
-  const closeFilterDialog = () => {
-    setFilterVisible(false);
-  };
-
-  const handleSubmit = (values) => {
-    console.log("Form values:", values);
-  };
-
-  const FilterFinish = (values) => {
-    console.log("Filter values:", values);
-    closeFilterDialog();
-  };
-
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
   const filteredArticles = data.filter((article) =>
     article.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const onFinish = (values) => {
-    const { type_new, med_new, prov_new } = values;
-    const created_at = values.created_at
-      ? new Date(values.created_at).toISOString().split("T")[0]
-      : null;
-
-    console.log("Form values:", { type_new, med_new, prov_new, created_at });
-
-    const filteredArticles = dataOrg.filter((article) => {
-      const articleDate = article.created_at
-        ? new Date(article.created_at).toISOString().split("T")[0]
-        : null;
-      const matchesType = type_new ? article.type_new === type_new : true;
-      const matchesMedia = med_new ? article.med_new === med_new : true;
-      const matchesProvince = prov_new ? article.prov_new === prov_new : true;
-      const matchesDate = created_at ? articleDate === created_at : true;
-      return matchesType && matchesMedia && matchesProvince && matchesDate;
-    });
-    setData(filteredArticles);
-    console.log("filteredArticles:", filteredArticles);
-  };
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -172,20 +122,10 @@ const Article_Menu = (open) => {
         }}
       >
         <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
+          className="cardsection"
         >
           <div
-            style={{
-              fontSize: "70px",
-              fontWeight: "bold",
-              display: "flex",
-              justifyContent: "space-between",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              color: "white",
-            }}
+            className="cardsectionContent"
           >
             บทความ
             <div
@@ -203,114 +143,6 @@ const Article_Menu = (open) => {
                 //value={searchTerm}
                 prefix={<SearchOutlined className="site-form-item-icon" />}
               />
-              {/* <Button
-                size="large"
-                type="primary"
-                style={buttonStyle}
-                onClick={showFilterDialog}
-              >
-                ตัวกรอง
-              </Button>
-              <Modal
-                open={filterVisible}
-                onClose={closeFilterDialog}
-                handleSubmit={handleSubmit}
-                FilterFinish={FilterFinish}
-                title="ตัวกรอง"
-                visible={open}
-                onCancel={closeFilterDialog}
-                footer={null}
-              >
-                <div>
-                  <Form
-                    form={form}
-                    layout="vertical"
-                    name="normal_login"
-                    className="login-form"
-                    onFinish={onFinish}
-                    initialValues={{
-                      remember: true,
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                    }}
-                  >
-                    <Form.Item
-                      name="type_new"
-                      label="ประเภทข่าว"
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please select a type code!",
-                        },
-                      ]}
-                    >
-                      <Select
-                        placeholder="Select a option and change input text above"
-                        onChange={onChange_mfi_ty_info_id}
-                        allowClear
-                      >
-                        {selectOptions_ty}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="med_new"
-                      label="ช่องทางสื่อ"
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please input the title of collection!",
-                        },
-                      ]}
-                    >
-                      <Select
-                        placeholder="เลือกช่องทางสื่อ"
-                        onChange={onChange_dnc_med_id}
-                        allowClear
-                      >
-                        {selectOptions_med}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="created_at"
-                      label="วัน/เดือน/ปี"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <DatePicker />
-                    </Form.Item>
-                    <Form.Item
-                      name="prov_new"
-                      label="จังหวัด"
-                      style={{ marginBottom: "10px" }}
-                      rules={[
-                        {
-                          required: false,
-                          message: "Please input the title of collection!",
-                        },
-                      ]}
-                    >
-                      <Select onChange={onChange_mfi_province} allowClear>
-                        {selectOptions_prov}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item label="คำสำคัญ" style={{ marginBottom: "10px" }}>
-                      <Input />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        placeholder="เลือกจังหวัด"
-                        className="login-form-button"
-                        size="large"
-                      //onClick={handleApplyFilters}
-                      >
-                        ค้นหา
-                      </Button>
-                    </Form.Item>
-                  </Form>
-                </div>
-              </Modal> */}
             </div>
           </div>
         </Card>
