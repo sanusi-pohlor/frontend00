@@ -15,8 +15,6 @@ import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } fro
 const Adm_News_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
 
   const fetchUserInfo = async () => {
     try {
@@ -105,14 +103,6 @@ const Adm_News_Menu = () => {
     }
   };
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 0:
-        return "ปิดเผยแพร่";
-      case 1:
-        return "เปิดเผยแพร่";
-    }
-  };
   const columns = [
     {
       title: "ลำดับ",
@@ -208,40 +198,19 @@ const Adm_News_Menu = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการข่าวสาร
         </div>
       </Card>
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardContent"
       >
         <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "16px",
-            alignItems: "center",
-          }}
+          className="searchContainer"
         >
           <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าข่าว</Typography>
           <div>
@@ -251,16 +220,7 @@ const Adm_News_Menu = () => {
                 shape="round"
                 icon={<PlusCircleOutlined />}
                 size="large"
-                style={{
-                  fontSize: "18px",
-                  padding: "20px 25px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#7BBD8F",
-                  border: "none",
-                  color: "#ffffff",
-                }}
+                className="buttonfilterStyle"
               >
                 เพิ่มข่าว
               </Button>
@@ -268,7 +228,6 @@ const Adm_News_Menu = () => {
           </div>
         </div>
         <br />
-        {/* <Table dataSource={dataSource} columns={columns} /> */}
         <TableContainer>
           <Table>
             <TableHead>

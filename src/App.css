@@ -1,4 +1,107 @@
 @media (max-width: 2000px) {
+    .MainContentContainer {
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+    }
+
+    .PieChartContainer {
+        font-size: 25px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .CardContainer {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .cardTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .cardContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectContainer {
+        margin-right: 10px;
+        height: 50px;
+    }
+
+    .datePickerContainer {
+        margin-right: 10px;
+        font-size: 30px;
+        height: 50px;
+    }
+
+    .gridContainer {
+        font-size: 25px;
+    }
+
+    .cardsectionContent {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .cardContent {
+        margin: auto;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dataCard {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pieChartTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .modalContent {
+        font-size: 30px;
+    }
+
+    .userProfileContainer {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .text {
         font-size: 25px;
         font-family: 'Th Sarabun New', sans-serif;
@@ -17,6 +120,17 @@
     .partner-image {
         width: 80px;
         height: 80px;
+    }
+
+    .Modelcontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
     }
 
     .CardContainer,
@@ -53,6 +167,25 @@
         font-size: 35px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .button-card {
+        font-size: 18px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .flex-card {
+        padding: 32px;
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        text-align: left;
     }
 
     .cardContent {
@@ -95,9 +228,20 @@
         padding: 20px;
     }
 
-    .cardItem {
+    .cardItem-head {
         height: 100%;
         width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 90%;
         margin: auto;
         border-radius: 20px;
         padding: 20px;
@@ -489,4 +633,24 @@ body {
 
 .button {
     font-size: 25px;
+}
+
+.form-button {
+    margin-right: 10px;
+    font-size: 18px;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #7BBD8F;
+    border: none;
+    color: #ffffff;
+}
+
+.login-form-button:hover {
+    background: #6aa87e;
+}
+
+.login-form-button:active {
+    background: #578e6e;
 }

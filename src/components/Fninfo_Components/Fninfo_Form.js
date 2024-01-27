@@ -6,11 +6,12 @@ import {
 } from "@ant-design/icons";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Select, Upload, message } from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload, message, Card } from "antd";
 import { Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/th";
 import { useNavigate } from "react-router-dom";
+import "../../App.css"
 
 moment.locale("th");
 
@@ -170,20 +171,11 @@ const FakeNewInformation = () => {
   } else {
     return (
       <UserProfile>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            textAlign: "center",
-            fontSize: "50px",
-            fontWeight: "bold",
-            fontFamily: "'Th Sarabun New', sans-serif",
-          }}
-        >
-          แจ้งข้อมูลเท็จ
-        </div>
+        <Card className="cardsection">
+          <div className="cardsectionContent">
+            แจ้งข้อมูลเท็จ
+          </div>
+        </Card>
         <Form
           form={form}
           layout="vertical"
@@ -267,7 +259,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>แหล่งที่มาของข่าวปลอม</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>แหล่งที่มาของข่าวปลอม</Typography>}
             name="fn_info_source"
             rules={[
               {
@@ -288,7 +280,7 @@ const FakeNewInformation = () => {
             </Select>
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ</Typography>}
             name="fn_info_num_mem"
             rules={[
               {
@@ -313,7 +305,7 @@ const FakeNewInformation = () => {
             </Select>
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รายละเอียดเพิ่มเติม</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รายละเอียดเพิ่มเติม</Typography>}
             name="fn_info_more"
             rules={[
               {
@@ -330,7 +322,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ระบุลิ้งค์ข้อมูล(ถ้ามี)</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ระบุลิ้งค์ข้อมูล(ถ้ามี)</Typography>}
             name="fn_info_link"
             rules={[
               {
@@ -346,7 +338,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
             name="fn_info_dmy"
             rules={[
               {
@@ -362,7 +354,7 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-          label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ</Typography>}
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ</Typography>}
             name="fn_info_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -389,19 +381,8 @@ const FakeNewInformation = () => {
             <Button
               type="primary"
               htmlType="submit"
-              className="login-form-button"
+              className="form-button"
               size="large"
-              style={{
-                marginRight: "10px",
-                fontSize: "18px",
-                padding: "20px 25px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#7BBD8F",
-                border: "none",
-                color: "#ffffff",
-              }}
             >
               <Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งรายงาน</Typography>
             </Button>

@@ -8,19 +8,15 @@ const FakenewsSearch_View = () => {
   const { id } = useParams();
   const [province, setProvince] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const [info_source, setInfo_source] = useState(null);
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
-  const [selectOptions_con, setSelectOptions_con] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
-  const [selectOptions_mfi_dis_c, setSelectOptions_mfi_dis_c] = useState([]);
-  
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
@@ -93,7 +89,7 @@ const FakenewsSearch_View = () => {
       );
       if (response.ok) {
         const typeCodes = await response.json();
-        console.log("ddd = ",typeCodes);
+        console.log("ddd = ", typeCodes);
         stateSetter(typeCodes);
       } else {
         console.error(
@@ -180,38 +176,21 @@ const FakenewsSearch_View = () => {
     onChange_mfi_province();
   }, []);
 
-  const renderReporterInfo = () => {
-    if (!userInfo) {
-      return null;
-    }
-
-    const user = userInfo.find(
-      (user) => user.id === fakeNewsInfo?.mfi_mem
-    );
-
-    return (
-      user && (
-        <>
-          <span>{user.username}</span> <span>{user.lastName}</span>
-        </>
-      )
-    );
-  };
 
   const renderReporter_fn_info_source = () => {
     if (!selectOptions_med || !fakeNewsInfo?.mfi_med_c) {
       return null;
     }
-  
+
     const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_med_c);
     return source && <span>{source.med_c_name}</span>;
   };
-  
+
   const renderReporter_mfi_dis_c = () => {
     if (!selectOptions_med || !fakeNewsInfo?.mfi_dis_c) {
       return null;
     }
-  
+
     const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_dis_c);
     return source && <span>{source.med_c_name}</span>;
   };
@@ -220,26 +199,26 @@ const FakenewsSearch_View = () => {
     if (!selectOptions_fm || !fakeNewsInfo?.mfi_fm_d) {
       return null;
     }
-  
+
     const source = selectOptions_fm.find(source => source.id === fakeNewsInfo?.mfi_fm_d);
     return source && <span>{source.fm_d_name}</span>;
   };
 
   const render_prov_name = () => {
-  const provinceId = parseInt(fakeNewsInfo.mfi_province, 10);
+    const provinceId = parseInt(fakeNewsInfo.mfi_province, 10);
     if (!selectOptions_prov || !provinceId) {
       return null;
     }
-  
+
     const source = selectOptions_prov.find(source => source.id === provinceId);
     return source && <span>{source.prov_name}</span>;
   };
-  
+
   const render_mfi_moti_name = () => {
     if (!selectOptions_moti || !fakeNewsInfo?.mfi_moti) {
       return null;
     }
-  
+
     const source = selectOptions_moti.find(source => source.id === fakeNewsInfo?.mfi_moti);
     return source && <span>{source.moti_name}</span>;
   };
@@ -248,7 +227,7 @@ const FakenewsSearch_View = () => {
     if (!selectOptions_data || !fakeNewsInfo?.mfi_data_cha) {
       return null;
     }
-  
+
     const source = selectOptions_data.find(source => source.id === fakeNewsInfo?.mfi_data_cha);
     return source && <span>{source.data_cha_name}</span>;
   };
@@ -376,12 +355,32 @@ const FakenewsSearch_View = () => {
     },
   ];
   return (
+    <Paper
+      elevation={0}
+      className="paperContainer"
+      style={{ backgroundColor: "#e4e4e4" }}
+    >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
+          ข่าวสาร
+          <div className="searchContainer">
+            <Input
+              type="text"
+              size="large"
+              placeholder="ค้นหา"
+              style={{ marginRight: "10px" }}
+              onChange={handleSearch}
+              prefix={<SearchOutlined className="site-form-item-icon" />}
+            />
+          </div>
+        </div>
+      </Card>
       <Descriptions
         title="รายละเอียดข้อมูลเท็จ"
         layout="vertical"
         bordered
         items={items}
-      />
+      /> </Paper>
   );
 };
 

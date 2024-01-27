@@ -458,20 +458,10 @@ const Manage_Fake_Info_Edit = () => {
     <AdminMenu>
       <Card
         hoverable
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
+          className="cardsectionContent"
         >
           <h1>จัดการข้อมูลรับแจ้ง</h1>
         </div>
@@ -901,16 +891,7 @@ const Manage_Fake_Info_Edit = () => {
             </Form.Item>
           </Row>
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
+            <Button type="primary" htmlType="submit" className="form-button">
               บันทึก
             </Button>
           </Form.Item>

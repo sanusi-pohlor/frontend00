@@ -34,8 +34,6 @@ const M_DB_Adm_Menu = () => {
     "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
     "#FF00FF", "#000000", "#808000", "#800000"
   ];
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -240,37 +238,24 @@ const M_DB_Adm_Menu = () => {
   const dateObjects = validData.map(item => new Date(item.created_at));
 
   if (dateObjects.length === 0) {
-    // Handle the case when there is no valid date data
     console.error('No valid date data found.');
-    return null; // or return some default content, depending on your requirements
+    return null;
   }
 
-  // Find the oldest and newest months and years
   const oldestDate = dateObjects.reduce((minDate, currentDate) => (currentDate < minDate ? currentDate : minDate), dateObjects[0]);
   const newestDate = dateObjects.reduce((maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate), dateObjects[0]);
 
-  // Format the result in Thai language
-  const thaiLocale = { locale: thLocale }; // Use the Thai locale
+  const thaiLocale = { locale: thLocale };
   const oldestMonthYear = format(oldestDate, 'LLLL yyyy', thaiLocale);
   const newestMonthYear = format(newestDate, 'LLLL yyyy', thaiLocale);
 
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           หน้าหลักแอดมิน
         </div>
@@ -279,32 +264,16 @@ const M_DB_Adm_Menu = () => {
         <Grid item xs={12} md={4}>
           <Card
             hoverable
-            style={{
-              margin: "auto",
-              borderRadius: `${curveAngle}px`,
-              backgroundColor: paperColor,
-              width: "100%",
-              height: "100%",
-            }}
+            className="cardContent"
           >
             <div
-              style={{
-                fontSize: "30px",
-                fontWeight: "bold",
-                display: "flex",
-                justifyContent: "space-between",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}
+              className="dataCard"
             >
               ประเภทสื่อ
             </div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}>
+              <PieChart>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -330,32 +299,16 @@ const M_DB_Adm_Menu = () => {
         <Grid item xs={12} md={4}>
           <Card
             hoverable
-            style={{
-              margin: "auto",
-              borderRadius: `${curveAngle}px`,
-              backgroundColor: paperColor,
-              width: "100%",
-              height: "100%",
-            }}
+            className="dataCard"
           >
             <div
-              style={{
-                fontSize: "30px",
-                fontWeight: "bold",
-                display: "flex",
-                justifyContent: "space-between",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}
+              className="pieChartTitle"
             >
               รูปแบบข่าว
             </div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}>
+              <PieChart>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -381,32 +334,16 @@ const M_DB_Adm_Menu = () => {
         <Grid item xs={12} md={4}>
           <Card
             hoverable
-            style={{
-              margin: "auto",
-              borderRadius: `${curveAngle}px`,
-              backgroundColor: paperColor,
-              width: "100%",
-              height: "100%",
-            }}
+            className="dataCard"
           >
             <div
-              style={{
-                fontSize: "30px",
-                fontWeight: "bold",
-                display: "flex",
-                justifyContent: "space-between",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}
+              className="pieChartTitle"
             >
               จังหวัด
             </div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart style={{
-                fontSize: "20px",
-                fontWeight: "bold",
-                fontFamily: "'Th Sarabun New', sans-serif",
-              }}>
+              <PieChart>
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -432,13 +369,7 @@ const M_DB_Adm_Menu = () => {
       </Grid>
       <Divider />
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "65%",
-        }}
+        className="dataCard"
       >
         <Typography variant="body1" sx={{ fontSize: "35px" }}>ข้อมูลที่แจ้งตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear} (ปัจจุบัน)</Typography>
         <br />
@@ -453,16 +384,7 @@ const M_DB_Adm_Menu = () => {
           items={items2}
         />
         <br />
-        <Button type="primary" onClick={showModal} style={{
-          fontSize: "18px",
-          padding: "20px 25px",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "#7BBD8F",
-          border: "none",
-          color: "#ffffff",
-        }}>
+        <Button type="primary" onClick={showModal} className="form-button">
           {createTypography("ออกจากระบบ")}
         </Button>
         <Modal

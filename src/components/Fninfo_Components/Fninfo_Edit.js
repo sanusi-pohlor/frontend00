@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Select, Upload, message ,Image } from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload, message, Image } from "antd";
 import { Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/th";
@@ -59,7 +59,7 @@ const FnInfoEdit = () => {
   }, []);
 
   useEffect(() => {
-    fetchFakeNewsData(); // Modify the function name accordingly
+    fetchFakeNewsData();
   }, [id]);
 
   const fetchFakeNewsData = async () => {
@@ -80,15 +80,12 @@ const FnInfoEdit = () => {
           fn_info_num_mem: data.fn_info_num_mem,
           fn_info_more: data.fn_info_more,
           fn_info_link: data.fn_info_link,
-          fn_info_dmy: moment(data.fn_info_dmy, "YYYY-MM-DD"), // Assuming the date format is YYYY-MM-DD
-          //fn_info_image: data.fn_info_image[0].originFileObj,
+          fn_info_dmy: moment(data.fn_info_dmy, "YYYY-MM-DD"),
         });
       } else {
-        // Handle the case where the date is invalid
         console.error("Invalid date received from the server");
-        // Set a default date or handle it as needed
         form.setFieldsValue({
-          fn_info_dmy: moment(), // Set to the current date as an example
+          fn_info_dmy: moment(),
         });
       }
     } catch (error) {
@@ -97,24 +94,21 @@ const FnInfoEdit = () => {
   };
 
   const onFinish = async (values) => {
-    //setLoading(true);
     console.log("values:", values);
     try {
       const formData = new FormData();
-      formData.append("fn_info_head", values.fn_info_head); // Corrected the field name
-      formData.append("fn_info_content", values.fn_info_content); // Corrected the field name
-      formData.append("fn_info_source", values.fn_info_source); // Corrected the field name
-      formData.append("fn_info_num_mem", values.fn_info_num_mem); // Corrected the field name
-      formData.append("fn_info_more", values.fn_info_more); // Corrected the field name
-      formData.append("fn_info_link", values.fn_info_link); // Corrected the field name
-      // Format the date as "YYYY-MM-DD" and then append it
-      const formattedDate = moment(values.fn_info_dmy).format("YYYY-MM-DD");
-      formData.append("fn_info_dmy", formattedDate);
+      formData.append("fn_info_head", values.fn_info_head);
+      formData.append("fn_info_content", values.fn_info_content);
+      formData.append("fn_info_source", values.fn_info_source);
+      formData.append("fn_info_num_mem", values.fn_info_num_mem);
+      formData.append("fn_info_more", values.fn_info_more);
+      formData.append("fn_info_link", values.fn_info_link);
+      formData.append("fn_info_dmy", values.fn_info_dmy);
       formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
         {
-          method: "POST", // Use the appropriate HTTP method for updating
+          method: "POST",
           body: formData,
         }
       );
@@ -192,11 +186,18 @@ const FnInfoEdit = () => {
       const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
-        const options = typeCodes.map((code) => ({
-          key: code[`${fieldName}_id`],
-          value: code[`${fieldName}_id`],
-          label: code[`${fieldName}_name`],
-        }));
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`id`]}>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
+          </Option>
+        ));
+        form.setFieldsValue({ [fieldName]: undefined });
+        form.setFields([
+          {
+            name: fieldName,
+            value: undefined,
+          },
+        ]);
         stateSetter(options);
       } else {
         console.error(
@@ -208,7 +209,6 @@ const FnInfoEdit = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   };
-
   const onChange_dnc_med_id = () => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -226,25 +226,16 @@ const FnInfoEdit = () => {
   } else {
     return (
       <UserProfile>
-        <Typography
-          component="h1"
-          variant="h5"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            boxShadow: 0,
-            borderRadius: 2,
-            px: 2,
-            py: 2,
-          }}
-        >
-          แจ้งข้อมูลเท็จ
-        </Typography>
+        <Card className="cardsection">
+          <div className="cardsectionContent">
+            แก้ไขรายงานการแจ้งข้อมูลเท็จ
+          </div>
+        </Card>
         <Form
           form={form}
           layout="vertical"
           name="FakeNewInformation"
+          //onChange={onChange_dnc_med_id}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{
@@ -254,7 +245,7 @@ const FnInfoEdit = () => {
           enctype="multipart/form-data"
         >
           <Form.Item
-            label="ผู้ส่งรายงาน"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
             //name="fn_info_nameid"
             rules={[
               {
@@ -290,7 +281,7 @@ const FnInfoEdit = () => {
             </Form.Item>
           )}
           <Form.Item
-            label="หัวข้อ"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>หัวข้อ</Typography>}
             name="fn_info_head"
             rules={[
               {
@@ -306,7 +297,7 @@ const FnInfoEdit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="เนื้อหา"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>เนื้อหา</Typography>}
             name="fn_info_content"
             rules={[
               {
@@ -323,7 +314,7 @@ const FnInfoEdit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="แหล่งที่มาของข่าวปลอม"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>แหล่งที่มาของข่าวปลอม</Typography>}
             name="fn_info_source"
             rules={[
               {
@@ -331,11 +322,11 @@ const FnInfoEdit = () => {
                 message: "Please input your email!",
               },
             ]}
+            onClick={() => {
+              onChange_dnc_med_id();
+            }}
           >
             <Select
-              onClick={() => {
-                onChange_dnc_med_id();
-              }}
               placeholder="Select a option and change input text above"
               onChange={onChange_dnc_med_id}
               allowClear
@@ -344,7 +335,7 @@ const FnInfoEdit = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label="จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ</Typography>}
             name="fn_info_num_mem"
             rules={[
               {
@@ -359,21 +350,17 @@ const FnInfoEdit = () => {
               onChange={handlenum_memChange}
               value={selectednum_mem}
             >
-              <Select.Option value="less50">น้อยกว่า 50</Select.Option>
-              <Select.Option value="51-100">51-100</Select.Option>
-              <Select.Option value="101-150">101-150</Select.Option>
-              <Select.Option value="151-200">151-200</Select.Option>
-              <Select.Option value="201-250">201-250</Select.Option>
-              <Select.Option value="251-300">251-300</Select.Option>
-              <Select.Option value="301-350">301-350</Select.Option>
-              <Select.Option value="351-400">351-400</Select.Option>
-              <Select.Option value="401-450">401-450</Select.Option>
-              <Select.Option value="Ot451-500her">451-500</Select.Option>
-              <Select.Option value="MoreThan501">มากกว่า 501</Select.Option>
+              {[...Array(10).keys()].map((index) => (
+                <Select.Option key={index} value={`${index * 50 + 1}-${index * 50 + 50}`}>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                    {index === 9 ? `มากกว่า 501` : `${index * 50 + 1}-${index * 50 + 50}`}
+                  </Typography>
+                </Select.Option>
+              ))}
             </Select>
           </Form.Item>
           <Form.Item
-            label="รายละเอียดเพิ่มเติม"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รายละเอียดเพิ่มเติม</Typography>}
             name="fn_info_more"
             rules={[
               {
@@ -389,9 +376,8 @@ const FnInfoEdit = () => {
               placeholder="รายละเอียดเพิ่มเติม"
             />
           </Form.Item>
-
           <Form.Item
-            label="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ระบุลิ้งค์ข้อมูล(ถ้ามี)</Typography>}
             name="fn_info_link"
             rules={[
               {
@@ -407,7 +393,7 @@ const FnInfoEdit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="วัน/เดือน/ปี ที่เกิดเหตุ"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
             name="fn_info_dmy"
             rules={[
               {
@@ -422,9 +408,8 @@ const FnInfoEdit = () => {
               format="YYYY-MM-DD"
             />
           </Form.Item>
-
           <Form.Item
-            label="ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ</Typography>}
             name="fn_info_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -434,15 +419,10 @@ const FnInfoEdit = () => {
                 message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
               },
             ]}
-          ><Image
-          width={200}
-          src={img.fn_info_image}
-          alt="รูปภาพข่าวปลอม"
-        />
-        <br/><br />
+          >
             <Upload
               name="fn_info_image"
-              maxCount={2}
+              maxCount={3}
               listType="picture-card"
               beforeUpload={() => false}
             >
@@ -452,44 +432,14 @@ const FnInfoEdit = () => {
               </div>
             </Upload>
           </Form.Item>
-
-          {/* <Form.Item
-            label="แนบวิดีโอ"
-            name="fn_info_vdo"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: true,
-                message: "กรุณาแนบวิดีโอ",
-              },
-            ]}
-          >
-            <Upload
-            {...uploadProps}
-              name="fn_info_vdo"
-              maxCount={3}
-              action="http://localhost:8000/api/report_f_n_upload"
-              listType="picture-card"
-              multiple
-              showUploadList={{ showPreviewIcon: false }}
-              beforeUpload={beforeUpload}
-              onChange={handleChange}
-            >
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
-          </Form.Item> */}
           <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
-              className="login-form-button"
+              className="form-button"
               size="large"
             >
-              ส่งรายงาน
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>แก้ไขรายงาน</Typography>
             </Button>
           </Form.Item>
         </Form>

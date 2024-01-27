@@ -4,41 +4,17 @@ import {
   Descriptions,
   Image,
   Steps,
-  message,
   Button,
   Divider,
   Modal,
   Card,
-  Input,
-  Select,
+
   Form,
 } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
-const { Option } = Select;
 
-const plainOptions = ["1", "2"];
-const options = [
-  {
-    label: "ข่าวจริง",
-    value: "1",
-  },
-  {
-    label: "ข่าวเท็จ",
-    value: "2",
-  },
-];
-const optionsWithDisabled = [
-  {
-    label: "ข่าวจริง",
-    value: "1",
-  },
-  {
-    label: "ข่าวเท็จ",
-    value: "2",
-  },
-];
 const ManageInfo_view = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
@@ -47,13 +23,10 @@ const ManageInfo_view = () => {
   const [current, setCurrent] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmedStep, setConfirmedStep] = useState(-1);
-  const [value3, setValue3] = useState("Apple");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [info_source, setInfo_source] = useState(null);
   const { id } = useParams();
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const navigate = useNavigate();
   const fetchUserInfo = async () => {
     try {
@@ -106,7 +79,7 @@ const ManageInfo_view = () => {
           (item) => item.mfi_fninfo === parseInt(id, 10)
         );
         setData(filteredIds);
-        console.log("Filtered IDs:", filteredIds); // Logging the filtered IDs
+        console.log("Filtered IDs:", filteredIds);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -324,7 +297,6 @@ const ManageInfo_view = () => {
             width={200}
             src={fakeNewsInfo.fn_info_image}
             alt="รูปภาพข่าวปลอม"
-          //style={{ maxWidth: "100%", height: "auto" }}
           />
         </span>
       ),
@@ -355,59 +327,31 @@ const ManageInfo_view = () => {
       ),
     },
   ];
-  const onChange3 = ({ target: { value } }) => {
-    console.log("radio3 checked", value);
-    setValue3(value);
-  };
 
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการข้อมูลรับแจ้ง
         </div>
         <div
-          style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
+          className="searchContainer"
         >
           <Button
             onClick={handleCheck}
             type="primary"
-          // style={{
-          //   fontSize: "20px",
-          //   color: "#7BBD8F",
-          // }}
+            className="form-button"
           >
             ตรวจสอบข้อมูล
           </Button>
         </div>
       </Card>
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardContent"
       >
         <Steps
           current={fakeNewsInfo?.fn_info_status}

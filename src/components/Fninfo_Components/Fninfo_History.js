@@ -11,8 +11,8 @@ const NotificationHistory = () => {
   const [datamanage, setDatamanage] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10, // Set your desired page size
-    total: data.length, // Assuming 'data' is your entire dataset
+    pageSize: 10,
+    total: data.length,
   });
   function getThaiMonth(month) {
     const thaiMonths = [

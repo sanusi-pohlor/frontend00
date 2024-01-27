@@ -153,14 +153,7 @@ const AdminMenu = ({ children }) => {
         </Menu>
       </Sider>
       <Layout>
-        <Content
-          style={{
-            padding: 24,
-            margin: 0,
-            minHeight: 280,
-            backgroundColor: '#f1f1f1',
-            borderRadius: borderRadiusLG,
-          }}
+        <Content className="MainContentContainer"
         >
           {children}
         </Content>

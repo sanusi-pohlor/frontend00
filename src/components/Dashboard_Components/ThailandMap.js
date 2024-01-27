@@ -5,8 +5,6 @@ import moment from "moment";
 const MapWidget = () => {
   const [highlightedRegion, setHighlightedRegion] = useState(null);
   const [formattedDate, setFormattedDate] = useState("");
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [data, setData] = useState([]);
   const regionCounts = {};
 
@@ -61,19 +59,8 @@ const MapWidget = () => {
       <Card
         hoverable
         className="CardContainer"
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-        }}
       ><div
-        style={{
-          fontSize: "30px",
-          fontWeight: "bold",
-          display: "flex",
-          justifyContent: "space-between",
-          fontFamily: "'Th Sarabun New', sans-serif",
-        }}
+      className="cardTitle"
       >จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
           <DatePicker
             onChange={handleSelectDate}
@@ -81,11 +68,7 @@ const MapWidget = () => {
             picker="month"
             size="large"
             defaultValue={null}
-            style={{
-              marginRight: "10px",
-              fontSize: "30px",
-              height: "50px",
-            }}
+            className="datePickerContainer"
           /></div>
         <Divider />
         <svg

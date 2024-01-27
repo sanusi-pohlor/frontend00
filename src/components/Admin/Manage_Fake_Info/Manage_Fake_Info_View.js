@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Button, Card, Modal } from "antd";
+import { Badge, Descriptions, Image, Button, Card } from "antd";
 import { useParams, Link } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
@@ -13,20 +13,14 @@ const Manage_Fake_Info_View = () => {
   const { id } = useParams();
   const [province, setProvince] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const [info_source, setInfo_source] = useState(null);
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
-  const [selectOptions_con, setSelectOptions_con] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
-  const [selectOptions_mfi_dis_c, setSelectOptions_mfi_dis_c] = useState([]);
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
@@ -413,10 +407,10 @@ const Manage_Fake_Info_View = () => {
           <Badge
             status={
               fakeNewsInfo.fn_info_status === 0
-                ? "warning" // ถ้าสถานะเท่ากับ 1 (รอตรวจสอบ)
+                ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "processing" // ถ้าสถานะเท่ากับ 0 (กำลังตรวจสอบ)
-                  : "success" // ถ้าสถานะเท่ากับอื่น ๆ (ตรวจสอบแล้ว)
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
@@ -433,13 +427,7 @@ const Manage_Fake_Info_View = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardsectionContent"
       >
       <div>
         <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
@@ -448,6 +436,7 @@ const Manage_Fake_Info_View = () => {
             shape="round"
             icon={<PlusCircleOutlined />}
             size="large"
+            className="form-button"
           >
             แก้ไข
           </Button>

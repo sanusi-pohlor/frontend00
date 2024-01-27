@@ -66,7 +66,7 @@ const FakenewsSearch_Menu = (open, onClose) => {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   const showFilterDialog = () => {
     setFilterVisible(true);
   };
@@ -234,7 +234,7 @@ const FakenewsSearch_Menu = (open, onClose) => {
     },
   ];
 
-const mergedColumns = columns.map((col) => {
+  const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
     }
@@ -260,51 +260,28 @@ const mergedColumns = columns.map((col) => {
 
 
   return (
-    <div style={{ backgroundColor: "#f1f1f1" }}>
+    <div className="backgroundColor">
       <Paper
         elevation={0}
         className="paperContainer"
         style={{
-          backgroundColor: "#f1f1f1",
+          backgroundColor: "#e4e4e4",
         }}
       >
         <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
+          className="cardsection"
         >
           <div
-            style={{
-              fontSize: "40px",
-              fontWeight: "bold",
-              display: "flex",
-              justifyContent: "space-between",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              color: "white",
-            }}
+            className="cardsectionContent"
           >
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="searchContainer"
             >
               <Button
                 size="large"
                 type="primary"
-                style={{
-                    padding: "30px 35px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#ffffff",
-                    border: "#ffffff",
-                    color: "#7BBD8F",
-                    fontSize: "25px",
-                  }}
+                className="buttonfilterStyle"
                 onClick={showFilterDialog}
               >
                 ตัวกรอง
@@ -315,17 +292,8 @@ const mergedColumns = columns.map((col) => {
                 footer={null}
               >
                 <div>
-                <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100%",
-                      textAlign: "center",
-                      fontSize: "35px",
-                      fontWeight: "bold",
-                      fontFamily: "'Th Sarabun New', sans-serif",
-                    }}
+                  <div
+                    className="Modelcontainer"
                   >
                     กรองข้อมูล
                   </div>
@@ -404,17 +372,8 @@ const mergedColumns = columns.map((col) => {
                         type="primary"
                         htmlType="submit"
                         placeholder="เลือกจังหวัด"
-                        className="login-form-button"
+                        className="form-button"
                         size="large"
-                        style={{
-                          padding: "20px 25px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          background: "#7BBD8F",
-                          border: "none",
-                          color: "#ffffff",
-                        }}
                       >
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
                       </Button>
@@ -433,20 +392,20 @@ const mergedColumns = columns.map((col) => {
             total: pagination.total,
           }}
           onChange={handleTableChange}
-        components={{
-          body: {
-            //cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
+          components={{
+            body: {
+              //cell: EditableCell,
+            },
+          }}
+          bordered
+          dataSource={data}
+          columns={mergedColumns}
+          rowClassName="editable-row"
         //loading={loading}
         // pagination={{
         //   onChange: cancel,
         // }}
-      />
+        />
       </Paper>
     </div>
   );

@@ -251,20 +251,10 @@ const Manage_Fake_Info_Menu = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการข้อมูลเท็จ
         </div>

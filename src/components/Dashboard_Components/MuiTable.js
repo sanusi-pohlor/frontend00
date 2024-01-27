@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  Card, Divider, DatePicker, Select } from "antd";
+import { Card, Divider, DatePicker, Select } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
 import "./MuiTable.css";
@@ -9,8 +9,6 @@ const { Option } = Select;
 
 const MyTable = () => {
   const [formattedDate, setFormattedDate] = useState("");
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionColumns, setSelectedOptionColumns] = useState([]);
@@ -137,38 +135,17 @@ const MyTable = () => {
       <Card
         hoverable
         className="CardContainer"
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-        }}
       >
         <div
-          style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-          }}
+          className="cardTitle"
         >
           <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            className="cardContent"
           >
             <Select
               value={selectedOption}
               onChange={handleSelectChange}
-              style={{
-                marginRight: "10px",
-                height: "50px",
-              }}
-              sx={{
-                fontSize: "20px",
-              }}
+              className="selectContainer"
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
@@ -182,27 +159,21 @@ const MyTable = () => {
               picker="month"
               size="large"
               defaultValue={null}
-              style={{
-                marginRight: "10px",
-                fontSize: "30px",
-                height: "50px",
-              }}
+              className="datePickerContainer"
             />
           </div>
         </div>
         <Divider />
         <Box />
-        <DataGrid 
-          rows={tableDataWithId} 
+        <DataGrid
+          rows={tableDataWithId}
           columns={selectedOptionColumns}
-          pageSize={5} 
-          autoHeight 
+          pageSize={5}
+          autoHeight
           components={{
             Pagination: CustomPagination,
           }}
-          style={{
-            fontSize: "25px",
-          }}
+          className="datePickerContainer"
         />
       </Card>
     </div>

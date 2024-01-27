@@ -11,19 +11,7 @@ const FnInfoView = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
   const { id } = useParams();
-  const stepsStyle = {
-    current: {
-      color: "#7BBD8F", // Set the color for the current step
-    },
-    tail: {
-      color: "#7BBD8F", // Set the color for the steps after the current step
-    },
-    head: {
-      backgroundColor: "#7BBD8F", // Set the background color for the previous steps
-    },
-  };
 
-  // Fetch fake news information based on id
   useEffect(() => {
     const fetchFakeNewsInfo = async () => {
       try {
@@ -56,7 +44,6 @@ const FnInfoView = () => {
             (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -88,6 +75,7 @@ const FnInfoView = () => {
       console.error("Error fetching user data:", error);
     }
   };
+
   useEffect(() => {
     fetchUserInfo();
   }, [fakeNewsInfo]);
@@ -110,12 +98,12 @@ const FnInfoView = () => {
       console.error("Error fetching user data:", error);
     }
   };
+
   useEffect(() => {
     fetchDataAndSetOptions();
   }, [fakeNewsInfo]);
 
   if (fakeNewsInfo === null) {
-    // Data is still loading
     return (
       <UserProfile>
         <div>Loading...</div>
@@ -126,7 +114,7 @@ const FnInfoView = () => {
   const createTypography = (text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>{text}</Typography>
   );
-  
+
   const items = [
     { key: "1", label: createTypography("หัวข้อ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_head) },
     { key: "2", label: createTypography("ผู้แจ้ง"), children: fakeNewsInfo && createTypography(userInfo.length > 0 ? `${userInfo[0].username} ${userInfo[0].lastName || ""}` : "Loading...") },
@@ -156,7 +144,6 @@ const FnInfoView = () => {
       ),
     },
   ];
-  
 
   return (
     <UserProfile>

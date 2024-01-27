@@ -18,13 +18,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_News_Edit = () => {
   const { id } = useParams();
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
@@ -71,7 +69,6 @@ const Adm_News_Edit = () => {
       .then((data) => {
         const formattedOptions = data.map((item) => ({
           label: item.tag_name,
-          value: item.tag_name,
         }));
         setOptions(formattedOptions);
       })
@@ -109,15 +106,6 @@ const Adm_News_Edit = () => {
 
   const modules = {
     toolbar: {
-      handlers: {
-        // image: {
-        //   // Set the maximum file size in bytes (here, 5MB as an example)
-        //   size: {
-        //     height: 5000,
-        //     width: 5000,
-        //   },
-        // },
-      },
       container: [
         [
           { header: "1" },
@@ -172,11 +160,10 @@ const Adm_News_Edit = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        //setImg(data);
+        setImg(data);
         form.setFieldsValue({
           title: data.title,
           details: data.details,
-          //cover_image: data.cover_image,
           link: data.link,
           tag: data.tag,
           type_new: data.type_new,
@@ -186,9 +173,6 @@ const Adm_News_Edit = () => {
         });
       } else {
         console.error("Invalid date received from the server");
-        form.setFieldsValue({
-          //fn_info_dmy: moment(),
-        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -196,12 +180,10 @@ const Adm_News_Edit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("link :", JSON.stringify(values.link));
-    console.log("tag :", JSON.stringify(values.tag));
+    ;
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("Author", user.id);
       formData.append("title", values.title);
       formData.append("details", editorHtml);
       formData.append("cover_image", values.cover_image[0].originFileObj);
@@ -294,33 +276,12 @@ const Adm_News_Edit = () => {
 
   return (
     <AdminMenu>
-      <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
-        >
-          แก้ไขข่าวสาร
-        </div>
+      <Card className="cardsection">
+        <div className="cardsectionContent">เพิ่มข่าวสาร</div>
       </Card>
+      <br />
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardContent"
       >
         <Form
           form={form}
@@ -478,16 +439,7 @@ const Adm_News_Edit = () => {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} style={{
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
+            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

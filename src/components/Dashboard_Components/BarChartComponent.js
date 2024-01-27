@@ -48,7 +48,7 @@ const MyBarChart = () => {
       dataIndex: "mfi_ty_info",
     },
   ]);
-  
+
   useEffect(() => {
     if (!selectedOption) {
       setSelectedOption(options[0].title);
@@ -130,21 +130,10 @@ const MyBarChart = () => {
     <div>
       <Card
         hoverable
-        className="BarChartContainer"
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-        }}
+        className="CardContainer"
       >
         <div
-          style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-          }}
+          className="cardTitle"
         >
 
           <div
@@ -157,13 +146,7 @@ const MyBarChart = () => {
             <Select
               value={selectedOption}
               onChange={handleSelectChange}
-              style={{
-                marginRight: "10px",
-                height: "50px",
-              }}
-              sx={{
-                fontSize: "30px",
-              }}
+              className="cardContent"
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
@@ -177,23 +160,15 @@ const MyBarChart = () => {
               picker="month"
               size="large"
               defaultValue={null}
-              style={{
-                marginRight: "10px",
-                fontSize: "30px",
-                height: "50px",
-              }}
+              className="datePickerContainer"
             />
           </div>
         </div>
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} style={{
-            fontSize: "25px",
-            fontWeight: "bold",
-            fontFamily: "'Th Sarabun New', sans-serif",
-          }}
+          <BarChart data={chartData} className="PieChartContainer"
           >
-            <XAxis/>
+            <XAxis />
             <YAxis />
             <Tooltip />
             <Legend payload={chartData.map((entry, index) => ({ value: entry.name, color: COLORS[index % COLORS.length] }))} />

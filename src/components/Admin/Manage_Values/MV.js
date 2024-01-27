@@ -832,7 +832,7 @@ const ManageValues = () => {
       },
     },
   ];
-  const columnSets = [columns1, columns2, columns3,columns4, columns5, columns6,columns7, columns8, columns9,columns10, columns11, columns12,columns13];
+  const columnSets = [columns1, columns2, columns3, columns4, columns5, columns6, columns7, columns8, columns9, columns10, columns11, columns12, columns13];
   const items = columnSets.map((columns, index) => ({
     key: (index + 1).toString(),
     label: [
@@ -852,6 +852,10 @@ const ManageValues = () => {
     ][index],
     children: (
       <div>
+        <Card className="cardsection">
+          <div className="cardsectionContent">จัดการค่า</div>
+        </Card>
+        <br />
         <Table
           components={{
             body: {
@@ -859,8 +863,8 @@ const ManageValues = () => {
             },
           }}
           bordered
-          dataSource={originData} // ใช้ originData แทน data
-          columns={createMergedColumns(columns)} // Use createMergedColumns to generate mergedColumns
+          dataSource={originData}
+          columns={createMergedColumns(columns)}
           rowClassName="editable-row"
           pagination={{
             onChange: cancel,

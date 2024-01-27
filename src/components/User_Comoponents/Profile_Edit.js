@@ -300,7 +300,7 @@ const Editprofile = ({ open, onClose }) => {
             <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading}>
+            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
               ลงทะเบียน
             </Button>
           </Form.Item>

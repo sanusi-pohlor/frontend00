@@ -411,33 +411,17 @@ const Adm_Info_Check = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการข้อมูลรับแจ้ง
         </div>
       </Card>
       <Card
         hoverable
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardContent"
       >
         <Form
           form={form}
@@ -865,16 +849,7 @@ const Adm_Info_Check = () => {
             </Form.Item>
           </Row>
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
+            <Button type="primary" htmlType="submit" className="form-button">
               บันทึก
             </Button>
           </Form.Item>

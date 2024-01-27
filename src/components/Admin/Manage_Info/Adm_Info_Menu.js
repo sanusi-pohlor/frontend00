@@ -107,7 +107,6 @@ const ManageMembers = () => {
     setEditingKey("");
   };
   const getStatusText = (status) => {
-    // Define your logic to map status values to text here
     switch (status) {
       case 0:
         return "รอตรวจสอบ";
@@ -154,7 +153,7 @@ const ManageMembers = () => {
       width: "10%",
       render: (fn_info_province) => {
         const provinceData = province.find((item) => item.id === fn_info_province);
-        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล"; // แก้ไขให้ระบุข้อความเมื่อไม่พบข้อมูล
+        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
     },    
     {
@@ -189,8 +188,7 @@ const ManageMembers = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/ManageInfo/ManageInfo_view/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />{" "}
-            {/* Blue color for "ดู" */}
+            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
           </Link>
         </Space>
       ),
@@ -216,20 +214,10 @@ const ManageMembers = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการข้อมูลรับแจ้ง
         </div>
