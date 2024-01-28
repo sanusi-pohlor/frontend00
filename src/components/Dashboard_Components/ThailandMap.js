@@ -51,25 +51,23 @@ const MapWidget = () => {
       setFormattedDate(date.format("YYYY-MM"));
       console.log("date.format", date.format("YYYY-MM"));
     } else {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   };
   return (
     <div>
-      <Card
-        hoverable
-        className="CardContainer"
-      ><div
-      className="cardTitle"
-      >จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+      <Card hoverable className="DB-Card-container2">
+        <div className="cardTitle">
+          จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
           <DatePicker
             onChange={handleSelectDate}
             placeholder="เดือน/ปี"
             picker="month"
             size="large"
             defaultValue={null}
-            className="datePickerContainer"
-          /></div>
+            className="selectContainer"
+          />
+        </div>
         <Divider />
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +79,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={4}
@@ -96,7 +94,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={1}
@@ -111,7 +109,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={7}
@@ -126,7 +124,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={9}
@@ -141,7 +139,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={14}
@@ -156,7 +154,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={11}
@@ -171,7 +169,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={2}
@@ -186,7 +184,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={12}
@@ -201,7 +199,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={13}
@@ -216,7 +214,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={3}
@@ -231,7 +229,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={8}
@@ -246,7 +244,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={6}
@@ -261,7 +259,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={10}
@@ -276,7 +274,7 @@ const MapWidget = () => {
             arrow
             placement="top"
             key="#FFFFFF"
-            overlayStyle={{ fontSize: '25px' }}
+            overlayStyle={{ fontSize: "25px" }}
           >
             <path
               id={5}

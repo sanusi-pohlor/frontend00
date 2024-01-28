@@ -11,7 +11,6 @@ import {
   Space,
 } from "antd";
 import { Link } from "react-router-dom";
-import "./News_Menu.css";
 import { Typography, useMediaQuery } from "@mui/material";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import moment from "moment";

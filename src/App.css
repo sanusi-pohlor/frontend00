@@ -1,4 +1,17 @@
 @media (max-width: 2000px) {
+    .footer {
+        text-align: center;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 40vh;
+        width: 100%;
+        font-family: 'Th Sarabun New', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
     .MainContentContainer {
         padding: 24px;
         margin: 0;
@@ -7,16 +20,26 @@
         border-radius: 12px;
     }
 
+    .DB-Card-container1 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .DB-Card-container2 {
+        width: 100%;
+        height: 750px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
     .PieChartContainer {
         font-size: 25px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
-    }
-
-    .CardContainer {
-        margin: auto;
-        border-radius: 20px;
-        background-color: #FFFFFF;
     }
 
     .cardTitle {
@@ -27,18 +50,13 @@
         font-family: 'Th Sarabun New', sans-serif;
     }
 
-    .cardContent {
+    .setcardContent {
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
     .selectContainer {
-        margin-right: 10px;
-        height: 50px;
-    }
-
-    .datePickerContainer {
         margin-right: 10px;
         font-size: 30px;
         height: 50px;
@@ -48,12 +66,18 @@
         font-size: 25px;
     }
 
+    .cardsection {
+        border-radius: 20px;
+        background: #7BBD8F;
+    }
+
     .cardsectionContent {
-        font-size: 30px;
+        font-size: 40px;
         font-weight: bold;
         display: flex;
         justify-content: space-between;
         font-family: 'Th Sarabun New', sans-serif;
+        color: white;
     }
 
     .cardContent {
@@ -133,27 +157,11 @@
         font-family: 'Th Sarabun New', sans-serif;
     }
 
-    .CardContainer,
-    .BarChartContainer,
     .paperContainer {
         width: 80%;
         padding: 20px;
         margin: 0 auto;
         text-align: center;
-    }
-
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
-    }
-
-    .cardsectionContent {
-        font-size: 40px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        font-family: 'Th Sarabun New', sans-serif;
-        color: white;
     }
 
     .buttonfilterStyle {
@@ -265,12 +273,144 @@
 }
 
 @media (max-width: 1800px) {
-    .text {
+    .MainContentContainer {
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+    }
+
+    .responsive-container {
+        width: 100%;
+        height: 400px;
+    }
+
+    .DB-Card-container1 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .DB-Card-container2 {
+        width: 100%;
+        height: 700px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .PieChartContainer {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .CardContainer {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .cardTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .setcardContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectContainer {
+        margin-right: 10px;
+        font-size: 30px;
+        height: 50px;
+    }
+
+    .gridContainer {
         font-size: 25px;
     }
 
+    .cardsection {
+        border-radius: 20px;
+        background: #7BBD8F;
+    }
+
+    .cardsectionContent {
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: white;
+    }
+
+    .cardContent {
+        margin: auto;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dataCard {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pieChartTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .modalContent {
+        font-size: 30px;
+    }
+
+    .userProfileContainer {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text {
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: rgb(0, 0, 0);
+    }
+
+    .text strong {
+        font-size: 30px;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .commsci-image {
-        width: 30%;
+        width: 50%;
     }
 
     .partner-image {
@@ -278,23 +418,279 @@
         height: 80px;
     }
 
-    .CardContainer,
-    .BarChartContainer,
+    .Modelcontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .paperContainer {
-        width: 90%;
-        padding: 10px;
+        width: 80%;
+        padding: 20px;
         margin: 0 auto;
         text-align: center;
+    }
+
+    .buttonfilterStyle {
+        padding: 30px 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        color: #7BBD8F;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .button-card {
+        font-size: 18px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .flex-card {
+        padding: 32px;
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        text-align: left;
+    }
+
+    .cardContent {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardCover {
+        height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cardCover .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .paperContent {
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .gridItem {
+        margin-bottom: 4%;
+        padding: 20px;
+    }
+
+    .cardItem-head {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 90%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItemCover {
+        height: 80%;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cardImage {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
     }
 }
 
 @media (max-width: 1200px) {
-    .text {
+    .footer {
+        text-align: center;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 80vh;
+        width: 100%;
+        font-family: 'Th Sarabun New', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .MainContentContainer {
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+    }
+
+    .DB-Card-container1 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .DB-Card-container2 {
+        width: 100%;
+        height: 800px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .PieChartContainer {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .CardContainer {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .cardTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .setcardContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectContainer {
+        margin-right: 10px;
+        font-size: 30px;
+        height: 50px;
+    }
+
+    .gridContainer {
         font-size: 25px;
     }
 
+    .cardsection {
+        border-radius: 20px;
+        background: #7BBD8F;
+    }
+
+    .cardsectionContent {
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: white;
+    }
+
+    .cardContent {
+        margin: auto;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dataCard {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pieChartTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .modalContent {
+        font-size: 30px;
+    }
+
+    .userProfileContainer {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text {
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: rgb(0, 0, 0);
+    }
+
+    .text strong {
+        font-size: 30px;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .commsci-image {
-        width: 30%;
+        width: 50%;
     }
 
     .partner-image {
@@ -302,23 +698,279 @@
         height: 80px;
     }
 
-    .CardContainer,
-    .BarChartContainer,
+    .Modelcontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .paperContainer {
-        width: 90%;
-        padding: 10px;
+        width: 100%;
+        padding: 20px;
         margin: 0 auto;
         text-align: center;
+    }
+
+    .buttonfilterStyle {
+        padding: 30px 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        color: #7BBD8F;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .button-card {
+        font-size: 18px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .flex-card {
+        padding: 32px;
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        text-align: left;
+    }
+
+    .cardContent {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardCover {
+        height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cardCover .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .paperContent {
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .gridItem {
+        margin-bottom: 4%;
+        padding: 20px;
+    }
+
+    .cardItem-head {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 90%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItemCover {
+        height: 80%;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cardImage {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
     }
 }
 
 @media (max-width: 768px) {
-    .text {
+    .footer {
+        text-align: center;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 80vh;
+        width: 100%;
+        font-family: 'Th Sarabun New', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .MainContentContainer {
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+    }
+
+    .DB-Card-container1 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .DB-Card-container2 {
+        width: 100%;
+        height: 700px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .PieChartContainer {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .CardContainer {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .cardTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .setcardContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectContainer {
+        margin-right: 10px;
+        font-size: 30px;
+        height: 50px;
+    }
+
+    .gridContainer {
         font-size: 25px;
     }
 
+    .cardsection {
+        border-radius: 20px;
+        background: #7BBD8F;
+    }
+
+    .cardsectionContent {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: white;
+    }
+
+    .cardContent {
+        margin: auto;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dataCard {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pieChartTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .modalContent {
+        font-size: 30px;
+    }
+
+    .userProfileContainer {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text {
+        font-size: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: rgb(0, 0, 0);
+    }
+
+    .text strong {
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .commsci-image {
-        width: 30%;
+        width: 80%;
     }
 
     .partner-image {
@@ -326,27 +978,279 @@
         height: 80px;
     }
 
-    .CardContainer,
-    .BarChartContainer,
+    .Modelcontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .paperContainer {
-        width: 90%;
-        padding: 10px;
+        width: 100%;
+        padding: 20px;
         margin: 0 auto;
         text-align: center;
     }
 
-    .articleTitle {
-        font-size: 50px;
+    .buttonfilterStyle {
+        padding: 50px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        color: #7BBD8F;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .button-card {
+        font-size: 18px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .flex-card {
+        padding: 32px;
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        text-align: left;
+    }
+
+    .cardContent {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardCover {
+        height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cardCover .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .paperContent {
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .gridItem {
+        margin-bottom: 4%;
+        padding: 20px;
+    }
+
+    .cardItem-head {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 90%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItemCover {
+        height: 80%;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cardImage {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
     }
 }
 
 @media (max-width: 390px) {
-    .text {
+    .footer {
+        text-align: center;
+        color: #ffffff;
+        background-color: #ffffff;
+        height: 120vh;
+        width: 100%;
+        font-family: 'Th Sarabun New', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .MainContentContainer {
+        padding: 24px;
+        margin: 0;
+        min-height: 280px;
+        background-color: #f1f1f1;
+        border-radius: 12px;
+    }
+
+    .DB-Card-container1 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .DB-Card-container2 {
+        width: 100%;
+        height: 600px;
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .PieChartContainer {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .CardContainer {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+    }
+
+    .cardTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .setcardContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .selectContainer {
+        margin-right: 10px;
+        font-size: 30px;
+        height: 50px;
+    }
+
+    .gridContainer {
         font-size: 25px;
     }
 
+    .cardsection {
+        border-radius: 20px;
+        background: #7BBD8F;
+    }
+
+    .cardsectionContent {
+        font-size: 25px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: white;
+    }
+
+    .cardContent {
+        margin: auto;
+        border-radius: 20px;
+        width: 100%;
+        height: 100%;
+    }
+
+    .gridContainer {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .dataCard {
+        margin: auto;
+        border-radius: 20px;
+        background-color: #FFFFFF;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pieChartTitle {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .modalContent {
+        font-size: 30px;
+    }
+
+    .userProfileContainer {
+        font-size: 30px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text {
+        font-size: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        color: rgb(0, 0, 0);
+    }
+
+    .text strong {
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .commsci-image {
-        width: 30%;
+        width: 80%;
     }
 
     .partner-image {
@@ -354,17 +1258,129 @@
         height: 80px;
     }
 
-    .CardContainer,
-    .BarChartContainer,
+    .Modelcontainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+        font-size: 35px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
     .paperContainer {
-        width: 90%;
+        width: 100%;
         padding: 10px;
         margin: 0 auto;
         text-align: center;
     }
 
-    .articleTitle {
-        font-size: 50px;
+    .buttonfilterStyle {
+        padding: 60px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #ffffff;
+        border: none;
+        color: #7BBD8F;
+        font-size: 25px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .button-card {
+        font-size: 18px;
+        padding: 20px 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-family: 'Th Sarabun New', sans-serif;
+    }
+
+    .flex-card {
+        padding: 32px;
+        font-size: 25px;
+        font-family: 'Th Sarabun New', sans-serif;
+        text-align: left;
+    }
+
+    .cardContent {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardCover {
+        height: 300px;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .cardCover .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .paperContent {
+        padding: 50px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .gridItem {
+        margin-bottom: 4%;
+        padding: 20px;
+    }
+
+    .cardItem-head {
+        height: 100%;
+        width: 100%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItem {
+        height: 100%;
+        width: 90%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 20px;
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 25px;
+        text-align: left;
+    }
+
+    .cardItemCover {
+        height: 80%;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .cardImage {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
     }
 }
 
@@ -467,22 +1483,6 @@
     }
 }
 
-.footer {
-    text-align: center;
-    color: #ffffff;
-    background-color: #ffffff;
-    height: 40vh;
-    width: 100%;
-    font-family: 'Th Sarabun New', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-
-
-
 .image {
     width: 80px;
     height: 80px;
@@ -582,19 +1582,6 @@ body {
 
 .checkbox-label {
     font-size: 25px;
-}
-
-.footer {
-    text-align: center;
-    color: #ffffff;
-    background-color: #ffffff;
-    height: 40vh;
-    width: 100%;
-    font-family: 'Th Sarabun New', sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .container-title {

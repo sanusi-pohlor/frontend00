@@ -31,6 +31,7 @@ const Adm_News_Edit = () => {
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [options, setOptions] = useState([]);
+  const [img, setImg] = useState(null);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;

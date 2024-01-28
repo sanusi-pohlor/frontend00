@@ -7,9 +7,9 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Card, Divider, Select,DatePicker } from "antd";
+import { Card, Divider, Select, DatePicker } from "antd";
 import moment from "moment";
-import {  MenuItem, Typography } from "@mui/material";
+import { MenuItem, Typography } from "@mui/material";
 const { Option } = Select;
 
 const MyPieChart = () => {
@@ -17,12 +17,35 @@ const MyPieChart = () => {
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = [
-    "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#6A5ACD",
-    "#B22222", "#7FFFD4", "#3CB371", "#FFD700", "#FF4500",
-    "#4169E1", "#32CD32", "#FFD700", "#808080", "#800080",
-    "#FF1493", "#8A2BE2", "#00FA9A", "#AF19FF", "#20B2AA",
-    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
-    "#FF00FF", "#000000", "#808000", "#800000"
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#6A5ACD",
+    "#B22222",
+    "#7FFFD4",
+    "#3CB371",
+    "#FFD700",
+    "#FF4500",
+    "#4169E1",
+    "#32CD32",
+    "#FFD700",
+    "#808080",
+    "#800080",
+    "#FF1493",
+    "#8A2BE2",
+    "#00FA9A",
+    "#AF19FF",
+    "#20B2AA",
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
+    "#00FFFF",
+    "#FF00FF",
+    "#000000",
+    "#808000",
+    "#800000",
   ];
   const [options] = useState([
     {
@@ -51,7 +74,7 @@ const MyPieChart = () => {
     }
 
     if (!formattedDate) {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   }, [options, selectedOption, formattedDate]);
 
@@ -64,7 +87,6 @@ const MyPieChart = () => {
     }
   }, [selectedOption, formattedDate]);
 
-
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
       const Manage_Fake_Info = await fetch(
@@ -76,17 +98,18 @@ const MyPieChart = () => {
 
       if (Manage_Fake_Info.ok && MediaChannels.ok) {
         const Manage_Fake_Infodata = await Manage_Fake_Info.json();
-        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map((data) => ({
-          ...data,
-          mfi_time: moment(data.mfi_time).format("YYYY-MM"),
-        }));
+        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
+          (data) => ({
+            ...data,
+            mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+          })
+        );
 
-        const filteredManage_Fake_Infodata = formattedManage_Fake_Infodata.filter(
-          (data) => {
+        const filteredManage_Fake_Infodata =
+          formattedManage_Fake_Infodata.filter((data) => {
             if (!formattedDate || formattedDate.length === 0) return true;
             return data.mfi_time === formattedDate;
-          }
-        );
+          });
 
         const MediaChannelsData = await MediaChannels.json();
         const countByMedCId = MediaChannelsData.map((channel) => {
@@ -118,22 +141,15 @@ const MyPieChart = () => {
       setFormattedDate(date.format("YYYY-MM"));
       console.log("date.format", date.format("YYYY-MM"));
     } else {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   };
 
   return (
     <div>
-      <Card
-        hoverable
-        className="CardContainer"
-      >
-        <div
-          className="cardTitle"
-        >
-          <div
-            className="cardContent"
-          >
+      <Card hoverable className="DB-Card-container1">
+        <div className="cardTitle">
+          <div className="setcardContent">
             <Select
               value={selectedOption}
               onChange={handleSelectChange}
@@ -141,7 +157,9 @@ const MyPieChart = () => {
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
-                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                    {option.title}
+                  </Typography>
                 </Option>
               ))}
             </Select>
@@ -151,33 +169,38 @@ const MyPieChart = () => {
               picker="month"
               size="large"
               defaultValue={null}
-              className="datePickerContainer"
+              className="selectContainer"
             />
           </div>
         </div>
         <Divider />
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart className="PieChartContainer">
-            <Tooltip />
-            <Legend payload={chartData.map((entry, index) => ({ value: entry.name, color: COLORS[index % COLORS.length] }))} />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              label
-            >
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-          </PieChart>
-        </ResponsiveContainer>
+          <ResponsiveContainer width="100%" height={400}>
+            <PieChart className="PieChartContainer">
+              <Tooltip />
+              <Legend
+                payload={chartData.map((entry, index) => ({
+                  value: entry.name,
+                  color: COLORS[index % COLORS.length],
+                }))}
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={`${Math.min(80, 80) - 1}%`}
+                label
+              >
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
       </Card>
     </div>
   );

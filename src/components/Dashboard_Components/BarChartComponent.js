@@ -16,17 +16,38 @@ const { Option } = Select;
 
 const MyBarChart = () => {
   const [formattedDate, setFormattedDate] = useState("");
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = [
-    "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#6A5ACD",
-    "#B22222", "#7FFFD4", "#3CB371", "#FFD700", "#FF4500",
-    "#4169E1", "#32CD32", "#FFD700", "#808080", "#800080",
-    "#FF1493", "#8A2BE2", "#00FA9A", "#AF19FF", "#20B2AA",
-    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
-    "#FF00FF", "#000000", "#808000", "#800000"
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#6A5ACD",
+    "#B22222",
+    "#7FFFD4",
+    "#3CB371",
+    "#FFD700",
+    "#FF4500",
+    "#4169E1",
+    "#32CD32",
+    "#FFD700",
+    "#808080",
+    "#800080",
+    "#FF1493",
+    "#8A2BE2",
+    "#00FA9A",
+    "#AF19FF",
+    "#20B2AA",
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
+    "#00FFFF",
+    "#FF00FF",
+    "#000000",
+    "#808000",
+    "#800000",
   ];
   const [options] = useState([
     {
@@ -55,7 +76,7 @@ const MyBarChart = () => {
     }
 
     if (!formattedDate) {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   }, [options, selectedOption, formattedDate]);
 
@@ -68,7 +89,6 @@ const MyBarChart = () => {
     }
   }, [selectedOption, formattedDate]);
 
-
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
       const Manage_Fake_Info = await fetch(
@@ -80,17 +100,18 @@ const MyBarChart = () => {
 
       if (Manage_Fake_Info.ok && MediaChannels.ok) {
         const Manage_Fake_Infodata = await Manage_Fake_Info.json();
-        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map((data) => ({
-          ...data,
-          mfi_time: moment(data.mfi_time).format("YYYY-MM"),
-        }));
+        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
+          (data) => ({
+            ...data,
+            mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+          })
+        );
 
-        const filteredManage_Fake_Infodata = formattedManage_Fake_Infodata.filter(
-          (data) => {
+        const filteredManage_Fake_Infodata =
+          formattedManage_Fake_Infodata.filter((data) => {
             if (!formattedDate || formattedDate.length === 0) return true;
             return data.mfi_time === formattedDate;
-          }
-        );
+          });
 
         const MediaChannelsData = await MediaChannels.json();
         const countByMedCId = MediaChannelsData.map((channel) => {
@@ -122,35 +143,25 @@ const MyBarChart = () => {
       setFormattedDate(date.format("YYYY-MM"));
       console.log("date.format", date.format("YYYY-MM"));
     } else {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   };
 
   return (
     <div>
-      <Card
-        hoverable
-        className="CardContainer"
-      >
-        <div
-          className="cardTitle"
-        >
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
+      <Card hoverable className="DB-Card-container1">
+        <div className="cardTitle">
+          <div className="setcardContent">
             <Select
               value={selectedOption}
               onChange={handleSelectChange}
-              className="cardContent"
+              className="selectContainer"
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
-                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                    {option.title}
+                  </Typography>
                 </Option>
               ))}
             </Select>
@@ -160,18 +171,22 @@ const MyBarChart = () => {
               picker="month"
               size="large"
               defaultValue={null}
-              className="datePickerContainer"
+              className="selectContainer"
             />
           </div>
         </div>
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} className="PieChartContainer"
-          >
+          <BarChart data={chartData} className="PieChartContainer">
             <XAxis />
             <YAxis />
             <Tooltip />
-            <Legend payload={chartData.map((entry, index) => ({ value: entry.name, color: COLORS[index % COLORS.length] }))} />
+            <Legend
+              payload={chartData.map((entry, index) => ({
+                value: entry.name,
+                color: COLORS[index % COLORS.length],
+              }))}
+            />
             <Bar dataKey="value" nameKey="name">
               {chartData.map((entry, index) => (
                 <Cell

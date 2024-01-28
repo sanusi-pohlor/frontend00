@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Steps, Divider, Modal } from "antd";
+import { Card, Descriptions, Image, Input, Divider, Modal } from "antd";
+import { Paper } from "@mui/material";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+import { SearchOutlined } from "@ant-design/icons";
 
 const FakenewsSearch_View = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
@@ -16,10 +18,15 @@ const FakenewsSearch_View = () => {
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const handleSearch = (event) => setSearchTerm(event.target.value);
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -65,7 +72,8 @@ const FakenewsSearch_View = () => {
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+            (item) =>
+              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
           console.log("Filtered provinces:", filteredIds);
@@ -157,11 +165,7 @@ const FakenewsSearch_View = () => {
   };
 
   const onChange_mfi_province = () => {
-    fetchDataAndSetOptions(
-      "Province_request",
-      "prov",
-      setSelectOptions_prov
-    );
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
   useEffect(() => {
@@ -176,13 +180,14 @@ const FakenewsSearch_View = () => {
     onChange_mfi_province();
   }, []);
 
-
   const renderReporter_fn_info_source = () => {
     if (!selectOptions_med || !fakeNewsInfo?.mfi_med_c) {
       return null;
     }
 
-    const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_med_c);
+    const source = selectOptions_med.find(
+      (source) => source.id === fakeNewsInfo?.mfi_med_c
+    );
     return source && <span>{source.med_c_name}</span>;
   };
 
@@ -191,7 +196,9 @@ const FakenewsSearch_View = () => {
       return null;
     }
 
-    const source = selectOptions_med.find(source => source.id === fakeNewsInfo?.mfi_dis_c);
+    const source = selectOptions_med.find(
+      (source) => source.id === fakeNewsInfo?.mfi_dis_c
+    );
     return source && <span>{source.med_c_name}</span>;
   };
 
@@ -200,7 +207,9 @@ const FakenewsSearch_View = () => {
       return null;
     }
 
-    const source = selectOptions_fm.find(source => source.id === fakeNewsInfo?.mfi_fm_d);
+    const source = selectOptions_fm.find(
+      (source) => source.id === fakeNewsInfo?.mfi_fm_d
+    );
     return source && <span>{source.fm_d_name}</span>;
   };
 
@@ -210,7 +219,9 @@ const FakenewsSearch_View = () => {
       return null;
     }
 
-    const source = selectOptions_prov.find(source => source.id === provinceId);
+    const source = selectOptions_prov.find(
+      (source) => source.id === provinceId
+    );
     return source && <span>{source.prov_name}</span>;
   };
 
@@ -219,7 +230,9 @@ const FakenewsSearch_View = () => {
       return null;
     }
 
-    const source = selectOptions_moti.find(source => source.id === fakeNewsInfo?.mfi_moti);
+    const source = selectOptions_moti.find(
+      (source) => source.id === fakeNewsInfo?.mfi_moti
+    );
     return source && <span>{source.moti_name}</span>;
   };
 
@@ -228,7 +241,9 @@ const FakenewsSearch_View = () => {
       return null;
     }
 
-    const source = selectOptions_data.find(source => source.id === fakeNewsInfo?.mfi_data_cha);
+    const source = selectOptions_data.find(
+      (source) => source.id === fakeNewsInfo?.mfi_data_cha
+    );
     return source && <span>{source.data_cha_name}</span>;
   };
 
@@ -262,7 +277,7 @@ const FakenewsSearch_View = () => {
             width={200}
             src={fakeNewsInfo.mfi_img}
             alt="รูปภาพข่าวปลอม"
-          //style={{ maxWidth: "100%", height: "auto" }}
+            //style={{ maxWidth: "100%", height: "auto" }}
           />
         </span>
       ),
@@ -380,7 +395,8 @@ const FakenewsSearch_View = () => {
         layout="vertical"
         bordered
         items={items}
-      /> </Paper>
+      />{" "}
+    </Paper>
   );
 };
 

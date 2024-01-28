@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { Paper, Grid, Box, Card, Button } from "@mui/material";
+import { Paper, Grid, Box, IconButton } from "@mui/material";
+import { Card, Button } from "antd";
 import moment from "moment";
-import "../../App.css";
 import Carousel from "./Carousel";
 import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
@@ -52,7 +52,9 @@ const Dashboard = () => {
                 เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
               </strong>
               <br />
-              {item.title.length > 150 ? `${item.title.slice(0, 150)}...` : item.title}
+              {item.title.length > 150
+                ? `${item.title.slice(0, 150)}...`
+                : item.title}
             </div>
           }
         />
@@ -97,7 +99,6 @@ const Dashboard = () => {
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
               className="buttonfilterStyle"
-              shape="circle"
               onClick={() => console.log("/FakenewsSearch")}
             >
               ไปค้นหา
@@ -137,13 +138,17 @@ const Dashboard = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <LeftCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= newdata.length}
           >
-            <RightCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <RightCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
         </Box>
       </Paper>
@@ -169,7 +174,9 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(articledata.slice(indexOfFirstItem, indexOfLastItem))}
+            {renderCardItem(
+              articledata.slice(indexOfFirstItem, indexOfLastItem)
+            )}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -177,13 +184,17 @@ const Dashboard = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <LeftCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= articledata.length}
           >
-            <RightCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <RightCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
         </Box>
       </Paper>
@@ -210,7 +221,9 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(mdSharedata.slice(indexOfFirstItem, indexOfLastItem))}
+            {renderCardItem(
+              mdSharedata.slice(indexOfFirstItem, indexOfLastItem)
+            )}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -218,13 +231,17 @@ const Dashboard = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <LeftCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= mdSharedata.length}
           >
-            <RightCircleOutlined style={{ fontSize: "3rem", color: "#FFFFFF" }} />
+            <RightCircleOutlined
+              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+            />
           </IconButton>
         </Box>
       </Paper>

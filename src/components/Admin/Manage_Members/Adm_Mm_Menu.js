@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Form, Input, InputNumber, Button, Popconfirm, Select, Modal, message, Card } from 'antd';
+import {
+  EyeOutlined,
+} from "@ant-design/icons";
+import { Table, Space, Input, InputNumber, Button, Popconfirm, Select, Modal, message, Card } from 'antd';
 import AdminMenu from "../Adm_Menu";
+import { Link } from "react-router-dom";
 
 const ManageMembers = () => {
   const [data, setData] = useState([]);
-
+  const [editingKey, setEditingKey] = useState('');
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -20,10 +24,13 @@ const ManageMembers = () => {
       console.error("Error fetching data:", error);
     }
   };
+  const isEditing = (record) => record.key === editingKey;
   useEffect(() => {
     fetchData();
   }, []);
-
+  const cancel = () => {
+    setEditingKey('');
+  };
   const columns = [
     {
       title: 'ชื่อ',

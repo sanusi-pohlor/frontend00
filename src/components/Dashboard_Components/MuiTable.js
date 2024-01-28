@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Card, Divider, DatePicker, Select } from "antd";
 import { Box } from "@mui/material";
 import moment from "moment";
-import "./MuiTable.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Typography } from "@mui/material";
 const { Option } = Select;
@@ -39,7 +38,7 @@ const MyTable = () => {
     }
 
     if (!formattedDate) {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   }, [options, selectedOption, formattedDate]);
 
@@ -52,7 +51,6 @@ const MyTable = () => {
     }
   }, [selectedOption, formattedDate]);
 
-
   const fetchData = async (endpoint, name, dataIndex) => {
     try {
       const Manage_Fake_Info = await fetch(
@@ -64,17 +62,18 @@ const MyTable = () => {
 
       if (Manage_Fake_Info.ok && MediaChannels.ok) {
         const Manage_Fake_Infodata = await Manage_Fake_Info.json();
-        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map((data) => ({
-          ...data,
-          mfi_time: moment(data.mfi_time).format("YYYY-MM"),
-        }));
+        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
+          (data) => ({
+            ...data,
+            mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+          })
+        );
 
-        const filteredManage_Fake_Infodata = formattedManage_Fake_Infodata.filter(
-          (data) => {
+        const filteredManage_Fake_Infodata =
+          formattedManage_Fake_Infodata.filter((data) => {
             if (!formattedDate || formattedDate.length === 0) return true;
             return data.mfi_time === formattedDate;
-          }
-        );
+          });
 
         const MediaChannelsData = await MediaChannels.json();
         const countByMedCId = MediaChannelsData.map((channel) => {
@@ -106,7 +105,7 @@ const MyTable = () => {
       setFormattedDate(date.format("YYYY-MM"));
       console.log("date.format", date.format("YYYY-MM"));
     } else {
-      setFormattedDate('');
+      setFormattedDate("");
     }
   };
 
@@ -115,8 +114,20 @@ const MyTable = () => {
       const selected = options.find((opt) => opt.title === selectedOption);
       if (selected) {
         const columns = [
-          { field: "name", headerName: selected.title, flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
-          { field: "value", headerName: "จำนวน", flex: 1, headerClassName: 'header-class', cellClassName: 'cell-class' },
+          {
+            field: "name",
+            headerName: selected.title,
+            flex: 1,
+            headerClassName: "header-class",
+            cellClassName: "cell-class",
+          },
+          {
+            field: "value",
+            headerName: "จำนวน",
+            flex: 1,
+            headerClassName: "header-class",
+            cellClassName: "cell-class",
+          },
         ];
         setSelectedOptionColumns(columns);
       }
@@ -132,16 +143,9 @@ const MyTable = () => {
   };
   return (
     <div>
-      <Card
-        hoverable
-        className="CardContainer"
-      >
-        <div
-          className="cardTitle"
-        >
-          <div
-            className="cardContent"
-          >
+      <Card hoverable className="DB-Card-container2">
+        <div className="cardTitle">
+          <div className="setcardContent">
             <Select
               value={selectedOption}
               onChange={handleSelectChange}
@@ -149,7 +153,9 @@ const MyTable = () => {
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
-                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{option.title}</Typography>
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                    {option.title}
+                  </Typography>
                 </Option>
               ))}
             </Select>
@@ -159,22 +165,21 @@ const MyTable = () => {
               picker="month"
               size="large"
               defaultValue={null}
-              className="datePickerContainer"
+              className="selectContainer"
             />
           </div>
         </div>
         <Divider />
         <Box />
-        <DataGrid
-          rows={tableDataWithId}
-          columns={selectedOptionColumns}
-          pageSize={5}
-          autoHeight
-          components={{
-            Pagination: CustomPagination,
-          }}
-          className="datePickerContainer"
-        />
+          <DataGrid
+            rows={tableDataWithId}
+            columns={selectedOptionColumns}
+            pageSize={5}
+            autoHeight
+            components={{
+              Pagination: CustomPagination,
+            }}
+          />
       </Card>
     </div>
   );
