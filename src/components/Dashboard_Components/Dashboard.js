@@ -48,13 +48,15 @@ const Dashboard = () => {
           cover={
             <div className="cardItemCover">
               <img className="cardImage" src={item.cover_image} alt="cover" />
-              <strong>
-                เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
-              </strong>
-              <br />
-              {item.title.length > 150
-                ? `${item.title.slice(0, 150)}...`
-                : item.title}
+              <div className="cardIitleTCover">
+                <strong>
+                  เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
+                </strong>
+                <br />
+                {item.title.length > 150
+                  ? `${item.title.slice(0, 150)}...`
+                  : item.title}
+              </div>
             </div>
           }
         />
@@ -162,7 +164,9 @@ const Dashboard = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} md={4}></Grid>
           <Grid item xs={12} md={4}>
-            <div className="articleTitle">บทความ</div>
+            <div className="articleTitle" style={{ color: "#7BBD8F" }}>
+              บทความ
+            </div>
           </Grid>
           <Grid item xs={12} md={4}></Grid>
         </Grid>
@@ -185,7 +189,7 @@ const Dashboard = () => {
             disabled={currentPage === 1}
           >
             <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "#7BBD8F" }}
             />
           </IconButton>
           <IconButton
@@ -193,7 +197,7 @@ const Dashboard = () => {
             disabled={indexOfLastItem >= articledata.length}
           >
             <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "#7BBD8F" }}
             />
           </IconButton>
         </Box>

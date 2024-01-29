@@ -9,6 +9,7 @@ const { Footer } = Layout;
 const Bottom = () => {
   return (
     <Footer className="footer">
+      <br/>
       <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <img

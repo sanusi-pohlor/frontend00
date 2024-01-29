@@ -266,6 +266,12 @@ function Menu_Navbar() {
                   className="register-button"
                   size="large"
                   type="primary"
+                  style={{
+                    ...registerbuttonStyle,
+                    fontWeight: "bold",
+                    fontSize: "20px",
+                    whiteSpace: "nowrap",
+                  }}
                   onClick={showRegisterDialog}
                 >
                   สมัครสมาชิก
@@ -283,6 +289,12 @@ function Menu_Navbar() {
                   className="login-button"
                   size="large"
                   type="primary"
+                  style={{
+                    ...loginbuttonStyle,
+                    fontWeight: "bold",
+                    fontSize: "20px",
+                    whiteSpace: "nowrap",
+                  }}
                   onClick={showLoginDialog}
                 >
                   เข้าสู่ระบบ

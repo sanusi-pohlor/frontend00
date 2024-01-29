@@ -77,9 +77,9 @@ const News_view = () => {
         </Card>
         <br />
         <Card className="cardContent">
-          <strong>{data.title}</strong>
-          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong>
-          <strong>ลงเมื่อ : {thaiDate}</strong>
+          <strong>{data.title}</strong><br/>
+          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong><br/>
+          <strong>ลงเมื่อ : {thaiDate}</strong><br/>
           <Divider />
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
           <div>

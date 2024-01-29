@@ -73,38 +73,42 @@ const News_Menu = () => {
                       to={`/News_Menu/News_view/${item.id}`}
                       style={{ textDecoration: "none" }}
                     >
-                      <Card hoverable className="cardItem-head">
-                        <div className="cardItemCover">
-                          <Flex justify="space-between">
-                            <img
-                              className="cardImage"
-                              src={item.cover_image}
-                              alt="cover"
-                            />
-                            <Flex
-                              vertical
-                              align="flex-end"
-                              justify="space-between"
-                              className="flex-card"
-                            >
-                              <strong>
-                                เผยแพร่{" "}
-                                {moment(item.created_at).format("DD-MM-YYYY")}
-                              </strong>
-                              <br />
-                              {item.title}
-                              <Button
-                                type="primary"
-                                href={`/News_Menu/News_view/${item.id}`}
-                                target="_blank"
-                                className="button-card"
+                      <Card
+                        hoverable
+                        className="cardItem-head"
+                        cover={
+                          <div className="cardItemCover">
+                            <Flex justify="space-between">
+                              <img
+                                className="cardImage"
+                                src={item.cover_image}
+                                alt="cover"
+                              />
+                              <Flex
+                                vertical
+                                align="flex-end"
+                                justify="space-between"
+                                className="flex-card"
                               >
-                                อ่านต่อ
-                              </Button>
+                                <strong>
+                                  เผยแพร่{" "}
+                                  {moment(item.created_at).format("DD-MM-YYYY")}
+                                </strong>
+                                <br />
+                                {item.title}
+                                <Button
+                                  type="primary"
+                                  href={`/News_Menu/News_view/${item.id}`}
+                                  target="_blank"
+                                  className="button-card"
+                                >
+                                  อ่านต่อ
+                                </Button>
+                              </Flex>
                             </Flex>
-                          </Flex>
-                        </div>
-                      </Card>
+                          </div>
+                        }
+                      />
                     </Link>
                   </Grid>
                 ))
@@ -123,20 +127,29 @@ const News_Menu = () => {
                     to={`/News_Menu/News_view/${item.id}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <Card hoverable className="cardItem">
-                      <div className="cardItemCover">
-                        <img
-                          className="cardImage"
-                          src={item.cover_image}
-                          alt="cover"
-                        />
-                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                        <br />
-                        {item.title.length > 200
-                          ? `${item.title.slice(0, 200)}...`
-                          : item.title}
-                      </div>
-                    </Card>
+                    <Card
+                      hoverable
+                      className="cardItem"
+                      cover={
+                        <div className="cardItemCover">
+                          <img
+                            className="cardImage"
+                            src={item.cover_image}
+                            alt="cover"
+                          />
+                          <div className="cardIitleTCover">
+                            <strong>
+                              เผยแพร่{" "}
+                              {moment(item.created_at).format("DD-MM-YYYY")}
+                            </strong>
+                            <br />
+                            {item.title.length > 150
+                              ? `${item.title.slice(0, 150)}...`
+                              : item.title}
+                          </div>
+                        </div>
+                      }
+                    />
                   </Link>
                 </Grid>
               ))

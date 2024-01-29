@@ -12,3 +12,11 @@
 body {
   font-family: 'Th Sarabun New', sans-serif;
 }
+
+.register-button {
+  border: 1px solid #7BBD8F;
+  color: gray;
+  font-weight: bold;
+  font-size: 20px;
+  white-space: nowrap;
+}
