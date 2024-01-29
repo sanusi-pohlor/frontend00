@@ -260,6 +260,7 @@ const M_DB_Adm_Menu = () => {
           หน้าหลักแอดมิน
         </div>
       </Card>
+      <br/>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
           <Card
@@ -282,7 +283,7 @@ const M_DB_Adm_Menu = () => {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
                   label
                 >
                   {chartData1.map((entry, index) => (
@@ -317,7 +318,7 @@ const M_DB_Adm_Menu = () => {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
                   label
                 >
                   {chartData2.map((entry, index) => (
@@ -352,7 +353,7 @@ const M_DB_Adm_Menu = () => {
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
                   label
                 >
                   {chartData3.map((entry, index) => (

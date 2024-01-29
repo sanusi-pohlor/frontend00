@@ -72,7 +72,7 @@ const News_view = () => {
 
   return (
     <div className="backgroundColor">
-      <Paper elevation={0} className="paperContainer">
+      <Paper elevation={0} className="paperContainer" style={{ backgroundColor: "#e4e4e4" }}>
         <Card className="cardsection">
           <div className="cardsectionContent">ข่าวสาร</div>
         </Card>

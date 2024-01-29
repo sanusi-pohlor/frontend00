@@ -204,20 +204,9 @@ const Adm_News_Menu = () => {
           className="cardsectionContent"
         >
           จัดการข่าวสาร
-        </div>
-      </Card>
-      <Card
-        className="cardContent"
-      >
-        <div
-          className="searchContainer"
-        >
-          <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าข่าว</Typography>
-          <div>
-            <Link to="/Admin/Adm_News_Form">
+          <Link to="/Admin/Adm_News_Form">
               <Button
                 type="primary"
-                shape="round"
                 icon={<PlusCircleOutlined />}
                 size="large"
                 className="buttonfilterStyle"
@@ -225,8 +214,12 @@ const Adm_News_Menu = () => {
                 เพิ่มข่าว
               </Button>
             </Link>
-          </div>
         </div>
+      </Card>
+      <br/>
+      <Card
+        className="cardContent"
+      >
         <br />
         <TableContainer>
           <Table>
