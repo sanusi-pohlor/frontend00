@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Steps, Divider } from "antd";
+import { Badge, Descriptions, Image, Steps, Divider ,Card} from "antd";
 import { useParams } from "react-router-dom";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import moment from "moment";
@@ -136,8 +136,8 @@ const FnInfoView = () => {
             status={fakeNewsInfo.fn_info_status === 0 ? "warning" : fakeNewsInfo.fn_info_status === 1 ? "processing" : "success"}
             text={
               fakeNewsInfo.fn_info_status === 0 ? createTypography("รอตรวจสอบ") :
-              fakeNewsInfo.fn_info_status === 1 ? createTypography("กำลังตรวจสอบ") :
-              createTypography("ตรวจสอบแล้ว")
+                fakeNewsInfo.fn_info_status === 1 ? createTypography("กำลังตรวจสอบ") :
+                  createTypography("ตรวจสอบแล้ว")
             }
           />
         </React.Fragment>
@@ -147,6 +147,11 @@ const FnInfoView = () => {
 
   return (
     <UserProfile>
+      <Card className="cardsection">
+        <div className="cardsectionContent">
+          รายละเอียดการแจ้งข้อมูลเท็จ
+        </div>
+      </Card>
       <React.Fragment>
         <Steps
           current={fakeNewsInfo?.fn_info_status}
@@ -157,7 +162,7 @@ const FnInfoView = () => {
               disabled: true,
             },
             {
-              title:createTypography("ตรวจสอบ"),
+              title: createTypography("ตรวจสอบ"),
               description: createTypography("รับเรื่องไปตรวจสอบ"),
               disabled: fakeNewsInfo?.fn_info_status > 0,
             },

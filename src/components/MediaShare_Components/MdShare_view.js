@@ -107,34 +107,10 @@ const MdShare_view = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "#f1f1f1" }}>
-      <Paper
-        elevation={0}
-        style={{
-          width: "80%",
-          padding: 30,
-          margin: "0 auto",
-          backgroundColor: "#f1f1f1",
-        }}
-      >
-        <Card
-          style={{
-            borderRadius: "20px",
-            backgroundColor: "#7BBD8F",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "70px",
-              fontWeight: "bold",
-              display: "flex",
-              justifyContent: "space-between",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              color: "white",
-            }}
-          >
-            ข่าวสาร
-          </div>
+    <div className="backgroundColor">
+      <Paper elevation={0} className="paperContainer" style={{ backgroundColor: "#e4e4e4" }}>
+        <Card className="cardsection">
+          <div className="cardsectionContent">สื่อชวนแชร์</div>
         </Card>
         <br />
         <Card

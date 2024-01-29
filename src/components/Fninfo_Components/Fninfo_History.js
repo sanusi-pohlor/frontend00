@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Popconfirm, Button, } from "antd";
+import { Space, Popconfirm, Button,Card } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
@@ -215,17 +215,11 @@ const NotificationHistory = () => {
   } else {
     return (
       <UserProfile>
-        <div
-          style={{
-            fontSize: "30px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-          }}
-        >
-          ประวัติการแจ้งข้อมูล
-        </div>
+        <Card className="cardsection">
+          <div className="cardsectionContent">
+            ประวัติการแจ้งข้อมูล
+          </div>
+        </Card>
         <TableContainer>
           <Table
             pagination={pagination}

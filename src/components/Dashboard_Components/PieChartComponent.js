@@ -9,7 +9,7 @@ import {
 } from "recharts";
 import { Card, Divider, Select, DatePicker } from "antd";
 import moment from "moment";
-import { MenuItem, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 const { Option } = Select;
 
 const MyPieChart = () => {

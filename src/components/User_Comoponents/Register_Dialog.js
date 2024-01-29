@@ -9,7 +9,6 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import "../../App.css";
 
 const RegisterDialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);

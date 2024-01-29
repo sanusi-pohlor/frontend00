@@ -118,26 +118,33 @@ const Profile = () => {
           justifyContent: "space-between",
         }}
       >
-        <Typography variant="body1" sx={{ fontSize: "45px" }}>ข้อมูลสมาชิก</Typography>
+        <Card
+          className="cardsection"
+        >
+          <div
+            className="cardsectionContent"
+          >
+            ข้อมูลสมาชิก
+          </div>
+          <div>
+            <Button
+              className="form-button"
+              type="primary"
+              shape="round"
+              icon={<PlusCircleOutlined />}
+              size="large"
+              target="_blank"
+              onClick={showRegisterDialog}
+            >
+              แก้ไข
+            </Button>
+          </div>
+        </Card>
         <div style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}>
-          <Button type="primary" target="_blank" onClick={showRegisterDialog}
-            style={{
-              marginRight: "10px",
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
-            {createTypography("แก้ไขข้อมูลสมาชิก", "")}
-          </Button>
           {registerVisible && (
             <RegisterDialog
               open={registerVisible}

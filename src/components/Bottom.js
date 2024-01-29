@@ -4,7 +4,6 @@ import CASLogo from "./Images/CAS.png";
 import WMOLogo from "./Images/WMO.png";
 import { Grid } from "@mui/material";
 import { PhoneOutlined, MailOutlined } from "@ant-design/icons";
-import "../App.css";
 const { Footer } = Layout;
 
 const Bottom = () => {

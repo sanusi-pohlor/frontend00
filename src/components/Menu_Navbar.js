@@ -27,6 +27,7 @@ import PropTypes from "prop-types";
 import "./Menu_Navbar.css";
 import PSU from "./Images/PSU.jpg";
 import { useTheme } from "@mui/material/styles";
+
 const pages = [
   { label: "หน้าหลัก", link: "/" },
   { label: "ข่าวสาร", link: "/News_Menu" },

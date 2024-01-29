@@ -107,37 +107,24 @@ const Adm_News_view = () => {
 
   return (
     <AdminMenu>
-      <div style={{ backgroundColor: "#f1f1f1" }}>
+      <div className="backgroundColor">
         <Paper
           elevation={0}
-          style={{
-            width: "80%",
-            padding: 30,
-            margin: "0 auto",
-            backgroundColor: "#f1f1f1",
-          }}
+          className="paperContainer"
+          style={{ backgroundColor: "#e4e4e4" }}
         >
           <Card
-            style={{
-              borderRadius: "20px",
-              backgroundColor: "#7BBD8F",
-            }}
+            className="cardsection"
           >
             <div
-              style={{
-                fontSize: "70px",
-                fontWeight: "bold",
-                display: "flex",
-                justifyContent: "space-between",
-                fontFamily: "'Th Sarabun New', sans-serif",
-                color: "white",
-              }}
+              className="cardsectionContent"
             >
               ตัวอย่างข่าวสาร
             </div>
             <div>
               <Link to={`/Admin/Adm_News/edit/${id}`}>
                 <Button
+                  className="form-button"
                   type="primary"
                   shape="round"
                   icon={<PlusCircleOutlined />}

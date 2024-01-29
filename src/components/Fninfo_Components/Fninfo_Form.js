@@ -173,7 +173,7 @@ const FakeNewInformation = () => {
       <UserProfile>
         <Card className="cardsection">
           <div className="cardsectionContent">
-            แจ้งข้อมูลเท็จ
+            ฟอร์มแจ้งข้อมูลเท็จ
           </div>
         </Card>
         <Form
