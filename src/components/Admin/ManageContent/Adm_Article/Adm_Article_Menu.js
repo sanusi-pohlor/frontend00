@@ -21,8 +21,6 @@ import {
 const Adm_Article_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
 
   const fetchUserInfo = async () => {
     try {

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Paper, Modal, Divider, Card, Space, Tag, Descriptions } from "antd";
+import { Modal, Divider, Card, Space, Tag, Descriptions } from "antd";
 import moment from "moment";
+import { Paper} from "@mui/material";
+
 
 const News_view = () => {
   const { id } = useParams();

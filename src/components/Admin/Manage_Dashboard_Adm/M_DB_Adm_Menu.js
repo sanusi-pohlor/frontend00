@@ -262,10 +262,10 @@ const M_DB_Adm_Menu = () => {
         <Grid item xs={12} md={4}>
           <Card
             hoverable
-            className="cardContent"
+            className="dataCard"
           >
             <div
-              className="dataCard"
+              className="pieChartTitle"
             >
               ประเภทสื่อ
             </div>

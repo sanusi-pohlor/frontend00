@@ -14,7 +14,7 @@ const Adm_Article_View = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const isMobile = window.innerWidth <= 768;
-  const thaiDate = moment(Data.created_at).locale("th").format("Do MMMM YYYY");
+  const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
   const [tags, setTags] = useState([]);

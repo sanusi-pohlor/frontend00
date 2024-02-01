@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Paper, Modal, Divider, Descriptions, Button, Card, Space, Tag } from "antd";
+import {  Modal, Divider, Descriptions, Button, Card, Space, Tag } from "antd";
 import moment from "moment";
 import AdminMenu from "../../Adm_Menu";
 import { PlusCircleOutlined } from "@ant-design/icons";
+import { Paper} from "@mui/material";
 
 const Adm_News_view = () => {
   const { id } = useParams();
@@ -11,7 +12,7 @@ const Adm_News_view = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const isMobile = window.innerWidth <= 768;
-  const thaiDate = moment(Data.created_at).locale("th").format("Do MMMM YYYY");
+  const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
   const [tags, setTags] = useState([]);
@@ -94,12 +95,6 @@ const Adm_News_view = () => {
       children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
-
-  const commonStyles = {
-    fontFamily: "'Th Sarabun New', sans-serif",
-    fontSize: isMobile ? "20px" : "25px",
-    color: "gray",
-  };
 
   return (
     <AdminMenu>

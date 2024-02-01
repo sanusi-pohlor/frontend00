@@ -3,7 +3,7 @@
         text-align: center;
         color: #ffffff;
         background-color: #ffffff;
-        height: 40vh;
+        height: 100%;
         width: 100%;
         font-family: 'Th Sarabun New', sans-serif;
         display: flex;
@@ -547,7 +547,7 @@
         text-align: center;
         color: #ffffff;
         background-color: #ffffff;
-        height: 80vh;
+        height: 100%;
         width: 100%;
         font-family: 'Th Sarabun New', sans-serif;
         display: flex;
@@ -830,7 +830,7 @@
         text-align: center;
         color: #ffffff;
         background-color: #ffffff;
-        height: 80vh;
+        height: 100%;
         width: 100%;
         font-family: 'Th Sarabun New', sans-serif;
         display: flex;
@@ -1113,7 +1113,7 @@
         text-align: center;
         color: #ffffff;
         background-color: #ffffff;
-        height: 120vh;
+        height: 100%;
         width: 100%;
         font-family: 'Th Sarabun New', sans-serif;
         display: flex;

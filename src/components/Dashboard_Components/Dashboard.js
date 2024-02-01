@@ -8,6 +8,7 @@ import ThailandMap from "./ThailandMap";
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
+import { Link, useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [newdata, setNewData] = useState([]);
@@ -15,6 +16,7 @@ const Dashboard = () => {
   const [mdSharedata, setMdShareData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async (endpoint, setter) => {
@@ -39,11 +41,11 @@ const Dashboard = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const renderCardItem = (items, Link) => {
+  const renderCardItem = (items, link) => {
     return items.map((item) => (
       <Grid item xs={12} md={4} key={item.id} className="gridItem">
         <Link
-          to={`/${Link}/${item.id}`}
+          to={`/${link}/${item.id}`}
           style={{ textDecoration: "none" }}
         >
           <Card
@@ -107,7 +109,7 @@ const Dashboard = () => {
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
               className="buttonfilterStyle"
-              onClick={() => console.log("/FakenewsSearch")}
+              onClick={() => navigate("/FakenewsSearch")}
             >
               ไปค้นหา
             </Button>
