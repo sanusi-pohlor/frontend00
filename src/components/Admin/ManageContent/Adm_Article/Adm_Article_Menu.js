@@ -221,69 +221,28 @@ const Adm_Article_Menu = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           จัดการบทความ
-        </div>
-      </Card>
-      <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "16px",
-            alignItems: "center",
-          }}
-        >
-          <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>
-            จัดการคอนเท็นหน้าบทความ
-          </Typography>
-          <div>
-            <Link to="/Admin/Adm_Article_Form">
+          <Link to="/Admin/Adm_Article_Form">
               <Button
                 type="primary"
-                shape="round"
                 icon={<PlusCircleOutlined />}
                 size="large"
-                style={{
-                  fontSize: "18px",
-                  padding: "20px 25px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#7BBD8F",
-                  border: "none",
-                  color: "#ffffff",
-                }}
+                className="buttonfilterStyle"
               >
-                เพิ่มข่าว
+                เพิ่มบทความ
               </Button>
             </Link>
-          </div>
         </div>
-        <br />
-        {/* <Table dataSource={dataSource} columns={columns} /> */}
+      </Card>
+      <br/>
+      <Card
+        className="cardContent"
+      >
         <TableContainer>
           <Table>
             <TableHead>

@@ -153,9 +153,9 @@ const Adm_News_Form = () => {
       const formData = new FormData();
       formData.append("Author", user.id);
       formData.append("title", values.title);
-      formData.append("details", editorHtml);
       formData.append("cover_image", values.cover_image[0].originFileObj);
-      formData.append("video", values.video);
+      formData.append("details", editorHtml);
+      formData.append("details_image", values.details_image[0].originFileObj);
       formData.append("link", JSON.stringify(values.link));
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
@@ -278,6 +278,30 @@ const Adm_News_Form = () => {
             <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
+            label={createTypography("รูปภาพหน้าปก")}
+            name="cover_image"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+            rules={[
+              {
+                required: false,
+                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+              },
+            ]}
+          >
+            <Upload
+              name="cover_image"
+              maxCount={1}
+              listType="picture-card"
+              beforeUpload={() => false}
+            >
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Form.Item>
+          <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
@@ -293,19 +317,19 @@ const Adm_News_Form = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปก")}
-            name="cover_image"
+            label={createTypography("รูปภาพรายละเอียดเพิ่มเติม")}
+            name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography("กรุณาแนบรูปภาพรายละเอียดเพิ่มเติม"),
               },
             ]}
           >
             <Upload
-              name="cover_image"
+              name="details_image"
               maxCount={3}
               listType="picture-card"
               beforeUpload={() => false}

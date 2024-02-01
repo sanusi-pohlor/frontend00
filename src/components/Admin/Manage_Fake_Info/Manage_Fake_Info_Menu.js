@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Table, Form, Button, Popconfirm, Space, Card } from "antd";
+import { Form, Button, Popconfirm, Space, Card } from "antd";
+import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -250,36 +251,35 @@ const Manage_Fake_Info_Menu = () => {
 
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
           จัดการข้อมูลเท็จ
         </div>
       </Card>
-      <Table
-        pagination={{
-          current: pagination.current,
-          pageSize: pagination.pageSize,
-          total: pagination.total,
-        }}
-        onChange={handleTableChange}
-        components={{
-          body: {
-            //cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-      //loading={loading}
-      // pagination={{
-      //   onChange: cancel,
-      // }}
-      />
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow style={{ background: "#7BBD8F" }}>
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left" width={column.width}>
+                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((record) => (
+              <TableRow key={record.id}>
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left">
+                    {column.render ? column.render(record[column.dataIndex], record) : record[column.dataIndex]}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </AdminMenu>
   );
 };

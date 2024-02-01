@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Table, Space, Card } from "antd";
+import { Space, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody } from '@mui/material';
 
 const ManageMembers = () => {
   const [data, setData] = useState([]);
@@ -213,31 +214,38 @@ const ManageMembers = () => {
   });
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
           จัดการข้อมูลรับแจ้ง
         </div>
       </Card>
-      <Table
-        components={{
-          body: {
-            //cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        pagination={{
-          onChange: cancel,
-        }}
-      />
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow style={{ background: "#7BBD8F" }}>
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left" width={column.width}>
+                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {data.map((row) => (
+              <TableRow key={row.id}>
+                {mergedColumns.map((column) => (
+                  <TableCell key={column.title} align="left">
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </AdminMenu>
   );
+  
 };
 
 export default ManageMembers;

@@ -39,30 +39,36 @@ const Dashboard = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const renderCardItem = (items) => {
+  const renderCardItem = (items, Link) => {
     return items.map((item) => (
       <Grid item xs={12} md={4} key={item.id} className="gridItem">
-        <Card
-          hoverable
-          className="cardItem"
-          cover={
-            <div className="cardItemCover">
-              <img className="cardImage" src={item.cover_image} alt="cover" />
-              <div className="cardIitleTCover">
-                <strong>
-                  เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
-                </strong>
-                <br />
-                {item.title.length > 150
-                  ? `${item.title.slice(0, 150)}...`
-                  : item.title}
+        <Link
+          to={`/${Link}/${item.id}`}
+          style={{ textDecoration: "none" }}
+        >
+          <Card
+            hoverable
+            className="cardItem"
+            cover={
+              <div className="cardItemCover">
+                <img className="cardImage" src={item.cover_image} alt="cover" />
+                <div className="cardTitleCover">
+                  <strong>
+                    เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
+                  </strong>
+                  <br />
+                  {item.title.length > 150
+                    ? `${item.title.slice(0, 150)}...`
+                    : item.title}
+                </div>
               </div>
-            </div>
-          }
-        />
+            }
+          />
+        </Link>
       </Grid>
     ));
   };
+  
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -132,7 +138,7 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(newdata.slice(indexOfFirstItem, indexOfLastItem))}
+          {renderCardItem(newdata.slice(indexOfFirstItem, indexOfLastItem), "News_Menu/News_view")}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -178,9 +184,7 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(
-              articledata.slice(indexOfFirstItem, indexOfLastItem)
-            )}
+          {renderCardItem(articledata.slice(indexOfFirstItem, indexOfLastItem), "Article_Menu/Article_view")}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -225,9 +229,7 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(
-              mdSharedata.slice(indexOfFirstItem, indexOfLastItem)
-            )}
+          {renderCardItem(mdSharedata.slice(indexOfFirstItem, indexOfLastItem), "MediaShare_Menu/MediaShare_view")}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">

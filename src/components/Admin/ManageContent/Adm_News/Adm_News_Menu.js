@@ -220,7 +220,6 @@ const Adm_News_Menu = () => {
       <Card
         className="cardContent"
       >
-        <br />
         <TableContainer>
           <Table>
             <TableHead>

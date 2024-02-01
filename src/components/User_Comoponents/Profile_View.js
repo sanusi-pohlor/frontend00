@@ -92,13 +92,18 @@ const Profile = () => {
   );
 
   const items = [
-    { key: "1", label: createTypography("ชื่อ-นามสกุล"), children: user && createTypography("ชื่อ-นามสกุล", user.username), style: { background: '#FFC0CB' } },
-    { key: "2", label: createTypography("นามสกุล"), children: user && createTypography("นามสกุล", user.lastName), style: { background: '#FFD700' } },
-    { key: "3", label: createTypography("จังหวัดที่อยู่"), children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name), style: { background: '#98FB98' } },
-    { key: "4", label: createTypography("อีเมล"), children: user && createTypography("อีเมล", user.email), style: { background: '#87CEFA' } },
-    { key: "5", label: createTypography("เบอร์โทรศัพท์"), children: user && createTypography("เบอร์โทรศัพท์", user.phone_number), style: { background: '#FFA07A' } },
-    { key: "6", label: createTypography("ไลน์ไอดี"), children: user && createTypography("ไลน์ไอดี", user.Id_line), style: { background: '#FFDAB9' } },
-    { key: "7", label: createTypography("รับข้อมูลผ่านอีเมล"), children: user && createTypography("รับข้อมูลผ่านอีเมล", user.receive_ct_email), style: { background: '#DDA0DD' } },
+    {
+      key: "1",
+      label: <Typography style={{ color: '#FF0000' }}>ชื่อ-นามสกุล</Typography>,
+      children: user && <Typography style={{ color: '#00FF00' }}>{user.username}</Typography>,
+      style: { background: '#FFC0CB' }
+    },    
+    { key: "2", label: createTypography("นามสกุล"), children: user && createTypography(user.lastName), style: { background: '#FFD700' } },
+    { key: "3", label: createTypography("จังหวัดที่อยู่"), children: province.length > 0 && createTypography(province[0].prov_name), style: { background: '#98FB98' } },
+    { key: "4", label: createTypography("อีเมล"), children: user && createTypography(user.email), style: { background: '#87CEFA' } },
+    { key: "5", label: createTypography("เบอร์โทรศัพท์"), children: user && createTypography(user.phone_number), style: { background: '#FFA07A' } },
+    { key: "6", label: createTypography("ไลน์ไอดี"), children: user && createTypography(user.Id_line), style: { background: '#FFDAB9' } },
+    { key: "7", label: createTypography("รับข้อมูลผ่านอีเมล"), children: user && createTypography(user.receive_ct_email), style: { background: '#DDA0DD' } },
   ];
 
   if (!user) {
@@ -111,14 +116,6 @@ const Profile = () => {
 
   return (
     <UserProfile>
-      <div
-        style={{
-          fontSize: "30px",
-          fontWeight: "bold",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
         <Card
           className="cardsection"
         >
@@ -126,10 +123,8 @@ const Profile = () => {
             className="cardsectionContent"
           >
             ข้อมูลสมาชิก
-          </div>
-          <div>
             <Button
-              className="form-button"
+              className="buttonfilterStyle"
               type="primary"
               shape="round"
               icon={<PlusCircleOutlined />}
@@ -175,8 +170,8 @@ const Profile = () => {
             cancelText="ยกเลิก"
           >
             <p>{createTypography("ต้องการออกจากระบบ")}</p>
-          </Modal></div>
-      </div>
+          </Modal>
+          </div>
       <br />
       <div>
         <Descriptions bordered items={items} />

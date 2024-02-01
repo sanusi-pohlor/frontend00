@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Paper, IconButton } from "@mui/material";
 import { SearchOutlined, RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { Card, Input, Flex,Button } from "antd";
+import { Card, Input, Flex, Button } from "antd";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
@@ -48,6 +48,7 @@ const MdShare_Menu = () => {
             สื่อชวนแชร์
             <div className="searchContainer">
               <Input
+              type="text"
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
@@ -78,7 +79,6 @@ const MdShare_Menu = () => {
                             <img
                               className="cardImage"
                               src={item.cover_image}
-                              alt={item.title}
                             />
                             <Flex
                               vertical
@@ -112,7 +112,7 @@ const MdShare_Menu = () => {
             .filter((item) => item.status === 1)
             .slice(1)
             .map((item) => (
-              <Grid item xs={12} md={4} key={item.id} style={{ marginBottom: "3%", padding: 5 }}>
+              <Grid item xs={12} md={4} key={item.id} className="gridItem">
                 <Link
                   to={`/MediaShare_Menu/MediaShare_view/${item.id}`}
                   style={{ textDecoration: "none" }}
@@ -125,20 +125,25 @@ const MdShare_Menu = () => {
                         <img
                           className="cardImage"
                           src={item.cover_image}
-                          alt={item.title}
                         />
-                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                        <br />
-                        {item.title.length > 200
-                          ? `${item.title.slice(0, 200)}...`
-                          : item.title}
+                        <div className="cardIitleTCover">
+                          <strong>
+                            เผยแพร่{" "} 
+                            {moment(item.created_at).format("DD-MM-YYYY")}
+                          </strong>
+                          <br />
+                          {item.title.length > 150
+                            ? `${item.title.slice(0, 150)}...`
+                            : item.title}
+                        </div>
                       </div>
                     }
-                  ></Card>
+                  />
                 </Link>
               </Grid>
             ))}
         </Grid>
+        {data.length > 0 && (
         <Box mt={4} display="flex" justifyContent="center">
           <IconButton
             onClick={() => paginate(currentPage - 1)}
@@ -153,6 +158,7 @@ const MdShare_Menu = () => {
             <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
           </IconButton>
         </Box>
+        )}
       </Paper>
     </div>
   );

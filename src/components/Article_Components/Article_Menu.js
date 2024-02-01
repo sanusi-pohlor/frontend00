@@ -48,6 +48,7 @@ const Article_Menu = () => {
             บทความ
             <div className="searchContainer">
               <Input
+              type="text"
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
@@ -92,6 +93,14 @@ const Article_Menu = () => {
                               </strong>
                               <br />
                               {item.title}
+                              <Button
+                                type="primary"
+                                href={`/News_Menu/News_view/${item.id}`}
+                                target="_blank"
+                                className="button-card"
+                              >
+                                อ่านต่อ
+                              </Button>
                             </Flex>
                           </Flex>
                         </div>
@@ -117,34 +126,40 @@ const Article_Menu = () => {
                         <img
                           className="cardImage"
                           src={item.cover_image}
-                          alt={item.title}
                         />
-                        เมื่อ {moment(item.created_at).format("DD-MM-YYYY")}
-                        <br />
-                        {item.title.length > 200
-                          ? `${item.title.slice(0, 200)}...`
-                          : item.title}
+                        <div className="cardIitleTCover">
+                          <strong>
+                            เผยแพร่{" "}
+                            {moment(item.created_at).format("DD-MM-YYYY")}
+                          </strong>
+                          <br />
+                          {item.title.length > 150
+                            ? `${item.title.slice(0, 150)}...`
+                            : item.title}
+                        </div>
                       </div>
                     }
-                  ></Card>
+                  />
                 </Link>
               </Grid>
             ))}
         </Grid>
-        <Box mt={4} display="flex" justifyContent="center">
-          <IconButton
-            onClick={() => paginate(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <LeftCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
-          </IconButton>
-          <IconButton
-            onClick={() => paginate(currentPage + 1)}
-            disabled={indexOfLastItem >= data.length}
-          >
-            <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
-          </IconButton>
-        </Box>
+        {data.length > 0 && (
+          <Box mt={4} display="flex" justifyContent="center">
+            <IconButton
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <LeftCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+            </IconButton>
+            <IconButton
+              onClick={() => paginate(currentPage + 1)}
+              disabled={indexOfLastItem >= data.length}
+            >
+              <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+            </IconButton>
+          </Box>
+        )}
       </Paper>
     </div>
   );

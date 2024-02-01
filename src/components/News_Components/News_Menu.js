@@ -59,11 +59,6 @@ const News_Menu = () => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            (loading ? (
-              <Grid item xs={12} key="loading">
-                <Skeleton active />
-              </Grid>
-            ) : (
               filteredNews
                 .filter((item) => item.status === 1)
                 .slice(0, 1)
@@ -82,7 +77,6 @@ const News_Menu = () => {
                               <img
                                 className="cardImage"
                                 src={item.cover_image}
-                                alt="cover"
                               />
                               <Flex
                                 vertical
@@ -111,14 +105,8 @@ const News_Menu = () => {
                       />
                     </Link>
                   </Grid>
-                ))
-            ))}
-          {loading ? (
-            <Grid item xs={12} md={4} key="loading">
-              <Skeleton active />
-            </Grid>
-          ) : (
-            filteredNews
+                ))}
+          {filteredNews
               .filter((item) => item.status === 1)
               .slice(1)
               .map((item) => (
@@ -135,7 +123,6 @@ const News_Menu = () => {
                           <img
                             className="cardImage"
                             src={item.cover_image}
-                            alt="cover"
                           />
                           <div className="cardIitleTCover">
                             <strong>
@@ -152,8 +139,7 @@ const News_Menu = () => {
                     />
                   </Link>
                 </Grid>
-              ))
-          )}
+              ))}
         </Grid>
         {data.length > 0 && (
           <Box mt={4} display="flex" justifyContent="center">
