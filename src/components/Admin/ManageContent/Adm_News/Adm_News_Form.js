@@ -115,8 +115,7 @@ const Adm_News_Form = () => {
         [{ size: [] }],
         ["bold", "italic", "underline", "strike", "blockquote"],
         [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "video"],
-        ["link", "image", "video"],
+        ["link"],
         ["clean"],
         ["code-block"],
         [{ align: [] }],
@@ -138,8 +137,6 @@ const Adm_News_Form = () => {
     "list",
     "bullet",
     "link",
-    "image",
-    "video",
     "align",
   ];
 
@@ -330,7 +327,7 @@ const Adm_News_Form = () => {
           >
             <Upload
               name="details_image"
-              maxCount={3}
+              maxCount={10}
               listType="picture-card"
               beforeUpload={() => false}
             >

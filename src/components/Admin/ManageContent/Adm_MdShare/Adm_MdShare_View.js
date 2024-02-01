@@ -10,7 +10,7 @@ import {
 
 const Adm_MdShare_View = () => {
   const { id } = useParams();
-  const [Data, setData] = useState({});
+  const [data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
   const isMobile = window.innerWidth <= 768;
@@ -149,59 +149,37 @@ const Adm_MdShare_View = () => {
             </div>
           </Card>
           <br />
-          <Card
-            style={{
-              borderRadius: "20px",
-              backgroundColor: "#ffffff",
-              padding: 30,
-            }}
-          >
-            <h1 style={commonStyles}>{Data.title}</h1>
-            <h1 style={commonStyles}>
-              โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
-            </h1>
-            <h1 style={commonStyles}>ลงเมื่อ : {thaiDate}</h1>
+          <Card className="cardContent">
+            <strong>{data.title}</strong><br />
+            <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong><br />
+            <strong>ลงเมื่อ : {thaiDate}</strong><br />
             <Divider />
-            <div
-              style={commonStyles}
-              dangerouslySetInnerHTML={{ __html: Data.details }}
-            />
+            <div dangerouslySetInnerHTML={{ __html: data.details }} />
             <div>
-              {Data.link &&
-                JSON.parse(Data.link).map((item, index) => (
-                  <p key={index} style={commonStyles}>
-                    Link: <a href={item.first}>{item.first}</a>
+              {data.link &&
+                JSON.parse(data.link).map((item, index) => (
+                  <p key={index}>
+                    Link: <a href={item.first}>{item.first.substring(0, 100)}...</a>
                   </p>
                 ))}
             </div>
             <div>
               <Space size={[4, 8]} wrap>
-                {Data.tag &&
-                  JSON.parse(Data.tag).map((tag, index) => (
-                    <Tag key={index} style={{
-                      fontSize: "20px",
-                      textAlign: "center",
-                    }}>#{tag}</Tag>
-                  ))}
+                {tags.map((tag, index) => (
+                  <Tag key={index} style={{ fontSize: "20px", textAlign: "center" }}>
+                    #{tag}
+                  </Tag>
+                ))}
               </Space>
             </div>
-            <p style={commonStyles} onClick={showModal}>
-              โปรไฟลผู้เขียน <span>{user && user.username}</span>
-            </p>
+            <p onClick={showModal}>โปรไฟลผู้เขียน <span>{user && user.username}</span></p>
             <Modal
               title="โปรไฟล์ผู้เขียน"
-              open={isModalOpen}
+              visible={isModalOpen}
               footer={null}
               onCancel={handleCancel}
             >
-              <Descriptions
-                style={{
-                  fontSize: "30px",
-                  textAlign: "center",
-                }}
-                title=""
-                items={items}
-              />
+              <Descriptions style={{ fontSize: "30px", textAlign: "center" }} title="" items={items} />
             </Modal>
           </Card>
         </Paper>

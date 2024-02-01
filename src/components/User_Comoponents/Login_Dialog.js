@@ -10,7 +10,7 @@ const LoginDialog = ({ open, onClose }) => {
   const onFinish = async (values) => {
     console.log(values);
     const formData = new FormData();
-    formData.append("email", values.email); // Corrected the field name
+    formData.append("email", values.email);
     formData.append("password", values.password);
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/login", {
@@ -43,25 +43,13 @@ const LoginDialog = ({ open, onClose }) => {
       width={500}
     >
       <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          textAlign: "center",
-          fontSize: "50px",
-          fontWeight: "bold",
-          fontFamily: "'Th Sarabun New', sans-serif",
-        }}
+        className="container-title"
       >
         เข้าสู่ระบบ
       </div>
       <Paper
         elevation={0}
-        style={{
-          width: "80%",
-          margin: "0 auto",
-        }}
+        className="form-container"
       >
       <Form
         layout="vertical"
@@ -90,6 +78,7 @@ const LoginDialog = ({ open, onClose }) => {
           <Input
             size="large"
             prefix={<MailOutlined className="site-form-item-icon" />}
+            placeholder="ระบุอีเมล"
           />
         </Form.Item>
         <Form.Item
@@ -106,6 +95,7 @@ const LoginDialog = ({ open, onClose }) => {
             type="password"
             size="large"
             prefix={<LockOutlined className="site-form-item-icon" />}
+            placeholder="ระบุรหัสผ่าน"
           />
         </Form.Item>
         <Form.Item>

@@ -429,6 +429,7 @@ const Manage_Fake_Info_View = () => {
       <Card
         className="cardsectionContent"
       >
+        รายละเอียดข้อมูลรับแจ้ง
       <div>
         <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
           <Button

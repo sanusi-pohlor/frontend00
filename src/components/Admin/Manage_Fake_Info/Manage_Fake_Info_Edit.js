@@ -460,11 +460,10 @@ const Manage_Fake_Info_Edit = () => {
         hoverable
         className="cardsection"
       >
-        <div
-          className="cardsectionContent"
-        >
-          <h1>จัดการข้อมูลรับแจ้ง</h1>
-        </div>
+        <Card className="cardsection">
+          <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง</div>
+        </Card>
+        <br />
         <Form
           form={form}
           layout="vertical"
@@ -644,7 +643,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input placeholder="เพิ่มหน่วยงานที่เก็บข้อมูล"/>
+                <Input placeholder="เพิ่มหน่วยงานที่เก็บข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_d_topic"
@@ -656,7 +655,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input placeholder="เพิ่มหัวข้อข้อมูลผิดพลาด"/>
+                <Input placeholder="เพิ่มหัวข้อข้อมูลผิดพลาด" />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -708,7 +707,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input placeholder="ผู้เผยแพร่ข้อมูล"/>
+                <Input placeholder="ผู้เผยแพร่ข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_ty_info"
@@ -779,7 +778,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input placeholder="จำนวนการวนซ้ำ"/>
+                <Input placeholder="จำนวนการวนซ้ำ" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -793,7 +792,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input placeholder="การตรวจสอบข้อมูล"/>
+                <Input placeholder="การตรวจสอบข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_data_cha"

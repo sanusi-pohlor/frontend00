@@ -167,6 +167,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="ระบุชื่อ"
             />
           </Form.Item>
           <Form.Item
@@ -184,7 +185,7 @@ const RegisterDialog = ({ open, onClose }) => {
               margin: "0 8px",
             }}
           >
-            <Input size="large" />
+            <Input size="large" placeholder="ระบุนามสกุล"/>
           </Form.Item>
           <Form.Item
             label={<Typography variant="body1" sx={{ fontSize: "25px" }}>อีเมล</Typography>}
@@ -199,6 +200,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<MailOutlined className="site-form-item-icon" />}
+              placeholder="ระบุอีเมล"
             />
           </Form.Item>
           <Form.Item
@@ -209,6 +211,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
+              placeholder="ระบุรหัสผ่าน"
             />
           </Form.Item>
           <Form.Item
@@ -230,6 +233,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
+              placeholder="ระบุรหัสผ่านยืนยัน"
             />
           </Form.Item>
           <Form.Item
@@ -245,6 +249,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<PhoneOutlined className="site-form-item-icon" />}
+              placeholder="ระบุเบอร์ติดต่อ"
             />
           </Form.Item>
           <Form.Item
@@ -260,6 +265,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<MessageOutlined className="site-form-item-icon" />}
+              placeholder="ระบุไอดีไลน์"
             />
           </Form.Item>
           <Form.Item
@@ -272,7 +278,7 @@ const RegisterDialog = ({ open, onClose }) => {
               },
             ]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select onChange={onChange_mfi_province} allowClear placeholder="ระบุจังหวัดที่สังกัด">
               {selectOptions_prov}
             </Select>
           </Form.Item>

@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import {
   EyeOutlined,
 } from "@ant-design/icons";
-import { Table, Space, Input, InputNumber, Button, Popconfirm, Select, Modal, message, Card } from 'antd';
+import { Space, Card } from 'antd';
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { Link } from "react-router-dom";
 
 const ManageMembers = () => {
   const [data, setData] = useState([]);
-  const [editingKey, setEditingKey] = useState('');
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: data.length,
+  });
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -24,13 +29,10 @@ const ManageMembers = () => {
       console.error("Error fetching data:", error);
     }
   };
-  const isEditing = (record) => record.key === editingKey;
   useEffect(() => {
     fetchData();
   }, []);
-  const cancel = () => {
-    setEditingKey('');
-  };
+
   const columns = [
     {
       title: 'ชื่อ',
@@ -82,42 +84,40 @@ const ManageMembers = () => {
     },
   ];
 
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
+  const mergedColumns = columns.map((col) => ({
+    ...col,
+  }));
 
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === 'vol_mem_id' ? 'number' : 'text',
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
   return (
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">จัดการสมาชิก</div>
       </Card>
-      <Table
-        components={{
-          body: {
-            //cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        //loading={loading}
-        pagination={{
-          onChange: cancel,
-        }}
-      />
+      <TableContainer>
+        <Table
+          pagination={pagination}
+          onChange={(pagination) => setPagination(pagination)}
+        >
+          <TableHead>
+            <TableRow style={{ background: "#7BBD8F" }}>
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left" width={column.width}>
+                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          {data.map((row) => (
+            <TableRow key={row.id} >
+              {mergedColumns.map((column) => (
+                <TableCell key={column.title} align="left">
+                  <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </Table>
+      </TableContainer>
     </AdminMenu>
   );
 };

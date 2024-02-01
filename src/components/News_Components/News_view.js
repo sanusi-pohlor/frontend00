@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import {  Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
 
@@ -11,6 +11,8 @@ const News_view = () => {
   const [user, setUser] = useState(null);
   const [tags, setTags] = useState([]);
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
+  const showModal = () => setIsModalOpen(true);
+  const handleCancel = () => setIsModalOpen(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,9 +58,6 @@ const News_view = () => {
     fetchUser();
   }, []);
 
-  const showModal = () => setIsModalOpen(true);
-  const handleCancel = () => setIsModalOpen(false);
-
   const items = [
     { key: "0", label: "", children: user && <img src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png" alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} /> },
     { key: "1", label: "ชื่อ-สกุล", children: user && <span>{user.username}</span> },
@@ -77,9 +76,9 @@ const News_view = () => {
         </Card>
         <br />
         <Card className="cardContent">
-          <strong>{data.title}</strong><br/>
-          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong><br/>
-          <strong>ลงเมื่อ : {thaiDate}</strong><br/>
+          <strong>{data.title}</strong><br />
+          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong><br />
+          <strong>ลงเมื่อ : {thaiDate}</strong><br />
           <Divider />
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
           <div>

@@ -108,15 +108,6 @@ const Adm_Article_Form = () => {
 
   const modules = {
     toolbar: {
-      handlers: {
-        // image: {
-        //   // Set the maximum file size in bytes (here, 5MB as an example)
-        //   size: {
-        //     height: 5000,
-        //     width: 5000,
-        //   },
-        // },
-      },
       container: [
         [
           { header: "1" },
@@ -127,8 +118,7 @@ const Adm_Article_Form = () => {
         [{ size: [] }],
         ["bold", "italic", "underline", "strike", "blockquote"],
         [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "video"],
-        ["link", "image", "video"],
+        ["link"],
         ["clean"],
         ["code-block"],
         [{ align: [] }],
@@ -151,8 +141,6 @@ const Adm_Article_Form = () => {
     "list",
     "bullet",
     "link",
-    "image",
-    "video",
     "align",
   ];
 
@@ -161,16 +149,14 @@ const Adm_Article_Form = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("link :", JSON.stringify(values.link));
-    console.log("tag :", JSON.stringify(values.tag));
     try {
       setLoading(true);
       const formData = new FormData();
       formData.append("Author", user.id);
       formData.append("title", values.title);
-      formData.append("details", editorHtml);
       formData.append("cover_image", values.cover_image[0].originFileObj);
-      formData.append("video", values.video);
+      formData.append("details", editorHtml);
+      formData.append("details_image", values.details_image[0].originFileObj);
       formData.append("link", JSON.stringify(values.link));
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
@@ -260,32 +246,16 @@ const Adm_Article_Form = () => {
   return (
     <AdminMenu>
       <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
+        className="cardsection"
       >
         <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
+          className="cardsectionContent"
         >
           เพิ่มบทความ
         </div>
       </Card>
       <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
+        className="cardContent"
       >
         <Form
           form={form}
@@ -314,6 +284,30 @@ const Adm_Article_Form = () => {
             <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
+            label={createTypography("รูปภาพหน้าปก")}
+            name="cover_image"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+            rules={[
+              {
+                required: false,
+                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+              },
+            ]}
+          >
+            <Upload
+              name="cover_image"
+              maxCount={1}
+              listType="picture-card"
+              beforeUpload={() => false}
+            >
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Form.Item>
+          <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
@@ -329,20 +323,20 @@ const Adm_Article_Form = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปก")}
-            name="cover_image"
+            label={createTypography("รูปภาพรายละเอียดเพิ่มเติม")}
+            name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography("กรุณาแนบรูปภาพรายละเอียดเพิ่มเติม"),
               },
             ]}
           >
             <Upload
-              name="cover_image"
-              maxCount={3}
+              name="details_image"
+              maxCount={10}
               listType="picture-card"
               beforeUpload={() => false}
             >
@@ -443,16 +437,7 @@ const Adm_Article_Form = () => {
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} style={{
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
+            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

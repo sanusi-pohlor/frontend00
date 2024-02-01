@@ -21,8 +21,6 @@ import moment from "moment";
 const { Option } = Select;
 
 const Adm_Info_Check = () => {
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const navigate = useNavigate();
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [province, setProvince] = useState([]);
