@@ -82,6 +82,12 @@ const News_view = () => {
           <Divider />
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
           <div>
+            <img
+              className="details-image"
+              src={data.details_image}
+            />
+          </div>
+          <div>
             {data.link &&
               JSON.parse(data.link).map((item, index) => (
                 <p key={index}>

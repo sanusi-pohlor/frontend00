@@ -3,9 +3,12 @@ import { Space, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody } from '@mui/material';
+import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from '@mui/material';
+const rowsPerPageOptions = [10];
 
 const ManageMembers = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
@@ -129,7 +132,7 @@ const ManageMembers = () => {
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "หัวข้อ",
@@ -156,7 +159,7 @@ const ManageMembers = () => {
         const provinceData = province.find((item) => item.id === fn_info_province);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
-    },    
+    },
     {
       title: "แจ้งเมื่อ",
       dataIndex: "created_at",
@@ -212,6 +215,16 @@ const ManageMembers = () => {
       }),
     };
   });
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <AdminMenu>
       <Card className="cardsection">
@@ -219,6 +232,10 @@ const ManageMembers = () => {
           จัดการข้อมูลรับแจ้ง
         </div>
       </Card>
+      <br/>
+      <Card
+        className="cardContent"
+      >
       <TableContainer>
         <Table>
           <TableHead>
@@ -231,7 +248,10 @@ const ManageMembers = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {(rowsPerPage > 0
+              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : data
+            ).map((row, rowIndex) => (
               <TableRow key={row.id}>
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left">
@@ -242,10 +262,19 @@ const ManageMembers = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+        <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+      </TableContainer></Card>
     </AdminMenu>
   );
-  
+
 };
 
 export default ManageMembers;

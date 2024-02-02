@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UserProfile from "./Profile_Menu";
-import { Button, Modal, Descriptions,Card } from "antd";
+import { Button, Modal, Descriptions, Card } from "antd";
 import RegisterDialog from "./Profile_Edit";
 import { Typography } from "@mui/material";
 import { PlusCircleOutlined } from "@ant-design/icons";
@@ -88,22 +88,17 @@ const Profile = () => {
   }, [user]);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label}: {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>{label}</Typography>
   );
 
   const items = [
-    {
-      key: "1",
-      label: <Typography style={{ color: '#FF0000' }}>ชื่อ-นามสกุล</Typography>,
-      children: user && <Typography style={{ color: '#00FF00' }}>{user.username}</Typography>,
-      style: { background: '#FFC0CB' }
-    },    
-    { key: "2", label: createTypography("นามสกุล"), children: user && createTypography(user.lastName), style: { background: '#FFD700' } },
-    { key: "3", label: createTypography("จังหวัดที่อยู่"), children: province.length > 0 && createTypography(province[0].prov_name), style: { background: '#98FB98' } },
-    { key: "4", label: createTypography("อีเมล"), children: user && createTypography(user.email), style: { background: '#87CEFA' } },
-    { key: "5", label: createTypography("เบอร์โทรศัพท์"), children: user && createTypography(user.phone_number), style: { background: '#FFA07A' } },
-    { key: "6", label: createTypography("ไลน์ไอดี"), children: user && createTypography(user.Id_line), style: { background: '#FFDAB9' } },
-    { key: "7", label: createTypography("รับข้อมูลผ่านอีเมล"), children: user && createTypography(user.receive_ct_email), style: { background: '#DDA0DD' } },
+    { key: "1", label: createTypography("ชื่อ-นามสกุล"), children: user && createTypography(user.username), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "2", label: createTypography("นามสกุล"), children: user && createTypography(user.lastName), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "3", label: createTypography("จังหวัดที่อยู่"), children: province.length > 0 && createTypography(province[0].prov_name), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "4", label: createTypography("อีเมล"), children: user && createTypography(user.email), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "5", label: createTypography("เบอร์โทรศัพท์"), children: user && createTypography(user.phone_number), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "6", label: createTypography("ไลน์ไอดี"), children: user && createTypography(user.Id_line), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    { key: "7", label: createTypography("รับข้อมูลผ่านอีเมล"), children: user && createTypography(user.receive_ct_email), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
   ];
 
   if (!user) {
@@ -116,62 +111,44 @@ const Profile = () => {
 
   return (
     <UserProfile>
-        <Card
-          className="cardsection"
+      <Card
+        className="cardsection"
+      >
+        <div
+          className="cardsectionContent"
         >
-          <div
-            className="cardsectionContent"
-          >
-            ข้อมูลสมาชิก
+          ข้อมูลสมาชิก<div className="setcardContent">
             <Button
               className="buttonfilterStyle"
-              type="primary"
-              shape="round"
               icon={<PlusCircleOutlined />}
-              size="large"
-              target="_blank"
               onClick={showRegisterDialog}
             >
-              แก้ไข
+              {createTypography("แก้ไข")}
             </Button>
-          </div>
-        </Card>
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}>
-          {registerVisible && (
-            <RegisterDialog
-              open={registerVisible}
-              onClose={closeRegisterDialog}
-              handleSubmit={handleSubmit}
-              RegisterFinish={RegisterFinish}
-            />
-          )}
-          <Button type="primary" target="_blank" onClick={showModal}
-            style={{
-              fontSize: "18px",
-              padding: "20px 25px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              background: "#7BBD8F",
-              border: "none",
-              color: "#ffffff",
-            }}>
-            {createTypography("ออกจากระบบ", "")}
-          </Button>
-          <Modal
-            visible={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            okText="ยืนยัน"
-            cancelText="ยกเลิก"
-          >
-            <p>{createTypography("ต้องการออกจากระบบ")}</p>
-          </Modal>
-          </div>
+            {registerVisible && (
+              <RegisterDialog
+                open={registerVisible}
+                onClose={closeRegisterDialog}
+                handleSubmit={handleSubmit}
+                RegisterFinish={RegisterFinish}
+              />
+            )}
+            <Button onClick={showModal}
+              className="buttonfilterStyle">
+              {createTypography("ออกจากระบบ")}
+            </Button>
+            <Modal
+              visible={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+            >
+              <p>{createTypography("ต้องการออกจากระบบ")}</p>
+            </Modal>
+          </div></div>
+      </Card>
+
       <br />
       <div>
         <Descriptions bordered items={items} />

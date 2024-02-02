@@ -158,16 +158,17 @@
     }
 
     .buttonfilterStyle {
-        padding: 30px 35px;
+        padding: 25px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
         border: none;
         color: #7BBD8F;
-        font-size: 35px;
+        font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
+        margin-right: 10px;
     }
 
     .button-card {
@@ -432,21 +433,21 @@
     }
 
     .buttonfilterStyle {
-        padding: 30px 35px;
+        padding: 25px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
         border: none;
         color: #7BBD8F;
-        font-size: 35px;
+        font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
 
     .button-card {
-        font-size: 18px;
-        padding: 20px 25px;
+        font-size: 20px;
+        padding: 25px 35px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -715,21 +716,21 @@
     }
 
     .buttonfilterStyle {
-        padding: 30px 35px;
+        padding: 25px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
         border: none;
         color: #7BBD8F;
-        font-size: 35px;
+        font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
 
     .button-card {
-        font-size: 18px;
-        padding: 20px 25px;
+        font-size: 20px;
+        padding: 25px 35px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -998,21 +999,21 @@
     }
 
     .buttonfilterStyle {
-        padding: 50px 20px;
+        padding: 25px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
         border: none;
         color: #7BBD8F;
-        font-size: 35px;
+        font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
 
     .button-card {
-        font-size: 18px;
-        padding: 20px 25px;
+        font-size: 20px;
+        padding: 25px 35px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -1281,21 +1282,21 @@
     }
 
     .buttonfilterStyle {
-        padding: 60px 10px;
+        padding: 25px 30px;
         display: flex;
         justify-content: center;
         align-items: center;
         background: #ffffff;
         border: none;
         color: #7BBD8F;
-        font-size: 25px;
+        font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
     }
 
     .button-card {
-        font-size: 18px;
-        padding: 20px 25px;
+        font-size: 20px;
+        padding: 25px 35px;
         display: flex;
         justify-content: center;
         align-items: center;

@@ -208,7 +208,6 @@ const Adm_News_Menu = () => {
               <Button
                 type="primary"
                 icon={<PlusCircleOutlined />}
-                size="large"
                 className="buttonfilterStyle"
               >
                 เพิ่มข่าว
@@ -241,7 +240,8 @@ const Adm_News_Menu = () => {
               </TableRow>
             ))}
           </Table>
-        </TableContainer></Card>
+        </TableContainer>
+        </Card>
     </AdminMenu>
   );
 };

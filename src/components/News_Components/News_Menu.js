@@ -5,13 +5,12 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Flex, Skeleton } from "antd";
+import { Card, Button, Input, Flex } from "antd";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
 
 const News_Menu = () => {
-  const [loading, setLoading] = useState(false);
   const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,87 +58,87 @@ const News_Menu = () => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-              filteredNews
-                .filter((item) => item.status === 1)
-                .slice(0, 1)
-                .map((item) => (
-                  <Grid item xs={12} key={item.id} className="gridItem">
-                    <Link
-                      to={`/News_Menu/News_view/${item.id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Card
-                        hoverable
-                        className="cardItem-head"
-                        cover={
-                          <div className="cardItemCover">
-                            <Flex justify="space-between">
-                              <img
-                                className="cardImage"
-                                src={item.cover_image}
-                              />
-                              <Flex
-                                vertical
-                                align="flex-end"
-                                justify="space-between"
-                                className="flex-card"
-                              >
-                                <strong>
-                                  เผยแพร่{" "}
-                                  {moment(item.created_at).format("DD-MM-YYYY")}
-                                </strong>
-                                <br />
-                                {item.title}
-                                <Button
-                                  type="primary"
-                                  href={`/News_Menu/News_view/${item.id}`}
-                                  target="_blank"
-                                  className="button-card"
-                                >
-                                  อ่านต่อ
-                                </Button>
-                              </Flex>
-                            </Flex>
-                          </div>
-                        }
-                      />
-                    </Link>
-                  </Grid>
-                ))}
-          {filteredNews
+            filteredNews
               .filter((item) => item.status === 1)
-              .slice(1)
+              .slice(0, 1)
               .map((item) => (
-                <Grid item xs={12} md={4} key={item.id} className="gridItem">
+                <Grid item xs={12} key={item.id} className="gridItem">
                   <Link
                     to={`/News_Menu/News_view/${item.id}`}
                     style={{ textDecoration: "none" }}
                   >
                     <Card
                       hoverable
-                      className="cardItem"
+                      className="cardItem-head"
                       cover={
                         <div className="cardItemCover">
-                          <img
-                            className="cardImage"
-                            src={item.cover_image}
-                          />
-                          <div className="cardIitleTCover">
-                            <strong>
-                              เผยแพร่{" "}
-                              {moment(item.created_at).format("DD-MM-YYYY")}
-                            </strong>
-                            <br />
-                            {item.title.length > 150
-                              ? `${item.title.slice(0, 150)}...`
-                              : item.title}
-                          </div>
+                          <Flex justify="space-between">
+                            <img
+                              className="cardImage"
+                              src={item.cover_image}
+                            />
+                            <Flex
+                              vertical
+                              align="flex-end"
+                              justify="space-between"
+                              className="flex-card"
+                            >
+                              <strong>
+                                เผยแพร่{" "}
+                                {moment(item.created_at).format("DD-MM-YYYY")}
+                              </strong>
+                              <br />
+                              {item.title}
+                              <Button
+                                type="primary"
+                                href={`/News_Menu/News_view/${item.id}`}
+                                target="_blank"
+                                className="button-card"
+                              >
+                                อ่านต่อ
+                              </Button>
+                            </Flex>
+                          </Flex>
                         </div>
                       }
                     />
                   </Link>
                 </Grid>
               ))}
+          {filteredNews
+            .filter((item) => item.status === 1)
+            .slice(1)
+            .map((item) => (
+              <Grid item xs={12} md={4} key={item.id} className="gridItem">
+                <Link
+                  to={`/News_Menu/News_view/${item.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Card
+                    hoverable
+                    className="cardItem"
+                    cover={
+                      <div className="cardItemCover">
+                        <img
+                          className="cardImage"
+                          src={item.cover_image}
+                        />
+                        <div className="cardIitleTCover">
+                          <strong>
+                            เผยแพร่{" "}
+                            {moment(item.created_at).format("DD-MM-YYYY")}
+                          </strong>
+                          <br />
+                          {item.title.length > 150
+                            ? `${item.title.slice(0, 150)}...`
+                            : item.title}
+                        </div>
+                      </div>
+                    }
+                  />
+                </Link>
+              </Grid>
+            ))}
         </Grid>
         {data.length > 0 && (
           <Box mt={4} display="flex" justifyContent="center">

@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Popconfirm, Space, Card } from "antd";
-import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TableBody } from "@mui/material";
+import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+const rowsPerPageOptions = [10];
+
 
 const Manage_Fake_Info_Menu = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
-  const [sortOrder, setSortOrder] = useState({ field: "created_at", order: "desc" });
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10, // Set your desired page size
-    total: data.length, // Assuming 'data' is your entire dataset
-  });
+  
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -138,7 +137,7 @@ const Manage_Fake_Info_Menu = () => {
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "หัวข้อ",
@@ -151,7 +150,7 @@ const Manage_Fake_Info_Menu = () => {
       dataIndex: "mfi_province",
       width: "10%",
       render: (mfi_province) => {
-        const provinceId = parseInt(mfi_province, 10); // Assuming base 10
+        const provinceId = parseInt(mfi_province, 10);
         const provinceData = province.find((item) => item.id === provinceId);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
@@ -188,7 +187,7 @@ const Manage_Fake_Info_Menu = () => {
     },
     {
       title: "ผลการตรวจสอบ",
-      dataIndex: "mfi_status",
+      dataIndex: "mfi_results",
       width: "10%",
       render: (mfi_results) => (
         mfi_results === 0 ? "ข่าวเท็จ" : (mfi_results === 1 ? "ข่าวจริง" : "กำลังตรวจสอบ")
@@ -225,28 +224,13 @@ const Manage_Fake_Info_Menu = () => {
     },
   ];
 
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "vol_mem_id" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
-
-  const handleTableChange = (pagination, filters, sorter) => {
-    setPagination(pagination);
-    if (sorter.field) {
-      setSortOrder({ field: sorter.field, order: sorter.order === "descend" ? "desc" : "asc" });
-    }
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
   return (
@@ -256,11 +240,14 @@ const Manage_Fake_Info_Menu = () => {
           จัดการข้อมูลเท็จ
         </div>
       </Card>
+      <Card
+        className="cardContent"
+      >
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow style={{ background: "#7BBD8F" }}>
-              {mergedColumns.map((column) => (
+              {columns.map((column) => (
                 <TableCell key={column.title} align="left" width={column.width}>
                   <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
                 </TableCell>
@@ -268,18 +255,31 @@ const Manage_Fake_Info_Menu = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((record) => (
-              <TableRow key={record.id}>
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    {column.render ? column.render(record[column.dataIndex], record) : record[column.dataIndex]}
+            {(rowsPerPage > 0
+              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : data
+            ).map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {columns.map((column, colIndex) => (
+                  <TableCell key={`${rowIndex}-${colIndex}`} align="left">
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                    </Typography>
                   </TableCell>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
+            ))}</TableBody>
         </Table>
-      </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={rowsPerPageOptions}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </TableContainer></Card>
     </AdminMenu>
   );
 };

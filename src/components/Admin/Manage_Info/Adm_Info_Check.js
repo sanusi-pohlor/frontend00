@@ -417,6 +417,7 @@ const Adm_Info_Check = () => {
           จัดการข้อมูลรับแจ้ง
         </div>
       </Card>
+      <br/>
       <Card
         hoverable
         className="cardContent"

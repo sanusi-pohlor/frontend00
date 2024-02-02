@@ -3,7 +3,6 @@ import { Box, Grid, Paper, IconButton } from "@mui/material";
 import {
   Card,
   Button,
-  Table,
   Form,
   DatePicker,
   Modal,
@@ -11,41 +10,27 @@ import {
   Space,
 } from "antd";
 import { Link } from "react-router-dom";
-import { Typography, useMediaQuery } from "@mui/material";
-import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import moment from "moment";
+import { Typography, useMediaQuery, Table, TableCell, TableContainer, TableHead, TableRow, TablePagination,TableBody } from "@mui/material";
+import { EyeOutlined } from "@ant-design/icons";
+
 const { Option } = Select;
 const { Meta } = Card;
+const rowsPerPageOptions = [ 10];
 
-const FakenewsSearch_Menu = (open, onClose) => {
+const FakenewsSearch_Menu = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [filterednew, setFilterednew] = useState([]);
-  const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [dataOrg, setDataOrg] = useState([]);
   const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortOrder, setSortOrder] = useState({ field: "created_at", order: "desc" });
-  const [itemsPerPage] = useState(10);
-  const curveAngle = 20;
+  const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [options, setOptions] = useState([]);
-  const [editingKey, setEditingKey] = useState("");
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10, // Set your desired page size
-    total: data.length, // Assuming 'data' is your entire dataset
-  });
-  const buttonStyle = {
-    background: "#f1f1f1",
-    border: "none",
-    color: "#7BBD8F",
-  };
+
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -66,6 +51,25 @@ const FakenewsSearch_Menu = (open, onClose) => {
     fetchData();
   }, []);
 
+  const fetchInfoData = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setInfoData(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchInfoData();
+  }, []);
+
   const showFilterDialog = () => {
     setFilterVisible(true);
   };
@@ -73,6 +77,25 @@ const FakenewsSearch_Menu = (open, onClose) => {
   const closeFilterDialog = () => {
     setFilterVisible(false);
   };
+
+  const Province = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Province_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setProvince(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Province();
+  }, [data]);
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/Tags_request")
@@ -188,32 +211,35 @@ const FakenewsSearch_Menu = (open, onClose) => {
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
   }, []);
-  const isEditing = (record) => record.key === editingKey;
+
   const columns = [
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => index + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "หัวข้อ",
-      dataIndex: "",
+      dataIndex: "mfi_fninfo",
       width: "30%",
-      editable: true,
+      render: (mfi_fninfo) => {
+        const correspondingInfo = infoData.find(item => item.id === mfi_fninfo);
+        return correspondingInfo ? correspondingInfo.fn_info_head : "ไม่พบข้อมูล";
+      },
     },
     {
       title: "จังหวัดของผู้แจ้ง",
       dataIndex: "mfi_province",
       width: "10%",
       render: (mfi_province) => {
-        const provinceId = parseInt(mfi_province, 10); // Assuming base 10
+        const provinceId = parseInt(mfi_province, 10);
         const provinceData = province.find((item) => item.id === provinceId);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
     },
     {
       title: "ผลการตรวจสอบ",
-      dataIndex: "mfi_status",
+      dataIndex: "mfi_results",
       width: "10%",
       render: (mfi_results) => (
         mfi_results === 0 ? "ข่าวเท็จ" : (mfi_results === 1 ? "ข่าวจริง" : "กำลังตรวจสอบ")
@@ -233,32 +259,17 @@ const FakenewsSearch_Menu = (open, onClose) => {
     },
   ];
 
-  const mergedColumns = columns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-
-    return {
-      ...col,
-      onCell: (record) => ({
-        record,
-        inputType: col.dataIndex === "vol_mem_id" ? "number" : "text",
-        dataIndex: col.dataIndex,
-        title: col.title,
-        editing: isEditing(record),
-      }),
-    };
-  });
-
-  const handleTableChange = (pagination, filters, sorter) => {
-    setPagination(pagination);
-    if (sorter.field) {
-      setSortOrder({ field: sorter.field, order: sorter.order === "descend" ? "desc" : "asc" });
-    }
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
+
     <div className="backgroundColor">
       <Paper
         elevation={0}
@@ -384,29 +395,49 @@ const FakenewsSearch_Menu = (open, onClose) => {
           </div>
         </Card>
         <br /><br />
-        <Table
-          pagination={{
-            current: pagination.current,
-            pageSize: pagination.pageSize,
-            total: pagination.total,
-          }}
-          onChange={handleTableChange}
-          components={{
-            body: {
-              //cell: EditableCell,
-            },
-          }}
-          bordered
-          dataSource={data}
-          columns={mergedColumns}
-          rowClassName="editable-row"
-        //loading={loading}
-        // pagination={{
-        //   onChange: cancel,
-        // }}
-        />
+        <Card
+        className="cardContent"
+      >
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
+                {columns.map((column) => (
+                  <TableCell key={column.title} align="left" width={column.width}>
+                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+            {(rowsPerPage > 0
+              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              : data
+            ).map((row, rowIndex) => (
+              <TableRow key={rowIndex}>
+                {columns.map((column, colIndex) => (
+                  <TableCell key={`${rowIndex}-${colIndex}`} align="left">
+                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}</TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer></Card>
       </Paper>
     </div>
+
   );
 };
 
