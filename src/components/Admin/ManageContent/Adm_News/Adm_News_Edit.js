@@ -10,6 +10,7 @@ import {
   Card,
   Select,
   Space,
+  Image
 } from "antd";
 import ReactQuill from "react-quill";
 import {
@@ -117,8 +118,7 @@ const Adm_News_Edit = () => {
         [{ size: [] }],
         ["bold", "italic", "underline", "strike", "blockquote"],
         [{ list: "ordered" }, { list: "bullet" }],
-        ["link", "video"],
-        ["link", "image", "video"],
+        ["link"],
         ["clean"],
         ["code-block"],
         [{ align: [] }],
@@ -141,8 +141,6 @@ const Adm_News_Edit = () => {
     "list",
     "bullet",
     "link",
-    "image",
-    "video",
     "align",
   ];
 
@@ -186,9 +184,9 @@ const Adm_News_Edit = () => {
       setLoading(true);
       const formData = new FormData();
       formData.append("title", values.title);
-      formData.append("details", editorHtml);
       formData.append("cover_image", values.cover_image[0].originFileObj);
-      formData.append("video", values.video);
+      formData.append("details", editorHtml);
+      formData.append("details_image", values.details_image[0].originFileObj);
       formData.append("link", JSON.stringify(values.link));
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
@@ -319,6 +317,7 @@ const Adm_News_Edit = () => {
               <ReactQuill
                 onChange={handleChange}
                 placeholder={createTypography("รายละเอียดเพิ่มเติม")}
+                value={form.getFieldValue('details')}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -337,6 +336,11 @@ const Adm_News_Edit = () => {
               },
             ]}
           >
+            {img && img.cover_image ? (
+              <Image width={200} src={img.cover_image} alt="รูปภาพข่าวปลอม" />
+            ) : (
+              <div>No image available</div>
+            )}
             <Upload
               name="cover_image"
               maxCount={3}

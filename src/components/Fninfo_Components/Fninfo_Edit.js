@@ -7,7 +7,7 @@ import {
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Select, Upload, message, Card } from "antd";
-import { Typography } from "@mui/material";
+import Typography from '@mui/material/Typography';
 import moment from "moment";
 import "moment/locale/th";
 import { useParams } from "react-router-dom";
@@ -24,10 +24,18 @@ const FnInfoEdit = () => {
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(true);
-  const [med, setmed] = useState("");
+  const [med, setmed] = useState([]);
   const [selectednum_mem, setSelectednum_mem] = useState("");
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchmed();
+  }, []);
+  useEffect(() => {
+    fetchFakeNewsData();
+  }, [id, med]);
+  
   const handlenum_memChange = (value) => {
     setSelectednum_mem(value);
   };
@@ -45,8 +53,9 @@ const FnInfoEdit = () => {
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
-        const userData = await response.json();
-        setmed(userData);
+        const Data = await response.json();
+        setmed(Data);
+        console.log("fetchmed : ",Data);
       } else {
         console.error("Failed to fetch user data");
       }
@@ -54,13 +63,6 @@ const FnInfoEdit = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  useEffect(() => {
-    fetchmed();
-  }, []);
-
-  useEffect(() => {
-    fetchFakeNewsData();
-  }, [id]);
 
   const fetchFakeNewsData = async () => {
     try {
@@ -68,19 +70,20 @@ const FnInfoEdit = () => {
         `https://checkkonproject-sub.com/api/FakeNewsInfo_edit/${id}`
       );
       if (response.ok) {
-        const data = await response.json();
-        setImg(data);
+        const FakeNewsData = await response.json();
+        setImg(FakeNewsData);
         const filteredIds = med.filter(
-          (item) => item.id === (data && data.fn_info_source)
+          (item) => item.id === FakeNewsData.fn_info_source
         );
+        const filtered = filteredIds[0].med_c_name;
         form.setFieldsValue({
-          fn_info_head: data.fn_info_head,
-          fn_info_content: data.fn_info_content,
+          fn_info_head: FakeNewsData.fn_info_head,
+          fn_info_content: FakeNewsData.fn_info_content,
           fn_info_source: filteredIds[0].med_c_name,
-          fn_info_num_mem: data.fn_info_num_mem,
-          fn_info_more: data.fn_info_more,
-          fn_info_link: data.fn_info_link,
-          fn_info_dmy: moment(data.fn_info_dmy, "YYYY-MM-DD"),
+          fn_info_num_mem: FakeNewsData.fn_info_num_mem,
+          fn_info_more: FakeNewsData.fn_info_more,
+          fn_info_link: FakeNewsData.fn_info_link,
+          fn_info_dmy: moment(FakeNewsData.fn_info_dmy, "YYYY-MM-DD"),
         });
       } else {
         console.error("Invalid date received from the server");

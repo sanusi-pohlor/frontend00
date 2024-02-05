@@ -113,34 +113,24 @@ const FakenewsSearch_Menu = () => {
   }, []);
 
   const onFinish = (values) => {
-    console.log("tags:", values.tags);
     const { type_new, med_new, prov_new, tags } = values;
     const formattedTags = tags || [];
     const created_at = values.created_at
       ? new Date(values.created_at).toISOString().split("T")[0]
       : null;
 
-    console.log("Form values:", {
-      type_new,
-      med_new,
-      prov_new,
-      created_at,
-      tags,
-    });
-
     const filteredNews = dataOrg.filter((News) => {
       const NewsDate = News.created_at
         ? new Date(News.created_at).toISOString().split("T")[0]
         : null;
-      const matchesType = type_new ? News.type_new === type_new : true;
-      const matchesMedia = med_new ? News.med_new === med_new : true;
-      const matchesProvince = prov_new ? News.prov_new === prov_new : true;
+      const matchesType = type_new ? News.mfi_ty_info === type_new : true;
+      const matchesMedia = med_new ? News.mfi_med_c === med_new : true;
+      const matchesProvince = prov_new ? News.mfi_province === prov_new : true;
       const matchesDate = created_at ? NewsDate === created_at : true;
 
       let newsTags = [];
       try {
         newsTags = JSON.parse(News.tag || "[]");
-        console.log("newsTags:", newsTags);
       } catch (error) {
         console.error("Error parsing news.tag:", error);
       }
