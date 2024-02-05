@@ -9,8 +9,14 @@ import { Space, Card, Button, Popconfirm, Switch } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 
 const Adm_News_Menu = () => {
   const [dataSource, setDataSource] = useState([]);
@@ -18,7 +24,9 @@ const Adm_News_Menu = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/AmUser"
+      );
       if (response.ok) {
         const userData = await response.json();
         console.log("user :", userData);
@@ -53,7 +61,9 @@ const Adm_News_Menu = () => {
   }
   const fetchData = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/Adm_News_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Adm_News_request"
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
@@ -71,7 +81,10 @@ const Adm_News_Menu = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_News_update_status/${id}`, { status });
+      const response = await axios.put(
+        `https://checkkonproject-sub.com/api/Adm_News_update_status/${id}`,
+        { status }
+      );
 
       if (response.status === 200) {
         console.log(`Status updated successfully for ID: ${id}`);
@@ -86,7 +99,8 @@ const Adm_News_Menu = () => {
   const handleDelete = async (id) => {
     try {
       console.log(`ลบรายการ: ${id}`);
-      const response = await fetch(`https://checkkonproject-sub.com/api/Adm_News_delete/${id}`,
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Adm_News_delete/${id}`,
         {
           method: "DELETE",
         }
@@ -127,7 +141,9 @@ const Adm_News_Menu = () => {
       dataIndex: "Author",
       key: "Author",
       render: (Author) => {
-        const user = userInfo ? userInfo.find(user => user.id === Author) : null;
+        const user = userInfo
+          ? userInfo.find((user) => user.id === Author)
+          : null;
         return user ? `${user.username} ${user.lastName}` : "";
       },
     },
@@ -171,10 +187,10 @@ const Adm_News_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Adm_News_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
+            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
           </Link>
           <Link to={`/Admin/Adm_News_edit/${record.id}`}>
-            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+            <EditOutlined style={{ fontSize: "16px", color: "green" }} />
           </Link>
           <Popconfirm
             title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -183,7 +199,7 @@ const Adm_News_Menu = () => {
             cancelText="ไม่"
           >
             <Button type="link">
-              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+              <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
             </Button>
           </Popconfirm>
         </Space>
@@ -197,51 +213,62 @@ const Adm_News_Menu = () => {
 
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
           จัดการข่าวสาร
           <Link to="/Admin/Adm_News_Form">
-              <Button
-                type="primary"
-                icon={<PlusCircleOutlined />}
-                className="buttonfilterStyle"
-              >
-                เพิ่มข่าว
-              </Button>
-            </Link>
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              className="buttonfilterStyle"
+            >
+              เพิ่มข่าว
+            </Button>
+          </Link>
         </div>
       </Card>
-      <br/>
-      <Card
-        className="cardContent"
-      >
+      <br />
+      <Card>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left" width={column.width}>
-                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "30px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
+                    </Typography>
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
             {dataSource.map((row) => (
-              <TableRow key={row.id} >
+              <TableRow key={row.id}>
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                    <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                      {column.render
+                        ? column.render(row[column.dataIndex], row)
+                        : row[column.dataIndex]}
+                    </Typography>
                   </TableCell>
                 ))}
               </TableRow>
             ))}
           </Table>
         </TableContainer>
-        </Card>
+      </Card>
     </AdminMenu>
   );
 };

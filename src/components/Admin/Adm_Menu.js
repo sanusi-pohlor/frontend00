@@ -55,20 +55,8 @@ const determineSelectedKey = (pathname) => {
     return '7';
   } else if (pathname === '/Admin/ManageMembers') {
     return '8';
-  } else if (pathname === '/Admin/MMedia') {
-    return '9';
-  } else if (pathname === '/Admin/MType') {
-    return '10';
-  } else if (pathname === '/Admin/MInformation') {
-    return '11';
-  } else if (pathname === '/Admin/MChecking') {
-    return '12';
-  } else if (pathname === '/Admin/MProblem') {
-    return '13';
   } else if (pathname === '/Admin/ManageValues') {
     return '14';
-  } else if (pathname === '/Admin/AdvancedSearch') {
-    return '15';
   }
   return '1';
 };
@@ -104,20 +92,37 @@ const AdminMenu = ({ children }) => {
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link to="/Admin">{createTypography("Admin Dashboard")}</Link>
           </Menu.Item>
-          <Menu.SubMenu key="sub1" title={createTypography("จัดการคอนเทนต์")} icon={<FormOutlined />}>
+          <Menu.ItemGroup
+            key="sub1"
+            title={createTypography("จัดการคอนเทนต์")}
+            icon={<FormOutlined />}
+          >
             <Menu.Item key="2" icon={<HomeOutlined />}>
-              <Link to="/Admin/Adm_Dashboard_Menu" >{createTypography("หน้าหลัก")}</Link>
+              <Link to="/Admin/Adm_Dashboard_Menu">
+                {createTypography("หน้าหลัก")}
+              </Link>
             </Menu.Item>
             <Menu.Item key="3" icon={<MessageOutlined />}>
-              <Link to="/Admin/Adm_News_Menu">{createTypography("ข่าวสาร")}</Link>
+              <Link to="/Admin/Adm_News_Menu">
+                {createTypography("ข่าวสาร")}
+              </Link>
             </Menu.Item>
             <Menu.Item key="4" icon={<BookOutlined />}>
-              <Link to="/Admin/Adm_Article_Menu">{createTypography("บทความ")}</Link>
+              <Link to="/Admin/Adm_Article_Menu">
+                {createTypography("บทความ")}
+              </Link>
             </Menu.Item>
             <Menu.Item key="5" icon={<CommentOutlined />}>
-              <Link to="/Admin/Adm_MdShare_Menu">{createTypography("สื่อชวนแชร์")}</Link>
+              <Link to="/Admin/Adm_MdShare_Menu">
+                {createTypography("สื่อชวนแชร์")}
+              </Link>
             </Menu.Item>
-          </Menu.SubMenu>
+          </Menu.ItemGroup>
+          <Menu.ItemGroup
+            key="sub1"
+            title={createTypography("จัดการข้อมูลเท็จ")}
+            icon={<FormOutlined />}
+          >
           <Menu.Item key="6" icon={<SendOutlined />}>
             <Link to="/Admin/ManageInfo">{createTypography("จัดการข้อมูลรับแจ้ง")}</Link>
           </Menu.Item>
@@ -127,29 +132,10 @@ const AdminMenu = ({ children }) => {
           <Menu.Item key="8" icon={<UserOutlined />}>
             <Link to="/Admin/ManageMembers">{createTypography("จัดการสมาชิก")}</Link>
           </Menu.Item>
-          <Menu.SubMenu key="sub2" title={createTypography("จัดการหมวดหมู่ข้อมูลเท็จ")} icon={<NotificationOutlined />}>
-            <Menu.Item key="9" icon={<FileAddOutlined />}>
-              <Link to="/Admin/MMedia" >{createTypography("สื่อ")}</Link>
-            </Menu.Item>
-            <Menu.Item key="10" icon={<FileAddOutlined />}>
-              <Link to="/Admin/MType">{createTypography("ประเภท")}</Link>
-            </Menu.Item>
-            <Menu.Item key="11" icon={<FileAddOutlined />}>
-              <Link to="/Admin/MInformation">{createTypography("ข้อมูลที่แจ้ง")}</Link>
-            </Menu.Item>
-            <Menu.Item key="12" icon={<FileAddOutlined />}>
-              <Link to="/Admin/MChecking">{createTypography("การตรวจสอบ")}</Link>
-            </Menu.Item>
-            <Menu.Item key="13" icon={<FileAddOutlined />}>
-              <Link to="/Admin/MProblem">{createTypography("การจัดการปัญหา")}</Link>
-            </Menu.Item>
-          </Menu.SubMenu>
           <Menu.Item key="14" icon={<BarsOutlined />}>
             <Link to="/Admin/ManageValues">{createTypography("จัดการค่า")}</Link>
           </Menu.Item>
-          <Menu.Item key="15" icon={<LaptopOutlined />}>
-            <Link to="/Admin/AdvancedSearch">{createTypography("ค้นหาขั้นสูง")}</Link>
-          </Menu.Item>
+          </Menu.ItemGroup>
         </Menu>
       </Sider>
       <Layout>

@@ -29,6 +29,7 @@ import Manage_Fake_Info_View from "./components/Admin/Manage_Fake_Info/Manage_Fa
 import Manage_Fake_Info_Edit from "./components/Admin/Manage_Fake_Info/Manage_Fake_Info_Edit";
 
 import ManageMembers from "./components/Admin/Manage_Members/Adm_Mm_Menu";
+import ManageMembers_View from "./components/Admin/Manage_Members/Adm_Mm_View";
 
 import Adm_Dashboard_View from "./components/Admin/ManageContent/Adm_Dashboard/Adm_Dashboard_View";
 import Adm_News_View from "./components/Admin/ManageContent/Adm_News/Adm_News_view";
@@ -62,6 +63,7 @@ import MType from "./components/Admin/ManageFakeNews/MType";
 import MenuProfile from "./components/User_Comoponents/Profile_Menu";
 
 import Profile from "./components/User_Comoponents/Profile_View";
+import ProfileEdit from "./components/User_Comoponents/Profile_Edit";
 
 import Fninfoview from "./components/Fninfo_Components/Fninfo_View";
 import Fninfoedit from "./components/Fninfo_Components/Fninfo_Edit";
@@ -109,6 +111,8 @@ const routes = [
     path: "/Admin/ManageInfo/ManageInfo_view/:id/Adm_Info_Check", element: <Adm_Info_Check />,
   },
   { path: "/Admin/ManageMembers", element: <ManageMembers /> },
+  { path: "/Admin/ManageMembers/ManageMembers_View/:id", element: <ManageMembers_View /> },
+
   { path: "/Admin/Adm_Dashboard_View", element: <Adm_Dashboard_View /> },
 
   { path: "/Admin/Adm_Dashboard_Menu", element: <Adm_Dashboard_Menu /> },
@@ -137,6 +141,7 @@ const routes = [
 
   { path: "/User/MenuProfile", element: <MenuProfile /> },
   { path: "/User/Profile", element: <Profile /> },
+  { path: "/User/Profile/Edit/:id", element: <ProfileEdit /> },
 ];
 
 const AppRoutes = () => {

@@ -3,7 +3,16 @@ import { Space, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from '@mui/material';
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  Typography,
+  TablePagination,
+  TableBody,
+} from "@mui/material";
 const rowsPerPageOptions = [10];
 
 const ManageMembers = () => {
@@ -122,8 +131,16 @@ const ManageMembers = () => {
   };
 
   const renderResultText = (id) => {
-    const dataA = datamanage ? datamanage.find((item) => item.mfi_fninfo === id) : null;
-    const resultText = dataA ? (dataA.mfi_results === 0 ? "ข่าวเท็จ" : (dataA.mfi_results === 1 ? "ข่าวจริง" : "ไม่พบ")) : "ไม่พบข้อมูล";
+    const dataA = datamanage
+      ? datamanage.find((item) => item.mfi_fninfo === id)
+      : null;
+    const resultText = dataA
+      ? dataA.mfi_results === 0
+        ? "ข่าวเท็จ"
+        : dataA.mfi_results === 1
+        ? "ข่าวจริง"
+        : "ไม่พบ"
+      : "ไม่พบข้อมูล";
     console.log("resultText ", id);
     return resultText;
   };
@@ -156,14 +173,16 @@ const ManageMembers = () => {
       dataIndex: "fn_info_province",
       width: "10%",
       render: (fn_info_province) => {
-        const provinceData = province.find((item) => item.id === fn_info_province);
+        const provinceData = province.find(
+          (item) => item.id === fn_info_province
+        );
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
     },
     {
       title: "แจ้งเมื่อ",
       dataIndex: "created_at",
-      width: "10%",
+      width: "12%",
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
@@ -228,41 +247,57 @@ const ManageMembers = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">
-          จัดการข้อมูลรับแจ้ง
-        </div>
+        <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง</div>
       </Card>
-      <br/>
-      <Card
-        className="cardContent"
-      >
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow style={{ background: "#7BBD8F" }}>
-              {mergedColumns.map((column) => (
-                <TableCell key={column.title} align="left" width={column.width}>
-                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : data
-            ).map((row, rowIndex) => (
-              <TableRow key={row.id}>
+      <br />
+      <Card>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "30px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
+                    </Typography>
                   </TableCell>
                 ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : data
+              ).map((row, rowIndex) => (
+                <TableRow key={row.id}>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
             rowsPerPageOptions={rowsPerPageOptions}
             component="div"
             count={data.length}
@@ -271,10 +306,10 @@ const ManageMembers = () => {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-      </TableContainer></Card>
+        </TableContainer>
+      </Card>
     </AdminMenu>
   );
-
 };
 
 export default ManageMembers;

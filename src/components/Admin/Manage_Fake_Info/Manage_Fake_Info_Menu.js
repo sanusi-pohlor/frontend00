@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Form, Button, Popconfirm, Space, Card } from "antd";
-import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from "@mui/material";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  Typography,
+  TablePagination,
+  TableBody,
+} from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
-
 
 const Manage_Fake_Info_Menu = () => {
   const [page, setPage] = React.useState(0);
@@ -15,7 +23,7 @@ const Manage_Fake_Info_Menu = () => {
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
-  
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -104,12 +112,9 @@ const Manage_Fake_Info_Menu = () => {
 
   const handleDelete = (id) => {
     console.log(`ลบรายการ: ${id}`);
-    fetch(
-      `https://checkkonproject-sub.com/api/Manage_Fake_Info_delete/${id}`,
-      {
-        method: "DELETE",
-      }
-    )
+    fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_delete/${id}`, {
+      method: "DELETE",
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.message === "Fake News deleted successfully") {
@@ -189,9 +194,12 @@ const Manage_Fake_Info_Menu = () => {
       title: "ผลการตรวจสอบ",
       dataIndex: "mfi_results",
       width: "10%",
-      render: (mfi_results) => (
-        mfi_results === 0 ? "ข่าวเท็จ" : (mfi_results === 1 ? "ข่าวจริง" : "กำลังตรวจสอบ")
-      )
+      render: (mfi_results) =>
+        mfi_results === 0
+          ? "ข่าวเท็จ"
+          : mfi_results === 1
+          ? "ข่าวจริง"
+          : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -236,50 +244,66 @@ const Manage_Fake_Info_Menu = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">
-          จัดการข้อมูลเท็จ
-        </div>
+        <div className="cardsectionContent">จัดการข้อมูลเท็จ</div>
       </Card>
-      <Card
-        className="cardContent"
-      >
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow style={{ background: "#7BBD8F" }}>
-              {columns.map((column) => (
-                <TableCell key={column.title} align="left" width={column.width}>
-                  <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {(rowsPerPage > 0
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : data
-            ).map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {columns.map((column, colIndex) => (
-                  <TableCell key={`${rowIndex}-${colIndex}`} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+      <Card>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
+                {columns.map((column) => (
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "30px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
                     </Typography>
                   </TableCell>
                 ))}
               </TableRow>
-            ))}</TableBody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={rowsPerPageOptions}
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-        />
-      </TableContainer></Card>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : data
+              ).map((row, rowIndex) => (
+                <TableRow key={rowIndex}>
+                  {columns.map((column, colIndex) => (
+                    <TableCell key={`${rowIndex}-${colIndex}`} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      </Card>
     </AdminMenu>
   );
 };

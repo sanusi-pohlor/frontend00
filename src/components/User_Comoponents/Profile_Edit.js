@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Paper } from "@mui/material";
 import LockOutlined from "@ant-design/icons";
-import { Form, Button, Checkbox, Input, Select, message, Modal } from "antd";
+import { Card, Form, Button, Checkbox, Input, Select, message } from "antd";
 import {
   UserOutlined,
   MailOutlined,
@@ -9,23 +8,40 @@ import {
   MessageOutlined,
 } from "@ant-design/icons";
 import { useParams } from "react-router-dom";
+import UserProfile from "./Profile_Menu";
 
-const Editprofile = ({ open, onClose }) => {
+const Editprofile = () => {
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(open);
   const { Option } = Select;
   const [form] = Form.useForm();
+  const [province, setProvince] = useState([]);
+  const [userdata, setUserdata] = useState([]);
 
-  const handleCancel = () => {
-    setVisible(false);
-    onClose();
+  const fetchProvince = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Province_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setProvince(data);
+      } else {
+        console.error("Error fetching province data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching province data:", error);
+    }
   };
   useEffect(() => {
+    fetchProvince();
+  }, []);
+
+  useEffect(() => {
     fetchFakeNewsData();
-  }, [id]);
+  }, [id, province]);
 
   const fetchFakeNewsData = async () => {
     try {
@@ -34,6 +50,10 @@ const Editprofile = ({ open, onClose }) => {
       );
       if (response.ok) {
         const data = await response.json();
+        setUserdata(data);
+        const filteredIds = province.filter(
+          (item) => item.id === (data && data.province)
+        );
         form.setFieldsValue({
           username: data.username,
           lastName: data.lastName,
@@ -41,16 +61,17 @@ const Editprofile = ({ open, onClose }) => {
           password: data.password,
           phone_number: data.phone_number,
           Id_line: data.Id_line,
-          province: data.province,
+          province: filteredIds[0].prov_name,
           receive_ct_email: data.receive_ct_email,
         });
       } else {
         console.error("Invalid date received from the server");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error fetching user data:", error);
     }
   };
+
   const onFinish = async (values) => {
     console.log(values);
     console.log("receiveCtEmail", receiveCtEmail);
@@ -69,10 +90,13 @@ const Editprofile = ({ open, onClose }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", selectOptions_prov);
       formData.append("receive_ct_email", receive);
-      const response = await fetch(`https://checkkonproject-sub.com/api/User_update/${id}`, {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/User_update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       if (response.ok) {
         message.success("Form data sent successfully");
       } else {
@@ -128,36 +152,12 @@ const Editprofile = ({ open, onClose }) => {
   };
 
   return (
-    <Modal
-      visible={visible}
-      onCancel={onClose}
-      footer={null}
-      width={800}
-      onChange={() => {
-        onChange_mfi_province();
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          textAlign: "center",
-          fontSize: "50px",
-          fontWeight: "bold",
-          fontFamily: "'Th Sarabun New', sans-serif",
-        }}
-      >
-        สมัครสมาชิก
-      </div>
-      <Paper
-        elevation={0}
-        style={{
-          width: "80%",
-          margin: "0 auto",
-        }}
-      >
+    <UserProfile>
+      <Card className="cardsection">
+        <div className="cardsectionContent">แก้ไขข้อมูลสมาชิก</div>
+      </Card>
+      <br />
+      <Card>
         <Form
           form={form}
           layout="vertical"
@@ -168,7 +168,7 @@ const Editprofile = ({ open, onClose }) => {
             maxWidth: "100%",
             fontSize: "50px",
           }}
-          labelCol={{ style: { fontSize: '18px' } }}
+          labelCol={{ style: { fontSize: "18px" } }}
         >
           <Form.Item
             label="ชื่อ"
@@ -297,16 +297,26 @@ const Editprofile = ({ open, onClose }) => {
             </Select>
           </Form.Item>
           <Form.Item name="CheckboxContent">
-            <Checkbox onChange={onChange}>รับคอนเทนต์ผ่านอีเมล</Checkbox>
+            <Checkbox
+              onChange={onChange}
+              defaultChecked={userdata.receive_ct_email === 1}
+            >
+              รับคอนเทนต์ผ่านอีเมล
+            </Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="form-button"
+            >
               ลงทะเบียน
             </Button>
           </Form.Item>
         </Form>
-      </Paper>
-    </Modal>
+      </Card>
+    </UserProfile>
   );
 };
 
