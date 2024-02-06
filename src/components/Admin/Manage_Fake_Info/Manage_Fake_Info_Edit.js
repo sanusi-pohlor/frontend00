@@ -21,14 +21,13 @@ import moment from "moment";
 const { Option } = Select;
 
 const Manage_Fake_Info_Edit = () => {
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const navigate = useNavigate();
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [editingKey, setEditingKey] = useState("");
+  const [img, setImg] = useState(null);
   const [selectOptions_vol, setSelectOptions_vol] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
@@ -39,6 +38,20 @@ const Manage_Fake_Info_Edit = () => {
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+
+  const [Options_vol, setOptions_vol] = useState([]);
+  const [Options_med, setOptions_med] = useState([]);
+  const [Options_c_info, setOptions_c_info] = useState([]);
+  const [Options_fm, setOptions_fm] = useState([]);
+  const [Options_dis, setOptions_dis] = useState([]);
+  const [Options_ty, setOptions_ty] = useState([]);
+  const [Options_con, setOptions_con] = useState([]);
+  const [Options_moti, setOptions_moti] = useState([]);
+  const [Options_data, setOptions_data] = useState([]);
+  const [Options_prov, setOptions_prov] = useState([]);
+  const [Options_cv, setOptions_cv] = useState([]);
+
+
   const [info_source, setInfo_source] = useState(null);
   const [options, setOptions] = useState([]);
   const { id } = useParams();
@@ -209,55 +222,60 @@ const Manage_Fake_Info_Edit = () => {
   }, [fakeNewsInfo]);
 
   const parsedId = parseInt(id, 10);
+
   useEffect(() => {
     fetchManage_Fake_Info_Edit();
-  }, [id]);
+  }, [id, Options_med]);
+
   const fetchManage_Fake_Info_Edit = async () => {
     try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_edit/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        //setImg(data);
-        form.setFieldsValue({
-          mfi_time: data.mfi_time,
-          mfi_province: data.mfi_province,
-          mfi_mem: data.mfi_mem,
-          mfi_med_c: data.mfi_med_c,
-          mfi_img: data.mfi_img,
-          mfi_link: data.mfi_link,
-          mfi_c_info: data.mfi_c_info,
-          mfi_num_mem: data.mfi_num_mem,
-          mfi_agency: data.mfi_agency,
-          mfi_d_topic: data.mfi_d_topic,
-          mfi_fm_d: data.mfi_fm_d,
-          mfi_dis_c: data.mfi_dis_c,
-          mfi_publ: data.mfi_publ,
-          mfi_ty_info: data.mfi_ty_info,
-          mfi_only_cv: data.mfi_only_cv,
-          mfi_moti: data.mfi_moti,
-          mfi_iteration: data.mfi_iteration,
-          mfi_che_d: data.mfi_che_d,
-          mfi_data_cha: data.mfi_data_cha,
-          mfi_fninfo: data.mfi_fninfo,
-          mfi_results: data.mfi_results,
-          mfi_tag: data.mfi_tag,
-          //formData.append("mfi_con_about", values.mfi_con_about);
-        });
-      } else {
-        console.error("Invalid date received from the server");
-        form.setFieldsValue({
-          //fn_info_dmy: moment(),
-        });
+      const response = await fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`);
+      if (!response.ok) {
+        console.error("Invalid data received from the server");
+        return;
       }
+
+      const data = await response.json();
+      const { mfi_med_c, mfi_c_info, mfi_fm_d, mfi_ty_info, mfi_moti, mfi_data_cha, mfi_results } = data;
+
+      const med_c = Options_med.find((item) => item.id === mfi_med_c)?.med_c_name || '';
+      const c_info = Options_med.find((item) => item.id === mfi_c_info)?.med_c_name || '';
+      const fm_d = Options_fm.find((item) => item.id === mfi_fm_d)?.fm_d_name || '';
+      const ty_info = Options_ty.find((item) => item.id === mfi_ty_info)?.type_info_name || '';
+      const moti = Options_moti.find((item) => item.id === mfi_moti)?.moti_name || '';
+      const data_cha = Options_data.find((item) => item.id === mfi_data_cha)?.data_cha_name || '';
+      const results = mfi_results === 1 ? 'จริง' : 'เท็จ';
+
+      form.setFieldsValue({
+        mfi_time: data.mfi_time ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY") : "ไม่มีการประทับเวลา",
+        mfi_province: data.mfi_province,
+        mfi_mem: data.mfi_mem,
+        mfi_med_c: med_c,
+        mfi_img: data.mfi_img,
+        mfi_link: data.mfi_link,
+        mfi_c_info: c_info,
+        mfi_num_mem: data.mfi_num_mem,
+        mfi_agency: data.mfi_agency,
+        mfi_d_topic: data.mfi_d_topic,
+        mfi_fm_d: fm_d,
+        mfi_dis_c: data.mfi_dis_c,
+        mfi_publ: data.mfi_publ,
+        mfi_ty_info: ty_info,
+        mfi_only_cv: data.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่',
+        mfi_moti: moti,
+        mfi_iteration: data.mfi_iteration,
+        mfi_che_d: data.mfi_che_d,
+        mfi_data_cha: data_cha,
+        mfi_fninfo: data.mfi_fninfo,
+        mfi_results: results,
+        mfi_tag: data.mfi_tag,
+      });
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   const onFinish = async (values) => {
-    console.log("mfi_fninfo = ", values);
     try {
       const formData = new FormData();
       formData.append("mfi_time", fakeNewsInfo.created_at);
@@ -283,9 +301,6 @@ const Manage_Fake_Info_Edit = () => {
       formData.append("mfi_fninfo", parseInt(id, 10));
       formData.append("mfi_results", values.mfi_results);
       formData.append("mfi_tag", JSON.stringify(values.mfi_tag));
-      for (const pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_upload",
         {
@@ -334,6 +349,95 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error updating status:", error);
     }
   };
+
+  const fetchDataForm = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        stateSetter(typeCodes);
+      } else {
+        console.error(
+          `Error fetching ${fieldName} codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching ${fieldName} codes:`, error);
+    }
+  };
+
+  const mfi_med_c_id = () => {
+    fetchDataForm(
+      "MediaChannels_request",
+      "med_c",
+      setOptions_med
+    );
+  };
+
+  const mfi_c_info_id = () => {
+    fetchDataForm(
+      "Motivation_request",
+      "c_info",
+      setOptions_c_info
+    );
+  };
+
+  const mfi_fm_d_id = () => {
+    fetchDataForm("FormatData_request", "fm_d", setOptions_fm);
+  };
+
+  const mfi_dis_c_id = () => {
+    fetchDataForm(
+      "DetailsNotiChannels_request",
+      "dnc_scop",
+      setOptions_dis
+    );
+  };
+  const mfi_ty_info_id = () => {
+    fetchDataForm(
+      "TypeInformation_request",
+      "type_info",
+      setOptions_ty
+    );
+  };
+
+  const mfi_moti_id = () => {
+    fetchDataForm("Motivation_request", "moti", setOptions_moti);
+  };
+
+  const mfi_data_cha_id = () => {
+    fetchDataForm(
+      "DataCharacteristics_request",
+      "data_cha",
+      setOptions_data
+    );
+  };
+  const dnc_med_id = () => {
+    fetchDataForm(
+      "MediaChannels_request",
+      "med_c",
+      setOptions_med
+    );
+  };
+
+  const mfi_province = () => {
+    fetchDataForm("Province_request", "prov", setOptions_prov);
+  };
+
+  useEffect(() => {
+    dnc_med_id();
+    mfi_data_cha_id();
+    mfi_moti_id();
+    mfi_ty_info_id();
+    mfi_dis_c_id();
+    mfi_fm_d_id();
+    mfi_c_info_id();
+    mfi_med_c_id();
+    mfi_province();
+  }, []);
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -454,16 +558,15 @@ const Manage_Fake_Info_Edit = () => {
       setSelectOptions_med
     );
   };
+
+
   return (
     <AdminMenu>
-      <Card
-        hoverable
-        className="cardsection"
-      >
-        <Card className="cardsection">
-          <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง</div>
-        </Card>
-        <br />
+      <Card className="cardsection">
+        <div className="cardsectionContent">แก้ไขข้อมูลรับแจ้ง</div>
+      </Card>
+      <br />
+      <Card>
         <Form
           form={form}
           layout="vertical"
@@ -483,7 +586,7 @@ const Manage_Fake_Info_Edit = () => {
           <Row gutter={16}>
             <Col span={8}>
               <Form.Item
-                //name="mfi_time"
+                name="mfi_time"
                 label="ประทับเวลา"
                 rules={[
                   {
@@ -508,7 +611,7 @@ const Manage_Fake_Info_Edit = () => {
               {province && province.length > 0 && (
                 <Form.Item
                   label="จังหวัดของท่าน"
-                  //name="fn_info_province"
+                  name="fn_info_province"
                   rules={[
                     {
                       required: true,

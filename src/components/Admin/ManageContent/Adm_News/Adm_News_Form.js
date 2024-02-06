@@ -29,6 +29,7 @@ const Adm_News_Form = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -61,20 +62,6 @@ const Adm_News_Form = () => {
       console.error("Error adding tag:", error);
     }
   };
-
-  useEffect(() => {
-    fetch("https://checkkonproject-sub.com/api/Tags_request")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-        }));
-        setOptions(formattedOptions);
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  }, []);
 
   const fetchUser = async () => {
     try {
@@ -229,10 +216,35 @@ const Adm_News_Form = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(
+          `Error fetching codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_Tags();
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
@@ -380,17 +392,13 @@ const Adm_News_Form = () => {
             </Form.List>
           </Form.Item>
           <Form.Item name="tag" label={createTypography("แท็ก")} rules={[{ required: false }]}>
-            <Select
-              mode="tags"
-              style={{ width: "100%" }}
-              placeholder={createTypography("เพิ่มแท็ก")}
-              onSearch={(value) => {
-                if (Array.isArray(options)) {
-                  handleTagCreation(value);
-                }
-              }}
-              options={options}
-            />
+            <Select mode="tags" size="large" placeholder="เลือกคำสำคัญ" onChange={onChange_Tags} onSearch={(value) => {
+              if (Array.isArray(options)) {
+                handleTagCreation(value);
+              }
+            }} allowClear>
+              {selectOptions_tags}
+            </Select>
           </Form.Item>
           <Form.Item
             name="type_new"

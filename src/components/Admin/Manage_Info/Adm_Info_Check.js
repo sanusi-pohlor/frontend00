@@ -417,10 +417,8 @@ const Adm_Info_Check = () => {
           จัดการข้อมูลรับแจ้ง
         </div>
       </Card>
-      <br/>
+      <br />
       <Card
-        hoverable
-        className="cardContent"
       >
         <Form
           form={form}
@@ -601,7 +599,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="เพิ่มหน่วยงานที่เก็บข้อมูล"/>
+                <Input placeholder="เพิ่มหน่วยงานที่เก็บข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_d_topic"
@@ -613,7 +611,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="เพิ่มหัวข้อข้อมูลผิดพลาด"/>
+                <Input placeholder="เพิ่มหัวข้อข้อมูลผิดพลาด" />
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -665,7 +663,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="ผู้เผยแพร่ข้อมูล"/>
+                <Input placeholder="ผู้เผยแพร่ข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_ty_info"
@@ -736,7 +734,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="จำนวนการวนซ้ำ"/>
+                <Input placeholder="จำนวนการวนซ้ำ" />
               </Form.Item>
             </Col>
             <Col span={12}>
@@ -750,7 +748,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="การตรวจสอบข้อมูล"/>
+                <Input placeholder="การตรวจสอบข้อมูล" />
               </Form.Item>
               <Form.Item
                 name="mfi_data_cha"

@@ -10,12 +10,12 @@ import {
   Space,
 } from "antd";
 import { Link } from "react-router-dom";
-import { Typography, useMediaQuery, Table, TableCell, TableContainer, TableHead, TableRow, TablePagination,TableBody } from "@mui/material";
+import { Typography, useMediaQuery, Table, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableBody } from "@mui/material";
 import { EyeOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
 const { Meta } = Card;
-const rowsPerPageOptions = [ 10];
+const rowsPerPageOptions = [10];
 
 const FakenewsSearch_Menu = () => {
   const [page, setPage] = React.useState(0);
@@ -25,6 +25,7 @@ const FakenewsSearch_Menu = () => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [dataOrg, setDataOrg] = useState([]);
   const [data, setData] = useState([]);
   const [infoData, setInfoData] = useState([]);
@@ -102,8 +103,7 @@ const FakenewsSearch_Menu = () => {
       .then((response) => response.json())
       .then((data) => {
         const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          value: item.tag_name,
+          label: item.tag_name, value: item.tag_name
         }));
         setOptions(formattedOptions);
       })
@@ -113,7 +113,7 @@ const FakenewsSearch_Menu = () => {
   }, []);
 
   const onFinish = (values) => {
-    const { type_new, med_new, prov_new, tags } = values;
+    const { type_new, med_new, prov_new, tags, results } = values;
     const formattedTags = tags || [];
     const created_at = values.created_at
       ? new Date(values.created_at).toISOString().split("T")[0]
@@ -127,10 +127,13 @@ const FakenewsSearch_Menu = () => {
       const matchesMedia = med_new ? News.mfi_med_c === med_new : true;
       const matchesProvince = prov_new ? News.mfi_province === prov_new : true;
       const matchesDate = created_at ? NewsDate === created_at : true;
+      const intResults = parseInt(results);
+      const matchesResults = results ? News.mfi_results === intResults : true;
+
 
       let newsTags = [];
       try {
-        newsTags = JSON.parse(News.tag || "[]");
+        newsTags = JSON.parse(News.mfi_tag || "[]");
       } catch (error) {
         console.error("Error parsing news.tag:", error);
       }
@@ -143,7 +146,8 @@ const FakenewsSearch_Menu = () => {
         matchesMedia &&
         matchesProvince &&
         matchesDate &&
-        matchesAnyTag
+        matchesAnyTag &&
+        matchesResults
       );
     });
     setData(filteredNews);
@@ -196,10 +200,36 @@ const FakenewsSearch_Menu = () => {
       setSelectOptions_med
     );
   };
+
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(
+          `Error fetching codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_Tags();
   }, []);
 
   const columns = [
@@ -258,6 +288,9 @@ const FakenewsSearch_Menu = () => {
     setPage(0);
   };
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+  );
   return (
 
     <div className="backgroundColor">
@@ -358,22 +391,26 @@ const FakenewsSearch_Menu = () => {
                       label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
                       style={{ marginBottom: "10px" }}
                     >
-                      <Select
-                        size="large"
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        options={options}
-                        name="tags"
-                        placeholder="เลือกคำสำคัญ"
-                      />
+                      <Select mode="multiple" size="large" placeholder="เลือกคำสำคัญ" onChange={onChange_Tags} allowClear>
+                        {selectOptions_tags}
+                      </Select>
                     </Form.Item>
+                    <Form.Item
+                      name="results"
+                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ข้อมูลจริง/เท็จ</Typography>}
+                      style={{ marginBottom: "10px" }}
+                    >
+                      <Select size="large" placeholder="เลือกข้อมูลจริง" allowClear>
+                        <Select.Option value="0">ข่าวเท็จ</Select.Option>
+                        <Select.Option value="1">ข่าวจริง</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <br />
                     <Form.Item>
                       <Button
                         type="primary"
                         htmlType="submit"
-                        placeholder="เลือกจังหวัด"
                         className="form-button"
-                        size="large"
                       >
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
                       </Button>
@@ -386,45 +423,45 @@ const FakenewsSearch_Menu = () => {
         </Card>
         <br /><br />
         <Card
-        className="cardContent"
-      >
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow style={{ background: "#7BBD8F" }}>
-                {columns.map((column) => (
-                  <TableCell key={column.title} align="left" width={column.width}>
-                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-            {(rowsPerPage > 0
-              ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              : data
-            ).map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {columns.map((column, colIndex) => (
-                  <TableCell key={`${rowIndex}-${colIndex}`} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}</TableBody>
-          </Table>
-          <TablePagination
-            rowsPerPageOptions={rowsPerPageOptions}
-            component="div"
-            count={data.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </TableContainer></Card>
+          className="cardContent"
+        >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow style={{ background: "#7BBD8F" }}>
+                  {columns.map((column) => (
+                    <TableCell key={column.title} align="left" width={column.width}>
+                      <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : data
+                ).map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {columns.map((column, colIndex) => (
+                      <TableCell key={`${rowIndex}-${colIndex}`} align="left">
+                        <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                          {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                        </Typography>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}</TableBody>
+            </Table>
+            <TablePagination
+              rowsPerPageOptions={rowsPerPageOptions}
+              component="div"
+              count={data.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </TableContainer></Card>
       </Paper>
     </div>
 

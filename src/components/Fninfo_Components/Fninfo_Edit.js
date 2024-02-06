@@ -75,7 +75,6 @@ const FnInfoEdit = () => {
         const filteredIds = med.filter(
           (item) => item.id === FakeNewsData.fn_info_source
         );
-        const filtered = filteredIds[0].med_c_name;
         form.setFieldsValue({
           fn_info_head: FakeNewsData.fn_info_head,
           fn_info_content: FakeNewsData.fn_info_content,

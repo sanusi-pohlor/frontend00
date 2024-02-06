@@ -1,17 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Popconfirm, Space,Select,  DatePicker, Modal, Card } from "antd";
+import { Form, Button, Popconfirm, Space, Select, DatePicker, Modal, Card } from "antd";
 import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from "@mui/material";
-import { Form, Button, Popconfirm, Space, Card } from "antd";
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  Typography,
-  TablePagination,
-  TableBody,
-} from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -32,8 +21,10 @@ const Manage_Fake_Info_Menu = () => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_mem, setSelectOptions_mem] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
-  
+
 
   const fetchUserInfo = async () => {
     try {
@@ -157,7 +148,7 @@ const Manage_Fake_Info_Menu = () => {
   }, []);
 
   const onFinish = (values) => {
-    const { type_new, med_new, prov_new, tags } = values;
+    const { type_new, med_new, prov_new, tags, results, mem } = values;
     const formattedTags = tags || [];
     const created_at = values.created_at
       ? new Date(values.created_at).toISOString().split("T")[0]
@@ -171,10 +162,13 @@ const Manage_Fake_Info_Menu = () => {
       const matchesMedia = med_new ? News.mfi_med_c === med_new : true;
       const matchesProvince = prov_new ? News.mfi_province === prov_new : true;
       const matchesDate = created_at ? NewsDate === created_at : true;
+      const intResults = parseInt(results);
+      const matchesResults = results ? News.mfi_results === intResults : true;
+      const matchesMem = mem ? News.mfi_mem === mem : true;
 
       let newsTags = [];
       try {
-        newsTags = JSON.parse(News.tag || "[]");
+        newsTags = JSON.parse(News.mfi_tag || "[]");
       } catch (error) {
         console.error("Error parsing news.tag:", error);
       }
@@ -187,7 +181,9 @@ const Manage_Fake_Info_Menu = () => {
         matchesMedia &&
         matchesProvince &&
         matchesDate &&
-        matchesAnyTag
+        matchesAnyTag &&
+        matchesResults &&
+        matchesMem
       );
     });
     setData(filteredNews);
@@ -240,10 +236,59 @@ const Manage_Fake_Info_Menu = () => {
       setSelectOptions_med
     );
   };
+
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(
+          `Error fetching codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+  const onChange_mfi_mem = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/AmUser"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code.id} value={code.id}>
+            {`${code.username} ${code.lastName}`}
+          </Option>
+        ));
+        setSelectOptions_mem(options);
+      } else {
+        console.error(
+          `Error fetching codes:`,
+          response.statusText
+        );
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_mfi_mem();
+    onChange_Tags();
   }, []);
 
   const getStatusText = (status) => {
@@ -316,8 +361,8 @@ const Manage_Fake_Info_Menu = () => {
         mfi_results === 0
           ? "ข่าวเท็จ"
           : mfi_results === 1
-          ? "ข่าวจริง"
-          : "กำลังตรวจสอบ",
+            ? "ข่าวจริง"
+            : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -357,7 +402,7 @@ const Manage_Fake_Info_Menu = () => {
   const closeFilterDialog = () => {
     setFilterVisible(false);
   };
-  
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -373,115 +418,129 @@ const Manage_Fake_Info_Menu = () => {
         <div className="cardsectionContent">
           จัดการข้อมูลเท็จ
           <div
-              className="searchContainer"
+            className="searchContainer"
+          >
+            <Button
+              size="large"
+              type="primary"
+              className="buttonfilterStyle"
+              onClick={showFilterDialog}
             >
-              <Button
-                size="large"
-                type="primary"
-                className="buttonfilterStyle"
-                onClick={showFilterDialog}
-              >
-                ตัวกรอง
-              </Button>
-              <Modal
-                visible={filterVisible}
-                onCancel={closeFilterDialog}
-                footer={null}
-              >
-                <div>
-                  <div
-                    className="Modelcontainer"
-                  >
-                    กรองข้อมูล
-                  </div>
-                  <Form
-                    form={form}
-                    layout="vertical"
-                    name="normal_login"
-                    className="login-form"
-                    onFinish={onFinish}
-                    initialValues={{
-                      remember: true,
-                    }}
-                    style={{
-                      maxWidth: "100%",
-                      padding: 20,
-                    }}
-                  >
-                    <Form.Item
-                      name="type_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ประเภทข่าว</Typography>}
-                    >
-                      <Select
-                        size="large"
-                        placeholder="เลือกประเภทข่าว"
-                        onChange={onChange_mfi_ty_info_id}
-                        allowClear
-                      >
-                        {selectOptions_ty}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="med_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ช่องทางสื่อ</Typography>}
-                    >
-                      <Select
-                        size="large"
-                        placeholder="เลือกช่องทางสื่อ"
-                        onChange={onChange_dnc_med_id}
-                        allowClear
-                      >
-                        {selectOptions_med}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="created_at"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
-                    </Form.Item>
-                    <Form.Item
-                      name="prov_new"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Select size="large" placeholder="เลือกจังหวัด" onChange={onChange_mfi_province} allowClear>
-                        {selectOptions_prov}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      name="tags"
-                      label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <Select
-                        size="large"
-                        mode="tags"
-                        style={{ width: "100%" }}
-                        options={options}
-                        name="tags"
-                        placeholder="เลือกคำสำคัญ"
-                      />
-                    </Form.Item>
-                    <Form.Item>
-                      <Button
-                        type="primary"
-                        htmlType="submit"
-                        placeholder="เลือกจังหวัด"
-                        className="form-button"
-                        size="large"
-                      >
-                        <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
-                      </Button>
-                    </Form.Item>
-                  </Form>
+              ตัวกรอง
+            </Button>
+            <Modal
+              visible={filterVisible}
+              onCancel={closeFilterDialog}
+              footer={null}
+            >
+              <div>
+                <div
+                  className="Modelcontainer"
+                >
+                  กรองข้อมูล
                 </div>
-              </Modal>
-            </div>
+                <Form
+                  form={form}
+                  layout="vertical"
+                  name="normal_login"
+                  className="login-form"
+                  onFinish={onFinish}
+                  initialValues={{
+                    remember: true,
+                  }}
+                  style={{
+                    maxWidth: "100%",
+                    padding: 20,
+                  }}
+                >
+                  <Form.Item
+                    name="type_new"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ประเภทข่าว</Typography>}
+                  >
+                    <Select
+                      size="large"
+                      placeholder="เลือกประเภทข่าว"
+                      onChange={onChange_mfi_ty_info_id}
+                      allowClear
+                    >
+                      {selectOptions_ty}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="med_new"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ช่องทางสื่อ</Typography>}
+                  >
+                    <Select
+                      size="large"
+                      placeholder="เลือกช่องทางสื่อ"
+                      onChange={onChange_dnc_med_id}
+                      allowClear
+                    >
+                      {selectOptions_med}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="created_at"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
+                  </Form.Item>
+                  <Form.Item
+                    name="prov_new"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select size="large" placeholder="เลือกจังหวัด" onChange={onChange_mfi_province} allowClear>
+                      {selectOptions_prov}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="tags"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select mode="multiple" size="large" placeholder="เลือกคำสำคัญ" onChange={onChange_Tags} allowClear>
+                      {selectOptions_tags}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="results"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ข้อมูลจริง/เท็จ</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select size="large" placeholder="เลือกข้อมูลจริง" allowClear>
+                      <Select.Option value="0">ข่าวเท็จ</Select.Option>
+                      <Select.Option value="1">ข่าวจริง</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="mem"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select size="large" placeholder="เลือกผู้ส่งรายงาน" onChange={onChange_mfi_mem} allowClear>
+                      {selectOptions_mem}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      placeholder="เลือกจังหวัด"
+                      className="form-button"
+                      size="large"
+                    >
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            </Modal>
+          </div>
         </div>
-        <div className="cardsectionContent">จัดการข้อมูลเท็จ</div>
       </Card>
+      <br />
       <Card>
         <TableContainer>
           <Table>
@@ -510,9 +569,9 @@ const Manage_Fake_Info_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={rowIndex}>

@@ -309,6 +309,35 @@ const Adm_News_Edit = () => {
             <Input />
           </Form.Item>
           <Form.Item
+            label={createTypography("รูปภาพหน้าปก")}
+            name="cover_image"
+            valuePropName="fileList"
+            getValueFromEvent={normFile}
+            rules={[
+              {
+                required: false,
+                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+              },
+            ]}
+          >
+                        {img && img.cover_image ? (
+              <Image width={200} src={img.cover_image} alt="รูปภาพข่าวปลอม" />
+            ) : (
+              <div>No image available</div>
+            )}
+            <Upload
+              name="cover_image"
+              maxCount={1}
+              listType="picture-card"
+              beforeUpload={() => false}
+            >
+              <div>
+                <PlusOutlined />
+                <div style={{ marginTop: 8 }}>Upload</div>
+              </div>
+            </Upload>
+          </Form.Item>
+          <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
@@ -326,7 +355,7 @@ const Adm_News_Edit = () => {
           </Form.Item>
           <Form.Item
             label={createTypography("รูปภาพหน้าปก")}
-            name="cover_image"
+            name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
             rules={[
@@ -336,13 +365,13 @@ const Adm_News_Edit = () => {
               },
             ]}
           >
-            {img && img.cover_image ? (
-              <Image width={200} src={img.cover_image} alt="รูปภาพข่าวปลอม" />
+            {img && img.details_image ? (
+              <Image width={200} src={img.details_image} alt="รูปภาพข่าวปลอม" />
             ) : (
               <div>No image available</div>
             )}
             <Upload
-              name="cover_image"
+              name="details_image"
               maxCount={3}
               listType="picture-card"
               beforeUpload={() => false}
