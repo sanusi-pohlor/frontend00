@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
-import "react-quill/dist/quill.snow.css";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import {
   Form,
   Input,
@@ -10,9 +11,8 @@ import {
   Card,
   Select,
   Space,
-  Image
+  Image,
 } from "antd";
-import ReactQuill from "react-quill";
 import {
   PlusOutlined,
   MinusCircleOutlined,
@@ -33,6 +33,7 @@ const Adm_News_Edit = () => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [options, setOptions] = useState([]);
   const [img, setImg] = useState(null);
+  const [coverImage, setCoverImage] = useState(null);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -81,15 +82,12 @@ const Adm_News_Edit = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/user",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -160,9 +158,12 @@ const Adm_News_Edit = () => {
       if (response.ok) {
         const data = await response.json();
         setImg(data);
+        setCoverImage(data.cover_image);
         form.setFieldsValue({
           title: data.title,
+          cover_image: data.cover_image,
           details: data.details,
+          details_image: data.details_image,
           link: data.link,
           tag: data.tag,
           type_new: data.type_new,
@@ -179,20 +180,44 @@ const Adm_News_Edit = () => {
   };
 
   const onFinish = async (values) => {
-    ;
+    console.log("values:", values);
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("title", values.title);
-      formData.append("cover_image", values.cover_image[0].originFileObj);
-      formData.append("details", editorHtml);
-      formData.append("details_image", values.details_image[0].originFileObj);
-      formData.append("link", JSON.stringify(values.link));
+      formData.append("Author", user.id);
+  
+      if (values.title !== form.getFieldValue("title")) {
+        formData.append("title", values.title);
+      }
+  
+      if (
+        values.cover_image &&
+        values.cover_image[0].originFileObj !== form.getFieldValue("cover_image")
+      ) {
+        formData.append("cover_image", values.cover_image[0].originFileObj);
+      }
+  
+      if (values.details !== form.getFieldValue("details")) {
+        formData.append("details", editorHtml);
+      }
+  
+      if (
+        values.details_image &&
+        values.details_image.length > 0 &&
+        JSON.stringify(values.details_image) !==
+          JSON.stringify(form.getFieldValue("details_image"))
+      ) {
+        values.details_image.forEach((image, index) => {
+          formData.append(`details_image[${index}]`, image.originFileObj);
+        });
+      }
+  
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
       formData.append("prov_new", values.prov_new);
       formData.append("key_new", values.key_new);
+  
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
         {
@@ -200,7 +225,7 @@ const Adm_News_Edit = () => {
           body: formData,
         }
       );
-
+  
       if (response.ok) {
         message.success("Data saved successfully");
       } else {
@@ -213,7 +238,8 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-
+  
+  
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -270,7 +296,9 @@ const Adm_News_Edit = () => {
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
   );
 
   return (
@@ -279,9 +307,7 @@ const Adm_News_Edit = () => {
         <div className="cardsectionContent">เพิ่มข่าวสาร</div>
       </Card>
       <br />
-      <Card
-        className="cardContent"
-      >
+      <Card>
         <Form
           form={form}
           layout="vertical"
@@ -305,7 +331,11 @@ const Adm_News_Edit = () => {
               disabled
             />
           </Form.Item>
-          <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
+          <Form.Item
+            name="title"
+            label={createTypography("หัวข้อ")}
+            rules={[{ required: true }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item
@@ -316,15 +346,12 @@ const Adm_News_Edit = () => {
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography(
+                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                ),
               },
             ]}
           >
-                        {img && img.cover_image ? (
-              <Image width={200} src={img.cover_image} alt="รูปภาพข่าวปลอม" />
-            ) : (
-              <div>No image available</div>
-            )}
             <Upload
               name="cover_image"
               maxCount={1}
@@ -336,6 +363,11 @@ const Adm_News_Edit = () => {
                 <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
+            <img
+              src={coverImage}
+              alt="Cover Image"
+              style={{ maxWidth: "200px" }}
+            />
           </Form.Item>
           <Form.Item
             name="details"
@@ -346,7 +378,7 @@ const Adm_News_Edit = () => {
               <ReactQuill
                 onChange={handleChange}
                 placeholder={createTypography("รายละเอียดเพิ่มเติม")}
-                value={form.getFieldValue('details')}
+                value={form.getFieldValue("details")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -361,7 +393,9 @@ const Adm_News_Edit = () => {
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography(
+                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                ),
               },
             ]}
           >
@@ -372,7 +406,7 @@ const Adm_News_Edit = () => {
             )}
             <Upload
               name="details_image"
-              maxCount={3}
+              maxCount={10}
               listType="picture-card"
               beforeUpload={() => false}
             >
@@ -382,49 +416,11 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item label={createTypography("ลิงค์")} rules={[{ required: false }]}>
-            <Form.List name="link">
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <Space
-                      key={key}
-                      style={{
-                        display: "flex",
-                        marginBottom: 12,
-                      }}
-                      align="baseline"
-                    >
-                      <Form.Item
-                        {...restField}
-                        name={[name, "first"]}
-                        rules={[
-                          {
-                            required: true,
-                            message: createTypography("Missing first name"),
-                          },
-                        ]}
-                      >
-                        <Input placeholder="เพิ่มลิงค์" style={{ width: "100%" }} />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      เพิ่มลิงค์
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List>
-          </Form.Item>
-          <Form.Item name="tag" label={createTypography("เพิ่มแท็ก")} rules={[{ required: false }]}>
+          <Form.Item
+            name="tag"
+            label={createTypography("เพิ่มแท็ก")}
+            rules={[{ required: false }]}
+          >
             <Select
               mode="tags"
               style={{ width: "100%" }}
@@ -468,12 +464,21 @@ const Adm_News_Edit = () => {
             label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
-            <Select onChange={onChange_mfi_province} allowClear placeholder={createTypography("เลือกจังหวัด")}>
+            <Select
+              onChange={onChange_mfi_province}
+              allowClear
+              placeholder={createTypography("เลือกจังหวัด")}
+            >
               {selectOptions_prov}
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="form-button"
+            >
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

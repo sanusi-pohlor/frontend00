@@ -212,7 +212,6 @@ const Dashboard = () => {
         elevation={0}
         className="paperContent"
         style={{
-          color: "#FFFFFF",
           backgroundColor: "#7BBD8F",
         }}
       >
