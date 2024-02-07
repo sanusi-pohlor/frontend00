@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Card, Divider, DatePicker, Select } from "antd";
-import { Box } from "@mui/material";
 import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
-import { Typography } from "@mui/material";
+import { Typography,Box } from "@mui/material";
 const { Option } = Select;
 
 const MyTable = () => {

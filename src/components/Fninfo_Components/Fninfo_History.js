@@ -3,9 +3,12 @@ import { Space, Popconfirm, Button, Card } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
-import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography,  TableBody,TablePagination, } from "@mui/material";
+const rowsPerPageOptions = [10];
 
 const NotificationHistory = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [user, setUser] = useState(null);
   const [data, setData] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
@@ -154,6 +157,15 @@ const NotificationHistory = () => {
 
   const mergedColumns = columns.map((col) => ({ ...col }));
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   if (!user) {
     return <UserProfile>Loading...</UserProfile>;
   } else {
@@ -162,6 +174,7 @@ const NotificationHistory = () => {
         <Card className="cardsection">
           <div className="cardsectionContent">ประวัติการแจ้งข้อมูล</div>
         </Card>
+        <br/>
         <TableContainer>
           <Table pagination={pagination} onChange={(pagination) => setPagination(pagination)}>
             <TableHead>
@@ -175,7 +188,14 @@ const NotificationHistory = () => {
                 ))}
               </TableRow>
             </TableHead>
-            {data.map((row) => (
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : data
+              ).map((row, rowIndex) => (
               <TableRow key={row.id}>
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left">
@@ -186,7 +206,17 @@ const NotificationHistory = () => {
                 ))}
               </TableRow>
             ))}
+            </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </UserProfile>
     );

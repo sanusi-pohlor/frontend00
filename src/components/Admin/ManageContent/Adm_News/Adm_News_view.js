@@ -11,7 +11,6 @@ const Adm_News_view = () => {
   const [data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-  const isMobile = window.innerWidth <= 768;
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
@@ -101,14 +100,13 @@ const Adm_News_view = () => {
       <div className="backgroundColor">
         <Paper elevation={0} className="paperContainer" style={{ backgroundColor: "#e4e4e4" }}>
           <Card className="cardsection">
-            <div className="cardsectionContent">ตัวอย่างข่าวสาร</div>
-            <div>
+            <div className="cardsectionContent">ตัวอย่างข่าวสาร
               <Link to={`/Admin/Adm_News/edit/${id}`}>
-                <Button className="form-button" type="primary" shape="round" icon={<PlusCircleOutlined />} size="large">
+                <Button className="buttonfilterStyle" type="primary" icon={<PlusCircleOutlined />}>
                   แก้ไข
                 </Button>
               </Link>
-            </div>
+              </div>
           </Card>
           <br />
           <Card className="cardContent">

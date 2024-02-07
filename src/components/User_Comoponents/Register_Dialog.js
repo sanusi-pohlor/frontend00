@@ -124,6 +124,13 @@ const RegisterDialog = ({ open, onClose }) => {
   useEffect(() => {
     onChange_mfi_province();
   }, []);
+
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
+
   return (
     <Modal
       visible={visible}
@@ -151,7 +158,7 @@ const RegisterDialog = ({ open, onClose }) => {
           labelCol={{ style: { fontSize: '18px' } }}
         >
           <Form.Item
-            label={<Typography variant="body1" className="form-item-label">ชื่อ</Typography>}
+            label={createTypography("ชื่อ")}
             name="username"
             rules={[
               {
@@ -171,7 +178,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>นามสกุล</Typography>}
+            label={createTypography("นามสกุล")}
             name="lastName"
             rules={[
               {
@@ -188,7 +195,7 @@ const RegisterDialog = ({ open, onClose }) => {
             <Input size="large" placeholder="ระบุนามสกุล"/>
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>อีเมล</Typography>}
+            label={createTypography("อีเมล")}
             name="email"
             rules={[
               {
@@ -204,7 +211,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รหัสผ่าน</Typography>}
+            label={createTypography("รหัสผ่าน")}
             name="password"
             rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
           >
@@ -215,7 +222,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รหัสผ่านยืนยัน</Typography>}
+            label={createTypography("รหัสผ่านยืนยัน")}
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
@@ -237,7 +244,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>เบอร์ติดต่อ</Typography>}
+            label={createTypography("เบอร์ติดต่อ")}
             name="phone_number"
             rules={[
               {
@@ -253,7 +260,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ไอดีไลน์</Typography>}
+            label={createTypography("ไอดีไลน์")}
             name="Id_line"
             rules={[
               {
@@ -269,7 +276,7 @@ const RegisterDialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัดที่สังกัด</Typography>}
+            label={createTypography("จังหวัดที่สังกัด")}
             name="province"
             rules={[
               {
@@ -283,11 +290,11 @@ const RegisterDialog = ({ open, onClose }) => {
             </Select>
           </Form.Item>
           <Form.Item name="CheckboxContent">
-            <Checkbox onChange={onChange}><Typography variant="body1" sx={{ fontSize: "25px" }}>รับคอนเทนต์ผ่านอีเมล</Typography></Checkbox>
+            <Checkbox onChange={onChange}>{createTypography("รับคอนเทนต์ผ่านอีเมล")}</Checkbox>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} className="form-button">
-              <Typography variant="body1" className="submit-button-text">ลงทะเบียน</Typography>
+            {createTypography("ลงทะเบียน")}
             </Button>
           </Form.Item>
         </Form></Paper>

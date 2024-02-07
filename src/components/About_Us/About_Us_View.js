@@ -7,6 +7,7 @@ const About_Us_View = () => {
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>{label}: {text}</Typography>
   );
+  
   return (
     <div className="backgroundColor">
       <Paper

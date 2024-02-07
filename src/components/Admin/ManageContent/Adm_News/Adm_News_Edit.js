@@ -10,12 +10,10 @@ import {
   Upload,
   Card,
   Select,
-  Space,
   Image,
 } from "antd";
 import {
   PlusOutlined,
-  MinusCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";

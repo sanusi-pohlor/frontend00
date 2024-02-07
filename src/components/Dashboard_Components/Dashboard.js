@@ -121,7 +121,7 @@ const Dashboard = () => {
         elevation={0}
         className="paperContent"
         style={{
-          color: "#FFFFFF",
+          color: "white",
           backgroundColor: "#7BBD8F",
         }}
       >
@@ -149,7 +149,7 @@ const Dashboard = () => {
             disabled={currentPage === 1}
           >
             <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "white", }}
             />
           </IconButton>
           <IconButton
@@ -157,7 +157,7 @@ const Dashboard = () => {
             disabled={indexOfLastItem >= newdata.length}
           >
             <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "white" }}
             />
           </IconButton>
         </Box>
@@ -239,7 +239,7 @@ const Dashboard = () => {
             disabled={currentPage === 1}
           >
             <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "white" }}
             />
           </IconButton>
           <IconButton
@@ -247,7 +247,7 @@ const Dashboard = () => {
             disabled={indexOfLastItem >= mdSharedata.length}
           >
             <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "#FFFFFF" }}
+              style={{ fontSize: "3rem", color: "white" }}
             />
           </IconButton>
         </Box>

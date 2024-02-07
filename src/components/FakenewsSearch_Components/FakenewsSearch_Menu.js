@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, Paper, IconButton } from "@mui/material";
 import {
   Card,
   Button,
@@ -10,11 +9,10 @@ import {
   Space,
 } from "antd";
 import { Link } from "react-router-dom";
-import { Typography, useMediaQuery, Table, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableBody } from "@mui/material";
+import { Typography, Paper, Table, TableCell, TableContainer, TableHead, TableRow, TablePagination, TableBody } from "@mui/material";
 import { EyeOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
-const { Meta } = Card;
 const rowsPerPageOptions = [10];
 
 const FakenewsSearch_Menu = () => {

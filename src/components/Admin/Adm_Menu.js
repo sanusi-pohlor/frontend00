@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import {
-  LaptopOutlined,
-  NotificationOutlined,
   UserOutlined,
   PieChartOutlined,
   FormOutlined,
   HomeOutlined,
-  FileAddOutlined,
   BookOutlined,
   CommentOutlined,
   SendOutlined,
@@ -27,14 +24,6 @@ const determineSelectedSubMenu = (pathname) => {
     pathname === '/Admin/Adm_MdShare_Menu'
   ) {
     return 'sub1';
-  } else if (
-    pathname === '/Admin/MMedia' ||
-    pathname === '/Admin/MType' ||
-    pathname === '/Admin/MInformation' ||
-    pathname === '/Admin/MChecking' ||
-    pathname === '/Admin/MProblem'
-  ) {
-    return 'sub2';
   }
   return null;
 };

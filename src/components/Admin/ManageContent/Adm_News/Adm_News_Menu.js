@@ -16,10 +16,15 @@ import {
   TableHead,
   TableRow,
   Typography,
+  TablePagination,
+  TableBody,
 } from "@mui/material";
+const rowsPerPageOptions = [10];
 
 const Adm_News_Menu = () => {
-  const [dataSource, setDataSource] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
+  const [data, setData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
 
   const fetchUserInfo = async () => {
@@ -67,7 +72,7 @@ const Adm_News_Menu = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
-        setDataSource(data);
+        setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -121,7 +126,7 @@ const Adm_News_Menu = () => {
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => dataSource.indexOf(record) + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "Title",
@@ -211,6 +216,15 @@ const Adm_News_Menu = () => {
     ...col,
   }));
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <AdminMenu>
       <Card className="cardsection">
@@ -253,7 +267,14 @@ const Adm_News_Menu = () => {
                 ))}
               </TableRow>
             </TableHead>
-            {dataSource.map((row) => (
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                : data
+              ).map((row, rowIndex) => (
               <TableRow key={row.id}>
                 {mergedColumns.map((column) => (
                   <TableCell key={column.title} align="left">
@@ -266,7 +287,17 @@ const Adm_News_Menu = () => {
                 ))}
               </TableRow>
             ))}
+            </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Card>
     </AdminMenu>

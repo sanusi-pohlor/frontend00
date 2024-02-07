@@ -77,7 +77,7 @@ const MapWidget = () => {
             title={`นครศรีธรรมราช${getTooltipTitle(4)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="1"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -92,7 +92,7 @@ const MapWidget = () => {
             title={`กระบี่${getTooltipTitle(1)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="2"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -107,7 +107,7 @@ const MapWidget = () => {
             title={`พังงา${getTooltipTitle(7)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="3"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -122,7 +122,7 @@ const MapWidget = () => {
             title={`ภูเก็ต${getTooltipTitle(9)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="4"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -137,7 +137,7 @@ const MapWidget = () => {
             title={`สุราษฎร์ธานี${getTooltipTitle(14)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="5"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -152,7 +152,7 @@ const MapWidget = () => {
             title={`ระนอง${getTooltipTitle(11)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="6"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -167,7 +167,7 @@ const MapWidget = () => {
             title={`ชุมพร${getTooltipTitle(2)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="7"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -182,7 +182,7 @@ const MapWidget = () => {
             title={`สงขลา${getTooltipTitle(12)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="8"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -197,7 +197,7 @@ const MapWidget = () => {
             title={`สตูล${getTooltipTitle(13)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="9"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -212,7 +212,7 @@ const MapWidget = () => {
             title={`ตรัง${getTooltipTitle(3)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="10"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -227,7 +227,7 @@ const MapWidget = () => {
             title={`พัทลุง${getTooltipTitle(8)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="11"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -242,7 +242,7 @@ const MapWidget = () => {
             title={`ปัตตานี${getTooltipTitle(6)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="12"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -257,7 +257,7 @@ const MapWidget = () => {
             title={`ยะลา${getTooltipTitle(10)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="13"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path
@@ -272,7 +272,7 @@ const MapWidget = () => {
             title={`นราธิวาส${getTooltipTitle(5)}`}
             arrow
             placement="top"
-            key="#FFFFFF"
+            key="14"
             overlayStyle={{ fontSize: "25px" }}
           >
             <path

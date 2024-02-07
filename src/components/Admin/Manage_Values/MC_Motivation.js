@@ -5,12 +5,12 @@ import {
   InputNumber,
   Popconfirm,
   Table,
-  Typography,
   Button,
   Modal,
   message,
 } from "antd";
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { Typography } from "@mui/material";
 
 const EditableCell = ({
   editing,

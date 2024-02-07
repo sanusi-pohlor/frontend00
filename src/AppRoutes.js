@@ -52,14 +52,6 @@ import Adm_News_Form from "./components/Admin/ManageContent/Adm_News/Adm_News_Fo
 
 import ManageValues from "./components/Admin/Manage_Values/MV_Routes";
 
-import AdvancedSearch from "./components/Admin/Adm_Adv_Search";
-
-import MChecking from "./components/Admin/ManageFakeNews/MChecking";
-import MInformation from "./components/Admin/ManageFakeNews/MInformation";
-import MMedia from "./components/Admin/ManageFakeNews/MMedia";
-import MProblem from "./components/Admin/ManageFakeNews/MProblem";
-import MType from "./components/Admin/ManageFakeNews/MType";
-
 import MenuProfile from "./components/User_Comoponents/Profile_Menu";
 
 import Profile from "./components/User_Comoponents/Profile_View";
@@ -132,12 +124,6 @@ const routes = [
   { path: "/Admin/Adm_MdShare_Form", element: <Adm_MdShare_Form /> },
   { path: "/Admin/Adm_News_Form", element: <Adm_News_Form /> },
   { path: "/Admin/ManageValues", element: <ManageValues /> },
-  { path: "/Admin/AdvancedSearch", element: <AdvancedSearch /> },
-  { path: "/Admin/MChecking", element: <MChecking /> },
-  { path: "/Admin/MInformation", element: <MInformation /> },
-  { path: "/Admin/MMedia", element: <MMedia /> },
-  { path: "/Admin/MProblem", element: <MProblem /> },
-  { path: "/Admin/MType", element: <MType /> },
 
   { path: "/User/MenuProfile", element: <MenuProfile /> },
   { path: "/User/Profile", element: <Profile /> },

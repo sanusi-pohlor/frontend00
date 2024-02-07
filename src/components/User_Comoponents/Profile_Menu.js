@@ -88,6 +88,7 @@ const MenuProfile = ({ children }) => {
       fetchData();
     }
   }, [user]);
+  
 
   if (!user) {
     return (
@@ -118,7 +119,7 @@ const MenuProfile = ({ children }) => {
               <Card
                 style={{
                   margin: "auto",
-                  backgroundColor: "#FFFFFF",
+                  backgroundColor: "white",
                   width: "100%",
                   height: "100%",
                 }}
@@ -173,7 +174,7 @@ const MenuProfile = ({ children }) => {
             <Card
               style={{
                 margin: "auto",
-                backgroundColor: "#FFFFFF",
+                backgroundColor: "white",
                 width: "100%",
                 height: "100%",
               }}

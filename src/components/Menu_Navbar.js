@@ -13,7 +13,6 @@ import {
   ListItemText,
   Divider,
   Drawer,
-  makeStyles,
 } from "@mui/material";
 import { CommentOutlined } from '@ant-design/icons';
 import { styled } from "@mui/system";
@@ -51,7 +50,6 @@ const YourTypography = styled("Typography")({
 
 function Menu_Navbar() {
   const location = useLocation();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [user, setUser] = useState(null);
   const [registerVisible, setRegisterVisible] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
@@ -73,10 +71,6 @@ function Menu_Navbar() {
     background: "#7BBD8F",
     border: "none",
     color: "white",
-  };
-  const imageStyle = {
-    width: "200px",
-    height: "auto",
   };
   const registerbuttonStyle = {
     border: "1px solid #7BBD8F",
@@ -118,9 +112,6 @@ function Menu_Navbar() {
     };
     fetchUser();
   }, []);
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -174,7 +165,7 @@ function Menu_Navbar() {
       <CssBaseline />
       <AppBar
         className="AppBarContainer"
-        sx={{ backgroundColor: "#ffffff", color: "#7BBD8F", height: "10%" }}
+        sx={{ backgroundColor: "white", color: "#7BBD8F", height: "10%" }}
       >
         <Toolbar>
           <IconButton

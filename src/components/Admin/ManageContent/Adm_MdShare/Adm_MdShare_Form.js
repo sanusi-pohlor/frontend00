@@ -22,8 +22,6 @@ import { Typography } from "@mui/material";
 const { Option } = Select;
 
 const Adm_MdShare_Form = () => {
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");

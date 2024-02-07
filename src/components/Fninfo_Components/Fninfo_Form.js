@@ -20,6 +20,7 @@ const { TextArea } = Input;
 
 const FakeNewInformation = () => {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
@@ -37,6 +38,32 @@ const FakeNewInformation = () => {
     }
     return e && e.fileList;
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch("https://checkkonproject-sub.com/api/FakeNewsInfo_request");
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          const filteredData = data.filter(item => item.fn_info_nameid === user.id);
+          setData(filteredData);
+        } else {
+          console.error("Data is missing or null");
+        }
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchData();
+    }
+  }, [user]);
+
+  const maxId = Math.max(...data.map(item => item.id));
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -63,7 +90,7 @@ const FakeNewInformation = () => {
       if (response.ok) {
         console.log("Form data sent successfully");
         message.success("Form data sent successfully");
-        navigate("/FakeNews/NotificationHistory");
+        navigate(`/FakeNews/fninfoview/${maxId + 1}`);
       } else {
         message.error("Error sending form data");
       }

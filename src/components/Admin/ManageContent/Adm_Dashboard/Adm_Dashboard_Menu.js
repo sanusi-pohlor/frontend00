@@ -25,10 +25,6 @@ const Adm_Dashboard_Menu = () => {
     fetchData();
   }, []);
   const handleDelete = (record) => {
-    // Make a DELETE request to your API endpoint to delete the record
-    // Update the dataSource after successful deletion
-    // You can use axios or fetch for the API call
-    // Example:
     axios.delete(`https://checkkonproject-sub.com/api/data/${record.id}`)
       .then(() => {
         const updatedDataSource = dataSource.filter(item => item.id !== record.id);

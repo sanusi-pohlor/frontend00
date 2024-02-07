@@ -3,10 +3,9 @@ import UserProfile from "./Profile_Menu";
 import { Button, Modal, Descriptions, Card } from "antd";
 import { Typography } from "@mui/material";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
-  const { id } = useParams();
   const [user, setUser] = useState(null);
   const [province, setProvince] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,43 +88,43 @@ const Profile = () => {
       key: "1",
       label: createTypography("ชื่อ-นามสกุล"),
       children: user && createTypography(user.username),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "2",
       label: createTypography("นามสกุล"),
       children: user && createTypography(user.lastName),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "3",
       label: createTypography("จังหวัดที่อยู่"),
       children: province.length > 0 && createTypography(province[0].prov_name),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "4",
       label: createTypography("อีเมล"),
       children: user && createTypography(user.email),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "5",
       label: createTypography("เบอร์โทรศัพท์"),
       children: user && createTypography(user.phone_number),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "6",
       label: createTypography("ไลน์ไอดี"),
       children: user && createTypography(user.Id_line),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "7",
       label: createTypography("รับข้อมูลผ่านอีเมล"),
       children: user && createTypography(user.receive_ct_email),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];
 

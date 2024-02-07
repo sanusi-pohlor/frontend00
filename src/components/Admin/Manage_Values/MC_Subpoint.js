@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Popconfirm, Table, Typography, Button, Modal, Select, message } from "antd";
+import { Form, Input, InputNumber, Popconfirm, Table, Button, Modal, Select, message } from "antd";
 import { PlusCircleOutlined } from '@ant-design/icons';
+import { Typography } from "@mui/material";
 
 const { Option } = Select;
 const EditableCell = ({

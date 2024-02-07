@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, InputNumber, Popconfirm, Table, Typography, Button, Modal, Radio } from "antd";
+import { Form, Input, InputNumber, Popconfirm, Table, Button, Modal, Radio } from "antd";
+import { Typography } from "@mui/material";
 
 const CollectionCreateForm = ({ open, onCreate, onCancel }) => {
   const [form] = Form.useForm();

@@ -8,7 +8,6 @@ const Adm_Dashboard_View = () => {
   const [dashboardData, setDashboardData] = useState({});
 
   useEffect(() => {
-    // การดึงข้อมูลข่าวจาก API หรือฐานข้อมูล
     const fetchData = async () => {
       try {
         const response = await fetch(
