@@ -15,7 +15,6 @@ const MapWidget = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log("MapWidget :", data);
         setData(data);
       } else {
         console.error("Failed to fetch user data");

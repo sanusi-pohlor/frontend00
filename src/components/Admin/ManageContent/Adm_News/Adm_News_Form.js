@@ -65,15 +65,12 @@ const Adm_News_Form = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/user",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -131,7 +128,8 @@ const Adm_News_Form = () => {
     setEditorHtml(html);
   };
 
-  const onFinish = async (values) => {
+  const onFinish = async (values) => { 
+    console.log("values :",values);
     try {
       setLoading(true);
       const formData = new FormData();
@@ -139,8 +137,11 @@ const Adm_News_Form = () => {
       formData.append("title", values.title);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("details", editorHtml);
-      formData.append("details_image", values.details_image[0].originFileObj);
-      formData.append("link", JSON.stringify(values.link));
+      if (values.details_image && values.details_image.length > 0) {
+        values.details_image.forEach((image, index) => {
+          formData.append(`details_image[${index}]`, image.originFileObj);
+        });
+      }
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
@@ -230,10 +231,7 @@ const Adm_News_Form = () => {
         ));
         setSelectOptions_tags(options);
       } else {
-        console.error(
-          `Error fetching codes:`,
-          response.statusText
-        );
+        console.error(`Error fetching codes:`, response.statusText);
       }
     } catch (error) {
       console.error(`Error fetching codes:`, error);
@@ -248,7 +246,9 @@ const Adm_News_Form = () => {
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
   );
 
   return (
@@ -281,7 +281,11 @@ const Adm_News_Form = () => {
               disabled
             />
           </Form.Item>
-          <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
+          <Form.Item
+            name="title"
+            label={createTypography("หัวข้อ")}
+            rules={[{ required: true }]}
+          >
             <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
@@ -292,7 +296,9 @@ const Adm_News_Form = () => {
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography(
+                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                ),
               },
             ]}
           >
@@ -347,54 +353,23 @@ const Adm_News_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item label={createTypography("ลิงค์เพิ่มเติม")} rules={[{ required: false }]}>
-            <Form.List name="link">
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <Space
-                      key={key}
-                      style={{
-                        display: "flex",
-                        marginBottom: 12,
-                      }}
-                      align="baseline"
-                    >
-                      <Form.Item
-                        {...restField}
-                        name={[name, "first"]}
-                        rules={[
-                          {
-                            required: true,
-                            message: createTypography("กรุณาเพิ่มลิงค์!"),
-                          },
-                        ]}
-                      >
-                        <Input placeholder="เพิ่มลิงค์เพิ่มเติม" style={{ width: "100%" }} />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      เพิ่มลิงค์
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List>
-          </Form.Item>
-          <Form.Item name="tag" label={createTypography("แท็ก")} rules={[{ required: false }]}>
-            <Select mode="tags" size="large" placeholder="เลือกคำสำคัญ" onChange={onChange_Tags} onSearch={(value) => {
-              if (Array.isArray(options)) {
-                handleTagCreation(value);
-              }
-            }} allowClear>
+          <Form.Item
+            name="tag"
+            label={createTypography("แท็ก")}
+            rules={[{ required: false }]}
+          >
+            <Select
+              mode="tags"
+              size="large"
+              placeholder="เลือกคำสำคัญ"
+              onChange={onChange_Tags}
+              onSearch={(value) => {
+                if (Array.isArray(options)) {
+                  handleTagCreation(value);
+                }
+              }}
+              allowClear
+            >
               {selectOptions_tags}
             </Select>
           </Form.Item>
@@ -429,12 +404,21 @@ const Adm_News_Form = () => {
             label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
-            <Select onChange={onChange_mfi_province} allowClear placeholder={createTypography("เลือกจังหวัด")}>
+            <Select
+              onChange={onChange_mfi_province}
+              allowClear
+              placeholder={createTypography("เลือกจังหวัด")}
+            >
               {selectOptions_prov}
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="form-button"
+            >
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

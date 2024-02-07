@@ -119,7 +119,7 @@ const AdminMenu = ({ children }) => {
             </Menu.Item>
           </Menu.ItemGroup>
           <Menu.ItemGroup
-            key="sub1"
+            key="sub2"
             title={createTypography("จัดการข้อมูลเท็จ")}
             icon={<FormOutlined />}
           >

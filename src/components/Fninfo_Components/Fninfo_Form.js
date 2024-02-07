@@ -230,7 +230,7 @@ const FakeNewInformation = () => {
             name="fn_info_head"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาระบุหัวข้อ",
               },
             ]}
@@ -246,7 +246,7 @@ const FakeNewInformation = () => {
             name="fn_info_content"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -263,7 +263,7 @@ const FakeNewInformation = () => {
             name="fn_info_source"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -284,7 +284,7 @@ const FakeNewInformation = () => {
             name="fn_info_num_mem"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -309,7 +309,7 @@ const FakeNewInformation = () => {
             name="fn_info_more"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณากรอกรายละเอียดเพิ่มเติม",
               },
             ]}
@@ -342,7 +342,7 @@ const FakeNewInformation = () => {
             name="fn_info_dmy"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}
@@ -360,7 +360,7 @@ const FakeNewInformation = () => {
             getValueFromEvent={normFile}
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
               },
             ]}
