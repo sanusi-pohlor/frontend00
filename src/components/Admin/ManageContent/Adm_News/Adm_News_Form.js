@@ -257,9 +257,7 @@ const Adm_News_Form = () => {
         <div className="cardsectionContent">เพิ่มข่าวสาร</div>
       </Card>
       <br />
-      <Card
-        className="cardContent"
-      >
+      <Card>
         <Form
           form={form}
           layout="vertical"
