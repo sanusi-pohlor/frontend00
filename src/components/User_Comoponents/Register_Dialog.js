@@ -19,8 +19,6 @@ const RegisterDialog = ({ open, onClose }) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    console.log(values);
-    console.log("receiveCtEmail", receiveCtEmail);
     setLoading(true);
     try {
       let receive = 0;
