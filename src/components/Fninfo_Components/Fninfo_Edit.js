@@ -6,7 +6,7 @@ import {
 } from "@ant-design/icons";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Select, Upload, message, Card } from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload, message,Image, Card } from "antd";
 import Typography from '@mui/material/Typography';
 import moment from "moment";
 import "moment/locale/th";
@@ -86,9 +86,6 @@ const FnInfoEdit = () => {
         });
       } else {
         console.error("Invalid date received from the server");
-        form.setFieldsValue({
-          fn_info_dmy: moment(),
-        });
       }
     } catch (error) {
       console.error("Error:", error);
@@ -422,6 +419,11 @@ const FnInfoEdit = () => {
               },
             ]}
           >
+            {img && img.fn_info_image ? (
+              <Image width={200} src={img.fn_info_image} alt="รูปภาพข่าวปลอม" />
+            ) : (
+              <div>No image available</div>
+            )}
             <Upload
               name="fn_info_image"
               maxCount={3}

@@ -7,10 +7,12 @@ import {
   PhoneOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import UserProfile from "./Profile_Menu";
+import { Typography } from "@mui/material";
 
 const Editprofile = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -19,6 +21,7 @@ const Editprofile = () => {
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
   const [userdata, setUserdata] = useState([]);
+  const [prov, setProv] = useState(null);
 
   const fetchProvince = async () => {
     try {
@@ -64,6 +67,7 @@ const Editprofile = () => {
           province: filteredIds[0].prov_name,
           receive_ct_email: data.receive_ct_email,
         });
+        setProv(data.province);
       } else {
         console.error("Invalid date received from the server");
       }
@@ -73,21 +77,38 @@ const Editprofile = () => {
   };
 
   const onFinish = async (values) => {
+    console.log("value: ", values);
     setLoading(true);
+
     try {
-      let receive = 0;
-      if (receiveCtEmail) {
-        receive = 1;
-      }
+      let receive = receiveCtEmail ? 1 : 0;
+      const filteredIds = province.filter(
+        (item) => item.id === (userdata && userdata.province)
+      );
       const formData = new FormData();
-      formData.append("username", values.username);
-      formData.append("lastName", values.lastName);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      formData.append("phone_number", values.phone_number);
-      formData.append("Id_line", values.Id_line);
-      formData.append("province", selectOptions_prov);
+
+      // Function to append form data if value is defined and not empty
+      const appendIfDefined = (fieldName, value) => {
+        if (value !== undefined && value !== null && value !== '') {
+          formData.append(fieldName, value);
+        }
+      };
+
+      appendIfDefined("username", values.username);
+      appendIfDefined("lastName", values.lastName);
+      appendIfDefined("email", values.email);
+      appendIfDefined("password", values.password);
+      appendIfDefined("phone_number", values.phone_number);
+      appendIfDefined("Id_line", values.Id_line);
+
+      if (values.province === filteredIds[0]?.prov_name) {
+        formData.append("province", prov);
+      } else {
+        appendIfDefined("province", values.province);
+      }
+
       formData.append("receive_ct_email", receive);
+
       const response = await fetch(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
         {
@@ -95,18 +116,21 @@ const Editprofile = () => {
           body: formData,
         }
       );
+
       if (response.ok) {
         message.success("Form data sent successfully");
+        navigate(`/User/Profile`);
       } else {
         message.error("Error sending form data");
       }
     } catch (error) {
-      console.error("Error registering user:", error);
-      message.error("Error registering user");
+      console.error("Error updating user:", error);
+      message.error("Error updating user");
     } finally {
       setLoading(false);
     }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -115,6 +139,7 @@ const Editprofile = () => {
     const isChecked = e.target.checked;
     setReceiveCtEmail(isChecked);
   };
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -123,8 +148,8 @@ const Editprofile = () => {
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
+          <Option key={code[`id`]} value={code[`id`]}>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -148,6 +173,14 @@ const Editprofile = () => {
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
+  useEffect(() => {
+    onChange_mfi_province();
+  }, []);
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
 
   return (
     <UserProfile>
@@ -173,7 +206,7 @@ const Editprofile = () => {
             name="username"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มชื่อ!",
               },
             ]}
@@ -192,7 +225,7 @@ const Editprofile = () => {
             name="lastName"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มนามสกุล!",
               },
             ]}
@@ -209,7 +242,7 @@ const Editprofile = () => {
             name="email"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มอีเมล!",
               },
             ]}
@@ -222,7 +255,7 @@ const Editprofile = () => {
           <Form.Item
             label="รหัสผ่าน"
             name="password"
-            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+            rules={[{ required: false, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
           >
             <Input.Password
               size="large"
@@ -234,7 +267,7 @@ const Editprofile = () => {
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
-              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
+              { required: false, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {
@@ -255,7 +288,7 @@ const Editprofile = () => {
             name="phone_number"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรูณาเพิ่มเบอร์ติดต่อ!",
               },
             ]}
@@ -270,7 +303,7 @@ const Editprofile = () => {
             name="Id_line"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มไอดีไลน์!",
               },
             ]}
@@ -285,12 +318,12 @@ const Editprofile = () => {
             name="province"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเลือกจังหวัดที่สังกัด!",
               },
             ]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select onChange={onChange_mfi_province} allowClear placeholder="ระบุจังหวัดที่สังกัด">
               {selectOptions_prov}
             </Select>
           </Form.Item>

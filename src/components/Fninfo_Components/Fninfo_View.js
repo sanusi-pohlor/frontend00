@@ -16,7 +16,7 @@ const FnInfoView = () => {
     const fetchFakeNewsInfo = async () => {
       try {
         const response = await fetch(
-          `https://fakenews001-392577897f69.herokuapp.com/api/FakeNewsInfo_show/${id}`
+          `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
-import { Form, Button, Input, Modal } from "antd";
+import { Form, Button, Input, Modal , message} from "antd";
 import {
   Paper,Typography
 } from "@mui/material";
 
 const LoginDialog = ({ open, onClose }) => {
   const [visible, setVisible] = useState(open);
+
   const onFinish = async (values) => {
-    console.log(values);
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("password", values.password);
@@ -19,11 +19,13 @@ const LoginDialog = ({ open, onClose }) => {
       });
 
       if (response.ok) {
+        message.success("เข้าสู่ระบบสำเร็จ");
         const data = await response.json();
         localStorage.setItem("access_token", data.message);
         console.log("Login successful");
         window.location.reload();
       } else {
+        message.error("อีเมลหรือรหัสผ่านผิดพลาด!");
         console.error("Login failed");
       }
     } catch (error) {
@@ -86,7 +88,7 @@ const LoginDialog = ({ open, onClose }) => {
           name="password"
           rules={[
             {
-              required: true,
+              required: false,
               message: "กรุณาเพิ่มรหัสผ่าน!",
             },
           ]}
