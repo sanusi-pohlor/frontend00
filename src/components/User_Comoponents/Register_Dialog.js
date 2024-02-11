@@ -10,23 +10,50 @@ import {
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 
-const Register_Dialog = ({ open, onClose }) => {
+const RegisterDialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(open);
   const { Option } = Select;
   const [form] = Form.useForm();
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/AmUser"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+        console.log("user :", data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
-    console.log("receiveCtEmail", receiveCtEmail);
     setLoading(true);
     try {
       let receive = 0;
       if (receiveCtEmail) {
         receive = 1;
       }
+
+      // Check if the email already exists in the user state
+      const emailExists = user.some((existingUser) => existingUser.email === values.email);
+
+      if (emailExists) {
+        message.error("อีเมลนี้มีการใช้งานแล้ว");
+        setLoading(false);
+        return; // Stop further execution
+      }
+
       const formData = new FormData();
       formData.append("username", values.username);
       formData.append("lastName", values.lastName);
@@ -36,38 +63,17 @@ const Register_Dialog = ({ open, onClose }) => {
       formData.append("Id_line", values.Id_line);
       formData.append("province", values.province);
       formData.append("receive_ct_email", receive);
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/register",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+
+      const response = await fetch("https://checkkonproject-sub.com/api/register", {
+        method: "POST",
+        body: formData,
+      });
+
       if (response.ok) {
         message.success("Form data sent successfully");
-        const data = await response.json();
-        localStorage.setItem("access_token", data.message);
-        const loginResponse = await fetch(
-          "https://checkkonproject-sub.com/api/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: values.email,
-              password: values.password,
-            }),
-          }
-        );
 
-        if (loginResponse.ok) {
-          const loginData = await loginResponse.json();
-          localStorage.setItem("access_token", loginData.message);
-          window.location.reload();
-        } else {
-          message.error("Error logging in after registration");
-        }
+        // Rest of your logic for login after registration...
+
       } else {
         message.error("Error sending form data");
       }
@@ -78,6 +84,7 @@ const Register_Dialog = ({ open, onClose }) => {
       setLoading(false);
     }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -192,7 +199,7 @@ const Register_Dialog = ({ open, onClose }) => {
               margin: "0 8px",
             }}
           >
-            <Input size="large" placeholder="ระบุนามสกุล"/>
+            <Input size="large" placeholder="ระบุนามสกุล" />
           </Form.Item>
           <Form.Item
             label={createTypography("อีเมล")}
@@ -294,7 +301,7 @@ const Register_Dialog = ({ open, onClose }) => {
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" loading={loading} className="form-button">
-            {createTypography("ลงทะเบียน")}
+              {createTypography("ลงทะเบียน")}
             </Button>
           </Form.Item>
         </Form></Paper>

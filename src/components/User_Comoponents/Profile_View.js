@@ -123,7 +123,8 @@ const Profile = () => {
     {
       key: "7",
       label: createTypography("รับข้อมูลผ่านอีเมล"),
-      children: user && createTypography(user.receive_ct_email),
+      children: user && createTypography((user.receive_ct_email === 1 ? "รับ" : "ไม่รับ")
+      ),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];

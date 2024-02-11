@@ -7,10 +7,11 @@ import {
   PhoneOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import UserProfile from "./Profile_Menu";
+import { Typography } from "@mui/material";
 
-const Profile_Edit = () => {
+const Editprofile = () => {
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -19,6 +20,7 @@ const Profile_Edit = () => {
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
   const [userdata, setUserdata] = useState([]);
+  const [prov, setProv] = useState(null);
 
   const fetchProvince = async () => {
     try {
@@ -64,6 +66,7 @@ const Profile_Edit = () => {
           province: filteredIds[0].prov_name,
           receive_ct_email: data.receive_ct_email,
         });
+        setProv(data.province);
       } else {
         console.error("Invalid date received from the server");
       }
@@ -73,23 +76,38 @@ const Profile_Edit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log(values);
-    console.log("receiveCtEmail", receiveCtEmail);
+    console.log("value: ", values);
     setLoading(true);
+
     try {
-      let receive = 0;
-      if (receiveCtEmail) {
-        receive = 1;
-      }
+      let receive = receiveCtEmail ? 1 : 0;
+      const filteredIds = province.filter(
+        (item) => item.id === (userdata && userdata.province)
+      );
       const formData = new FormData();
-      formData.append("username", values.username);
-      formData.append("lastName", values.lastName);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      formData.append("phone_number", values.phone_number);
-      formData.append("Id_line", values.Id_line);
-      formData.append("province", selectOptions_prov);
+
+      // Function to append form data if value is defined and not empty
+      const appendIfDefined = (fieldName, value) => {
+        if (value !== undefined && value !== null && value !== '') {
+          formData.append(fieldName, value);
+        }
+      };
+
+      appendIfDefined("username", values.username);
+      appendIfDefined("lastName", values.lastName);
+      appendIfDefined("email", values.email);
+      appendIfDefined("password", values.password);
+      appendIfDefined("phone_number", values.phone_number);
+      appendIfDefined("Id_line", values.Id_line);
+
+      if (values.province === filteredIds[0]?.prov_name) {
+        formData.append("province", prov);
+      } else {
+        appendIfDefined("province", values.province);
+      }
+
       formData.append("receive_ct_email", receive);
+
       const response = await fetch(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
         {
@@ -97,18 +115,21 @@ const Profile_Edit = () => {
           body: formData,
         }
       );
+
       if (response.ok) {
         message.success("Form data sent successfully");
+        navigate(`/User/Profile`);
       } else {
         message.error("Error sending form data");
       }
     } catch (error) {
-      console.error("Error registering user:", error);
-      message.error("Error registering user");
+      console.error("Error updating user:", error);
+      message.error("Error updating user");
     } finally {
       setLoading(false);
     }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -117,6 +138,7 @@ const Profile_Edit = () => {
     const isChecked = e.target.checked;
     setReceiveCtEmail(isChecked);
   };
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -125,8 +147,8 @@ const Profile_Edit = () => {
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
+          <Option key={code[`id`]} value={code[`id`]}>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -150,9 +172,6 @@ const Profile_Edit = () => {
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
-  useEffect(() => {
-    onChange_mfi_province();
-  }, []);
 
   return (
     <UserProfile>
@@ -176,6 +195,12 @@ const Profile_Edit = () => {
           <Form.Item
             label="ชื่อ"
             name="username"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มชื่อ!",
+              },
+            ]}
             style={{
               display: "inline-block",
               width: "calc(50% - 8px)",
@@ -189,6 +214,12 @@ const Profile_Edit = () => {
           <Form.Item
             label="นามสกุล"
             name="lastName"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มนามสกุล!",
+              },
+            ]}
             style={{
               display: "inline-block",
               width: "calc(50% - 8px)",
@@ -197,13 +228,26 @@ const Profile_Edit = () => {
           >
             <Input size="large" />
           </Form.Item>
-          <Form.Item label="อีเมล" name="email">
+          <Form.Item
+            label="อีเมล"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มอีเมล!",
+              },
+            ]}
+          >
             <Input
               size="large"
               prefix={<MailOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item label="รหัสผ่าน" name="password">
+          <Form.Item
+            label="รหัสผ่าน"
+            name="password"
+            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+          >
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -214,6 +258,7 @@ const Profile_Edit = () => {
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
+              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {
@@ -229,19 +274,46 @@ const Profile_Edit = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item label="เบอร์ติดต่อ" name="phone_number">
+          <Form.Item
+            label="เบอร์ติดต่อ"
+            name="phone_number"
+            rules={[
+              {
+                required: true,
+                message: "กรูณาเพิ่มเบอร์ติดต่อ!",
+              },
+            ]}
+          >
             <Input
               size="large"
               prefix={<PhoneOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item label="ไอดีไลน์" name="Id_line">
+          <Form.Item
+            label="ไอดีไลน์"
+            name="Id_line"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเพิ่มไอดีไลน์!",
+              },
+            ]}
+          >
             <Input
               size="large"
               prefix={<MessageOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item label="จังหวัดที่สังกัด" name="province">
+          <Form.Item
+            label="จังหวัดที่สังกัด"
+            name="province"
+            rules={[
+              {
+                required: true,
+                message: "กรุณาเลือกจังหวัดที่สังกัด!",
+              },
+            ]}
+          >
             <Select onChange={onChange_mfi_province} allowClear>
               {selectOptions_prov}
             </Select>
