@@ -11,7 +11,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import UserProfile from "./Profile_Menu";
 import { Typography } from "@mui/material";
 
-const Editprofile = () => {
+const Profile_Edit = () => {
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -21,6 +21,7 @@ const Editprofile = () => {
   const [province, setProvince] = useState([]);
   const [userdata, setUserdata] = useState([]);
   const [prov, setProv] = useState(null);
+  const navigate = useNavigate();
 
   const fetchProvince = async () => {
     try {

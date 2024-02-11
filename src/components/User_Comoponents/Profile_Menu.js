@@ -71,10 +71,6 @@ const MenuProfile = ({ children }) => {
         const countData = data.filter((item) => item.fn_info_nameid === user.id)
           .length;
         setData(countData);
-        console.log(
-          "จำนวน data ที่ fn_info_nameid = user.id:",
-          countData
-        );
       } else {
         console.error("Error fetching data:", response.statusText);
       }

@@ -10,7 +10,8 @@ import {
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 
-const RegisterDialog = ({ open, onClose }) => {
+const Register_Dialog = ({ open, onClose }) => {
+  const [user, setUser] = useState(null);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
