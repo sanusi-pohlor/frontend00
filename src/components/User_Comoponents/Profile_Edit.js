@@ -10,7 +10,7 @@ import {
 import { useParams } from "react-router-dom";
 import UserProfile from "./Profile_Menu";
 
-const Editprofile = () => {
+const Profile_Edit = () => {
   const { id } = useParams();
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -150,6 +150,9 @@ const Editprofile = () => {
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
+  useEffect(() => {
+    onChange_mfi_province();
+  }, []);
 
   return (
     <UserProfile>
@@ -173,12 +176,6 @@ const Editprofile = () => {
           <Form.Item
             label="ชื่อ"
             name="username"
-            rules={[
-              {
-                required: true,
-                message: "กรุณาเพิ่มชื่อ!",
-              },
-            ]}
             style={{
               display: "inline-block",
               width: "calc(50% - 8px)",
@@ -192,12 +189,6 @@ const Editprofile = () => {
           <Form.Item
             label="นามสกุล"
             name="lastName"
-            rules={[
-              {
-                required: true,
-                message: "กรุณาเพิ่มนามสกุล!",
-              },
-            ]}
             style={{
               display: "inline-block",
               width: "calc(50% - 8px)",
@@ -206,26 +197,13 @@ const Editprofile = () => {
           >
             <Input size="large" />
           </Form.Item>
-          <Form.Item
-            label="อีเมล"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "กรุณาเพิ่มอีเมล!",
-              },
-            ]}
-          >
+          <Form.Item label="อีเมล" name="email">
             <Input
               size="large"
               prefix={<MailOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item
-            label="รหัสผ่าน"
-            name="password"
-            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
-          >
+          <Form.Item label="รหัสผ่าน" name="password">
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
@@ -236,7 +214,6 @@ const Editprofile = () => {
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
-              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {
@@ -252,46 +229,19 @@ const Editprofile = () => {
               prefix={<LockOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item
-            label="เบอร์ติดต่อ"
-            name="phone_number"
-            rules={[
-              {
-                required: true,
-                message: "กรูณาเพิ่มเบอร์ติดต่อ!",
-              },
-            ]}
-          >
+          <Form.Item label="เบอร์ติดต่อ" name="phone_number">
             <Input
               size="large"
               prefix={<PhoneOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item
-            label="ไอดีไลน์"
-            name="Id_line"
-            rules={[
-              {
-                required: true,
-                message: "กรุณาเพิ่มไอดีไลน์!",
-              },
-            ]}
-          >
+          <Form.Item label="ไอดีไลน์" name="Id_line">
             <Input
               size="large"
               prefix={<MessageOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
-          <Form.Item
-            label="จังหวัดที่สังกัด"
-            name="province"
-            rules={[
-              {
-                required: true,
-                message: "กรุณาเลือกจังหวัดที่สังกัด!",
-              },
-            ]}
-          >
+          <Form.Item label="จังหวัดที่สังกัด" name="province">
             <Select onChange={onChange_mfi_province} allowClear>
               {selectOptions_prov}
             </Select>
@@ -320,4 +270,4 @@ const Editprofile = () => {
   );
 };
 
-export default Editprofile;
+export default Profile_Edit;
