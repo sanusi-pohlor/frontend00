@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import { Editor, EditorState, RichUtils } from 'draft-js';
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import {
   Form,
   Input,
@@ -13,19 +12,16 @@ import {
   Select,
   Image,
 } from "antd";
-import {
-  PlusOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_News_Edit = () => {
-  const [editorState, setEditorState] = useState(/* initial state here */);
   const { id } = useParams();
   const [form] = Form.useForm();
   const [data, setData] = useState(null);
+  const [details, setDetails] = useState("");
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const [user, setUser] = useState(null);
@@ -34,8 +30,38 @@ const Adm_News_Edit = () => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
-  const [img, setImg] = useState(null);
-  const [coverImage, setCoverImage] = useState(null);
+
+  useEffect(() => {
+    fetchFakeNewsData();
+  }, [id]);
+
+  const fetchFakeNewsData = async () => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+        form.setFieldsValue({
+          title: data.title,
+          //details: data.details,
+          link: data.link,
+          tag: data.tag,
+          type_new: data.type_new,
+          med_new: data.med_new,
+          prov_new: data.prov_new,
+          key_new: data.key_new,
+        });
+        setDetails(data.details);
+      } else {
+        console.error("Invalid date received from the server");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -56,10 +82,7 @@ const Adm_News_Edit = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setOptions((prevOptions) => [
-          ...prevOptions,
-          { label: data.tag_name },
-        ]);
+        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
       } else {
         console.error("Error adding tag:", response.statusText);
       }
@@ -91,7 +114,6 @@ const Adm_News_Edit = () => {
   useEffect(() => {
     fetchUser();
   }, []);
-
   const modules = {
     toolbar: {
       container: [
@@ -114,7 +136,7 @@ const Adm_News_Edit = () => {
       matchVisual: true,
     },
   };
-
+  
   const formats = [
     "header",
     "font",
@@ -128,40 +150,11 @@ const Adm_News_Edit = () => {
     "bullet",
     "link",
     "align",
-  ];
+  ];  
 
   const handleChange = (html) => {
     setEditorHtml(html);
-  };
-
-  useEffect(() => {
-    fetchFakeNewsData();
-  }, [id]);
-
-  const fetchFakeNewsData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-        form.setFieldsValue({
-          title: data.title,
-          details: data.details,
-          link: data.link,
-          tag: data.tag,
-          type_new: data.type_new,
-          med_new: data.med_new,
-          prov_new: data.prov_new,
-          key_new: data.key_new,
-        });
-      } else {
-        console.error("Invalid date received from the server");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    setDetails(data.details);
   };
 
   const onFinish = async (values) => {
@@ -214,7 +207,6 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -374,11 +366,13 @@ const Adm_News_Edit = () => {
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
-              <Editor
-                editorState={editorState} // Define and manage the EditorState in your component state
-                onChange={handleChange}   // Handle changes to update the EditorState
-                placeholder={createTypography("รายละเอียดเพิ่มเติม")}
-              // Add additional props as needed
+              <ReactQuill
+                onChange={handleChange}
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
+                initialValue={details}                
+                formats={formats}
+                modules={modules}
+                style={{ height: "950px" }}
               />
             </div>
           </Form.Item>
@@ -408,8 +402,14 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          {data && Array.isArray(data.details_image) && data.details_image.length > 0 ? (
-            <Image width={200} src={data.details_image[0]} alt="รูปภาพข่าวปลอม" />
+          {data &&
+          Array.isArray(data.details_image) &&
+          data.details_image.length > 0 ? (
+            <Image
+              width={200}
+              src={data.details_image[0]}
+              alt="รูปภาพข่าวปลอม"
+            />
           ) : (
             <div>ไม่ได้ใส่รูปภาพ</div>
           )}

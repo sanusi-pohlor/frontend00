@@ -31,7 +31,7 @@
     "framer-motion": "^10.18.0",
     "leaflet": "^1.9.4",
     "moment": "^2.30.1",
-    "react-flickity-component": "^4.0.7",
+    "react-flickity-component": "^x.y.z",
     "react-leaflet": "^4.2.1",
     "react-map-interaction": "^2.1.0",
     "react-material-ui-carousel": "^3.4.2",

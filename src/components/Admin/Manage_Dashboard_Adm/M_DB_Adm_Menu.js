@@ -16,9 +16,11 @@ import {
 } from "recharts";
 import AdminMenu from "../Adm_Menu";
 import { Grid, Typography } from "@mui/material";
-import { format } from 'date-fns-tz';
-import thLocale from 'date-fns/locale/th';
+import moment from "moment";
+import "moment/locale/th";
 
+const thaiLocale = "th";
+moment.locale(thaiLocale);
 const M_DB_Adm_Menu = () => {
   const [data, setData] = useState([]);
   const [province, setProvince] = useState([]);
@@ -241,10 +243,9 @@ const M_DB_Adm_Menu = () => {
 
   const oldestDate = dateObjects.reduce((minDate, currentDate) => (currentDate < minDate ? currentDate : minDate), dateObjects[0]);
   const newestDate = dateObjects.reduce((maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate), dateObjects[0]);
-
-  const thaiLocale = { locale: thLocale };
-  const oldestMonthYear = format(oldestDate, 'LLLL yyyy', thaiLocale);
-  const newestMonthYear = format(newestDate, 'LLLL yyyy', thaiLocale);
+  const oldestMonthYear = moment().format("Do MMMM YYYY");
+  const newestMonthYear = moment(newestDate).format("LLLL yyyy");
+  const newestMonthYearThai = moment(newestDate).locale(thaiLocale).format("LLLL yyyy");
 
   return (
     <AdminMenu>
