@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Editor, EditorState, RichUtils } from 'draft-js';
 import {
   Form,
   Input,
@@ -21,14 +22,17 @@ import { useParams } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_News_Edit = () => {
+  const [editorState, setEditorState] = useState(/* initial state here */);
   const { id } = useParams();
   const [form] = Form.useForm();
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const [user, setUser] = useState(null);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
   const [img, setImg] = useState(null);
   const [coverImage, setCoverImage] = useState(null);
@@ -54,7 +58,7 @@ const Adm_News_Edit = () => {
         const data = await response.json();
         setOptions((prevOptions) => [
           ...prevOptions,
-          { label: data.tag_name, value: data.tag_name },
+          { label: data.tag_name },
         ]);
       } else {
         console.error("Error adding tag:", response.statusText);
@@ -63,20 +67,6 @@ const Adm_News_Edit = () => {
       console.error("Error adding tag:", error);
     }
   };
-
-  useEffect(() => {
-    fetch("https://checkkonproject-sub.com/api/Tags_request")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-        }));
-        setOptions(formattedOptions);
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  }, []);
 
   const fetchUser = async () => {
     try {
@@ -140,8 +130,8 @@ const Adm_News_Edit = () => {
     "align",
   ];
 
-  const handleChange = (value) => {
-    form.setFieldsValue({ details: value });
+  const handleChange = (html) => {
+    setEditorHtml(html);
   };
 
   useEffect(() => {
@@ -155,13 +145,10 @@ const Adm_News_Edit = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setImg(data);
-        setCoverImage(data.cover_image);
+        setData(data);
         form.setFieldsValue({
           title: data.title,
-          cover_image: data.cover_image,
           details: data.details,
-          details_image: data.details_image,
           link: data.link,
           tag: data.tag,
           type_new: data.type_new,
@@ -182,40 +169,31 @@ const Adm_News_Edit = () => {
     try {
       setLoading(true);
       const formData = new FormData();
-      formData.append("Author", user.id);
-  
-      if (values.title !== form.getFieldValue("title")) {
-        formData.append("title", values.title);
-      }
-  
-      if (
-        values.cover_image &&
-        values.cover_image[0].originFileObj !== form.getFieldValue("cover_image")
-      ) {
+      const appendIfDefined = (fieldName, value) => {
+        if (value !== undefined) {
+          formData.append(fieldName, value);
+        }
+      };
+      appendIfDefined("title", values.title);
+      if (values.cover_image !== undefined) {
         formData.append("cover_image", values.cover_image[0].originFileObj);
       }
-  
-      if (values.details !== form.getFieldValue("details")) {
-        formData.append("details", editorHtml);
+      appendIfDefined("details", editorHtml);
+      if (values.details_image !== undefined) {
+        if (values.details_image && values.details_image.length > 0) {
+          values.details_image.forEach((image, index) => {
+            formData.append(`details_image[${index}]`, image.originFileObj);
+          });
+        }
       }
-  
-      if (
-        values.details_image &&
-        values.details_image.length > 0 &&
-        JSON.stringify(values.details_image) !==
-          JSON.stringify(form.getFieldValue("details_image"))
-      ) {
-        values.details_image.forEach((image, index) => {
-          formData.append(`details_image[${index}]`, image.originFileObj);
-        });
+      if (values.tag !== undefined) {
+        formData.append("tag", JSON.stringify(values.tag));
       }
-  
-      formData.append("tag", JSON.stringify(values.tag));
-      formData.append("type_new", values.type_new);
-      formData.append("med_new", values.med_new);
-      formData.append("prov_new", values.prov_new);
-      formData.append("key_new", values.key_new);
-  
+      appendIfDefined("type_new", values.type_new);
+      appendIfDefined("med_new", values.med_new);
+      appendIfDefined("prov_new", values.prov_new);
+      //appendIfDefined("key_new", values.key_new);
+
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
         {
@@ -223,7 +201,7 @@ const Adm_News_Edit = () => {
           body: formData,
         }
       );
-  
+
       if (response.ok) {
         message.success("Data saved successfully");
       } else {
@@ -236,8 +214,8 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-  
-  
+
+
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
@@ -287,10 +265,32 @@ const Adm_News_Edit = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_Tags();
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
@@ -312,6 +312,7 @@ const Adm_News_Edit = () => {
           name="dynamic_form_complex"
           autoComplete="off"
           onFinish={onFinish}
+          initialValues={{ details: "" }}
         >
           <Form.Item
             label={createTypography("ผู้เขียน")}
@@ -361,25 +362,23 @@ const Adm_News_Edit = () => {
                 <div style={{ marginTop: 8 }}>Upload</div>
               </div>
             </Upload>
-            <img
-              src={coverImage}
-              alt="Cover Image"
-              style={{ maxWidth: "200px" }}
-            />
           </Form.Item>
+          {data && data.cover_image ? (
+            <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div>No image available</div>
+          )}
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
-              <ReactQuill
-                onChange={handleChange}
+              <Editor
+                editorState={editorState} // Define and manage the EditorState in your component state
+                onChange={handleChange}   // Handle changes to update the EditorState
                 placeholder={createTypography("รายละเอียดเพิ่มเติม")}
-                value={form.getFieldValue("details")}
-                formats={formats}
-                modules={modules}
-                style={{ height: "950px" }}
+              // Add additional props as needed
               />
             </div>
           </Form.Item>
@@ -397,11 +396,6 @@ const Adm_News_Edit = () => {
               },
             ]}
           >
-            {img && img.details_image ? (
-              <Image width={200} src={img.details_image} alt="รูปภาพข่าวปลอม" />
-            ) : (
-              <div>No image available</div>
-            )}
             <Upload
               name="details_image"
               maxCount={10}
@@ -414,6 +408,11 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
+          {data && Array.isArray(data.details_image) && data.details_image.length > 0 ? (
+            <Image width={200} src={data.details_image[0]} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div>ไม่ได้ใส่รูปภาพ</div>
+          )}
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
@@ -422,14 +421,17 @@ const Adm_News_Edit = () => {
             <Select
               mode="tags"
               style={{ width: "100%" }}
-              placeholder={createTypography("เพิ่มแท็ก")}
+              placeholder="เพิ่มแท็ก"
+              onChange={onChange_Tags}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
                 }
               }}
-              options={options}
-            />
+              allowClear
+            >
+              {selectOptions_tags}
+            </Select>
           </Form.Item>
           <Form.Item
             name="type_new"

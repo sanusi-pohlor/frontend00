@@ -39,6 +39,7 @@ const FnInfoEdit = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [formattedDate, setFormattedDate] = useState(null);
   const navigate = useNavigate();
+  const [source, setSource] = useState(null);
 
   useEffect(() => {
     fetchmed();
@@ -66,7 +67,6 @@ const FnInfoEdit = () => {
       if (response.ok) {
         const Data = await response.json();
         setmed(Data);
-        console.log("fetchmed : ", Data);
       } else {
         console.error("Failed to fetch user data");
       }
@@ -84,17 +84,17 @@ const FnInfoEdit = () => {
         const FakeNewsData = await response.json();
         setData(FakeNewsData);
         const filteredIds = med.filter(
-          (item) => item.id === FakeNewsData.fn_info_source
+          (item) => item.id === (FakeNewsData && FakeNewsData.fn_info_source)
         );
         form.setFieldsValue({
           fn_info_head: FakeNewsData.fn_info_head,
           fn_info_content: FakeNewsData.fn_info_content,
-          fn_info_source: filteredIds[0].med_c_name,
+          fn_info_source: FakeNewsData.fn_info_source,
           fn_info_num_mem: FakeNewsData.fn_info_num_mem,
           fn_info_more: FakeNewsData.fn_info_more,
           fn_info_link: FakeNewsData.fn_info_link,
-          fn_info_dmy: FakeNewsData.fn_info_dmy,
         });
+        setSource(FakeNewsData.fn_info_source);
         setFormattedDate(moment(FakeNewsData.fn_info_dmy).format("YYYY-MM-DD"));
       } else {
         console.error("Invalid date received from the server");
@@ -105,17 +105,31 @@ const FnInfoEdit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("values:", values);
+    console.log("values : ", values);
     try {
+      const filteredIds = med.filter(
+        (item) => item.id === (data && data.fn_info_source)
+      );
       const formData = new FormData();
-      formData.append("fn_info_head", values.fn_info_head);
-      formData.append("fn_info_content", values.fn_info_content);
-      formData.append("fn_info_source", values.fn_info_source);
-      formData.append("fn_info_num_mem", values.fn_info_num_mem);
-      formData.append("fn_info_more", values.fn_info_more);
-      formData.append("fn_info_link", values.fn_info_link);
-      formData.append("fn_info_dmy", values.fn_info_dmy);
-      formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
+
+      const appendIfDefined = (fieldName, value) => {
+        if (value !== undefined) {
+          formData.append(fieldName, value);
+        }
+      };
+
+      appendIfDefined("fn_info_head", values.fn_info_head);
+      appendIfDefined("fn_info_content", values.fn_info_content);
+      if (values.fn_info_source !== filteredIds[0]?.med_c_name) {
+        formData.append("fn_info_source", values.fn_info_source);
+      }
+      appendIfDefined("fn_info_num_mem", values.fn_info_num_mem);
+      appendIfDefined("fn_info_more", values.fn_info_more);
+      appendIfDefined("fn_info_link", values.fn_info_link);
+      appendIfDefined("fn_info_dmy", values.fn_info_dmy);
+      if (values.fn_info_image !== undefined) {
+        formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
+      }
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
         {
@@ -223,6 +237,7 @@ const FnInfoEdit = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   };
+
   const onChange_dnc_med_id = () => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -230,6 +245,9 @@ const FnInfoEdit = () => {
       setSelectOptions_med
     );
   };
+  useEffect(() => {
+    onChange_dnc_med_id();
+  }, []);
 
   if (!user) {
     return (
@@ -265,7 +283,7 @@ const FnInfoEdit = () => {
             //name="fn_info_nameid"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -287,7 +305,7 @@ const FnInfoEdit = () => {
               //name="fn_info_province"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: "Please input your email!",
                 },
               ]}
@@ -309,7 +327,7 @@ const FnInfoEdit = () => {
             name="fn_info_head"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาระบุหัวข้อ",
               },
             ]}
@@ -329,7 +347,7 @@ const FnInfoEdit = () => {
             name="fn_info_content"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -350,7 +368,7 @@ const FnInfoEdit = () => {
             name="fn_info_source"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -375,7 +393,7 @@ const FnInfoEdit = () => {
             name="fn_info_num_mem"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "Please input your email!",
               },
             ]}
@@ -409,7 +427,7 @@ const FnInfoEdit = () => {
             name="fn_info_more"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณากรอกรายละเอียดเพิ่มเติม",
               },
             ]}
@@ -441,30 +459,31 @@ const FnInfoEdit = () => {
               placeholder="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
             />
           </Form.Item>
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            {formattedDate}
+          </Typography>
+          เปลี่ยนใหม่
           <Form.Item
-            label={
-              <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                วัน/เดือน/ปี ที่เกิดเหตุ
-              </Typography>
-            }
+            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
             name="fn_info_dmy"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}
           >
-            <Typography variant="body1" sx={{ fontSize: "25px" }}>
-            {formattedDate}
-            </Typography>
-            เปลี่ยนใหม่
             <DatePicker
               size="large"
               placeholder="วัน/เดือน/ปี"
               format="YYYY-MM-DD"
             />
           </Form.Item>
+          {data && data.fn_info_image ? (
+            <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div>No image available</div>
+          )}
           <Form.Item
             label={
               <Typography variant="body1" sx={{ fontSize: "25px" }}>
@@ -476,16 +495,12 @@ const FnInfoEdit = () => {
             getValueFromEvent={normFile}
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
               },
             ]}
           >
-            {data && data.fn_info_image ? (
-              <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
-            ) : (
-              <div>No image available</div>
-            )}
+
             <Upload
               name="fn_info_image"
               maxCount={3}

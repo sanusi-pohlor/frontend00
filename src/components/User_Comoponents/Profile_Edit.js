@@ -77,7 +77,6 @@ const Profile_Edit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("value: ", values);
     setLoading(true);
 
     try {
@@ -87,7 +86,6 @@ const Profile_Edit = () => {
       );
       const formData = new FormData();
 
-      // Function to append form data if value is defined and not empty
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined && value !== null && value !== '') {
           formData.append(fieldName, value);
