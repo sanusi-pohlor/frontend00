@@ -9,7 +9,11 @@ import {
   Space,
   Card,
 } from "antd";
-import { PlusCircleOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import {
+  PlusCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 import {
   Table,
   TableCell,
@@ -27,9 +31,27 @@ const MC_MediaChannels = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
+  const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [editRecord, setEditRecord] = useState(null);
+
+  const fetchFakeNewsInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFakeNewsInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -48,6 +70,7 @@ const MC_MediaChannels = () => {
   };
   useEffect(() => {
     fetchData();
+    fetchFakeNewsInfo();
   }, []);
 
   const onFinish = async (values) => {
@@ -67,6 +90,7 @@ const MC_MediaChannels = () => {
 
       if (response.ok) {
         message.success("Form data sent successfully");
+        fetchData();
       } else {
         message.error("Error sending form data");
       }
@@ -77,40 +101,83 @@ const MC_MediaChannels = () => {
       setLoading(false);
     }
   };
-  const isEditing = (record) => record.key === editingKey;
-
-  const handleDelete = (id) => {
-    fetch(`https://checkkonproject-sub.com/api/MediaChannels_delete/${id}`, { method: "DELETE" })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Fake News deleted successfully") {
-          fetchData();
-        } else {
-          console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
-        }
-      })
-      .catch((error) => {
-        console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
-      });
-  };
-
-  const fetchFakeNewsData = async (id, form) => {
+  const onFinishEdit = async (values, id) => {
+    setLoading(true);
     try {
+      const formData = new FormData();
+      formData.append("med_c_name", values.med_c_name);
+
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/MediaChannels_edit/${id}`
+        `https://checkkonproject-sub.com/api/MediaChannels_update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
       );
       if (response.ok) {
-        const data = await response.json();
-        setData(data);
-        form.setFieldsValue({
-          med_c_name: data.med_c_name,
-        });
-        setModalVisible(true);
+        message.success("Form data updated successfully");
+        setEditingKey("");
+        setEditRecord(null);
+        fetchData();
       } else {
-        console.error("Invalid data received from the server");
+        message.error("Error updating form data");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error updating form data:", error);
+      message.error("Error updating form data");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isEditing = (record) => record.key === editingKey;
+
+  const editRow = (record) => {
+    form.setFieldsValue({
+      med_c_name: record.med_c_name,
+    });
+    setEditingKey(record.id);
+    setEditRecord(record);
+  };
+  const add = () => {
+    form.setFieldsValue({
+      med_c_name: null,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingKey("");
+    setEditRecord(null);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const filteredItems = fakeNewsInfo.filter(
+        (item) => item.fn_info_source === id
+      );
+      if (filteredItems.length > 0) {
+        message.error("Data exists. Cannot delete.");
+      } else {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/MediaChannels_delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const responseData = await response.json();
+
+        if (
+          response.ok &&
+          responseData === "MediaChannels deleted successfully"
+        ) {
+          console.log("MediaChannels deleted successfully");
+          fetchData();
+        } else {
+          console.error("Error deleting item:", responseData);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
     }
   };
 
@@ -121,27 +188,36 @@ const MC_MediaChannels = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'ชื่อช่องทางสื่อ',
-      dataIndex: 'med_c_name',
-      width: '60%',
+      title: "ชื่อช่องทางสื่อ",
+      dataIndex: "med_c_name",
+      width: "60%",
       editable: true,
     },
     {
-      title: "จัดการ", width: "10%", render: (text, record) => (
+      title: "จัดการ",
+      width: "10%",
+      render: (text, record) => (
         <Space size="middle">
-           <Button onClick={() => fetchFakeNewsData(record.id, form)}>
-            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
-          </Button>
-          <Popconfirm
-            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
-            onConfirm={() => handleDelete(record.id)}
-            okText="ใช่"
-            cancelText="ไม่"
-          >
-            <Button>
-              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
-            </Button>
-          </Popconfirm>
+          <>
+            <Button
+              onClick={() => editRow(record)}
+              icon={
+                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
+              }
+            />
+            <Popconfirm
+              title="คุณแน่ใจหรือไม่ที่จะยกเลิกการแก้ไข?"
+              onConfirm={() => handleDelete(record.id)}
+              okText="ใช่"
+              cancelText="ไม่"
+            >
+              <Button
+                icon={
+                  <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
+                }
+              />
+            </Popconfirm>
+          </>
         </Space>
       ),
     },
@@ -173,16 +249,21 @@ const MC_MediaChannels = () => {
   return (
     <div>
       <Card className="cardsection">
-        <div className="cardsectionContent">จัดการช่องทางสื่อ
+        <div className="cardsectionContent">
+          จัดการช่องทางสื่อ
           <Button
-            className="buttonfilterStyle" type="primary" icon={<PlusCircleOutlined />}
+            className="buttonfilterStyle"
+            type="primary"
+            icon={<PlusCircleOutlined />}
             onClick={() => {
+              add();
               setModalVisible(true);
             }}
             style={{ marginBottom: 16 }}
           >
             เพิ่มช่องทางสื่อ
-          </Button></div>
+          </Button>
+        </div>
       </Card>
       <br />
       <Modal
@@ -210,7 +291,39 @@ const MC_MediaChannels = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="form-button">
+              เพิ่ม
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      <Modal
+        title="เพิ่มช่องทางสื่อ"
+        visible={!!editRecord}
+        onCancel={cancelEdit}
+        footer={null}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="member_form"
+          onFinish={(values) => onFinishEdit(values, editRecord.id)}
+        >
+          <Form.Item
+            name="med_c_name"
+            label="ช่องทางสื่อ"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
@@ -244,9 +357,9 @@ const MC_MediaChannels = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>
