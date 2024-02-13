@@ -9,7 +9,7 @@ const { Footer } = Layout;
 const Bottom = () => {
   return (
     <Footer className="footer">
-      <br/>
+      <br />
       <Grid container spacing={2}>
         <Grid item xs={12} md={9}>
           <img
@@ -42,9 +42,12 @@ const Bottom = () => {
                       color: "#208b99",
                     }}
                   >
-                    เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้{' '}
+                    เครือข่ายเฝ้าระวังสื่อออนไลน์ภาคใต้
                   </strong>
                 </div>
+              </span>
+              <span>
+                   ------------ -----------
               </span>
               <span>
                 <img src={CASLogo} alt="CAS Logo" className="partner-image" />

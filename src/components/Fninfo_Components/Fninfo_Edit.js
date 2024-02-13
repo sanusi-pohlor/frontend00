@@ -265,7 +265,6 @@ const FnInfoEdit = () => {
           form={form}
           layout="vertical"
           name="FakeNewInformation"
-          //onChange={onChange_dnc_med_id}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{

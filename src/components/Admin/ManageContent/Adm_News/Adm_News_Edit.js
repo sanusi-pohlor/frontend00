@@ -46,8 +46,8 @@ const Adm_News_Edit = () => {
         form.setFieldsValue({
           title: data.title,
           //details: data.details,
-          link: data.link,
-          tag: data.tag,
+          //link: data.link,
+          //tag: data.tag,
           type_new: data.type_new,
           med_new: data.med_new,
           prov_new: data.prov_new,
@@ -136,7 +136,7 @@ const Adm_News_Edit = () => {
       matchVisual: true,
     },
   };
-  
+
   const formats = [
     "header",
     "font",
@@ -150,7 +150,7 @@ const Adm_News_Edit = () => {
     "bullet",
     "link",
     "align",
-  ];  
+  ];
 
   const handleChange = (html) => {
     setEditorHtml(html);
@@ -304,7 +304,6 @@ const Adm_News_Edit = () => {
           name="dynamic_form_complex"
           autoComplete="off"
           onFinish={onFinish}
-          initialValues={{ details: "" }}
         >
           <Form.Item
             label={createTypography("ผู้เขียน")}
@@ -360,16 +359,41 @@ const Adm_News_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
+          <br />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+            }}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
                 placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
-                initialValue={details}                
+                formats={formats}
+                modules={modules}
+                style={{ height: "950px" }}
+              />
+            </div>
+          </Form.Item>
+          <Form.Item
+            name=""
+            label={createTypography("รายละเอียดเพิ่มเติมเก่า")}
+            rules={[{ required: false }]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              margin: "0 8px",
+            }}
+          >
+            <div style={{ height: "1000px" }}>
+              <ReactQuill
+                onChange={handleChange}
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
+                value={details}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
@@ -403,8 +427,8 @@ const Adm_News_Edit = () => {
             </Upload>
           </Form.Item>
           {data &&
-          Array.isArray(data.details_image) &&
-          data.details_image.length > 0 ? (
+            Array.isArray(data.details_image) &&
+            data.details_image.length > 0 ? (
             <Image
               width={200}
               src={data.details_image[0]}
@@ -412,6 +436,12 @@ const Adm_News_Edit = () => {
             />
           ) : (
             <div>ไม่ได้ใส่รูปภาพ</div>
+          )}
+          <br />
+          {data && data.tag ? (
+            data.tag
+          ) : (
+            <div>ไม่มีแท็ก</div>
           )}
           <Form.Item
             name="tag"

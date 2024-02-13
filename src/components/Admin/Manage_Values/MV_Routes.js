@@ -17,74 +17,69 @@ import MC_DataCharacteristics from './MC_DataCharacteristics';
 import MC_CheckingData from './MC_CheckingData';
 import MC_ActionType from './MC_ActionType';
 import AdminMenu from "../Adm_Menu";
+import { Card } from "antd";
 
 const items = [
   {
     key: '1',
     label: 'ประเภทเนื้อหาข้อมูลเท็จ',
-    children: <MC_TypeInformation/>,
+    children: <MC_TypeInformation />,
   },
   {
     key: '2',
     label: 'ประเด็นย่อย',
-    children: <MC_Subpoint/>,
+    children: <MC_Subpoint />,
   },
   {
     key: '3',
     label: 'แรงจูงใจ',
-    children: <MC_Motivation/>,
+    children: <MC_Motivation />,
   },
   {
     key: '4',
     label: 'ลักษณะข้อมูล',
-    children: <MC_DataCharacteristics/>,
+    children: <MC_DataCharacteristics />,
   },
   {
     key: '5',
     label: 'ประเภทการกระทำ',
-    children: <MC_ActionType/>,
+    children: <MC_ActionType />,
   },
   {
     key: '6',
     label: 'ช่องทางสื่อ',
-    children: <MC_MediaChannels/>,
+    children: <MC_MediaChannels />,
   },
   {
     key: '7',
     label: 'การตรวจสอบ',
-    children: <MC_CheckingData/>,
+    children: <MC_CheckingData />,
   },
   {
     key: '8',
     label: 'การจัดการปัญหา',
-    children: <MC_ProblemManagement/>,
+    children: <MC_ProblemManagement />,
   },
   {
     key: '9',
     label: 'รูปแบบของข้อมูล',
-    children: <MC_FormatData/>,
+    children: <MC_FormatData />,
   },
   {
     key: '10',
     label: 'ผู้เผยแพร่',
-    children: <MC_Publisher/>,
+    children: <MC_Publisher />,
   },
   {
     key: '11',
     label: 'รายละเอียดช่องทางการแจ้ง',
-    children: <MC_DetailsNotiChannels/>,
-  },
-  {
-    key: '12',
-    label: 'การแจ้งข้อมูลที่เป็นเท็จ',
-    children: <MC_Information/>,
-  },
-  {
-    key: '13',
-    label: 'สมาชิกอาสา',
-    children: <MC_VolunteeMembers/>,
+    children: <MC_DetailsNotiChannels />,
   },
 ];
-const ManageValues = () =><AdminMenu><Collapse accordion items={items} /></AdminMenu>;
+const ManageValues = () => <AdminMenu>      <Card className="cardsection">
+  <div className="cardsectionContent">
+    จัดการค่า
+  </div>
+</Card><br /><Card><Collapse accordion items={items} /></Card></AdminMenu>;
 
 export default ManageValues;

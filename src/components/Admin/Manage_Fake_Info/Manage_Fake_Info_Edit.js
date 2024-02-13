@@ -21,32 +21,13 @@ const Manage_Fake_Info_Edit = () => {
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [editingKey, setEditingKey] = useState("");
-  const [img, setImg] = useState(null);
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
-  const [selectOptions_con, setSelectOptions_con] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
-
-  const [Options_vol, setOptions_vol] = useState([]);
-  const [Options_med, setOptions_med] = useState([]);
-  const [Options_c_info, setOptions_c_info] = useState([]);
-  const [Options_fm, setOptions_fm] = useState([]);
-  const [Options_dis, setOptions_dis] = useState([]);
-  const [Options_ty, setOptions_ty] = useState([]);
-  const [Options_con, setOptions_con] = useState([]);
-  const [Options_moti, setOptions_moti] = useState([]);
-  const [Options_data, setOptions_data] = useState([]);
-  const [Options_prov, setOptions_prov] = useState([]);
-  const [Options_cv, setOptions_cv] = useState([]);
-
-
   const [info_source, setInfo_source] = useState(null);
   const [options, setOptions] = useState([]);
   const { id } = useParams();
@@ -82,7 +63,6 @@ const Manage_Fake_Info_Edit = () => {
       );
       if (response.ok) {
         const userData = await response.json();
-        console.log("user :", userData);
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -125,7 +105,6 @@ const Manage_Fake_Info_Edit = () => {
       const response = await fetch("https://checkkonproject-sub.com/api/MediaChannels_request");
       if (response.ok) {
         const Data = await response.json();
-        console.log("source :", Data);
         setInfo_source(Data);
       } else {
         console.error("Failed to fetch user data");
@@ -139,7 +118,6 @@ const Manage_Fake_Info_Edit = () => {
   }, []);
 
   const fetchFakeNewsInfo = async () => {
-    console.log("id :", id);
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
@@ -171,25 +149,6 @@ const Manage_Fake_Info_Edit = () => {
     return user ? `${user.username} ${user.lastName}` : '';
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   useEffect(() => {
     const fetchProvince = async () => {
       try {
@@ -216,11 +175,9 @@ const Manage_Fake_Info_Edit = () => {
     }
   }, [fakeNewsInfo]);
 
-  const parsedId = parseInt(id, 10);
-
   useEffect(() => {
     fetchManage_Fake_Info_Edit();
-  }, [id, Options_med]);
+  }, [id]);
 
   const fetchManage_Fake_Info_Edit = async () => {
     try {
@@ -231,38 +188,29 @@ const Manage_Fake_Info_Edit = () => {
       }
 
       const data = await response.json();
-      const { mfi_med_c, mfi_c_info, mfi_fm_d, mfi_ty_info, mfi_moti, mfi_data_cha, mfi_results } = data;
-
-      const med_c = Options_med.find((item) => item.id === mfi_med_c)?.med_c_name || '';
-      const c_info = Options_med.find((item) => item.id === mfi_c_info)?.med_c_name || '';
-      const fm_d = Options_fm.find((item) => item.id === mfi_fm_d)?.fm_d_name || '';
-      const ty_info = Options_ty.find((item) => item.id === mfi_ty_info)?.type_info_name || '';
-      const moti = Options_moti.find((item) => item.id === mfi_moti)?.moti_name || '';
-      const data_cha = Options_data.find((item) => item.id === mfi_data_cha)?.data_cha_name || '';
-      const results = mfi_results === 1 ? 'จริง' : 'เท็จ';
-
+      setData(data);
       form.setFieldsValue({
         mfi_time: data.mfi_time ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY") : "ไม่มีการประทับเวลา",
         mfi_province: data.mfi_province,
         mfi_mem: data.mfi_mem,
-        mfi_med_c: med_c,
+        mfi_med_c: data.mfi_med_c,
         mfi_img: data.mfi_img,
         mfi_link: data.mfi_link,
-        mfi_c_info: c_info,
+        mfi_c_info: data.mfi_c_info,
         mfi_num_mem: data.mfi_num_mem,
         mfi_agency: data.mfi_agency,
         mfi_d_topic: data.mfi_d_topic,
-        mfi_fm_d: fm_d,
+        mfi_fm_d: data.mfi_fm_d,
         mfi_dis_c: data.mfi_dis_c,
         mfi_publ: data.mfi_publ,
-        mfi_ty_info: ty_info,
+        mfi_ty_info: data.mfi_ty_info,
         mfi_only_cv: data.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่',
-        mfi_moti: moti,
+        mfi_moti: data.mfi_moti,
         mfi_iteration: data.mfi_iteration,
         mfi_che_d: data.mfi_che_d,
-        mfi_data_cha: data_cha,
+        mfi_data_cha: data.mfi_data_cha,
         mfi_fninfo: data.mfi_fninfo,
-        mfi_results: results,
+        mfi_results: data.mfi_results === 1 ? 'จริง' : 'เท็จ',
         mfi_tag: data.mfi_tag,
       });
     } catch (error) {
@@ -271,33 +219,45 @@ const Manage_Fake_Info_Edit = () => {
   };
 
   const onFinish = async (values) => {
+    console.log("value :", values);
     try {
       const formData = new FormData();
-      formData.append("mfi_time", fakeNewsInfo.created_at);
-      formData.append("mfi_province", fakeNewsInfo.fn_info_province);
-      formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
-      formData.append("mfi_med_c", fakeNewsInfo.fn_info_source);
-      formData.append("mfi_img", fakeNewsInfo.fn_info_image);
-      formData.append("mfi_link", fakeNewsInfo.fn_info_link);
-      formData.append("mfi_c_info", values.mfi_c_info);
-      formData.append("mfi_num_mem", fakeNewsInfo.fn_info_num_mem);
-      formData.append("mfi_agency", values.mfi_agency);
-      formData.append("mfi_d_topic", values.mfi_d_topic);
-      formData.append("mfi_fm_d", values.mfi_fm_d);
-      formData.append("mfi_dis_c", values.mfi_dis_c);
-      formData.append("mfi_publ", values.mfi_publ);
-      formData.append("mfi_ty_info", values.mfi_ty_info);
-      formData.append("mfi_only_cv", values.mfi_only_cv);
+      const appendIfDefined = (fieldName, value) => {
+        if (value !== undefined) {
+          formData.append(fieldName, value);
+        }
+      };
+      //formData.append("mfi_time", fakeNewsInfo.created_at);
+      //formData.append("mfi_province", fakeNewsInfo.fn_info_province);
+      //formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
+      //formData.append("mfi_med_c", fakeNewsInfo.fn_info_source);
+      //formData.append("mfi_img", fakeNewsInfo.fn_info_image);
+      //formData.append("mfi_link", fakeNewsInfo.fn_info_link);
+      appendIfDefined("mfi_c_info", values.mfi_c_info);
+      // //formData.append("mfi_num_mem", fakeNewsInfo.fn_info_num_mem);
+      appendIfDefined("mfi_agency", values.mfi_agency);
+      appendIfDefined("mfi_d_topic", values.mfi_d_topic);
+      appendIfDefined("mfi_fm_d", values.mfi_fm_d);
+      appendIfDefined("mfi_dis_c", values.mfi_dis_c);
+      appendIfDefined("mfi_publ", values.mfi_publ);
+      appendIfDefined("mfi_ty_info", values.mfi_ty_info);
+      const mfi_only_cv = data.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่';
+      if (values.mfi_only_cv !== mfi_only_cv) {
+        formData.append("mfi_only_cv", values.mfi_only_cv);
+      }
       //formData.append("mfi_con_about", values.mfi_con_about);
-      formData.append("mfi_moti", values.mfi_moti);
-      formData.append("mfi_iteration", values.mfi_iteration);
-      formData.append("mfi_che_d", values.mfi_che_d);
-      formData.append("mfi_data_cha", values.mfi_data_cha);
-      formData.append("mfi_fninfo", parseInt(id, 10));
-      formData.append("mfi_results", values.mfi_results);
-      formData.append("mfi_tag", JSON.stringify(values.mfi_tag));
+      appendIfDefined("mfi_moti", values.mfi_moti);
+      appendIfDefined("mfi_iteration", values.mfi_iteration);
+      appendIfDefined("mfi_che_d", values.mfi_che_d);
+      appendIfDefined("mfi_data_cha", values.mfi_data_cha);
+      // appendIfDefined("mfi_fninfo", parseInt(id, 10));
+      const mfi_results = data.mfi_results === 1 ? 'จริง' : 'เท็จ';
+      if (values.mfi_results !== mfi_results) {
+        formData.append("mfi_results", values.mfi_results);
+      }
+      appendIfDefined("mfi_tag", JSON.stringify(values.mfi_tag));
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_upload",
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_update/${id}`,
         {
           method: "POST",
           body: formData,
@@ -307,7 +267,6 @@ const Manage_Fake_Info_Edit = () => {
         console.log("Form data sent successfully");
         message.success("Form data sent successfully");
         form.resetFields();
-        fetchData();
         handleConfirm();
         navigate("/Admin/Manage_Fake_Info_Menu");
       } else {
@@ -344,95 +303,6 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error updating status:", error);
     }
   };
-
-  const fetchDataForm = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        stateSetter(typeCodes);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
-
-  const mfi_med_c_id = () => {
-    fetchDataForm(
-      "MediaChannels_request",
-      "med_c",
-      setOptions_med
-    );
-  };
-
-  const mfi_c_info_id = () => {
-    fetchDataForm(
-      "Motivation_request",
-      "c_info",
-      setOptions_c_info
-    );
-  };
-
-  const mfi_fm_d_id = () => {
-    fetchDataForm("FormatData_request", "fm_d", setOptions_fm);
-  };
-
-  const mfi_dis_c_id = () => {
-    fetchDataForm(
-      "DetailsNotiChannels_request",
-      "dnc_scop",
-      setOptions_dis
-    );
-  };
-  const mfi_ty_info_id = () => {
-    fetchDataForm(
-      "TypeInformation_request",
-      "type_info",
-      setOptions_ty
-    );
-  };
-
-  const mfi_moti_id = () => {
-    fetchDataForm("Motivation_request", "moti", setOptions_moti);
-  };
-
-  const mfi_data_cha_id = () => {
-    fetchDataForm(
-      "DataCharacteristics_request",
-      "data_cha",
-      setOptions_data
-    );
-  };
-  const dnc_med_id = () => {
-    fetchDataForm(
-      "MediaChannels_request",
-      "med_c",
-      setOptions_med
-    );
-  };
-
-  const mfi_province = () => {
-    fetchDataForm("Province_request", "prov", setOptions_prov);
-  };
-
-  useEffect(() => {
-    dnc_med_id();
-    mfi_data_cha_id();
-    mfi_moti_id();
-    mfi_ty_info_id();
-    mfi_dis_c_id();
-    mfi_fm_d_id();
-    mfi_c_info_id();
-    mfi_med_c_id();
-    mfi_province();
-  }, []);
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
@@ -488,25 +358,6 @@ const Manage_Fake_Info_Edit = () => {
       )
     );
   };
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
-
-  const onChange_mfi_mem_id = () => {
-    fetchDataAndSetOptions(
-      "VolunteerMembers_request",
-      "vol_mem",
-      setSelectOptions_vol
-    );
-  };
-
-  const onChange_mfi_med_c_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
 
   const onChange_mfi_c_info_id = () => {
     fetchDataAndSetOptions(
@@ -554,6 +405,15 @@ const Manage_Fake_Info_Edit = () => {
     );
   };
 
+  useEffect(() => {
+    onChange_mfi_c_info_id();
+    onChange_mfi_fm_d_id();
+    onChange_mfi_dis_c_id();
+    onChange_mfi_ty_info_id();
+    onChange_mfi_moti_id();
+    onChange_mfi_data_cha_id();
+    onChange_dnc_med_id();
+  }, []);
 
   return (
     <AdminMenu>
@@ -568,15 +428,6 @@ const Manage_Fake_Info_Edit = () => {
           name="member_form"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          onClick={() => {
-            onChange_mfi_c_info_id();
-            onChange_mfi_fm_d_id();
-            onChange_mfi_dis_c_id();
-            onChange_mfi_ty_info_id();
-            onChange_mfi_moti_id();
-            onChange_mfi_data_cha_id();
-            onChange_dnc_med_id();
-          }}
         >
           <Row gutter={16}>
             <Col span={8}>

@@ -216,7 +216,6 @@ const MC_ActionType = () => {
           name="member_form"
           onFinish={onFinish}
         >
-          {/* Add form fields for creating a new member */}
           <Form.Item
             name="act_ty_name"
             label="ชื่อประเภทการกระทำ"
@@ -229,7 +228,6 @@ const MC_ActionType = () => {
           >
             <Input />
           </Form.Item>
-          {/* Add more form fields here */}
           <Form.Item>
             <Button type="primary" htmlType="submit">
               เพิ่ม

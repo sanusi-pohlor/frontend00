@@ -11,7 +11,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .MainContentContainer {
         padding: 24px;
         margin: 0;
@@ -64,11 +64,6 @@
 
     .gridContainer {
         font-size: 25px;
-    }
-
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
     }
 
     .cardsectionContent {
@@ -332,11 +327,6 @@
 
     .gridContainer {
         font-size: 25px;
-    }
-
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
     }
 
     .cardsectionContent {
@@ -617,11 +607,6 @@
         font-size: 25px;
     }
 
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
-    }
-
     .cardsectionContent {
         font-size: 40px;
         font-weight: bold;
@@ -839,7 +824,7 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .MainContentContainer {
         padding: 24px;
         margin: 0;
@@ -898,11 +883,6 @@
 
     .gridContainer {
         font-size: 25px;
-    }
-
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
     }
 
     .cardsectionContent {
@@ -1183,11 +1163,6 @@
         font-size: 25px;
     }
 
-    .cardsection {
-        border-radius: 20px;
-        background: #7BBD8F;
-    }
-
     .cardsectionContent {
         font-size: 25px;
         font-weight: bold;
@@ -1390,6 +1365,11 @@
         width: 100%;
         object-fit: cover;
     }
+}
+
+.cardsection {
+    border-radius: 30px;
+    background: #7BBD8F;
 }
 
 .backgroundColor {

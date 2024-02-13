@@ -406,6 +406,17 @@ const Adm_Info_Check = () => {
       setSelectOptions_med
     );
   };
+
+  useEffect(() => {
+    onChange_mfi_c_info_id();
+    onChange_mfi_fm_d_id();
+    onChange_mfi_dis_c_id();
+    onChange_mfi_ty_info_id();
+    onChange_mfi_moti_id();
+    onChange_mfi_data_cha_id();
+    onChange_dnc_med_id();
+  }, []);
+  
   return (
     <AdminMenu>
       <Card
@@ -426,15 +437,6 @@ const Adm_Info_Check = () => {
           name="member_form"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          onClick={() => {
-            onChange_mfi_c_info_id();
-            onChange_mfi_fm_d_id();
-            onChange_mfi_dis_c_id();
-            onChange_mfi_ty_info_id();
-            onChange_mfi_moti_id();
-            onChange_mfi_data_cha_id();
-            onChange_dnc_med_id();
-          }}
         >
           <Row gutter={16}>
             <Col span={8}>
