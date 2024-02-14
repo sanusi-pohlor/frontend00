@@ -6,12 +6,21 @@ import {
 } from "@ant-design/icons";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import React, { useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, Select, Upload, message, Card } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  Select,
+  Upload,
+  message,
+  Card,
+} from "antd";
 import { Typography } from "@mui/material";
 import moment from "moment";
 import "moment/locale/th";
 import { useNavigate } from "react-router-dom";
-import "../../App.css"
+import "../../App.css";
 
 moment.locale("th");
 
@@ -41,11 +50,15 @@ const FakeNewInformation = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/FakeNewsInfo_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+      );
       if (response.ok) {
         const data = await response.json();
         if (data) {
-          const filteredData = data.filter(item => item.fn_info_nameid === user.id);
+          const filteredData = data.filter(
+            (item) => item.fn_info_nameid === user.id
+          );
           setData(filteredData);
         } else {
           console.error("Data is missing or null");
@@ -63,7 +76,7 @@ const FakeNewInformation = () => {
     }
   }, [user]);
 
-  const maxId = Math.max(...data.map(item => item.id));
+  const maxId = Math.max(...data.map((item) => item.id));
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -158,12 +171,16 @@ const FakeNewInformation = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>
+              {code[`${fieldName}_name`]}
+            </Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -199,9 +216,7 @@ const FakeNewInformation = () => {
     return (
       <UserProfile>
         <Card className="cardsection">
-          <div className="cardsectionContent">
-            ฟอร์มแจ้งข้อมูลเท็จ
-          </div>
+          <div className="cardsectionContent">ฟอร์มแจ้งข้อมูลเท็จ</div>
         </Card>
         <Form
           form={form}
@@ -217,7 +232,11 @@ const FakeNewInformation = () => {
           enctype="multipart/form-data"
         >
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                ผู้ส่งรายงาน
+              </Typography>
+            }
             //name="fn_info_nameid"
             rules={[
               {
@@ -235,7 +254,11 @@ const FakeNewInformation = () => {
           </Form.Item>
           {province && province.length > 0 && (
             <Form.Item
-              label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัดของท่าน</Typography>}
+              label={
+                <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                  จังหวัดของท่าน
+                </Typography>
+              }
               //name="fn_info_province"
               rules={[
                 {
@@ -253,7 +276,11 @@ const FakeNewInformation = () => {
             </Form.Item>
           )}
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>หัวข้อ</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                หัวข้อ
+              </Typography>
+            }
             name="fn_info_head"
             rules={[
               {
@@ -269,7 +296,11 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>เนื้อหา</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                เนื้อหา
+              </Typography>
+            }
             name="fn_info_content"
             rules={[
               {
@@ -286,7 +317,11 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>แหล่งที่มาของข่าวปลอม</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                แหล่งที่มาของข่าวปลอม
+              </Typography>
+            }
             name="fn_info_source"
             rules={[
               {
@@ -307,7 +342,11 @@ const FakeNewInformation = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ
+              </Typography>
+            }
             name="fn_info_num_mem"
             rules={[
               {
@@ -323,16 +362,25 @@ const FakeNewInformation = () => {
               value={selectednum_mem}
             >
               {[...Array(10).keys()].map((index) => (
-                <Select.Option key={index} value={`${index * 50 + 1}-${index * 50 + 50}`}>
+                <Select.Option
+                  key={index}
+                  value={`${index * 50 + 1}-${index * 50 + 50}`}
+                >
                   <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                    {index === 9 ? `มากกว่า 501` : `${index * 50 + 1}-${index * 50 + 50}`}
+                    {index === 9
+                      ? `มากกว่า 501`
+                      : `${index * 50 + 1}-${index * 50 + 50}`}
                   </Typography>
                 </Select.Option>
               ))}
             </Select>
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>รายละเอียดเพิ่มเติม</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                รายละเอียดเพิ่มเติม
+              </Typography>
+            }
             name="fn_info_more"
             rules={[
               {
@@ -349,7 +397,11 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ระบุลิ้งค์ข้อมูล(ถ้ามี)</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                ระบุลิ้งค์ข้อมูล(ถ้ามี)
+              </Typography>
+            }
             name="fn_info_link"
             rules={[
               {
@@ -365,7 +417,11 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                วัน/เดือน/ปี ที่เกิดเหตุ
+              </Typography>
+            }
             name="fn_info_dmy"
             rules={[
               {
@@ -381,7 +437,11 @@ const FakeNewInformation = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ
+              </Typography>
+            }
             name="fn_info_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -411,7 +471,9 @@ const FakeNewInformation = () => {
               className="form-button"
               size="large"
             >
-              <Typography variant="body1" sx={{ fontSize: "25px" }}>ส่งรายงาน</Typography>
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                ส่งรายงาน
+              </Typography>
             </Button>
           </Form.Item>
         </Form>

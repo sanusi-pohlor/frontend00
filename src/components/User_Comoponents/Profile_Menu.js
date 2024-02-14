@@ -68,8 +68,9 @@ const MenuProfile = ({ children }) => {
       );
       if (response.ok) {
         const data = await response.json();
-        const countData = data.filter((item) => item.fn_info_nameid === user.id)
-          .length;
+        const countData = data.filter(
+          (item) => item.fn_info_nameid === user.id
+        ).length;
         setData(countData);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -84,19 +85,9 @@ const MenuProfile = ({ children }) => {
       fetchData();
     }
   }, [user]);
-  
 
   if (!user) {
-    return (
-      <Result
-        title="กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อน"
-        extra={
-          <Button type="primary" key="console">
-            เข้าสู่ระบบ
-          </Button>
-        }
-      />
-    );
+    return <Result title="กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อน" />;
   }
 
   return (
@@ -178,7 +169,13 @@ const MenuProfile = ({ children }) => {
               <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
                   <TabPane
-                    tab={<Link to={item.link}><Typography variant="body1" sx={{ fontSize: "25px" }}>{item.label}</Typography></Link>}
+                    tab={
+                      <Link to={item.link}>
+                        <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                          {item.label}
+                        </Typography>
+                      </Link>
+                    }
                     key={item.key}
                   >
                     {children}

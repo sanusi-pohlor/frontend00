@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Modal,
-  Card,
-  Descriptions,
-  Divider,
-} from "antd";
+import { Button, Modal, Card, Descriptions, Divider } from "antd";
 import {
   PieChart,
   Pie,
@@ -16,6 +10,7 @@ import {
 } from "recharts";
 import AdminMenu from "../Adm_Menu";
 import { Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/th";
 
@@ -26,30 +21,51 @@ const M_DB_Adm_Menu = () => {
   const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
   const COLORS = [
-    "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#6A5ACD",
-    "#B22222", "#7FFFD4", "#3CB371", "#FFD700", "#FF4500",
-    "#4169E1", "#32CD32", "#FFD700", "#808080", "#800080",
-    "#FF1493", "#8A2BE2", "#00FA9A", "#AF19FF", "#20B2AA",
-    "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#00FFFF",
-    "#FF00FF", "#000000", "#808000", "#800000"
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#6A5ACD",
+    "#B22222",
+    "#7FFFD4",
+    "#3CB371",
+    "#FFD700",
+    "#FF4500",
+    "#4169E1",
+    "#32CD32",
+    "#FFD700",
+    "#808080",
+    "#800080",
+    "#FF1493",
+    "#8A2BE2",
+    "#00FA9A",
+    "#AF19FF",
+    "#20B2AA",
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
+    "#00FFFF",
+    "#FF00FF",
+    "#000000",
+    "#808000",
+    "#800000",
   ];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-
+  const navigate = useNavigate();
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/user",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       if (response.ok) {
         const data = await response.json();
         setUser(data);
+
       } else {
         console.error("User data retrieval failed");
       }
@@ -124,6 +140,7 @@ const M_DB_Adm_Menu = () => {
   };
   const handleOk = () => {
     localStorage.removeItem("access_token");
+    navigate(`/`);
     window.location.reload();
     console.log("Logged out successfully");
     setIsModalOpen(false);
@@ -140,26 +157,101 @@ const M_DB_Adm_Menu = () => {
   };
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
   );
 
   const items = [
-    { key: "1", label: createTypography("จำนวนข้อมูลที่แจ้ง"), children: createTypography(data.length) },
-    { key: "2", label: createTypography("จำนวนข้อมูลที่ยังไม่ตรวจสอบ"), children: createTypography(countByStatus(0)) },
-    { key: "3", label: createTypography("จำนวนข้อมูลทีกำลังตรวจสอบ"), children: createTypography(countByStatus(1)) },
-    { key: "4", label: createTypography("จำนวนข้อมูลทีตรวจสอบเรียบร้อย"), children: createTypography(countByStatus(2)) },
-    { key: "5", label: createTypography("จำนวนข้อมูลทีเป็นข่าวจริง"), children: createTypography(countByresults(1)) },
-    { key: "6", label: createTypography("จำนวนข้อมูลทีเป็นข่าวเท็จ"), children: createTypography(countByresults(0)) },
+    {
+      key: "1",
+      label: createTypography("จำนวนข้อมูลที่แจ้ง"),
+      children: createTypography(data.length),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
+    {
+      key: "2",
+      label: createTypography("จำนวนข้อมูลที่ยังไม่ตรวจสอบ"),
+      children: createTypography(countByStatus(0)),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
+    {
+      key: "3",
+      label: createTypography("จำนวนข้อมูลทีกำลังตรวจสอบ"),
+      children: createTypography(countByStatus(1)),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
+    {
+      key: "4",
+      label: createTypography("จำนวนข้อมูลทีตรวจสอบเรียบร้อย"),
+      children: createTypography(countByStatus(2)),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
+    {
+      key: "5",
+      label: createTypography("จำนวนข้อมูลทีเป็นข่าวจริง"),
+      children: createTypography(countByresults(1)),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
+    {
+      key: "6",
+      label: createTypography("จำนวนข้อมูลทีเป็นข่าวเท็จ"),
+      children: createTypography(countByresults(0)),
+      labelStyle: { background: "#7BBD8F", color: "white" },
+    },
   ];
 
   const items2 = [
-    { key: "0", label: "", children: user && (<img src={"https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"} alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} />), },
-    { key: "1", label: createTypography("ชื่อ-สกุล"), children: user && createTypography(user.username, user.lastname) },
-    { key: "2", label: createTypography("เบอร์ติดต่อ"), children: user && createTypography(user.phone_number) },
-    { key: "3", label: createTypography("ไอดีไลน์"), children: user && createTypography(user.Id_line) },
-    { key: "4", label: createTypography("อีเมล"), children: user && createTypography(user.email) },
-    { key: "5", label: createTypography("จังหวัด"), children: province.length > 0 && createTypography("จังหวัดที่อยู่", province[0].prov_name) },
-    { key: "6", label: createTypography("เกี่ยวกับผู้เขียน"), children: user && createTypography("เกี่ยวกับผู้เขียน", "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน") },
+    {
+      key: "0",
+      label: "",
+      children: user && (
+        <img
+          src={
+            "https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"
+          }
+          alt="Profile"
+          style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+        />
+      ),
+    },
+    {
+      key: "1",
+      label: createTypography("ชื่อ-สกุล"),
+      children: user && createTypography(user.username, user.lastname),
+    },
+    {
+      key: "2",
+      label: createTypography("เบอร์ติดต่อ"),
+      children: user && createTypography(user.phone_number),
+    },
+    {
+      key: "3",
+      label: createTypography("ไอดีไลน์"),
+      children: user && createTypography(user.Id_line),
+    },
+    {
+      key: "4",
+      label: createTypography("อีเมล"),
+      children: user && createTypography(user.email),
+    },
+    {
+      key: "5",
+      label: createTypography("จังหวัด"),
+      children:
+        province.length > 0 &&
+        createTypography("จังหวัดที่อยู่", province[0].prov_name),
+    },
+    {
+      key: "6",
+      label: createTypography("เกี่ยวกับผู้เขียน"),
+      children:
+        user &&
+        createTypography(
+          "เกี่ยวกับผู้เขียน",
+          "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน"
+        ),
+    },
   ];
 
   const [chartData1, setChartData1] = useState([]);
@@ -224,52 +316,50 @@ const M_DB_Adm_Menu = () => {
     };
 
     Promise.all(
-      options.map((option) => fetchData(option.value, option.name, option.dataIndex))
+      options.map((option) =>
+        fetchData(option.value, option.name, option.dataIndex)
+      )
     ).then((data) => {
       setChartData1(data[0]);
       setChartData2(data[1]);
       setChartData3(data[2]);
     });
-
   }, []);
 
-  const validData = data.filter(item => item.created_at && Date.parse(item.created_at));
-  const dateObjects = validData.map(item => new Date(item.created_at));
+  const validData = data.filter(
+    (item) => item.created_at && Date.parse(item.created_at)
+  );
+  const dateObjects = validData.map((item) => new Date(item.created_at));
 
   if (dateObjects.length === 0) {
-    console.error('No valid date data found.');
+    console.error("No valid date data found.");
     return null;
   }
 
-  const oldestDate = dateObjects.reduce((minDate, currentDate) => (currentDate < minDate ? currentDate : minDate), dateObjects[0]);
-  const newestDate = dateObjects.reduce((maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate), dateObjects[0]);
+  const oldestDate = dateObjects.reduce(
+    (minDate, currentDate) => (currentDate < minDate ? currentDate : minDate),
+    dateObjects[0]
+  );
+  const newestDate = dateObjects.reduce(
+    (maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate),
+    dateObjects[0]
+  );
   const oldestMonthYear = moment().format("Do MMMM YYYY");
   const newestMonthYear = moment(newestDate).format("LLLL yyyy");
-  const newestMonthYearThai = moment(newestDate).locale(thaiLocale).format("LLLL yyyy");
+  const newestMonthYearThai = moment(newestDate)
+    .locale(thaiLocale)
+    .format("LLLL yyyy");
 
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
-          หน้าหลักแอดมิน
-        </div>
+      <Card className="cardsection">
+        <div className="cardsectionContent">หน้าหลักแอดมิน</div>
       </Card>
-      <br/>
+      <Divider />
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
-          <Card
-            hoverable
-            className="dataCard"
-          >
-            <div
-              className="pieChartTitle"
-            >
-              ประเภทสื่อ
-            </div>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">ประเภทสื่อ</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -296,15 +386,8 @@ const M_DB_Adm_Menu = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Card
-            hoverable
-            className="dataCard"
-          >
-            <div
-              className="pieChartTitle"
-            >
-              รูปแบบข่าว
-            </div>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">รูปแบบข่าว</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -331,15 +414,8 @@ const M_DB_Adm_Menu = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={4}>
-          <Card
-            hoverable
-            className="dataCard"
-          >
-            <div
-              className="pieChartTitle"
-            >
-              จังหวัด
-            </div>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">จังหวัด</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
@@ -367,12 +443,17 @@ const M_DB_Adm_Menu = () => {
         </Grid>
       </Grid>
       <Divider />
-      <Card
-        className="dataCard"
-      >
-        <Typography variant="body1" sx={{ fontSize: "35px" }}>ข้อมูลที่แจ้งตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear} (ปัจจุบัน)</Typography>
+      <Card>
+        <Typography variant="body1" sx={{ fontSize: "35px" }}>
+          ข้อมูลที่แจ้งตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear}{" "}
+          (ปัจจุบัน)
+        </Typography>
         <br />
-        <Descriptions title={createTypography("ข้อมูล")} bordered items={items} />
+        <Descriptions
+          title={createTypography("ข้อมูล")}
+          bordered
+          items={items}
+        />
         <br />
         <Divider />
         <Descriptions
@@ -396,7 +477,6 @@ const M_DB_Adm_Menu = () => {
           <p>{createTypography("ต้องการออกจากระบบ")}</p>
         </Modal>
       </Card>
-      <Divider />
     </AdminMenu>
   );
 };

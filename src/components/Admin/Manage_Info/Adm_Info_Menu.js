@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Card } from "antd";
+import { Space, Button, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -211,7 +211,9 @@ const ManageMembers = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/ManageInfo/ManageInfo_view/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+            <Button
+              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
+            />
           </Link>
         </Space>
       ),
@@ -264,7 +266,7 @@ const ManageMembers = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        fontSize: "30px",
+                        fontSize: "25px",
                         color: "white",
                         fontWeight: "bold",
                       }}

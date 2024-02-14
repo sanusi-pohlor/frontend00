@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { EyeOutlined } from "@ant-design/icons";
-import { Space, Card } from "antd";
+import { Space,Button, Card } from "antd";
 import {
   Table,
   TableCell,
@@ -95,7 +95,11 @@ const ManageMembers = () => {
       render: (text,record) => (
         <Space size="middle">
           <Link to={`/Admin/ManageMembers/ManageMembers_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+          <Button
+              icon={
+                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+              }
+            />
           </Link>
         </Space>
       ),

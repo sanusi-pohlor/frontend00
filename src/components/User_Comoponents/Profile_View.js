@@ -3,18 +3,19 @@ import UserProfile from "./Profile_Menu";
 import { Button, Modal, Descriptions, Card } from "antd";
 import { Typography } from "@mui/material";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [province, setProvince] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const navigate = useNavigate();
   const showModal = () => {
     setIsModalOpen(true);
   };
   const handleOk = () => {
     localStorage.removeItem("access_token");
+    navigate(`/`);
     window.location.reload();
     console.log("Logged out successfully");
     setIsModalOpen(false);
@@ -123,8 +124,9 @@ const Profile = () => {
     {
       key: "7",
       label: createTypography("รับข้อมูลผ่านอีเมล"),
-      children: user && createTypography((user.receive_ct_email === 1 ? "รับ" : "ไม่รับ")
-      ),
+      children:
+        user &&
+        createTypography(user.receive_ct_email === 1 ? "รับ" : "ไม่รับ"),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];

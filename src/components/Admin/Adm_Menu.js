@@ -86,11 +86,11 @@ const AdminMenu = ({ children }) => {
             title={createTypography("จัดการคอนเทนต์")}
             icon={<FormOutlined />}
           >
-            <Menu.Item key="2" icon={<HomeOutlined />}>
+            {/* <Menu.Item key="2" icon={<HomeOutlined />}>
               <Link to="/Admin/Adm_Dashboard_Menu">
                 {createTypography("หน้าหลัก")}
               </Link>
-            </Menu.Item>
+            </Menu.Item> */}
             <Menu.Item key="3" icon={<MessageOutlined />}>
               <Link to="/Admin/Adm_News_Menu">
                 {createTypography("ข่าวสาร")}

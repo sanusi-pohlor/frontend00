@@ -834,6 +834,11 @@ const ManageValues = () => {
       },
     },
   ];
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columnSets = [columns1, columns2, columns3, columns4, columns5, columns6, columns7, columns8, columns9, columns10, columns11, columns12, columns13];
   const items = columnSets.map((columns, index) => ({
     key: (index + 1).toString(),

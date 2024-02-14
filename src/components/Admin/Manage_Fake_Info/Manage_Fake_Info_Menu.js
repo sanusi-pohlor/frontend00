@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { Form, Button, Popconfirm, Space, Select, DatePicker, Modal, Card } from "antd";
-import { TableContainer, Table, TableHead, TableRow, TableCell, Typography, TablePagination, TableBody } from "@mui/material";
+import {
+  Form,
+  Button,
+  Popconfirm,
+  Space,
+  Select,
+  DatePicker,
+  Modal,
+  Card,
+} from "antd";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  Typography,
+  TablePagination,
+  TableBody,
+} from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
 
@@ -24,8 +42,7 @@ const Manage_Fake_Info_Menu = () => {
   const [selectOptions_mem, setSelectOptions_mem] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
-
-
+  const navigate = useNavigate();
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -251,10 +268,7 @@ const Manage_Fake_Info_Menu = () => {
         ));
         setSelectOptions_tags(options);
       } else {
-        console.error(
-          `Error fetching codes:`,
-          response.statusText
-        );
+        console.error(`Error fetching codes:`, response.statusText);
       }
     } catch (error) {
       console.error(`Error fetching codes:`, error);
@@ -274,10 +288,7 @@ const Manage_Fake_Info_Menu = () => {
         ));
         setSelectOptions_mem(options);
       } else {
-        console.error(
-          `Error fetching codes:`,
-          response.statusText
-        );
+        console.error(`Error fetching codes:`, response.statusText);
       }
     } catch (error) {
       console.error(`Error fetching codes:`, error);
@@ -324,17 +335,6 @@ const Manage_Fake_Info_Menu = () => {
       },
     },
     {
-      title: "ผู้ตรวจสอบ",
-      dataIndex: "mfi_mem",
-      width: "10%",
-      render: (fn_info_nameid) => {
-        const user = userInfo
-          ? userInfo.find((user) => user.id === fn_info_nameid)
-          : null;
-        return user ? `${user.username} ${user.lastName}` : "";
-      },
-    },
-    {
       title: "ตรวจเมื่อ",
       dataIndex: "mfi_time",
       width: "10%",
@@ -361,8 +361,8 @@ const Manage_Fake_Info_Menu = () => {
         mfi_results === 0
           ? "ข่าวเท็จ"
           : mfi_results === 1
-            ? "ข่าวจริง"
-            : "กำลังตรวจสอบ",
+          ? "ข่าวจริง"
+          : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -371,12 +371,20 @@ const Manage_Fake_Info_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Manage_Fake_Info_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+            <Button
+              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
+            />
           </Link>
           {record.status === 0 && (
             <>
               <Link to={`/Admin/Manage_Fake_Info/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
+                <Button
+                  icon={
+                    <EditOutlined
+                      style={{ fontSize: "16px", color: "green" }}
+                    />
+                  }
+                />
               </Link>
               <Popconfirm
                 title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -384,9 +392,13 @@ const Manage_Fake_Info_Menu = () => {
                 okText="ใช่"
                 cancelText="ไม่"
               >
-                <Button type="link">
-                  <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
-                </Button>
+                <Button
+                  icon={
+                    <DeleteOutlined
+                      style={{ fontSize: "16px", color: "red" }}
+                    />
+                  }
+                />
               </Popconfirm>
             </>
           )}
@@ -417,9 +429,7 @@ const Manage_Fake_Info_Menu = () => {
       <Card className="cardsection">
         <div className="cardsectionContent">
           จัดการข้อมูลเท็จ
-          <div
-            className="searchContainer"
-          >
+          <div className="searchContainer">
             <Button
               size="large"
               type="primary"
@@ -434,11 +444,7 @@ const Manage_Fake_Info_Menu = () => {
               footer={null}
             >
               <div>
-                <div
-                  className="Modelcontainer"
-                >
-                  กรองข้อมูล
-                </div>
+                <div className="Modelcontainer">กรองข้อมูล</div>
                 <Form
                   form={form}
                   layout="vertical"
@@ -455,7 +461,11 @@ const Manage_Fake_Info_Menu = () => {
                 >
                   <Form.Item
                     name="type_new"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ประเภทข่าว</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ประเภทข่าว
+                      </Typography>
+                    }
                   >
                     <Select
                       size="large"
@@ -468,7 +478,11 @@ const Manage_Fake_Info_Menu = () => {
                   </Form.Item>
                   <Form.Item
                     name="med_new"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ช่องทางสื่อ</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ช่องทางสื่อ
+                      </Typography>
+                    }
                   >
                     <Select
                       size="large"
@@ -481,45 +495,85 @@ const Manage_Fake_Info_Menu = () => {
                   </Form.Item>
                   <Form.Item
                     name="created_at"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        วัน/เดือน/ปี
+                      </Typography>
+                    }
                     style={{ marginBottom: "10px" }}
                   >
                     <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
                   </Form.Item>
                   <Form.Item
                     name="prov_new"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        จังหวัด
+                      </Typography>
+                    }
                     style={{ marginBottom: "10px" }}
                   >
-                    <Select size="large" placeholder="เลือกจังหวัด" onChange={onChange_mfi_province} allowClear>
+                    <Select
+                      size="large"
+                      placeholder="เลือกจังหวัด"
+                      onChange={onChange_mfi_province}
+                      allowClear
+                    >
                       {selectOptions_prov}
                     </Select>
                   </Form.Item>
                   <Form.Item
                     name="tags"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>คำสำคัญ</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        คำสำคัญ
+                      </Typography>
+                    }
                     style={{ marginBottom: "10px" }}
                   >
-                    <Select mode="multiple" size="large" placeholder="เลือกคำสำคัญ" onChange={onChange_Tags} allowClear>
+                    <Select
+                      mode="multiple"
+                      size="large"
+                      placeholder="เลือกคำสำคัญ"
+                      onChange={onChange_Tags}
+                      allowClear
+                    >
                       {selectOptions_tags}
                     </Select>
                   </Form.Item>
                   <Form.Item
                     name="results"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ข้อมูลจริง/เท็จ</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ข้อมูลจริง/เท็จ
+                      </Typography>
+                    }
                     style={{ marginBottom: "10px" }}
                   >
-                    <Select size="large" placeholder="เลือกข้อมูลจริง" allowClear>
+                    <Select
+                      size="large"
+                      placeholder="เลือกข้อมูลจริง"
+                      allowClear
+                    >
                       <Select.Option value="0">ข่าวเท็จ</Select.Option>
                       <Select.Option value="1">ข่าวจริง</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item
                     name="mem"
-                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>ผู้ส่งรายงาน</Typography>}
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ผู้ส่งรายงาน
+                      </Typography>
+                    }
                     style={{ marginBottom: "10px" }}
                   >
-                    <Select size="large" placeholder="เลือกผู้ส่งรายงาน" onChange={onChange_mfi_mem} allowClear>
+                    <Select
+                      size="large"
+                      placeholder="เลือกผู้ส่งรายงาน"
+                      onChange={onChange_mfi_mem}
+                      allowClear
+                    >
                       {selectOptions_mem}
                     </Select>
                   </Form.Item>
@@ -531,7 +585,9 @@ const Manage_Fake_Info_Menu = () => {
                       className="form-button"
                       size="large"
                     >
-                      <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ค้นหา
+                      </Typography>
                     </Button>
                   </Form.Item>
                 </Form>
@@ -555,7 +611,7 @@ const Manage_Fake_Info_Menu = () => {
                     <Typography
                       variant="body1"
                       sx={{
-                        fontSize: "30px",
+                        fontSize: "25px",
                         color: "white",
                         fontWeight: "bold",
                       }}
@@ -569,9 +625,9 @@ const Manage_Fake_Info_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={rowIndex}>

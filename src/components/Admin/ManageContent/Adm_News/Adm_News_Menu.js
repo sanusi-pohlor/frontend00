@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Card, Button, Popconfirm, Switch } from "antd";
+import { Space, Card, Button, Popconfirm, Switch ,Image } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -137,7 +137,7 @@ const Adm_News_Menu = () => {
       dataIndex: "cover_image",
       key: "image",
       render: (cover_image) => (
-        <img src={cover_image} alt="Item" style={{ maxWidth: "100px" }} />
+        <Image src={cover_image} alt="Item" style={{ maxWidth: "100px" }} />
       ),
     },
     {

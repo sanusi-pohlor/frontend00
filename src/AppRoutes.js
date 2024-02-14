@@ -69,13 +69,19 @@ import { Box } from "@mui/material";
 const routes = [
   { path: "/", element: <Dashboard /> },
 
-  { path: "/FakenewsSearch/FakenewsSearch_view/:id", element: <FakenewsSearch_view /> },
+  {
+    path: "/FakenewsSearch/FakenewsSearch_view/:id",
+    element: <FakenewsSearch_view />,
+  },
   { path: "/FakenewsSearch", element: <FakenewsSearch /> },
-  
+
   { path: "/Article_Menu/Article_view/:id", element: <Article_view /> },
   { path: "/Article_Menu", element: <Article /> },
 
-  { path: "/MediaShare_Menu/MediaShare_view/:id", element: <MediaShare_view /> },
+  {
+    path: "/MediaShare_Menu/MediaShare_view/:id",
+    element: <MediaShare_view />,
+  },
   { path: "/MediaShare_Menu", element: <MediaShare /> },
 
   { path: "/News_Menu/News_view/:id", element: <News_view /> },
@@ -93,17 +99,28 @@ const routes = [
   { path: "/Admin/ManageInfo", element: <ManageInfo /> },
 
   { path: "/Admin/Manage_Fake_Info_Menu", element: <Manage_Fake_Info_Menu /> },
-  { path: "/Admin/Manage_Fake_Info_View/:id", element: <Manage_Fake_Info_View /> },
-  { path: "/Admin/Manage_Fake_Info_Edit/:id", element: <Manage_Fake_Info_Edit /> },
- 
   {
-    path: "/Admin/ManageInfo/ManageInfo_view/:id", element: <ManageInfo_view />,
+    path: "/Admin/Manage_Fake_Info_View/:id",
+    element: <Manage_Fake_Info_View />,
   },
   {
-    path: "/Admin/ManageInfo/ManageInfo_view/:id/Adm_Info_Check", element: <Adm_Info_Check />,
+    path: "/Admin/Manage_Fake_Info_Edit/:id",
+    element: <Manage_Fake_Info_Edit />,
+  },
+
+  {
+    path: "/Admin/ManageInfo/ManageInfo_view/:id",
+    element: <ManageInfo_view />,
+  },
+  {
+    path: "/Admin/ManageInfo/ManageInfo_view/:id/Adm_Info_Check",
+    element: <Adm_Info_Check />,
   },
   { path: "/Admin/ManageMembers", element: <ManageMembers /> },
-  { path: "/Admin/ManageMembers/ManageMembers_View/:id", element: <ManageMembers_View /> },
+  {
+    path: "/Admin/ManageMembers/ManageMembers_View/:id",
+    element: <ManageMembers_View />,
+  },
 
   { path: "/Admin/Adm_Dashboard_View", element: <Adm_Dashboard_View /> },
 

@@ -44,10 +44,7 @@ const Dashboard = () => {
   const renderCardItem = (items, link) => {
     return items.map((item) => (
       <Grid item xs={12} md={4} key={item.id} className="gridItem">
-        <Link
-          to={`/${link}/${item.id}`}
-          style={{ textDecoration: "none" }}
-        >
+        <Link to={`/${link}/${item.id}`} style={{ textDecoration: "none" }}>
           <Card
             hoverable
             className="cardItem"
@@ -70,7 +67,6 @@ const Dashboard = () => {
       </Grid>
     ));
   };
-
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -140,7 +136,10 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(newdata.slice(indexOfFirstItem, indexOfLastItem), "News_Menu/News_view")}
+            {renderCardItem(
+              newdata.slice(indexOfFirstItem, indexOfLastItem),
+              "News_Menu/News_view"
+            )}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -148,17 +147,13 @@ const Dashboard = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "white", }}
-            />
+            <LeftCircleOutlined style={{ fontSize: "3rem", color: "white" }} />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= newdata.length}
           >
-            <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "white" }}
-            />
+            <RightCircleOutlined style={{ fontSize: "3rem", color: "white" }} />
           </IconButton>
         </Box>
       </Paper>
@@ -186,7 +181,10 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(articledata.slice(indexOfFirstItem, indexOfLastItem), "Article_Menu/Article_view")}
+            {renderCardItem(
+              articledata.slice(indexOfFirstItem, indexOfLastItem),
+              "Article_Menu/Article_view"
+            )}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -230,7 +228,10 @@ const Dashboard = () => {
           }}
         >
           <Grid container spacing={2}>
-            {renderCardItem(mdSharedata.slice(indexOfFirstItem, indexOfLastItem), "MediaShare_Menu/MediaShare_view")}
+            {renderCardItem(
+              mdSharedata.slice(indexOfFirstItem, indexOfLastItem),
+              "MediaShare_Menu/MediaShare_view"
+            )}
           </Grid>
         </Paper>
         <Box mt={4} display="flex" justifyContent="center">
@@ -238,17 +239,13 @@ const Dashboard = () => {
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            <LeftCircleOutlined
-              style={{ fontSize: "3rem", color: "white" }}
-            />
+            <LeftCircleOutlined style={{ fontSize: "3rem", color: "white" }} />
           </IconButton>
           <IconButton
             onClick={() => paginate(currentPage + 1)}
             disabled={indexOfLastItem >= mdSharedata.length}
           >
-            <RightCircleOutlined
-              style={{ fontSize: "3rem", color: "white" }}
-            />
+            <RightCircleOutlined style={{ fontSize: "3rem", color: "white" }} />
           </IconButton>
         </Box>
       </Paper>
