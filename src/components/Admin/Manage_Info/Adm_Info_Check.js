@@ -33,7 +33,7 @@ const Adm_Info_Check = () => {
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
-  const [selectOptions_con, setSelectOptions_con] = useState([]);
+  const [selectOptions_check_d, setSelectOptions_check_d] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -45,7 +45,7 @@ const Adm_Info_Check = () => {
   const fetchTag = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request",
+        "https://checkkonproject-sub.com/api/Tags_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -99,10 +99,7 @@ const Adm_Info_Check = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setOptions((prevOptions) => [
-          ...prevOptions,
-          { label: data.tag_name },
-        ]);
+        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
       } else {
         console.error("Error adding tag:", response.statusText);
       }
@@ -112,7 +109,9 @@ const Adm_Info_Check = () => {
   };
   const fetchInfo_source = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/MediaChannels_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
+      );
       if (response.ok) {
         const Data = await response.json();
         console.log("source :", Data);
@@ -151,14 +150,14 @@ const Adm_Info_Check = () => {
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
-      return '';
+      return "";
     }
 
     const user = userInfo.find(
       (user) => user.id === fakeNewsInfo.fn_info_nameid
     );
 
-    return user ? `${user.username} ${user.lastName}` : '';
+    return user ? `${user.username} ${user.lastName}` : "";
   };
 
   const fetchData = async () => {
@@ -189,7 +188,8 @@ const Adm_Info_Check = () => {
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+            (item) =>
+              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
           console.log("Filtered provinces:", filteredIds);
@@ -235,7 +235,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_results", values.mfi_results);
       formData.append("mfi_tag", JSON.stringify(values.mfi_tag));
       for (const pair of formData.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
+        console.log(pair[0] + ": " + pair[1]);
       }
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_upload",
@@ -330,11 +330,7 @@ const Adm_Info_Check = () => {
         <>
           <Input
             size="large"
-            placeholder={
-              source
-                ? source.med_c_name
-                : "No date available"
-            }
+            placeholder={source ? source.med_c_name : "No date available"}
             disabled
           />
         </>
@@ -345,14 +341,33 @@ const Adm_Info_Check = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
-  const onChange_mfi_mem_id = () => {
-    fetchDataAndSetOptions(
-      "VolunteerMembers_request",
-      "vol_mem",
-      setSelectOptions_vol
-    );
+  const onChange_mfi_che_d_id = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/CheckingData_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code.id} value={code.id}>
+            {code.che_d_format}
+          </Option>
+        ));
+        // form.setFieldsValue({ che_d_format: undefined });
+        // form.setFields([
+        //   {
+        //     name: che_d_format,
+        //     value: undefined,
+        //   },
+        // ]);
+        setSelectOptions_check_d(options);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
-
   const onChange_mfi_med_c_id = () => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -415,22 +430,16 @@ const Adm_Info_Check = () => {
     onChange_mfi_moti_id();
     onChange_mfi_data_cha_id();
     onChange_dnc_med_id();
+    onChange_mfi_che_d_id();
   }, []);
-  
+
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
-          จัดการข้อมูลรับแจ้ง
-        </div>
+      <Card className="cardsection">
+        <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง</div>
       </Card>
       <br />
-      <Card
-      >
+      <Card>
         <Form
           form={form}
           layout="vertical"
@@ -455,9 +464,9 @@ const Adm_Info_Check = () => {
                   placeholder={
                     fakeNewsInfo
                       ? fakeNewsInfo.created_at &&
-                      moment(fakeNewsInfo.created_at)
-                        .locale("th")
-                        .format("DD MMMM YYYY")
+                        moment(fakeNewsInfo.created_at)
+                          .locale("th")
+                          .format("DD MMMM YYYY")
                       : "ไม่มีการประทับเวลา"
                   }
                   disabled
@@ -493,11 +502,7 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input
-                  size="large"
-                  value={renderReporterInfo()}
-                  disabled
-                />
+                <Input size="large" value={renderReporterInfo()} disabled />
               </Form.Item>
               <Form.Item
                 name="mfi_med_c"
@@ -519,7 +524,8 @@ const Adm_Info_Check = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเพิ่มภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ!",
+                    message:
+                      "กรุณาเพิ่มภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ!",
                   },
                 ]}
               >
@@ -575,7 +581,8 @@ const Adm_Info_Check = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเพิ่มจำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ!",
+                    message:
+                      "กรุณาเพิ่มจำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ!",
                   },
                 ]}
               >
@@ -693,7 +700,8 @@ const Adm_Info_Check = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?",
+                    message:
+                      "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?",
                   },
                 ]}
               >
@@ -750,7 +758,13 @@ const Adm_Info_Check = () => {
                   },
                 ]}
               >
-                <Input placeholder="การตรวจสอบข้อมูล" />
+                <Select
+                  placeholder="เลือกลักษณะข้อมูล"
+                  onChange={onChange_mfi_che_d_id}
+                  allowClear
+                >
+                  {selectOptions_check_d}
+                </Select>
               </Form.Item>
               <Form.Item
                 name="mfi_data_cha"
@@ -772,7 +786,7 @@ const Adm_Info_Check = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row style={{ marginBottom: '10px' }}>
+          <Row style={{ marginBottom: "10px" }}>
             <Form.Item
               name="mfi_results"
               label="ผลสรุป"
@@ -784,7 +798,7 @@ const Adm_Info_Check = () => {
               ]}
               style={{
                 marginRight: "10px",
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -806,7 +820,7 @@ const Adm_Info_Check = () => {
                 },
               ]}
               style={{
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -819,7 +833,7 @@ const Adm_Info_Check = () => {
               </Select>
             </Form.Item>
           </Row>
-          <Row style={{ marginBottom: '10px' }}>
+          <Row style={{ marginBottom: "10px" }}>
             <Form.Item
               name="mfi_tag"
               label="แท็ก"
@@ -831,7 +845,7 @@ const Adm_Info_Check = () => {
               ]}
               style={{
                 marginRight: "10px",
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -852,7 +866,8 @@ const Adm_Info_Check = () => {
               บันทึก
             </Button>
           </Form.Item>
-        </Form></Card>
+        </Form>
+      </Card>
     </AdminMenu>
   );
 };
