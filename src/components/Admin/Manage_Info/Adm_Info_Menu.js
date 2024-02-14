@@ -139,8 +139,8 @@ const ManageMembers = () => {
         ? "ข่าวเท็จ"
         : dataA.mfi_results === 1
         ? "ข่าวจริง"
-        : "ไม่พบ"
-      : "ไม่พบข้อมูล";
+        : "ยังไม่ตรวจสอบ"
+      : "ยังไม่ตรวจสอบ";
     console.log("resultText ", id);
     return resultText;
   };

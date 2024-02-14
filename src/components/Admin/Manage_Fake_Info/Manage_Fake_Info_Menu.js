@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
 
@@ -31,6 +31,7 @@ const Manage_Fake_Info_Menu = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [dataOrg, setDataOrg] = useState([]);
+  const [dataInfo, setDataInfo] = useState([]);
   const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [infoData, setInfoData] = useState([]);
@@ -43,6 +44,26 @@ const Manage_Fake_Info_Menu = () => {
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
   const navigate = useNavigate();
+
+  const fetchDataInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDataInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchDataInfo();
+  }, []);
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -302,15 +323,12 @@ const Manage_Fake_Info_Menu = () => {
     onChange_Tags();
   }, []);
 
-  const getStatusText = (status) => {
-    switch (status) {
-      case 0:
-        return "รอตรวจสอบ";
-      case 1:
-        return "กำลังตรวจสอบ";
-      case 2:
-        return "ตรวจสอบเสร็จสิ้น";
-    }
+  const renderResultText = (mfi_fninfo) => {
+    const dataA = dataInfo
+      ? dataInfo.find((item) => item.id === mfi_fninfo)
+      : null;
+    const resultText = dataA ? dataA.fn_info_head : null;
+    return resultText;
   };
   const columns = [
     {
@@ -320,9 +338,9 @@ const Manage_Fake_Info_Menu = () => {
     },
     {
       title: "หัวข้อ",
-      dataIndex: "",
+      dataIndex: "mfi_fninfo",
       width: "30%",
-      editable: true,
+      render: (mfi_fninfo) => renderResultText(mfi_fninfo),
     },
     {
       title: "จังหวัดของผู้แจ้ง",
@@ -346,12 +364,6 @@ const Manage_Fake_Info_Menu = () => {
         )} ${date.getFullYear() + 543}`;
         return formattedDate;
       },
-    },
-    {
-      title: "สถานะการตรวจสอบ",
-      dataIndex: "mfi_status",
-      width: "10%",
-      render: (status) => getStatusText(status),
     },
     {
       title: "ผลการตรวจสอบ",
@@ -431,7 +443,6 @@ const Manage_Fake_Info_Menu = () => {
           จัดการข้อมูลเท็จ
           <div className="searchContainer">
             <Button
-              size="large"
               type="primary"
               className="buttonfilterStyle"
               onClick={showFilterDialog}
