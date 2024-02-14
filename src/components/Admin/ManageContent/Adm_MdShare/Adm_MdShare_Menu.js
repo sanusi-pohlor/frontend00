@@ -6,16 +6,27 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import { Space, Card, Button, Popconfirm, Switch } from "antd";
+import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Table, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import AdminMenu from "../../Adm_Menu";
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  TablePagination,
+  TableBody,
+} from "@mui/material";
+const rowsPerPageOptions = [10];
 
 const Adm_MdShare_Menu = () => {
-  const [dataSource, setDataSource] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
+  const [data, setData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
-  const curveAngle = 20;
-  const paperColor = "#FFFFFF";
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
@@ -57,7 +68,7 @@ const Adm_MdShare_Menu = () => {
       if (response.ok) {
         const data = await response.json();
         console.log(data.status);
-        setDataSource(data);
+        setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -84,7 +95,6 @@ const Adm_MdShare_Menu = () => {
 
   const handleDelete = async (id) => {
     try {
-      console.log(`ลบรายการ: ${id}`);
       const response = await fetch(`https://checkkonproject-sub.com/api/Adm_MdShare_delete/${id}`,
         {
           method: "DELETE",
@@ -106,7 +116,7 @@ const Adm_MdShare_Menu = () => {
     {
       title: "ลำดับ",
       width: "5%",
-      render: (text, record, index) => dataSource.indexOf(record) + 1,
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: "Title",
@@ -120,15 +130,6 @@ const Adm_MdShare_Menu = () => {
       render: (cover_image) => (
         <img src={cover_image} alt="Item" style={{ maxWidth: "100px" }} />
       ),
-    },
-    {
-      title: "ผู้ลง",
-      dataIndex: "Author",
-      key: "Author",
-      render: (Author) => {
-        const user = userInfo ? userInfo.find(user => user.id === Author) : null;
-        return user ? `${user.username} ${user.lastName}` : "";
-      },
     },
     {
       title: "ลงเมื่อ",
@@ -168,10 +169,18 @@ const Adm_MdShare_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Adm_MdShare_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
+            <Button
+              icon={
+                <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
+              }
+            />
           </Link>
           <Link to={`/Admin/Adm_MdShare_edit/${record.id}`}>
-            <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+            <Button
+              icon={
+                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+              }
+            />
           </Link>
           <Popconfirm
             title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -179,9 +188,11 @@ const Adm_MdShare_Menu = () => {
             okText="ใช่"
             cancelText="ไม่"
           >
-            <Button type="link">
-              <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
-            </Button>
+            <Button
+              icon={
+                <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+              }
+            />
           </Popconfirm>
         </Space>
       ),
@@ -192,6 +203,15 @@ const Adm_MdShare_Menu = () => {
     ...col,
   }));
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <AdminMenu>
       <Card
@@ -201,73 +221,76 @@ const Adm_MdShare_Menu = () => {
           className="cardsectionContent"
         >
           จัดการสื่อชวนแชร์
+          <Link to="/Admin/Adm_MdShare_Form">
+            <Button
+              type="primary"
+              icon={<PlusCircleOutlined />}
+              className="buttonfilterStyle"
+            >
+              เพิ่มสื่อชวนแชร์
+            </Button>
+          </Link>
         </div>
       </Card>
-      <Card
-        style={{
-          margin: "auto",
-          borderRadius: `${curveAngle}px`,
-          backgroundColor: paperColor,
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "16px",
-            alignItems: "center",
-          }}
-        >
-          <Typography sx={{ fontSize: "50px", fontWeight: "bold" }}>จัดการคอนเท็นหน้าสื่อชวนแชร์</Typography>
-          <div>
-            <Link to="/Admin/Adm_MdShare_Form">
-              <Button
-                type="primary"
-                shape="round"
-                icon={<PlusCircleOutlined />}
-                size="large"
-                style={{
-                  fontSize: "18px",
-                  padding: "20px 25px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#7BBD8F",
-                  border: "none",
-                  color: "#ffffff",
-                }}
-              >
-                เพิ่มข่าว
-              </Button>
-            </Link>
-          </div>
-        </div>
-        <br />
-        {/* <Table dataSource={dataSource} columns={columns} /> */}
+      <br />
+      <Card>
         <TableContainer>
           <Table>
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left" width={column.width}>
-                    <Typography variant="body1" sx={{ fontSize: "25px", color: "white", fontWeight: "bold" }}>{column.title}</Typography>
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "30px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
+                    </Typography>
                   </TableCell>
                 ))}
               </TableRow>
             </TableHead>
-            {dataSource.map((row) => (
-              <TableRow key={row.id} >
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>{column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}</Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+                : data
+              ).map((row, rowIndex) => (
+                <TableRow key={row.id}>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
-        </TableContainer></Card>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      </Card>
     </AdminMenu>
   );
 };

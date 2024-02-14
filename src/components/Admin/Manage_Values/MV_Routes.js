@@ -1,16 +1,11 @@
 import React from 'react';
 import { Collapse } from 'antd';
-import MC_VolunteeMembers from './MC_VolunteeMembers';
-import MC_Users from './MC_Users';
 import MC_TypeInformation from './MC_TypeInformation';
 import MC_Subpoint from './MC_Subpoint';
 import MC_Publisher from './MC_Publisher';
 import MC_ProblemManagement from './MC_ProblemManagement';
-import MC_News from './MC_News';
 import MC_Motivation from './MC_Motivation';
 import MC_MediaChannels from './MC_MediaChannels';
-import MC_InspectionDetails from './MC_InspectionDetails';
-import MC_Information from './MC_Information';
 import MC_FormatData from './MC_FormatData';
 import MC_DetailsNotiChannels from './MC_DetailsNotiChannels';
 import MC_DataCharacteristics from './MC_DataCharacteristics';

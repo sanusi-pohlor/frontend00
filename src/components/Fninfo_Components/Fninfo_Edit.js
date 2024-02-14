@@ -458,10 +458,6 @@ const FnInfoEdit = () => {
               placeholder="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
             />
           </Form.Item>
-          <Typography variant="body1" sx={{ fontSize: "25px" }}>
-            {formattedDate}
-          </Typography>
-          เปลี่ยนใหม่
           <Form.Item
             label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
             name="fn_info_dmy"
@@ -471,22 +467,21 @@ const FnInfoEdit = () => {
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}
-          >
+          >          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+              {formattedDate}
+            </Typography>
+            เปลี่ยนใหม่
+            <br />
             <DatePicker
               size="large"
               placeholder="วัน/เดือน/ปี"
               format="YYYY-MM-DD"
             />
           </Form.Item>
-          {data && data.fn_info_image ? (
-            <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
-          ) : (
-            <div>No image available</div>
-          )}
           <Form.Item
             label={
               <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ
+                ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จใหม่
               </Typography>
             }
             name="fn_info_image"
@@ -499,7 +494,6 @@ const FnInfoEdit = () => {
               },
             ]}
           >
-
             <Upload
               name="fn_info_image"
               maxCount={3}
@@ -512,6 +506,14 @@ const FnInfoEdit = () => {
               </div>
             </Upload>
           </Form.Item>
+          ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จเก่า
+          <br />
+          {data && data.fn_info_image ? (
+              <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
+            ) : (
+              <div>No image available</div>
+            )}
+            <br />
           <Form.Item>
             <Button
               type="primary"

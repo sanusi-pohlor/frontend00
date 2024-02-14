@@ -103,7 +103,6 @@ const Adm_News_Menu = () => {
 
   const handleDelete = async (id) => {
     try {
-      console.log(`ลบรายการ: ${id}`);
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_delete/${id}`,
         {
@@ -142,26 +141,13 @@ const Adm_News_Menu = () => {
       ),
     },
     {
-      title: "ผู้ลง",
-      dataIndex: "Author",
-      key: "Author",
-      render: (Author) => {
-        const user = userInfo
-          ? userInfo.find((user) => user.id === Author)
-          : null;
-        return user ? `${user.username} ${user.lastName}` : "";
-      },
-    },
-    {
       title: "ลงเมื่อ",
       dataIndex: "created_at",
       width: "15%",
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(
-          date.getMonth()
-        )} ${date.getFullYear() + 543}`;
+        const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
         return formattedDate;
       },
     },
@@ -192,10 +178,18 @@ const Adm_News_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/Adm_News_View/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+            <Button
+              icon={
+                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+              }
+            />
           </Link>
           <Link to={`/Admin/Adm_News_edit/${record.id}`}>
-            <EditOutlined style={{ fontSize: "16px", color: "green" }} />
+            <Button
+              icon={
+                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
+              }
+            />
           </Link>
           <Popconfirm
             title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -203,9 +197,11 @@ const Adm_News_Menu = () => {
             okText="ใช่"
             cancelText="ไม่"
           >
-            <Button type="link">
-              <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
-            </Button>
+            <Button
+              icon={
+                <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
+              }
+            />
           </Popconfirm>
         </Space>
       ),
@@ -270,23 +266,23 @@ const Adm_News_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
-              <TableRow key={row.id}>
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                      {column.render
-                        ? column.render(row[column.dataIndex], row)
-                        : row[column.dataIndex]}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+                <TableRow key={row.id}>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
           <TablePagination

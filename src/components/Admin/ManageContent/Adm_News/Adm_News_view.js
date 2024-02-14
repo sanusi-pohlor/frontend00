@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import {  Modal, Divider, Descriptions, Button, Card, Space, Tag } from "antd";
+import { useParams} from "react-router-dom";
+import {  Modal, Divider, Descriptions,  Card, Space, Tag } from "antd";
 import moment from "moment";
 import AdminMenu from "../../Adm_Menu";
-import { PlusCircleOutlined } from "@ant-design/icons";
 import { Paper} from "@mui/material";
 
 const Adm_News_view = () => {
@@ -98,52 +97,106 @@ const Adm_News_view = () => {
   return (
     <AdminMenu>
       <div className="backgroundColor">
-        <Paper elevation={0} className="paperContainer" style={{ backgroundColor: "#e4e4e4" }}>
-          <Card className="cardsection">
-            <div className="cardsectionContent">ตัวอย่างข่าวสาร
-              <Link to={`/Admin/Adm_News/edit/${id}`}>
-                <Button className="buttonfilterStyle" type="primary" icon={<PlusCircleOutlined />}>
-                  แก้ไข
-                </Button>
-              </Link>
-              </div>
-          </Card>
+      <Paper
+        elevation={0}
+        className="paperContainer"
+        style={{ backgroundColor: "#e4e4e4" }}
+      >
+        <Card className="cardsection">
+          <div className="cardsectionContent">ข่าวสาร</div>
+        </Card>
+        <br />
+        <Card className="cardContent">
+          <strong>{data.title}</strong>
           <br />
-          <Card className="cardContent">
-          <strong>{data.title}</strong><br />
-          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong><br />
-          <strong>ลงเมื่อ : {thaiDate}</strong><br />
+          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong>
+          <br />
+          <strong>ลงเมื่อ : {thaiDate}</strong>
+          <br />
           <Divider />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+                <img
+                  className="details-image"
+                  src={data.cover_image}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "500px",
+                    borderRadius: "8px",
+                  }}
+                />
+          </div>
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            {data.details_image &&
+              JSON.parse(data.details_image).map((imageName, index) => (
+                <img
+                  key={index}
+                  className="details-image"
+                  src={`https://checkkonproject-sub.com/cover_image/${imageName}`}
+                  alt={`Image ${index + 1}`}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "400px",
+                    borderRadius: "8px",
+                  }}
+                />
+              ))}
+          </div>
           <div>
             {data.link &&
               JSON.parse(data.link).map((item, index) => (
                 <p key={index}>
-                  Link: <a href={item.first}>{item.first.substring(0, 100)}...</a>
+                  Link:{" "}
+                  <a href={item.first}>{item.first.substring(0, 100)}...</a>
                 </p>
               ))}
           </div>
           <div>
             <Space size={[4, 8]} wrap>
               {tags.map((tag, index) => (
-                <Tag key={index} style={{ fontSize: "20px", textAlign: "center" }}>
+                <Tag
+                  key={index}
+                  style={{ fontSize: "20px", textAlign: "center" }}
+                >
                   #{tag}
                 </Tag>
               ))}
             </Space>
           </div>
-          <p onClick={showModal}>โปรไฟลผู้เขียน <span>{user && user.username}</span></p>
+          <p onClick={showModal}>
+            โปรไฟลผู้เขียน <span>{user && user.username}</span>
+          </p>
           <Modal
             title="โปรไฟล์ผู้เขียน"
             visible={isModalOpen}
             footer={null}
             onCancel={handleCancel}
           >
-            <Descriptions style={{ fontSize: "30px", textAlign: "center" }} title="" items={items} />
+            <Descriptions
+              style={{ fontSize: "30px", textAlign: "center" }}
+              title=""
+              items={items}
+            />
           </Modal>
         </Card>
-        </Paper>
-      </div>
+      </Paper>
+    </div>
     </AdminMenu>
   );
 };

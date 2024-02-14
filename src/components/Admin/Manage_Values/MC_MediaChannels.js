@@ -74,12 +74,10 @@ const MC_MediaChannels = () => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const formData = new FormData();
       formData.append("med_c_name", values.med_c_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/MediaChannels_upload",
         {
@@ -101,6 +99,7 @@ const MC_MediaChannels = () => {
       setLoading(false);
     }
   };
+  
   const onFinishEdit = async (values, id) => {
     setLoading(true);
     try {
@@ -156,7 +155,7 @@ const MC_MediaChannels = () => {
         (item) => item.fn_info_source === id
       );
       if (filteredItems.length > 0) {
-        message.error("Data exists. Cannot delete.");
+        message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/MediaChannels_delete/${id}`,

@@ -151,7 +151,6 @@ const Adm_News_Form = () => {
   const maxId = Math.max(...dataSource.map(item => item.id));
 
   const onFinish = async (values) => { 
-    console.log("values :",values);
     try {
       setLoading(true);
       const formData = new FormData();

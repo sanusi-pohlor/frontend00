@@ -9,19 +9,19 @@ import {
   Upload,
   Card,
   Select,
-  Space,
 } from "antd";
 import ReactQuill from "react-quill";
 import {
   PlusOutlined,
-  MinusCircleOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const { Option } = Select;
 
 const Adm_MdShare_Form = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
@@ -29,6 +29,8 @@ const Adm_MdShare_Form = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
   const [options, setOptions] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -62,21 +64,6 @@ const Adm_MdShare_Form = () => {
     }
   };
 
-  useEffect(() => {
-    fetch("https://checkkonproject-sub.com/api/Tags_request")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          value: item.tag_name,
-        }));
-        setOptions(formattedOptions);
-      })
-      .catch((error) => {
-        console.error("Error fetching tags:", error);
-      });
-  }, []);
-
   const fetchUser = async () => {
     try {
       const response = await fetch(
@@ -106,15 +93,6 @@ const Adm_MdShare_Form = () => {
 
   const modules = {
     toolbar: {
-      handlers: {
-        // image: {
-        //   // Set the maximum file size in bytes (here, 5MB as an example)
-        //   size: {
-        //     height: 5000,
-        //     width: 5000,
-        //   },
-        // },
-      },
       container: [
         [
           { header: "1" },
@@ -135,7 +113,6 @@ const Adm_MdShare_Form = () => {
       matchVisual: true,
     },
   };
-
   const formats = [
     "header",
     "font",
@@ -154,7 +131,25 @@ const Adm_MdShare_Form = () => {
   const handleChange = (html) => {
     setEditorHtml(html);
   };
-
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Adm_MdShare_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setDataSource(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const maxId = Math.max(...dataSource.map(item => item.id));
   const onFinish = async (values) => {
     try {
       setLoading(true);
@@ -163,8 +158,11 @@ const Adm_MdShare_Form = () => {
       formData.append("title", values.title);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("details", editorHtml);
-      formData.append("details_image", values.details_image[0].originFileObj);
-      formData.append("link", JSON.stringify(values.link));
+      if (values.details_image && values.details_image.length > 0) {
+        values.details_image.forEach((image, index) => {
+          formData.append(`details_image[${index}]`, image.originFileObj);
+        });
+      }
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
@@ -180,6 +178,7 @@ const Adm_MdShare_Form = () => {
 
       if (response.ok) {
         message.success("Data saved successfully");
+        navigate(`/Admin/Adm_MdShare_View/${maxId + 1}`);
       } else {
         message.error("Failed to save data");
       }
@@ -240,10 +239,32 @@ const Adm_MdShare_Form = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_Tags();
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
@@ -262,9 +283,7 @@ const Adm_MdShare_Form = () => {
         </div>
       </Card>
       <br />
-      <Card
-        className="cardContent"
-      >
+      <Card>
         <Form
           form={form}
           layout="vertical"
@@ -288,7 +307,11 @@ const Adm_MdShare_Form = () => {
               disabled
             />
           </Form.Item>
-          <Form.Item name="title" label={createTypography("หัวข้อ")} rules={[{ required: true }]}>
+          <Form.Item
+            name="title"
+            label={createTypography("หัวข้อ")}
+            rules={[{ required: true }]}
+          >
             <Input placeholder={createTypography("เพิ่มหัวข้อ")} />
           </Form.Item>
           <Form.Item
@@ -299,7 +322,9 @@ const Adm_MdShare_Form = () => {
             rules={[
               {
                 required: false,
-                message: createTypography("กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+                message: createTypography(
+                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                ),
               },
             ]}
           >
@@ -354,60 +379,25 @@ const Adm_MdShare_Form = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item label={createTypography("เพิ่มลิงค์")} rules={[{ required: false }]}>
-            <Form.List name="link">
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <Space
-                      key={key}
-                      style={{
-                        display: "flex",
-                        marginBottom: 12,
-                      }}
-                      align="baseline"
-                    >
-                      <Form.Item
-                        {...restField}
-                        name={[name, "first"]}
-                        rules={[
-                          {
-                            required: true,
-                            message: createTypography("กรุณาเพิ่มลิงค์"),
-                          },
-                        ]}
-                      >
-                        <Input placeholder="เพิ่มลิงค์" style={{ width: "100%" }} />
-                      </Form.Item>
-                      <MinusCircleOutlined onClick={() => remove(name)} />
-                    </Space>
-                  ))}
-                  <Form.Item>
-                    <Button
-                      type="dashed"
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      เพิ่มลิงค์
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List>
-          </Form.Item>
-          <Form.Item name="tag" label={createTypography("แท็ก")} rules={[{ required: false }]}>
+          <Form.Item
+            name="tag"
+            label={createTypography("แท็ก")}
+            rules={[{ required: false }]}
+          >
             <Select
               mode="tags"
-              style={{ width: "100%" }}
-              placeholder={createTypography("เพิ่มแท็ก")}
+              size="large"
+              placeholder="เลือกคำสำคัญ"
+              onChange={onChange_Tags}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
                 }
               }}
-              options={options}
-            />
+              allowClear
+            >
+              {selectOptions_tags}
+            </Select>
           </Form.Item>
           <Form.Item
             name="type_new"
@@ -440,12 +430,21 @@ const Adm_MdShare_Form = () => {
             label={createTypography("จังหวัด")}
             rules={[{ required: false }]}
           >
-            <Select onChange={onChange_mfi_province} allowClear placeholder={createTypography("เลือกจังหวัด")}>
+            <Select
+              onChange={onChange_mfi_province}
+              allowClear
+              placeholder={createTypography("เลือกจังหวัด")}
+            >
               {selectOptions_prov}
             </Select>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="form-button"
+            >
               {createTypography("บันทึก")}
             </Button>
           </Form.Item>

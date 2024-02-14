@@ -114,6 +114,7 @@ const Adm_News_Edit = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
   const modules = {
     toolbar: {
       container: [
@@ -158,7 +159,6 @@ const Adm_News_Edit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("values:", values);
     try {
       setLoading(true);
       const formData = new FormData();
@@ -294,7 +294,7 @@ const Adm_News_Edit = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">เพิ่มข่าวสาร</div>
+        <div className="cardsectionContent">แก้ไขข่าวสาร</div>
       </Card>
       <br />
       <Card>
@@ -329,7 +329,7 @@ const Adm_News_Edit = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปก")}
+            label={createTypography("รูปภาพหน้าปกใหม่")}
             name="cover_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -354,6 +354,8 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
+          รูปภาพหน้าปกเก่า
+          <br />
           {data && data.cover_image ? (
             <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
           ) : (

@@ -270,7 +270,11 @@ const FakenewsSearch_Menu = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/FakenewsSearch/FakenewsSearch_view/${record.id}`}>
-            <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+            <Button
+              icon={
+                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+              }
+            />
           </Link>
         </Space>
       ),
@@ -310,7 +314,6 @@ const FakenewsSearch_Menu = () => {
               className="searchContainer"
             >
               <Button
-                size="large"
                 type="primary"
                 className="buttonfilterStyle"
                 onClick={showFilterDialog}

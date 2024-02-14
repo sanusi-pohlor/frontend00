@@ -3,7 +3,7 @@ import { Space, Popconfirm, Button, Card } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
-import { Table, TableCell, TableContainer, TableHead, TableRow, Typography,  TableBody,TablePagination, } from "@mui/material";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography, TableBody, TablePagination, } from "@mui/material";
 const rowsPerPageOptions = [10];
 
 const NotificationHistory = () => {
@@ -104,7 +104,8 @@ const NotificationHistory = () => {
   const columns = [
     { title: "ลำดับ", width: "5%", render: (text, record, index) => data.indexOf(record) + 1 },
     { title: "หัวข้อ", dataIndex: "fn_info_head", width: "35%", editable: true },
-    { title: "แจ้งเมื่อ", dataIndex: "created_at", width: "20%", editable: true,
+    {
+      title: "แจ้งเมื่อ", dataIndex: "created_at", width: "20%", editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
         const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
@@ -113,15 +114,26 @@ const NotificationHistory = () => {
     },
     { title: "สถานะ", dataIndex: "fn_info_status", width: "20%", render: (status) => getStatusText(status) },
     { title: "ผลการตรวจสอบ", dataIndex: "id", width: "20%", render: (id) => renderResultText(id) },
-    { title: "จัดการ", width: "5%", render: (text, record) => (
+    {
+      title: "จัดการ", width: "5%", render: (text, record) => (
         <Space size="middle">
+
           <Link to={`/FakeNews/fninfoview/${record.id}`}>
-            <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
+            <Button
+              icon={
+                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
+              }
+            />
           </Link>
           {record.fn_info_status === 0 && (
             <>
               <Link to={`/FakeNews/edit/${record.id}`}>
-                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+                <Button
+                  icon={
+                    <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+                  }
+                />
+
               </Link>
               <Popconfirm
                 title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -129,9 +141,11 @@ const NotificationHistory = () => {
                 okText="ใช่"
                 cancelText="ไม่"
               >
-                <Button type="link">
-                  <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
-                </Button>
+                <Button
+                  icon={
+                    <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+                  }
+                />
               </Popconfirm>
             </>
           )}
@@ -174,7 +188,7 @@ const NotificationHistory = () => {
         <Card className="cardsection">
           <div className="cardsectionContent">ประวัติการแจ้งข้อมูล</div>
         </Card>
-        <br/>
+        <br />
         <TableContainer>
           <Table pagination={pagination} onChange={(pagination) => setPagination(pagination)}>
             <TableHead>
@@ -191,21 +205,21 @@ const NotificationHistory = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
-              <TableRow key={row.id}>
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+                <TableRow key={row.id}>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                        {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
           <TablePagination

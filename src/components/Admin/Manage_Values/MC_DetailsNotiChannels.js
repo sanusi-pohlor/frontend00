@@ -1,54 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import { DatePicker, Table, Form, Input, Button, Popconfirm, Select, Modal, InputNumber, message, Card } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
-
+import React, { useEffect, useState } from "react";
+import {
+  Form,
+  Input,
+  Button,
+  Popconfirm,
+  message,
+  Modal,
+  Space,
+  Card,
+  Select,
+  DatePicker,
+} from "antd";
+import {
+  PlusCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import {
+  Table,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+  TablePagination,
+  TableBody,
+} from "@mui/material";
 const { Option } = Select;
-const EditableCell = ({
-  editing,
-  dataIndex,
-  title,
-  inputType,
-  record,
-  index,
-  children,
-  ...restProps
-}) => {
-  const inputNode = inputType === "number" ? <InputNumber /> : <Input />;
-  return (
-    <td {...restProps}>
-      {editing ? (
-        <Form.Item
-          name={dataIndex}
-          style={{
-            margin: 0,
-          }}
-          rules={[
-            {
-              required: true,
-              message: `Please Input ${title}!`,
-            },
-          ]}
-        >
-          {inputNode}
-        </Form.Item>
-      ) : (
-        children
-      )}
-    </td>
-  );
-};
+const rowsPerPageOptions = [10];
 
 const MC_DetailsNotiChannels = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
+  const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [editingKey, setEditingKey] = useState('');
+  const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectOptions_med, setSelectOptions_med] = useState([]); // State for select options
-  const [selectOptions_info, setSelectOptions_info] = useState([]); // State for select options
-  const [selectOptions_pub, setSelectOptions_pub] = useState([]); // State for select options
-  const [selectOptions_fm_d, setSelectOptions_fm_d] = useState([]); // State for select options
-  const [selectOptions_prob, setSelectOptions_prob] = useState([]); // State for select options
+  const [editRecord, setEditRecord] = useState(null);
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_info, setSelectOptions_info] = useState([]);
+  const [selectOptions_pub, setSelectOptions_pub] = useState([]);
+  const [selectOptions_fm_d, setSelectOptions_fm_d] = useState([]);
+  const [selectOptions_prob, setSelectOptions_prob] = useState([]);
+
+  const fetchFakeNewsInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFakeNewsInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -67,6 +78,7 @@ const MC_DetailsNotiChannels = () => {
   };
   useEffect(() => {
     fetchData();
+    fetchFakeNewsInfo();
   }, []);
 
   const onFinish = async (values) => {
@@ -106,46 +118,91 @@ const MC_DetailsNotiChannels = () => {
     }
   };
 
-  const isEditing = (record) => record.key === editingKey;
-
-  const edit = (record) => {
-    form.setFieldsValue({ ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey('');
-  };
-
-  const save = async (key) => {
+  const onFinishEdit = async (values, id) => {
+    setLoading(true);
     try {
-      const row = await form.validateFields();
-      const newData = [...data];
-      const index = newData.findIndex((item) => key === item.key);
+      const formData = new FormData();
+      formData.append("moti_name", values.moti_name);
 
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row,
-        });
-        setData(newData);
-        setEditingKey('');
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Motivation_update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        message.success("Form data updated successfully");
+        setEditingKey("");
+        setEditRecord(null);
+        fetchData();
       } else {
-        newData.push(row);
-        setData(newData);
-        setEditingKey('');
+        message.error("Error updating form data");
       }
-    } catch (errInfo) {
-      console.error('Validate Failed:', errInfo);
+    } catch (error) {
+      console.error("Error updating form data:", error);
+      message.error("Error updating form data");
+    } finally {
+      setLoading(false);
     }
   };
+
+  const isEditing = (record) => record.key === editingKey;
+
+  const editRow = (record) => {
+    form.setFieldsValue({
+      moti_name: record.moti_name,
+    });
+    setEditingKey(record.id);
+    setEditRecord(record);
+  };
+  const add = () => {
+    form.setFieldsValue({
+      moti_name: null,
+    });
+  };
+
+  const cancelEdit = () => {
+    setEditingKey("");
+    setEditRecord(null);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const filteredItems = fakeNewsInfo.filter(
+        (item) => item.mfi_moti === id
+      );
+      if (filteredItems.length > 0) {
+        message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
+      } else {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/Motivation_delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const responseData = await response.json();
+
+        if (
+          response.ok &&
+          responseData === "Motivation deleted successfully"
+        ) {
+          console.log("Motivation deleted successfully");
+          fetchData();
+        } else {
+          console.error("Error deleting item:", responseData);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
+  };
+
   const columns = [
     {
-      title: 'รหัสรายละเอียดช่องทางการแจ้ง',
-      dataIndex: 'dnc_id',
-      width: '20%',
-      editable: true,
+      title: "ลำดับ",
+      width: "5%",
+      render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
       title: 'รหัสช่องทางสื่อ',
@@ -208,26 +265,32 @@ const MC_DetailsNotiChannels = () => {
       editable: true,
     },
     {
-      title: 'Action',
-      dataIndex: 'operation',
-      width: '20%',
-      render: (_, record) => {
-        const editable = isEditing(record);
-        return editable ? (
-          <span>
-            <a onClick={() => save(record.key)} style={{ marginRight: 8 }}>
-              Save
-            </a>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+      title: "จัดการ",
+      width: "10%",
+      render: (text, record) => (
+        <Space size="middle">
+          <>
+            <Button
+              onClick={() => editRow(record)}
+              icon={
+                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
+              }
+            />
+            <Popconfirm
+              title="คุณแน่ใจหรือไม่ที่จะยกเลิกการแก้ไข?"
+              onConfirm={() => handleDelete(record.id)}
+              okText="ใช่"
+              cancelText="ไม่"
+            >
+              <Button
+                icon={
+                  <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
+                }
+              />
             </Popconfirm>
-          </span>
-        ) : (
-          <a disabled={editingKey !== ''} onClick={() => edit(record)}>
-            Edit
-          </a>
-        );
-      },
+          </>
+        </Space>
+      ),
     },
   ];
   const mergedColumns = columns.map((col) => {
@@ -291,35 +354,33 @@ const MC_DetailsNotiChannels = () => {
   const onChange_dnc_prob_id = () => {
     fetchDataAndSetOptions("ProblemManagement_request", "prob_m", setSelectOptions_prob);
   };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+  useEffect(() => {
+    onChange_dnc_med_id();
+    onChange_dnc_info_id();
+    onChange_dnc_pub_id();
+    onChange_dnc_fm_d_id();
+    onChange_dnc_prob_id();
+  }, []);
   return (
     <div>
-      <Card
-        style={{
-          borderRadius: "20px",
-          backgroundColor: "#7BBD8F",
-        }}
-      >
-        <div
-          style={{
-            fontSize: "70px",
-            fontWeight: "bold",
-            display: "flex",
-            justifyContent: "space-between",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            color: "white",
-          }}
-        >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
           จัดการช่องทางสื่อ
           <Button
-            type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
+            className="buttonfilterStyle"
+            type="primary"
+            icon={<PlusCircleOutlined />}
             onClick={() => {
+              add();
               setModalVisible(true);
-              onChange_dnc_med_id();
-              onChange_dnc_info_id();
-              onChange_dnc_pub_id();
-              onChange_dnc_fm_d_id();
-              onChange_dnc_prob_id();
             }}
             style={{ marginBottom: 16 }}
           >
@@ -327,6 +388,7 @@ const MC_DetailsNotiChannels = () => {
           </Button>
         </div>
       </Card>
+      <br />
       <Modal
         title="เพิ่มช่องทางสื่อ"
         visible={modalVisible}
@@ -339,7 +401,6 @@ const MC_DetailsNotiChannels = () => {
           name="member_form"
           onFinish={onFinish}
         >
-          {/* Add form fields for creating a new member */}
           <Form.Item
             name="dnc_med_id"
             label="ช่องทางสื่อ"
@@ -355,7 +416,7 @@ const MC_DetailsNotiChannels = () => {
               onChange={onChange_dnc_med_id}
               allowClear
             >
-              {selectOptions_med} {/* Populate the options */}
+              {selectOptions_med}
             </Select>
           </Form.Item>
           <Form.Item
@@ -373,7 +434,7 @@ const MC_DetailsNotiChannels = () => {
               onChange={onChange_dnc_info_id}
               allowClear
             >
-              {selectOptions_info} {/* Populate the options */}
+              {selectOptions_info}
             </Select>
           </Form.Item>
           <Form.Item
@@ -391,7 +452,7 @@ const MC_DetailsNotiChannels = () => {
               onChange={onChange_dnc_pub_id}
               allowClear
             >
-              {selectOptions_pub} {/* Populate the options */}
+              {selectOptions_pub}
             </Select>
           </Form.Item>
           <Form.Item
@@ -409,7 +470,7 @@ const MC_DetailsNotiChannels = () => {
               onChange={onChange_dnc_fm_d_id}
               allowClear
             >
-              {selectOptions_fm_d} {/* Populate the options */}
+              {selectOptions_fm_d}
             </Select>
           </Form.Item>
           <Form.Item
@@ -427,7 +488,7 @@ const MC_DetailsNotiChannels = () => {
               onChange={onChange_dnc_prob_id}
               allowClear
             >
-              {selectOptions_prob} {/* Populate the options */}
+              {selectOptions_prob}
             </Select>
           </Form.Item>
           <Form.Item
@@ -497,21 +558,234 @@ const MC_DetailsNotiChannels = () => {
           </Form.Item>
         </Form>
       </Modal>
-      <Table
-        components={{
-          body: {
-            cell: EditableCell,
-          },
-        }}
-        bordered
-        dataSource={data}
-        columns={mergedColumns}
-        rowClassName="editable-row"
-        //loading={loading}
-        pagination={{
-          onChange: cancel,
-        }}
-      />
+
+      <Modal
+        title="แก้ไขช่องทางสื่อ"
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        footer={null}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="member_form"
+          onFinish={onFinish}
+        >
+          <Form.Item
+            name="dnc_med_id"
+            label="ช่องทางสื่อ"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onChange_dnc_med_id}
+              allowClear
+            >
+              {selectOptions_med}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dnc_info_id"
+            label="รหัสการแจ้ง"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onChange_dnc_info_id}
+              allowClear
+            >
+              {selectOptions_info}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dnc_pub_id"
+            label="รหัสผู้เผยแพร"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onChange_dnc_pub_id}
+              allowClear
+            >
+              {selectOptions_pub}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dnc_fm_d_id"
+            label="รหัสรูปแบบข้อมูล"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onChange_dnc_fm_d_id}
+              allowClear
+            >
+              {selectOptions_fm_d}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dnc_prob_id"
+            label="รหัสการจัดการ"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              placeholder="Select a option and change input text above"
+              onChange={onChange_dnc_prob_id}
+              allowClear
+            >
+              {selectOptions_prob}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="dnc_scop_pub"
+            label="ขอบเขตการเผยแพร"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="dnc_num_mem_med"
+            label="จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="dnc_date_med"
+            label="วันที่ในสื่อ"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <DatePicker />
+          </Form.Item>
+          <Form.Item
+            name="dnc_capt"
+            label="ภาพ capture"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="dnc_link"
+            label="Link URL"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              เพิ่ม
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Card>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow style={{ background: "#7BBD8F" }}>
+                {mergedColumns.map((column) => (
+                  <TableCell
+                    key={column.title}
+                    align="left"
+                    width={column.width}
+                  >
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "30px",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {column.title}
+                    </Typography>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+                : data
+              ).map((row, rowIndex) => (
+                <TableRow key={row.id}>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </TableContainer>
+      </Card>
     </div>
   );
 };
