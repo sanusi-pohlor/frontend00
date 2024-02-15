@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Avatar, Divider, Box, Typography } from "@mui/material";
-import { Card, Tabs, FloatButton, Result, Button } from "antd";
+import { Card, Tabs, FloatButton, Result, Button, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
 const { TabPane } = Tabs;
@@ -17,6 +17,8 @@ const determineSelectedKey = (pathname) => {
 
 const MenuProfile = ({ children }) => {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
@@ -51,10 +53,12 @@ const MenuProfile = ({ children }) => {
           const userData = await response.json();
           setUser(userData);
         } else {
-          console.error("Failed to retrieve user data");
+          setError("Failed to retrieve user data");
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        setError("Error fetching user data");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -70,13 +74,15 @@ const MenuProfile = ({ children }) => {
         const data = await response.json();
         const countData = data.filter(
           (item) => item.fn_info_nameid === user.id
-        ).length;
+        );
         setData(countData);
       } else {
-        console.error("Error fetching data:", response.statusText);
+        setError(`Error fetching data: ${response.statusText}`);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      setError(`Error fetching data: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,8 +92,12 @@ const MenuProfile = ({ children }) => {
     }
   }, [user]);
 
-  if (!user) {
-    return <Result title="กรุณาเข้าสู่ระบบหรือสมัครสมาชิกก่อน" />;
+  if (loading) {
+    return <div>
+      <Spin tip="กรุณารอสักครู่" size="large">
+        <div className="content" />
+      </Spin>
+    </div>;
   }
 
   return (
@@ -133,26 +143,34 @@ const MenuProfile = ({ children }) => {
                   </Grid>
                 </Grid>
                 <Divider />
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: 20,
-                    padding: 24,
-                    width: "100%",
-                    height: "100%",
-                  }}
-                >
-                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                    จำนวนข่าวที่แจ้ง : {data}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                    จำนวนข่าวที่ได้รับการตรวจสอบเสร็จสิ้น : {data}
-                  </Typography>
-                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                    จำนวนข่าวที่ได้รอการตรวจสอบ : {data}
-                  </Typography>
-                </div>
+                <br/>
+                {data && (
+                  <div>
+                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                      <span>ข้อมูลที่แจ้งทั้งหมด</span>
+                      <span>{data.length}</span>
+                    </Typography>
+                    <Divider />
+                    <br/>
+                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                      <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
+                      <span>{data.filter(item => item.fn_info_status === 0).length}</span>
+                    </Typography>
+                    <Divider />
+                    <br/>
+                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                      <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
+                      <span>{data.filter(item => item.fn_info_status === 1).length}</span>
+                    </Typography>
+                    <Divider />
+                    <br/>
+                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                      <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
+                      <span>{data.filter(item => item.fn_info_status === 2).length}</span>
+                    </Typography>
+                    <Divider />
+                  </div>
+                )}
               </Card>
             )}
             <br />

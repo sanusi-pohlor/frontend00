@@ -4,10 +4,12 @@ import { Form, Button, Input, Modal , message} from "antd";
 import {
   Paper,Typography
 } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const LoginDialog = ({ open, onClose }) => {
   const [visible, setVisible] = useState(open);
-
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     const formData = new FormData();
     formData.append("email", values.email);
@@ -22,7 +24,7 @@ const LoginDialog = ({ open, onClose }) => {
         message.success("เข้าสู่ระบบสำเร็จ");
         const data = await response.json();
         localStorage.setItem("access_token", data.message);
-        console.log("Login successful");
+        navigate(`/`);
         window.location.reload();
       } else {
         message.error("อีเมลหรือรหัสผ่านผิดพลาด!");
@@ -36,7 +38,11 @@ const LoginDialog = ({ open, onClose }) => {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
   return (
     <Modal
       visible={visible}
@@ -105,9 +111,8 @@ const LoginDialog = ({ open, onClose }) => {
             type="primary"
             htmlType="submit"
             className="form-button"
-            size="large"
           >
-            <Typography variant="body1" sx={{ fontSize: "25px" }}>เข้าสู่ระบบ</Typography>
+            {createTypography("เข้าสู่ระบบ")}
           </Button>
         </Form.Item>
       </Form>

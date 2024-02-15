@@ -25,27 +25,6 @@ const Adm_News_Menu = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [data, setData] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        console.log("user :", userData);
-        setUserInfo(userData);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   function getThaiMonth(month) {
     const thaiMonths = [
@@ -71,8 +50,8 @@ const Adm_News_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data.status);
-        setData(data);
+        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        setData(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -271,7 +250,7 @@ const Adm_News_Menu = () => {
                 )
                 : data
               ).map((row, rowIndex) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} hover>
                   {mergedColumns.map((column) => (
                     <TableCell key={column.title} align="left">
                       <Typography variant="body1" sx={{ fontSize: "25px" }}>

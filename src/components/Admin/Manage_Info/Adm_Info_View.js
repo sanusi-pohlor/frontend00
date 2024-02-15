@@ -240,7 +240,9 @@ const ManageInfo_view = () => {
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">
-          จัดการข้อมูลรับแจ้ง
+        <Typography variant="h3">
+        จัดการข้อมูลรับแจ้ง
+        </Typography>
           <Button onClick={handleCheck} type="primary" className="buttonfilterStyle">
             ตรวจสอบข้อมูล
           </Button>
@@ -276,7 +278,11 @@ const ManageInfo_view = () => {
           onCancel={() => setIsModalVisible(false)}
         ></Modal>
         <Divider />
-        <Descriptions title="รายละเอียดการแจ้ง" bordered items={items} />
+        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+        รายละเอียดการแจ้ง
+        </Typography>
+        <Divider />
+        <Descriptions layout="vertical" bordered items={items} />
       </Card>
     </AdminMenu>
   );

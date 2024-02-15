@@ -172,6 +172,12 @@ const Profile_Edit = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   };
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
+
   return (
     <UserProfile>
       <Card className="cardsection">
@@ -332,7 +338,7 @@ const Profile_Edit = () => {
               loading={loading}
               className="form-button"
             >
-              ลงทะเบียน
+              {createTypography("ลงทะเบียน")}
             </Button>
           </Form.Item>
         </Form>

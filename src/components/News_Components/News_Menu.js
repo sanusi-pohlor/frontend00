@@ -29,9 +29,13 @@ const News_Menu = () => {
 
   const handleSearch = (event) => setSearchTerm(event.target.value);
 
-  const filteredNews = data.filter((news) =>
-    news.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = data.filter((data) =>
+  data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const sortedFiltered = filtered
+    .filter((item) => item.status === 1)
+    .sort((a, b) => b.id - a.id);
 
   return (
     <div className="backgroundColor">
@@ -58,8 +62,7 @@ const News_Menu = () => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredNews
-              .filter((item) => item.status === 1)
+            sortedFiltered
               .slice(0, 1)
               .map((item) => (
                 <Grid item xs={12} key={item.id} className="gridItem">
@@ -105,8 +108,7 @@ const News_Menu = () => {
                   </Link>
                 </Grid>
               ))}
-          {filteredNews
-            .filter((item) => item.status === 1)
+          {sortedFiltered
             .slice(1)
             .map((item) => (
               <Grid item xs={12} md={4} key={item.id} className="gridItem">

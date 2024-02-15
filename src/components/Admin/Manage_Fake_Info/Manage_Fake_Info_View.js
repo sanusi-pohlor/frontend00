@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Button, Card } from "antd";
+import { Badge, Descriptions, Image, Button, Card,Divider } from "antd";
 import { useParams, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
@@ -499,7 +499,9 @@ const Manage_Fake_Info_View = () => {
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">
-          รายละเอียดข้อมูลรับแจ้ง
+        <Typography variant="h3">
+        รายละเอียดข้อมูลรับแจ้ง
+        </Typography>
           <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
             <Button icon={<PlusCircleOutlined />} className="buttonfilterStyle">
               แก้ไข
@@ -508,8 +510,12 @@ const Manage_Fake_Info_View = () => {
         </div>
       </Card>
       <br />
-      <Card className="cardsectionContent">
-        <Descriptions title="รายละเอียดข้อมูลเท็จ" bordered items={items} />
+      <Card>
+      <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+      รายละเอียดข้อมูลเท็จ
+        </Typography>
+        <Divider />
+        <Descriptions layout="vertical" bordered items={items} />
       </Card>
     </AdminMenu>
   );

@@ -59,6 +59,7 @@ import ProfileEdit from "./components/User_Comoponents/Profile_Edit";
 
 import Fninfoview from "./components/Fninfo_Components/Fninfo_View";
 import Fninfoedit from "./components/Fninfo_Components/Fninfo_Edit";
+import Warn from "./components/Fninfo_Components/Warn";
 
 import M_DB_Adm_Menu from "./components/Admin/Manage_Dashboard_Adm/M_DB_Adm_Menu";
 
@@ -91,6 +92,7 @@ const routes = [
   { path: "/FakeNews/NotificationHistory", element: <NotificationHistory /> },
   { path: "/FakeNews/fninfoview/:id", element: <Fninfoview /> },
   { path: "/FakeNews/edit/:id", element: <Fninfoedit /> },
+  { path: "/Warn", element: <Warn /> },
 
   { path: "/About_Us_View", element: <About_Us_View /> },
 

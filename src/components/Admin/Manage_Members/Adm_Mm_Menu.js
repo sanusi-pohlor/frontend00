@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { EyeOutlined } from "@ant-design/icons";
-import { Space,Button, Card } from "antd";
+import { DeleteOutlined,EyeOutlined } from "@ant-design/icons";
+import { Popconfirm,Space,Button, Card } from "antd";
 import {
   Table,
   TableCell,
@@ -8,12 +8,17 @@ import {
   TableHead,
   TableRow,
   Typography,
+  TablePagination,
+  TableBody,
 } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { Link } from "react-router-dom";
+const rowsPerPageOptions = [10];
 
 const ManageMembers = () => {
   const [data, setData] = useState([]);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [province, setProvince] = useState([]);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -59,6 +64,26 @@ const ManageMembers = () => {
     Province();
   }, [data]);
 
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/AmUser_delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (response.ok && data === "Article deleted successfully") {
+        console.log("Item deleted successfully");
+        fetchData();
+      } else {
+        console.error("Error deleting item:", data);
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
+  };
+
   const columns = [
     {
       title: "ลำดับ",
@@ -101,12 +126,33 @@ const ManageMembers = () => {
               }
             />
           </Link>
+          <Popconfirm
+            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ใช่"
+            cancelText="ไม่"
+          >
+            <Button
+              icon={
+                <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
+              }
+            />
+          </Popconfirm>
         </Space>
       ),
     },
   ];
 
   const mergedColumns = columns.map((col) => ({ ...col }));
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <AdminMenu>
@@ -115,11 +161,8 @@ const ManageMembers = () => {
       </Card>
       <br/>
       <Card>
-        <TableContainer>
-          <Table
-            pagination={pagination}
-            onChange={(pagination) => setPagination(pagination)}
-          >
+      <TableContainer>
+          <Table>
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
@@ -142,20 +185,37 @@ const ManageMembers = () => {
                 ))}
               </TableRow>
             </TableHead>
-            {data.map((row) => (
-              <TableRow key={row.id}>
-                {mergedColumns.map((column) => (
-                  <TableCell key={column.title} align="left">
-                    <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                      {column.render
-                        ? column.render(row[column.dataIndex], row)
-                        : row[column.dataIndex]}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            <TableBody>
+              {(rowsPerPage > 0
+                ? data.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
+                : data
+              ).map((row, rowIndex) => (
+                <TableRow key={row.id} hover>
+                  {mergedColumns.map((column) => (
+                    <TableCell key={column.title} align="left">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        {column.render
+                          ? column.render(row[column.dataIndex], row)
+                          : row[column.dataIndex]}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={rowsPerPageOptions}
+            component="div"
+            count={data.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
       </Card>
     </AdminMenu>

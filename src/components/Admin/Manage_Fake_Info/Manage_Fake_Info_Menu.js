@@ -71,7 +71,6 @@ const Manage_Fake_Info_Menu = () => {
       );
       if (response.ok) {
         const userData = await response.json();
-        console.log("user :", userData);
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -108,8 +107,9 @@ const Manage_Fake_Info_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setData(data);
-        setDataOrg(data);
+        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        setData(sortedData);
+        setDataOrg(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -641,7 +641,7 @@ const Manage_Fake_Info_Menu = () => {
                   )
                 : data
               ).map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
+                <TableRow key={rowIndex} hover>
                   {columns.map((column, colIndex) => (
                     <TableCell key={`${rowIndex}-${colIndex}`} align="left">
                       <Typography variant="body1" sx={{ fontSize: "25px" }}>

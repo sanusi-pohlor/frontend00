@@ -14,7 +14,7 @@ import {
   Select,
   Upload,
   message,
-  Card,
+  Divider,
 } from "antd";
 import { Typography } from "@mui/material";
 import moment from "moment";
@@ -215,9 +215,10 @@ const FakeNewInformation = () => {
   } else {
     return (
       <UserProfile>
-        <Card className="cardsection">
-          <div className="cardsectionContent">ฟอร์มแจ้งข้อมูลเท็จ</div>
-        </Card>
+        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+          ฟอร์มแจ้งข้อมูลเท็จ
+        </Typography>
+        <Divider />
         <Form
           form={form}
           layout="vertical"
@@ -226,8 +227,8 @@ const FakeNewInformation = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{
-            maxWidth: "100%",
-            padding: "5%",
+            maxWidth: "90%",
+            margin: 'auto',
           }}
           enctype="multipart/form-data"
         >

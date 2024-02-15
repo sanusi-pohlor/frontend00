@@ -39,8 +39,9 @@ const FakenewsSearch_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setData(data);
-        setDataOrg(data);
+        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        setData(sortedData);
+        setDataOrg(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -495,7 +496,7 @@ const FakenewsSearch_Menu = () => {
                     )
                   : data
                 ).map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
+                  <TableRow key={rowIndex} hover> 
                     {columns.map((column, colIndex) => (
                       <TableCell key={`${rowIndex}-${colIndex}`} align="left">
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>

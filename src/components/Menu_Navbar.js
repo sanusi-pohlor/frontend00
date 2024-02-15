@@ -27,14 +27,6 @@ import "./Menu_Navbar.css";
 import PSU from "./Images/PSU.jpg";
 import { useTheme } from "@mui/material/styles";
 
-const pages = [
-  { label: "หน้าหลัก", link: "/" },
-  { label: "ข่าวสาร", link: "/News_Menu" },
-  { label: "บทความ", link: "/Article_Menu" },
-  { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-  { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
-  { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-];
 const YourTypography = styled("Typography")({
   flexGrow: 1,
   marginRight: "5px",
@@ -55,6 +47,12 @@ function Menu_Navbar() {
   const [loginVisible, setLoginVisible] = useState(false);
   const Navigate = useNavigate();
   const theme = useTheme();
+
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
   const getFontSize = (breakpoint) => {
     const fontSizeMap = {
       xs: "150%",
@@ -137,6 +135,21 @@ function Menu_Navbar() {
       Navigate("/Admin/");
     }
   };
+  const pages = user ? [
+    { label: "หน้าหลัก", link: "/" },
+    { label: "ข่าวสาร", link: "/News_Menu" },
+    { label: "บทความ", link: "/Article_Menu" },
+    { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+    { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+    { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+  ] : [
+    { label: "หน้าหลัก", link: "/" },
+    { label: "ข่าวสาร", link: "/News_Menu" },
+    { label: "บทความ", link: "/Article_Menu" },
+    { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+    { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
+    { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+  ];
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -264,7 +277,7 @@ function Menu_Navbar() {
                   }}
                   onClick={showRegisterDialog}
                 >
-                  สมัครสมาชิก
+                  {createTypography("สมัครสมาชิก")}
                 </Button>
                 {registerVisible && (
                   <RegisterDialog
@@ -287,7 +300,7 @@ function Menu_Navbar() {
                   }}
                   onClick={showLoginDialog}
                 >
-                  เข้าสู่ระบบ
+                  {createTypography("เข้าสู่ระบบ")}
                 </Button>
                 {loginVisible && (
                   <LoginDialog

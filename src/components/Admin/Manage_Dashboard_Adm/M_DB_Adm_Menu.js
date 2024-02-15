@@ -214,26 +214,31 @@ const M_DB_Adm_Menu = () => {
           style={{ width: "100px", height: "100px", borderRadius: "50%" }}
         />
       ),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "1",
       label: createTypography("ชื่อ-สกุล"),
       children: user && createTypography(user.username, user.lastname),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "2",
       label: createTypography("เบอร์ติดต่อ"),
       children: user && createTypography(user.phone_number),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "3",
       label: createTypography("ไอดีไลน์"),
       children: user && createTypography(user.Id_line),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "4",
       label: createTypography("อีเมล"),
       children: user && createTypography(user.email),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "5",
@@ -241,6 +246,7 @@ const M_DB_Adm_Menu = () => {
       children:
         province.length > 0 &&
         createTypography("จังหวัดที่อยู่", province[0].prov_name),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
     {
       key: "6",
@@ -251,6 +257,7 @@ const M_DB_Adm_Menu = () => {
           "เกี่ยวกับผู้เขียน",
           "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน"
         ),
+      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
     },
   ];
 
@@ -362,7 +369,7 @@ const M_DB_Adm_Menu = () => {
             <div className="pieChartTitle">ประเภทสื่อ</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart className="PieChartContainer">
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -390,7 +397,7 @@ const M_DB_Adm_Menu = () => {
             <div className="pieChartTitle">รูปแบบข่าว</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart className="PieChartContainer">
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -418,7 +425,7 @@ const M_DB_Adm_Menu = () => {
             <div className="pieChartTitle">จังหวัด</div>
             <Divider />
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
+              <PieChart className="PieChartContainer">
                 <Tooltip />
                 <Legend />
                 <Pie
@@ -444,27 +451,39 @@ const M_DB_Adm_Menu = () => {
       </Grid>
       <Divider />
       <Card>
-        <Typography variant="body1" sx={{ fontSize: "35px" }}>
+        <Typography variant="h4" gutterBottom>
           ข้อมูลที่แจ้งตั้งแต่ {oldestMonthYear} ถึง {newestMonthYear}{" "}
           (ปัจจุบัน)
         </Typography>
         <br />
         <Descriptions
-          title={createTypography("ข้อมูล")}
           bordered
           items={items}
+          style={{
+            maxWidth: "80%",
+            margin: 'auto',
+          }}
         />
         <br />
         <Divider />
+        <Typography variant="h3" gutterBottom>
+          ข้อมูล Admin
+        </Typography>
+        <Divider />
         <Descriptions
           style={{
-            fontSize: "30px",
+            maxWidth: "80%",
+            margin: 'auto',
           }}
-          title="ข้อมูล Admin"
+          bordered
+          layout="vertical"
           items={items2}
         />
-        <br />
-        <Button type="primary" onClick={showModal} className="form-button">
+        <Divider />
+        <Button style={{
+          maxWidth: "80%",
+          margin: 'auto',
+        }} type="primary" onClick={showModal} className="form-button">
           {createTypography("ออกจากระบบ")}
         </Button>
         <Modal

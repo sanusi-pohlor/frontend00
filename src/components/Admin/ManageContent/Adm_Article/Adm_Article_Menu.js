@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Card, Button, Popconfirm, Switch } from "antd";
+import { Space, Card, Button, Popconfirm, Switch,Image } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -25,27 +25,6 @@ const Adm_Article_Menu = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [data, setData] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        console.log("user :", userData);
-        setUserInfo(userData);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   function getThaiMonth(month) {
     const thaiMonths = [
@@ -71,8 +50,8 @@ const Adm_Article_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data.status);
-        setData(data);
+        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        setData(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -102,7 +81,6 @@ const Adm_Article_Menu = () => {
 
   const handleDelete = async (id) => {
     try {
-      console.log(`Deleting item with id: ${id}`);
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_Article_delete/${id}`,
         {
@@ -137,7 +115,7 @@ const Adm_Article_Menu = () => {
       dataIndex: "cover_image",
       key: "image",
       render: (cover_image) => (
-        <img src={cover_image} alt="Item" style={{ maxWidth: "100px" }} />
+        <Image src={cover_image} alt="Item" style={{ maxWidth: "100px" }} />
       ),
     },
     {
@@ -272,7 +250,7 @@ const Adm_Article_Menu = () => {
                 )
                 : data
               ).map((row, rowIndex) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} hover>
                   {mergedColumns.map((column) => (
                     <TableCell key={column.title} align="left">
                       <Typography variant="body1" sx={{ fontSize: "25px" }}>

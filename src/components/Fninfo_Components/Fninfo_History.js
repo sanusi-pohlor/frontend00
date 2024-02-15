@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Popconfirm, Button, Card } from "antd";
+import { Space, Popconfirm, Button, Card, Divider } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
@@ -46,7 +46,8 @@ const NotificationHistory = () => {
         const data = await response.json();
         if (data) {
           const filteredData = data.filter(item => item.fn_info_nameid === user.id);
-          setData(filteredData);
+          const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
+          setData(sortedData);
         } else {
           console.error("Data is missing or null");
         }
@@ -185,10 +186,10 @@ const NotificationHistory = () => {
   } else {
     return (
       <UserProfile>
-        <Card className="cardsection">
-          <div className="cardsectionContent">ประวัติการแจ้งข้อมูล</div>
-        </Card>
-        <br />
+        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+          ประวัติการแจ้งข้อมูล
+        </Typography>
+        <Divider />
         <TableContainer>
           <Table pagination={pagination} onChange={(pagination) => setPagination(pagination)}>
             <TableHead>
@@ -210,7 +211,7 @@ const NotificationHistory = () => {
                 )
                 : data
               ).map((row, rowIndex) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} hover >
                   {mergedColumns.map((column) => (
                     <TableCell key={column.title} align="left">
                       <Typography variant="body1" sx={{ fontSize: "20px" }}>

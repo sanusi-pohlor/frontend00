@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { Paper, Grid, Box, IconButton } from "@mui/material";
+import { Paper, Grid, Box, IconButton, Typography } from "@mui/material";
 import { Card, Button } from "antd";
 import moment from "moment";
 import Carousel from "./Carousel";

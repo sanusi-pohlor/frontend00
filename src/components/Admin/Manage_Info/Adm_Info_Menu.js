@@ -23,6 +23,7 @@ const ManageMembers = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
+
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -30,7 +31,6 @@ const ManageMembers = () => {
       );
       if (response.ok) {
         const userData = await response.json();
-        console.log("user :", userData);
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -83,7 +83,8 @@ const ManageMembers = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setData(data);
+        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        setData(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -141,7 +142,6 @@ const ManageMembers = () => {
         ? "ข่าวจริง"
         : "ยังไม่ตรวจสอบ"
       : "ยังไม่ตรวจสอบ";
-    console.log("resultText ", id);
     return resultText;
   };
 
@@ -285,7 +285,7 @@ const ManageMembers = () => {
                   )
                 : data
               ).map((row, rowIndex) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id} hover>
                   {mergedColumns.map((column) => (
                     <TableCell key={column.title} align="left">
                       <Typography variant="body1" sx={{ fontSize: "25px" }}>

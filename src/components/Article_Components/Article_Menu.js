@@ -1,40 +1,41 @@
 import React, { useState, useEffect } from "react";
 import { Box, Grid, Paper, IconButton } from "@mui/material";
-import { SearchOutlined, RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
+import {
+  SearchOutlined,
+  RightCircleOutlined,
+  LeftCircleOutlined,
+} from "@ant-design/icons";
 import { Card, Button, Input, Flex } from "antd";
 import { Link } from "react-router-dom";
-import "../../App.css";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
 
 const Article_Menu = () => {
+  const isLargeScreen = useMediaQuery("(min-width:1300px)");
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  const isLargeScreen = useMediaQuery("(min-width:1300px)");
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/Article_request")
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
+    .then((response) => response.json())
+    .then((data) => setData(data))
+    .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const handleSearch = (event) => setSearchTerm(event.target.value);
 
-  const filteredArticles = data.filter((article) =>
-    article.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filtered = data.filter((data) =>
+  data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const sortedFiltered = filtered
+    .filter((item) => item.status === 1)
+    .sort((a, b) => b.id - a.id);
 
   return (
     <div className="backgroundColor">
@@ -48,7 +49,7 @@ const Article_Menu = () => {
             บทความ
             <div className="searchContainer">
               <Input
-              type="text"
+                type="text"
                 size="large"
                 placeholder="ค้นหา"
                 style={{ marginRight: "10px" }}
@@ -61,8 +62,7 @@ const Article_Menu = () => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            filteredArticles
-              .filter((item) => item.status === 1)
+            sortedFiltered
               .slice(0, 1)
               .map((item) => (
                 <Grid item xs={12} key={item.id} className="gridItem">
@@ -95,7 +95,7 @@ const Article_Menu = () => {
                               {item.title}
                               <Button
                                 type="primary"
-                                href={`/News_Menu/News_view/${item.id}`}
+                                href={`/Article_Menu/Article_view/${item.id}`}
                                 target="_blank"
                                 className="button-card"
                               >
@@ -109,8 +109,7 @@ const Article_Menu = () => {
                   </Link>
                 </Grid>
               ))}
-          {filteredArticles
-            .filter((item) => item.status === 1)
+          {sortedFiltered
             .slice(1)
             .map((item) => (
               <Grid item xs={12} md={4} key={item.id} className="gridItem">
@@ -150,13 +149,17 @@ const Article_Menu = () => {
               onClick={() => paginate(currentPage - 1)}
               disabled={currentPage === 1}
             >
-              <LeftCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+              <LeftCircleOutlined
+                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+              />
             </IconButton>
             <IconButton
               onClick={() => paginate(currentPage + 1)}
               disabled={indexOfLastItem >= data.length}
             >
-              <RightCircleOutlined style={{ fontSize: "3rem", color: "#7BBD8F" }} />
+              <RightCircleOutlined
+                style={{ fontSize: "3rem", color: "#7BBD8F" }}
+              />
             </IconButton>
           </Box>
         )}

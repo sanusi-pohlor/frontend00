@@ -166,6 +166,20 @@
         margin-right: 10px;
     }
 
+    .buttonprofile {
+        padding: 25px 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #7BBD8F;
+        border: none;
+        color: #ffffff;
+        font-size: 30px;
+        font-weight: bold;
+        font-family: 'Th Sarabun New', sans-serif;
+        margin-right: 10px;
+    }
+
     .button-card {
         font-size: 25px;
         padding: 30px 35px;
@@ -1619,3 +1633,26 @@ body {
 .login-form-button:active {
     background: #578e6e;
 }
+
+.example {
+    margin: 20px 0;
+    margin-bottom: 20px;
+    padding: 30px 50px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  .content {
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+  }
+
+  .ant-descriptions {
+    background-color: #7BBD8F;
+  }
+  
+  .ant-descriptions-item-content {
+    background-color: #ffffff;
+  }

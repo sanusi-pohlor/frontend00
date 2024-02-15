@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import UserProfile from "./Profile_Menu";
-import { Button, Modal, Descriptions, Card } from "antd";
+import { Button, Modal, Descriptions, Divider } from "antd";
 import { Typography } from "@mui/material";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -141,14 +141,16 @@ const Profile = () => {
 
   return (
     <UserProfile>
-      <Card className="cardsection">
+      <div>
         <div className="cardsectionContent">
-          ข้อมูลสมาชิก
+        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+        ข้อมูลสมาชิก
+        </Typography>
           <div className="setcardContent">
             <Link to={`/User/Profile/Edit/${user.id}`}>
               <Button
-                icon={<PlusCircleOutlined />}
-                className="buttonfilterStyle"
+                type="primary"
+                className="buttonprofile"
               >
                 แก้ไข
               </Button>
@@ -156,7 +158,7 @@ const Profile = () => {
             <Button
               type="primary"
               onClick={showModal}
-              className="buttonfilterStyle"
+              className="buttonprofile"
             >
               {createTypography("ออกจากระบบ")}
             </Button>
@@ -171,10 +173,10 @@ const Profile = () => {
             </Modal>
           </div>
         </div>
-      </Card>
-      <br />
+      </div>
+      <Divider />
       <div>
-        <Descriptions bordered items={items} />
+        <Descriptions layout="vertical" bordered items={items} />
       </div>
     </UserProfile>
   );
