@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Avatar, Divider, Box, Typography } from "@mui/material";
-import { Card, Tabs, FloatButton, Result, Button, Spin } from "antd";
+import { Grid, Avatar, Divider, Box, Paper, Typography } from "@mui/material";
+import { Card, Tabs, FloatButton, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
 const { TabPane } = Tabs;
@@ -18,7 +18,6 @@ const determineSelectedKey = (pathname) => {
 const MenuProfile = ({ children }) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
@@ -28,11 +27,8 @@ const MenuProfile = ({ children }) => {
     function handleResize() {
       setIsMobile(window.innerWidth < 768);
     }
-
     window.addEventListener("resize", handleResize);
-
     handleResize();
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -48,20 +44,18 @@ const MenuProfile = ({ children }) => {
             },
           }
         );
-
         if (response.ok) {
           const userData = await response.json();
           setUser(userData);
         } else {
-          setError("Failed to retrieve user data");
+          console.error("Failed to retrieve user data");
         }
       } catch (error) {
-        setError("Error fetching user data");
+        console.error("Error fetching user data");
       } finally {
         setLoading(false);
       }
     };
-
     fetchUser();
   }, []);
 
@@ -77,15 +71,14 @@ const MenuProfile = ({ children }) => {
         );
         setData(countData);
       } else {
-        setError(`Error fetching data: ${response.statusText}`);
+        console.error("Error fetching data:", response.statusText);
       }
     } catch (error) {
-      setError(`Error fetching data: ${error}`);
+      console.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (user) {
       fetchData();
@@ -93,34 +86,26 @@ const MenuProfile = ({ children }) => {
   }, [user]);
 
   if (loading) {
-    return <div>
+    return (
+    <div>
       <Spin tip="กรุณารอสักครู่" size="large">
         <div className="content" />
       </Spin>
-    </div>;
+    </div>
+    );
   }
 
   return (
-    <div style={{ backgroundColor: "#f1f1f1" }}>
-      <Box
-        style={{
-          width: "80%",
-          padding: 20,
-          margin: "0 auto",
-          backgroundColor: "#f1f1f1",
-        }}
+    <div className="backgroundColor">
+      <Paper
+        elevation={0}
+        className="paperContainer"
+        style={{ backgroundColor: "#e4e4e4" }}
       >
         <Grid container spacing={2}>
           <Grid item xs={12} sm={4}>
             {!isMobile && (
-              <Card
-                style={{
-                  margin: "auto",
-                  backgroundColor: "white",
-                  width: "100%",
-                  height: "100%",
-                }}
-              >
+              <Card>
                 <Grid
                   container
                   direction="column"
@@ -134,16 +119,16 @@ const MenuProfile = ({ children }) => {
                     </Avatar>
                   </Grid>
                   <Grid item>
-                    <Typography variant="h5" sx={{ fontSize: "25px" }}>
+                    <Typography sx={{ fontSize: "30px" }}>
                       ชื่อ-สกุล : {user.username}
                     </Typography>
-                    <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                    <Typography sx={{ fontSize: "30px" }}>
                       อีเมล : {user.email}
                     </Typography>
                   </Grid>
                 </Grid>
                 <Divider />
-                <br/>
+                <br />
                 {data && (
                   <div>
                     <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
@@ -151,24 +136,25 @@ const MenuProfile = ({ children }) => {
                       <span>{data.length}</span>
                     </Typography>
                     <Divider />
-                    <br/>
+                    <br />
                     <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
                       <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
                       <span>{data.filter(item => item.fn_info_status === 0).length}</span>
                     </Typography>
                     <Divider />
-                    <br/>
+                    <br />
                     <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
                       <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
                       <span>{data.filter(item => item.fn_info_status === 1).length}</span>
                     </Typography>
                     <Divider />
-                    <br/>
+                    <br />
                     <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
                       <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
                       <span>{data.filter(item => item.fn_info_status === 2).length}</span>
                     </Typography>
                     <Divider />
+                    <br/>
                   </div>
                 )}
               </Card>
@@ -176,14 +162,7 @@ const MenuProfile = ({ children }) => {
             <br />
           </Grid>
           <Grid item xs={12} sm={8}>
-            <Card
-              style={{
-                margin: "auto",
-                backgroundColor: "white",
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <Card>
               <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
                   <TabPane
@@ -204,7 +183,7 @@ const MenuProfile = ({ children }) => {
           </Grid>
         </Grid>
         <FloatButton.BackTop />
-      </Box>
+      </Paper>
     </div>
   );
 };

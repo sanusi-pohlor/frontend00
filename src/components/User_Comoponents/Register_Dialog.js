@@ -9,6 +9,7 @@ import {
   LockOutlined,
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Register_Dialog = ({ open, onClose }) => {
   const [user, setUser] = useState(null);
@@ -16,6 +17,7 @@ const Register_Dialog = ({ open, onClose }) => {
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(open);
+  const navigate = useNavigate();
   const { Option } = Select;
   const [form] = Form.useForm();
   const fetchData = async () => {
@@ -26,7 +28,6 @@ const Register_Dialog = ({ open, onClose }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data);
-        console.log("user :", data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -46,13 +47,11 @@ const Register_Dialog = ({ open, onClose }) => {
         receive = 1;
       }
 
-      // Check if the email already exists in the user state
       const emailExists = user.some((existingUser) => existingUser.email === values.email);
-
       if (emailExists) {
         message.error("อีเมลนี้มีการใช้งานแล้ว");
         setLoading(false);
-        return; // Stop further execution
+        return;
       }
 
       const formData = new FormData();
@@ -65,22 +64,46 @@ const Register_Dialog = ({ open, onClose }) => {
       formData.append("province", values.province);
       formData.append("receive_ct_email", receive);
 
-      const response = await fetch("https://checkkonproject-sub.com/api/register", {
+      const registerResponse = await fetch("https://checkkonproject-sub.com/api/register", {
         method: "POST",
         body: formData,
       });
 
-      if (response.ok) {
-        message.success("Form data sent successfully");
+      if (registerResponse.ok) {
+        message.success("สมัครสมาชิกเสร็จสิ้น");
+        const registerData = await registerResponse.json();
+        localStorage.setItem("access_token", registerData.message);
 
-        // Rest of your logic for login after registration...
+        const loginResponse = await fetch(
+          "https://checkkonproject-sub.com/api/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: values.email,
+              password: values.password,
+            }),
+          }
+        );
 
+        if (loginResponse.ok) {
+          const loginData = await loginResponse.json();
+          localStorage.setItem("access_token", loginData.message);
+          window.location.reload();
+        } else {
+          message.error("เกิดข้อผิดพลาด");
+        }
+        onClose();
+        navigate(`/`);
+        window.location.reload();
       } else {
-        message.error("Error sending form data");
+        message.error("เกิดข้อผิดพลาด");
       }
     } catch (error) {
       console.error("Error registering user:", error);
-      message.error("Error registering user");
+      message.error("เกิดข้อผิดพลาด");
     } finally {
       setLoading(false);
     }
@@ -117,12 +140,12 @@ const Register_Dialog = ({ open, onClose }) => {
         stateSetter(options);
       } else {
         console.error(
-          `Error fetching ${fieldName} codes:`,
+          `Error `,
           response.statusText
         );
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error("Error:", error);
     }
   };
 
@@ -133,7 +156,7 @@ const Register_Dialog = ({ open, onClose }) => {
     onChange_mfi_province();
   }, []);
 
-  const createTypography = (label, text, fontSize = "25px") => (
+  const createTypography = (label, text, fontSize = "30px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
     </Typography>
@@ -182,7 +205,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="ระบุชื่อ"
             />
           </Form.Item>
           <Form.Item
@@ -200,7 +222,7 @@ const Register_Dialog = ({ open, onClose }) => {
               margin: "0 8px",
             }}
           >
-            <Input size="large" placeholder="ระบุนามสกุล" />
+            <Input size="large"/>
           </Form.Item>
           <Form.Item
             label={createTypography("อีเมล")}
@@ -215,7 +237,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<MailOutlined className="site-form-item-icon" />}
-              placeholder="ระบุอีเมล"
             />
           </Form.Item>
           <Form.Item
@@ -226,7 +247,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="ระบุรหัสผ่าน"
             />
           </Form.Item>
           <Form.Item
@@ -248,7 +268,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input.Password
               size="large"
               prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="ระบุรหัสผ่านยืนยัน"
             />
           </Form.Item>
           <Form.Item
@@ -264,7 +283,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<PhoneOutlined className="site-form-item-icon" />}
-              placeholder="ระบุเบอร์ติดต่อ"
             />
           </Form.Item>
           <Form.Item
@@ -280,7 +298,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Input
               size="large"
               prefix={<MessageOutlined className="site-form-item-icon" />}
-              placeholder="ระบุไอดีไลน์"
             />
           </Form.Item>
           <Form.Item
@@ -293,7 +310,7 @@ const Register_Dialog = ({ open, onClose }) => {
               },
             ]}
           >
-            <Select onChange={onChange_mfi_province} allowClear placeholder="ระบุจังหวัดที่สังกัด">
+            <Select onChange={onChange_mfi_province} allowClear>
               {selectOptions_prov}
             </Select>
           </Form.Item>

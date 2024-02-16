@@ -167,8 +167,7 @@ const MC_ActionType = () => {
         const responseData = await response.json();
 
         if (
-          response.ok &&
-          responseData === "ActionType deleted successfully"
+          response.ok
         ) {
           console.log("ActionType deleted successfully");
           fetchData();

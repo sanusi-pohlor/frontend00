@@ -1,12 +1,12 @@
 import React from 'react';
-import { Button, Result } from 'antd';
+import { Result } from 'antd';
 
 const Warn = () => {
 
     return (
         <Result
             status="warning"
-            title="กรุราเข้าสู่ระบบหรือสมัครสมาชิก"
+            title="กรุณาเข้าสู่ระบบหรือสมัครสมาชิก"
         />
     );
 };

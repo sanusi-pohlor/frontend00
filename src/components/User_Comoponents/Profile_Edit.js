@@ -78,35 +78,29 @@ const Profile_Edit = () => {
 
   const onFinish = async (values) => {
     setLoading(true);
-
     try {
       let receive = receiveCtEmail ? 1 : 0;
       const filteredIds = province.filter(
         (item) => item.id === (userdata && userdata.province)
       );
       const formData = new FormData();
-
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined && value !== null && value !== '') {
           formData.append(fieldName, value);
         }
       };
-
       appendIfDefined("username", values.username);
       appendIfDefined("lastName", values.lastName);
       appendIfDefined("email", values.email);
       appendIfDefined("password", values.password);
       appendIfDefined("phone_number", values.phone_number);
       appendIfDefined("Id_line", values.Id_line);
-
       if (values.province === filteredIds[0]?.prov_name) {
         formData.append("province", prov);
       } else {
         appendIfDefined("province", values.province);
       }
-
       formData.append("receive_ct_email", receive);
-
       const response = await fetch(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
         {
@@ -114,16 +108,15 @@ const Profile_Edit = () => {
           body: formData,
         }
       );
-
       if (response.ok) {
-        message.success("Form data sent successfully");
+        message.success("แก้ไขข้อมูลส่วนตัวเสร็จสิ้น");
         navigate(`/User/Profile`);
       } else {
-        message.error("Error sending form data");
+        message.error("เกิดข้อผิดพลาด");
       }
     } catch (error) {
       console.error("Error updating user:", error);
-      message.error("Error updating user");
+      message.error("เกิดข้อผิดพลาด");
     } finally {
       setLoading(false);
     }

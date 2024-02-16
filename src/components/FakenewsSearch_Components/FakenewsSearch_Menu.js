@@ -39,7 +39,8 @@ const FakenewsSearch_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        const sortedData = data.slice().sort((a, b) => b.id - a.id);
+        const filteredData = data.filter(item => item.mfi_results !== null);
+        const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
         setDataOrg(sortedData);
       } else {

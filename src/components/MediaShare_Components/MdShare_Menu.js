@@ -78,7 +78,7 @@ const MdShare_Menu = () => {
                         <div className="cardItemCover">
                           <Flex justify="space-between">
                             <img
-                              className="cardImage"
+                              className="cardheadImage"
                               src={item.cover_image}
                             />
                             <Flex

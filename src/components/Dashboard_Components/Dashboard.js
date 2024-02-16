@@ -26,7 +26,9 @@ const Dashboard = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          setter(data);
+          const filteredData = data.filter(item => item.status === 1);
+          const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
+          setter(sortedData);
         } else {
           throw new Error(`Error fetching ${endpoint}`);
         }

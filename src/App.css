@@ -1656,3 +1656,9 @@ body {
   .ant-descriptions-item-content {
     background-color: #ffffff;
   }
+
+  .cardheadImage {
+    height: 300px;
+    width: 50%;
+    object-fit: cover;
+}

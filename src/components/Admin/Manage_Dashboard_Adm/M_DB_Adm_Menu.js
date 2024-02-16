@@ -466,7 +466,10 @@ const M_DB_Adm_Menu = () => {
         />
         <br />
         <Divider />
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h3" gutterBottom style={{
+            maxWidth: "80%",
+            margin: 'auto',
+          }}>
           ข้อมูล Admin
         </Typography>
         <Divider />

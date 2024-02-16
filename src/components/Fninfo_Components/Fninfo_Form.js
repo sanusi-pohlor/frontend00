@@ -270,7 +270,6 @@ const FakeNewInformation = () => {
             >
               <Input
                 size="large"
-                prefix={<UserOutlined className="site-form-item-icon" />}
                 placeholder={province[0].prov_name}
                 disabled
               />
@@ -293,7 +292,6 @@ const FakeNewInformation = () => {
             <Input
               size="large"
               //prefix={<LinkOutlined className="site-form-item-icon" />}
-              placeholder="ระบุหัวข้อ"
             />
           </Form.Item>
           <Form.Item
@@ -314,7 +312,6 @@ const FakeNewInformation = () => {
               rows={4}
               size="large"
               prefix={<EnvironmentOutlined className="site-form-item-icon" />}
-              placeholder="เนื้อหา"
             />
           </Form.Item>
           <Form.Item
@@ -335,7 +332,6 @@ const FakeNewInformation = () => {
             }}
           >
             <Select
-              placeholder="Select a option and change input text above"
               onChange={onChange_dnc_med_id}
               allowClear
             >
@@ -358,7 +354,6 @@ const FakeNewInformation = () => {
           >
             <Select
               size="large"
-              placeholder="จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
               onChange={handlenum_memChange}
               value={selectednum_mem}
             >
@@ -394,7 +389,6 @@ const FakeNewInformation = () => {
               rows={4}
               size="large"
               prefix={<EnvironmentOutlined className="site-form-item-icon" />}
-              placeholder="รายละเอียดเพิ่มเติม"
             />
           </Form.Item>
           <Form.Item
@@ -414,7 +408,6 @@ const FakeNewInformation = () => {
             <Input
               size="large"
               prefix={<LinkOutlined className="site-form-item-icon" />}
-              placeholder="ระบุลิ้งค์ข้อมูล(ถ้ามี)"
             />
           </Form.Item>
           <Form.Item
@@ -439,7 +432,7 @@ const FakeNewInformation = () => {
           </Form.Item>
           <Form.Item
             label={
-              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+              <Typography sx={{ fontSize: "25px" }}>
                 ส่งภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ
               </Typography>
             }

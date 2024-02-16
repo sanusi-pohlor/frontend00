@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import UserProfile from "./Profile_Menu";
 import { Button, Modal, Descriptions, Divider } from "antd";
 import { Typography } from "@mui/material";
-import { PlusCircleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -40,7 +39,6 @@ const Profile = () => {
         if (response.ok) {
           const data = await response.json();
           setUser(data);
-          console.log("User data:", data);
         } else {
           console.error("User data retrieval failed");
         }
@@ -48,7 +46,6 @@ const Profile = () => {
         console.error("Error:", error);
       }
     };
-
     fetchUser();
   }, []);
 
@@ -64,7 +61,6 @@ const Profile = () => {
             (item) => item.id === (user && user.province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -72,7 +68,6 @@ const Profile = () => {
         console.error("Error fetching province data:", error);
       }
     };
-
     if (user && user.province) {
       fetchProvince();
     }
@@ -99,8 +94,10 @@ const Profile = () => {
     },
     {
       key: "3",
-      label: createTypography("จังหวัดที่อยู่"),
-      children: province.length > 0 && createTypography(province[0].prov_name),
+      label: createTypography("รับข้อมูลผ่านอีเมล"),
+      children:
+        user &&
+        createTypography(user.receive_ct_email === 1 ? "รับ" : "ไม่รับ"),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
@@ -123,10 +120,8 @@ const Profile = () => {
     },
     {
       key: "7",
-      label: createTypography("รับข้อมูลผ่านอีเมล"),
-      children:
-        user &&
-        createTypography(user.receive_ct_email === 1 ? "รับ" : "ไม่รับ"),
+      label: createTypography("จังหวัดที่อยู่"),
+      children: province.length > 0 && createTypography(province[0].prov_name),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];
@@ -141,43 +136,39 @@ const Profile = () => {
 
   return (
     <UserProfile>
-      <div>
-        <div className="cardsectionContent">
+      <div className="cardsectionContent">
         <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
-        ข้อมูลสมาชิก
+          ข้อมูลสมาชิก
         </Typography>
-          <div className="setcardContent">
-            <Link to={`/User/Profile/Edit/${user.id}`}>
-              <Button
-                type="primary"
-                className="buttonprofile"
-              >
-                แก้ไข
-              </Button>
-            </Link>
+        <div className="setcardContent">
+          <Link to={`/User/Profile/Edit/${user.id}`}>
             <Button
               type="primary"
-              onClick={showModal}
               className="buttonprofile"
             >
-              {createTypography("ออกจากระบบ")}
+              แก้ไข
             </Button>
-            <Modal
-              open={isModalOpen}
-              onOk={handleOk}
-              onCancel={handleCancel}
-              okText="ยืนยัน"
-              cancelText="ยกเลิก"
-            >
-              <p>{createTypography("ต้องการออกจากระบบ")}</p>
-            </Modal>
-          </div>
+          </Link>
+          <Button
+            type="primary"
+            onClick={showModal}
+            className="buttonprofile"
+          >
+            {createTypography("ออกจากระบบ")}
+          </Button>
+          <Modal
+            open={isModalOpen}
+            onOk={handleOk}
+            onCancel={handleCancel}
+            okText="ยืนยัน"
+            cancelText="ยกเลิก"
+          >
+            <p>{createTypography("ต้องการออกจากระบบ")}</p>
+          </Modal>
         </div>
       </div>
       <Divider />
-      <div>
-        <Descriptions layout="vertical" bordered items={items} />
-      </div>
+      <Descriptions layout="vertical" bordered items={items} />
     </UserProfile>
   );
 };

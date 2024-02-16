@@ -88,7 +88,7 @@ const Adm_Article_Menu = () => {
         }
       );
       const data = await response.json();
-      if (response.ok && data === "Article deleted successfully") {
+      if (response.ok) {
         console.log("Item deleted successfully");
         fetchData();
       } else {
@@ -106,7 +106,7 @@ const Adm_Article_Menu = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: "Title",
+      title: "หัวข้อ",
       dataIndex: "title",
       key: "title",
     },
@@ -130,7 +130,7 @@ const Adm_Article_Menu = () => {
       },
     },
     {
-      title: "status",
+      title: "สถานะ",
       dataIndex: "status",
       key: "status",
       render: (status, record) => (

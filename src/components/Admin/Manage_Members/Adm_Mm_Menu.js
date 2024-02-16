@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { DeleteOutlined,EyeOutlined } from "@ant-design/icons";
-import { Popconfirm,Space,Button, Card } from "antd";
+import { Popconfirm,Space,Button, Card, message } from "antd";
 import {
   Table,
   TableCell,
@@ -20,11 +20,24 @@ const ManageMembers = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [province, setProvince] = useState([]);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-    total: data.length,
-  });
+  const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
+
+  const fetchFakeNewsInfo = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/ManageInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setFakeNewsInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -43,6 +56,7 @@ const ManageMembers = () => {
   };
   useEffect(() => {
     fetchData();
+    fetchFakeNewsInfo();
   }, []);
 
   const Province = async () => {
@@ -66,19 +80,25 @@ const ManageMembers = () => {
 
   const handleDelete = async (id) => {
     try {
+      const filteredItems = fakeNewsInfo.filter(
+        (item) => item.fn_info_nameid === id
+      );
+      if (filteredItems.length > 0) {
+        message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
+      } else {
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/AmUser_delete/${id}`,
+        `https://checkkonproject-sub.com/api/User_delete/${id}`,
         {
           method: "DELETE",
         }
       );
-      const data = await response.json();
-      if (response.ok && data === "Article deleted successfully") {
-        console.log("Item deleted successfully");
+      if (response.ok) {
+        message.success("Item deleted successfully");
         fetchData();
       } else {
-        console.error("Error deleting item:", data);
+        message.error("Error deleting item");
       }
+    }
     } catch (error) {
       console.error("Error deleting item:", error.message);
     }
