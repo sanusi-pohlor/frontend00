@@ -42,8 +42,6 @@ const Manage_Fake_Info_Menu = () => {
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [selectOptions_mem, setSelectOptions_mem] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
-  const [options, setOptions] = useState([]);
-  const navigate = useNavigate();
 
   const fetchDataInfo = async () => {
     try {
@@ -151,39 +149,51 @@ const Manage_Fake_Info_Menu = () => {
     Province();
   }, [data]);
 
-  const handleDelete = (id) => {
-    console.log(`ลบรายการ: ${id}`);
-    fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_delete/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Fake News deleted successfully") {
-          console.log("รายการถูกลบสำเร็จ");
-          fetchData();
-        } else {
-          console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
+  const handleConfirm = async (id) => {
+    try {
+      const infoid = data.filter(
+        (item) => item.id === id
+      )[0];
+      const formData = new FormData();
+      formData.append("status", 0);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/updateFakeNewsStatus/${infoid.mfi_fninfo}`,
+        {
+          method: "POST",
+          body: formData,
         }
-      })
-      .catch((error) => {
-        console.error("เกิดข้อผิดพลาดในการลบรายการ:", error);
-      });
+      );
+      if (response.ok) {
+        console.log("Updating status successfully");
+      } else {
+        console.error("Error updating status:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
-  useEffect(() => {
-    fetch("https://checkkonproject-sub.com/api/Tags_request")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          value: item.tag_name,
-        }));
-        setOptions(formattedOptions);
-      })
-      .catch((error) => {
-        console.error("Error fetching tag:", error);
-      });
-  }, []);
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_delete/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        console.log("Item deleted successfully");
+        handleConfirm(id);
+        fetchData();
+      } else {
+        console.error("Error deleting item:", data);
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
+  };
+
 
   const onFinish = (values) => {
     const { type_new, med_new, prov_new, tags, results, mem } = values;
@@ -330,6 +340,7 @@ const Manage_Fake_Info_Menu = () => {
     const resultText = dataA ? dataA.fn_info_head : null;
     return resultText;
   };
+
   const columns = [
     {
       title: "ลำดับ",
@@ -373,8 +384,8 @@ const Manage_Fake_Info_Menu = () => {
         mfi_results === 0
           ? "ข่าวเท็จ"
           : mfi_results === 1
-          ? "ข่าวจริง"
-          : "กำลังตรวจสอบ",
+            ? "ข่าวจริง"
+            : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -388,32 +399,30 @@ const Manage_Fake_Info_Menu = () => {
             />
           </Link>
           {record.status === 0 && (
-            <>
-              <Link to={`/Admin/Manage_Fake_Info/edit/${record.id}`}>
-                <Button
-                  icon={
-                    <EditOutlined
-                      style={{ fontSize: "16px", color: "green" }}
-                    />
-                  }
-                />
-              </Link>
-              <Popconfirm
-                title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
-                onConfirm={() => handleDelete(record.id)}
-                okText="ใช่"
-                cancelText="ไม่"
-              >
-                <Button
-                  icon={
-                    <DeleteOutlined
-                      style={{ fontSize: "16px", color: "red" }}
-                    />
-                  }
-                />
-              </Popconfirm>
-            </>
+            <Link to={`/Admin/Manage_Fake_Info/edit/${record.id}`}>
+              <Button
+                icon={
+                  <EditOutlined
+                    style={{ fontSize: "16px", color: "green" }}
+                  />
+                }
+              />
+            </Link>
           )}
+          <Popconfirm
+            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ใช่"
+            cancelText="ไม่"
+          >
+            <Button
+              icon={
+                <DeleteOutlined
+                  style={{ fontSize: "16px", color: "red" }}
+                />
+              }
+            />
+          </Popconfirm>
         </Space>
       ),
     },
@@ -636,9 +645,9 @@ const Manage_Fake_Info_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={rowIndex} hover>

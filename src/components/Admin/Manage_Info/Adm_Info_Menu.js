@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Space, Button, Card } from "antd";
+import { Space, Button, Popconfirm,message, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
-import { EyeOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import {
   TableContainer,
@@ -79,7 +79,7 @@ const ManageMembers = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/ManageInfo_request"
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -116,10 +116,6 @@ const ManageMembers = () => {
   }, [data]);
 
   const isEditing = (record) => record.key === editingKey;
-
-  const cancel = () => {
-    setEditingKey("");
-  };
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -139,10 +135,41 @@ const ManageMembers = () => {
       ? dataA.mfi_results === 0
         ? "ข่าวเท็จ"
         : dataA.mfi_results === 1
-        ? "ข่าวจริง"
-        : "ยังไม่ตรวจสอบ"
+          ? "ข่าวจริง"
+          : "ยังไม่ตรวจสอบ"
       : "ยังไม่ตรวจสอบ";
     return resultText;
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const filteredItems = datamanage.filter(
+        (item) => item.mfi_fninfo === id
+      );
+      if (filteredItems.length > 0) {
+        message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
+      } else {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/FakeNewsInfo_delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        const responseData = await response.json();
+
+        if (
+          response.ok
+        ) {
+          message.success("ลบข้อมูลเสร็จสิ้น");
+          console.log("ActionType deleted successfully");
+          fetchData();
+        } else {
+          console.error("Error deleting item:", responseData);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error.message);
+    }
   };
 
   const columns = [
@@ -215,6 +242,18 @@ const ManageMembers = () => {
               icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
             />
           </Link>
+          <Popconfirm
+            title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
+            onConfirm={() => handleDelete(record.id)}
+            okText="ใช่"
+            cancelText="ไม่"
+          >
+            <Button
+              icon={
+                <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
+              }
+            />
+          </Popconfirm>
         </Space>
       ),
     },
@@ -280,9 +319,9 @@ const ManageMembers = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

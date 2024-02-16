@@ -159,7 +159,6 @@ const ManageInfo_view = () => {
   const handleConfirm = async () => {
     setModalVisible(false);
     setConfirmedStep(current);
-
     try {
       const formData = new FormData();
       formData.append("status", 1);
@@ -249,7 +248,7 @@ const ManageInfo_view = () => {
         </div>
       </Card>
       <br/>
-      <Card className="cardContent">
+      <Card>
         <Steps
           current={fakeNewsInfo?.fn_info_status}
           onChange={onChange}

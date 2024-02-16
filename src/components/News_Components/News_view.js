@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Avatar,  Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
+import { UserOutlined } from '@ant-design/icons';
 
 const News_view = () => {
   const { id } = useParams();
@@ -27,53 +28,34 @@ const News_view = () => {
         console.error("Error fetching news data:", error);
       }
     };
-
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/user",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          console.error("User data retrieval failed");
-        }
-      } catch (error) {
-        console.error("Error:", error);
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
       }
-    };
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, [data]);
 
-    fetchUser();
-  }, []);
 
   const items = [
     {
-      key: "0",
-      label: "",
-      children: user && (
-        <img
-          src="https://www.jollyboxdesign.com/wp-content/uploads/2021/08/Administrator.png"
-          alt="Profile"
-          style={{ width: "100px", height: "100px", borderRadius: "50%" }}
-        />
-      ),
-    },
-    {
       key: "1",
       label: "ชื่อ-สกุล",
-      children: user && <span>{user.username}</span>,
+      children: user && <span>{user.username} {user.lastName}</span>,
     },
     {
       key: "2",
@@ -112,7 +94,7 @@ const News_view = () => {
         <Card className="cardContent">
           <strong>{data.title}</strong>
           <br />
-          <strong>โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}</strong>
+          <strong>โดย : {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}</strong>
           <br />
           <strong>ลงเมื่อ : {thaiDate}</strong>
           <br />
@@ -126,15 +108,15 @@ const News_view = () => {
               marginTop: "16px",
             }}
           >
-                <img
-                  className="details-image"
-                  src={data.cover_image}
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "500px",
-                    borderRadius: "8px",
-                  }}
-                />
+            <img
+              className="details-image"
+              src={data.cover_image}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "500px",
+                borderRadius: "8px",
+              }}
+            />
           </div>
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
           <div
@@ -183,7 +165,7 @@ const News_view = () => {
             </Space>
           </div>
           <p onClick={showModal}>
-            โปรไฟลผู้เขียน <span>{user && user.username}</span>
+          <Avatar size={64} icon={<UserOutlined />} >{user && user.username}</Avatar> โปรไฟลผู้เขียน <span>{user && user.username}</span>
           </p>
           <Modal
             title="โปรไฟล์ผู้เขียน"
@@ -191,11 +173,7 @@ const News_view = () => {
             footer={null}
             onCancel={handleCancel}
           >
-            <Descriptions
-              style={{ fontSize: "30px", textAlign: "center" }}
-              title=""
-              items={items}
-            />
+            <Descriptions layout="vertical" bordered items={items} />
           </Modal>
         </Card>
       </Paper>

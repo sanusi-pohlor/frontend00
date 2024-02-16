@@ -169,6 +169,7 @@ const MC_ActionType = () => {
         if (
           response.ok
         ) {
+          message.success("ลบข้อมูลเสร็จสิ้น");
           console.log("ActionType deleted successfully");
           fetchData();
         } else {

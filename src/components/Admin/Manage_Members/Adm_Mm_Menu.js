@@ -46,7 +46,6 @@ const ManageMembers = () => {
       if (response.ok) {
         const data = await response.json();
         setData(data);
-        console.log("user :",data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }

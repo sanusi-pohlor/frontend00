@@ -26,11 +26,9 @@ const News_Menu = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const handleSearch = (event) => setSearchTerm(event.target.value);
-
   const filtered = data.filter((data) =>
-  data.title.toLowerCase().includes(searchTerm.toLowerCase())
+    data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const sortedFiltered = filtered

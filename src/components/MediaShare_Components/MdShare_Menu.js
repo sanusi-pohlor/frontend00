@@ -27,13 +27,10 @@ const MdShare_Menu = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const handleSearch = (event) => setSearchTerm(event.target.value);
-
   const filtered = data.filter((data) =>
   data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
   const sortedFiltered = filtered
     .filter((item) => item.status === 1)
     .sort((a, b) => b.id - a.id);
