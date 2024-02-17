@@ -316,9 +316,7 @@ const Adm_Info_Check = () => {
       (source) => source.id === fakeNewsInfo?.fn_info_source
     );
 
-    return (
-      source.med_c_name
-    );
+    return source.med_c_name;
   };
   const onChange_mfi_province = () => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
@@ -417,24 +415,131 @@ const Adm_Info_Check = () => {
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
   );
 
   const items = [
-    { key: "1", label: createTypography("หัวข้อ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_head), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "2", label: createTypography("ผู้แจ้ง"), children: userInfo && createTypography(renderReporterInfo()), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "3", label: createTypography("จังหวัด"), children: fakeNewsInfo && createTypography(province.length > 0 ? province[0].prov_name : "Loading..."), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "4", label: createTypography("เนื้อหา"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_content), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "5", label: createTypography("แหล่งที่มาของข่าวปลอม"), children: fakeNewsInfo && createTypography(renderReporter_fn_info_source()), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "6", label: createTypography("แจ้งเมื่อ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.created_at && moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "7", label: createTypography("รายละเอียดเพิ่มเติม"), span: 3, children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_more), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "8", label: createTypography("ลิ้งค์ข้อมูล"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_link), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "9", label: createTypography("จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_num_mem), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "10", label: createTypography("วัน/เดือน/ปี ที่เกิดเหตุ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_dmy && moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "11", label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"), children: fakeNewsInfo && createTypography(<Image width={200} src={fakeNewsInfo.fn_info_image} alt="รูปภาพข่าวปลอม" />), labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
-    { key: "12", label: createTypography("สถานะ"), span: 3, children: fakeNewsInfo && <React.Fragment><Badge status={fakeNewsInfo.fn_info_status === 0 ? "warning" : fakeNewsInfo.fn_info_status === 1 ? "processing" : "success"} text={fakeNewsInfo.fn_info_status === 0 ? "รอตรวจสอบ" : fakeNewsInfo.fn_info_status === 1 ? "กำลังตรวจสอบ" : "ตรวจสอบแล้ว"} /></React.Fragment>, labelStyle: { background: '#7BBD8F', color: '#FFFFFF' } },
+    {
+      key: "1",
+      label: createTypography("หัวข้อ"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_head),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "2",
+      label: createTypography("ผู้แจ้ง"),
+      children: userInfo && createTypography(renderReporterInfo()),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "3",
+      label: createTypography("จังหวัด"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          province.length > 0 ? province[0].prov_name : "Loading..."
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "4",
+      label: createTypography("เนื้อหา"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_content),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "5",
+      label: createTypography("แหล่งที่มาของข่าวปลอม"),
+      children:
+        fakeNewsInfo && createTypography(renderReporter_fn_info_source()),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "6",
+      label: createTypography("แจ้งเมื่อ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          fakeNewsInfo.created_at &&
+            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "7",
+      label: createTypography("รายละเอียดเพิ่มเติม"),
+      span: 3,
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_more),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "8",
+      label: createTypography("ลิ้งค์ข้อมูล"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_link),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "9",
+      label: createTypography(
+        "จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+      ),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_num_mem),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "10",
+      label: createTypography("วัน/เดือน/ปี ที่เกิดเหตุ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          fakeNewsInfo.fn_info_dmy &&
+            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "11",
+      label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <Image
+            width={200}
+            src={fakeNewsInfo.fn_info_image}
+            alt="รูปภาพข่าวปลอม"
+          />
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "12",
+      label: createTypography("สถานะ"),
+      span: 3,
+      children: fakeNewsInfo && (
+        <React.Fragment>
+          <Badge
+            status={
+              fakeNewsInfo.fn_info_status === 0
+                ? "warning"
+                : fakeNewsInfo.fn_info_status === 1
+                ? "processing"
+                : "success"
+            }
+            text={
+              fakeNewsInfo.fn_info_status === 0
+                ? "รอตรวจสอบ"
+                : fakeNewsInfo.fn_info_status === 1
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
+            }
+          />
+        </React.Fragment>
+      ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
   ];
-
 
   return (
     <AdminMenu>
@@ -462,7 +567,7 @@ const Adm_Info_Check = () => {
             onFinishFailed={onFinishFailed}
             style={{
               maxWidth: "90%",
-              margin: 'auto',
+              margin: "auto",
             }}
             size="large"
           >
@@ -480,10 +585,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                onChange={onChange_dnc_med_id}
-                allowClear
-              >
+              <Select onChange={onChange_dnc_med_id} allowClear>
                 {selectOptions_med}
               </Select>
             </Form.Item>
@@ -534,10 +636,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                onChange={onChange_mfi_fm_d_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_fm_d_id} allowClear>
                 {selectOptions_fm}
               </Select>
             </Form.Item>
@@ -556,10 +655,7 @@ const Adm_Info_Check = () => {
                 margin: "0 8px",
               }}
             >
-              <Select
-                onChange={onChange_mfi_dis_c_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_dis_c_id} allowClear>
                 {selectOptions_dis}
               </Select>
             </Form.Item>
@@ -593,10 +689,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                onChange={onChange_mfi_ty_info_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_ty_info_id} allowClear>
                 {selectOptions_ty}
               </Select>
             </Form.Item>
@@ -606,8 +699,7 @@ const Adm_Info_Check = () => {
               rules={[
                 {
                   required: false,
-                  message:
-                    "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?",
+                  message: "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?",
                 },
               ]}
               style={{
@@ -616,10 +708,7 @@ const Adm_Info_Check = () => {
                 margin: "0 8px",
               }}
             >
-              <Select
-                allowClear
-                style={{ width: "100%" }}
-              >
+              <Select allowClear style={{ width: "100%" }}>
                 <Select.Option value="0">ไม่ใช่</Select.Option>
                 <Select.Option value="1">ใช่</Select.Option>
               </Select>
@@ -638,10 +727,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                onChange={onChange_mfi_moti_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_moti_id} allowClear>
                 {selectOptions_moti}
               </Select>
             </Form.Item>
@@ -676,10 +762,7 @@ const Adm_Info_Check = () => {
                 margin: "0 8px",
               }}
             >
-              <Select
-                onChange={onChange_mfi_che_d_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_che_d_id} allowClear>
                 {selectOptions_check_d}
               </Select>
             </Form.Item>
@@ -697,10 +780,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                onChange={onChange_mfi_data_cha_id}
-                allowClear
-              >
+              <Select onChange={onChange_mfi_data_cha_id} allowClear>
                 {selectOptions_data}
               </Select>
             </Form.Item>
@@ -718,10 +798,7 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select
-                allowClear
-                style={{ width: "100%" }}
-              >
+              <Select allowClear style={{ width: "100%" }}>
                 <Select.Option value="0">ข่าวเท็จ</Select.Option>
                 <Select.Option value="1">ข่าวจริง</Select.Option>
               </Select>

@@ -152,9 +152,7 @@ const MC_ActionType = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.mfi_moti === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_moti === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -166,9 +164,7 @@ const MC_ActionType = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok
-        ) {
+        if (response.ok) {
           message.success("ลบข้อมูลเสร็จสิ้น");
           console.log("ActionType deleted successfully");
           fetchData();
@@ -357,9 +353,9 @@ const MC_ActionType = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

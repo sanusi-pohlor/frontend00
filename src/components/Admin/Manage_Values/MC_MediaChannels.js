@@ -99,7 +99,7 @@ const MC_MediaChannels = () => {
       setLoading(false);
     }
   };
-  
+
   const onFinishEdit = async (values, id) => {
     setLoading(true);
     try {

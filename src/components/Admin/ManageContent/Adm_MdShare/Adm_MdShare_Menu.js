@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Card, Button, Popconfirm, Switch ,Image} from "antd";
+import { Space, Card, Button, Popconfirm, Switch, Image } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -45,7 +45,9 @@ const Adm_MdShare_Menu = () => {
   }
   const fetchData = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/Adm_MdShare_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Adm_MdShare_request"
+      );
       if (response.ok) {
         const data = await response.json();
         const sortedData = data.slice().sort((a, b) => b.id - a.id);
@@ -63,7 +65,10 @@ const Adm_MdShare_Menu = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      const response = await axios.put(`https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`, { status });
+      const response = await axios.put(
+        `https://checkkonproject-sub.com/api/Adm_MdShare_update_status/${id}`,
+        { status }
+      );
       if (response.status === 200) {
         console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
       } else {
@@ -76,7 +81,8 @@ const Adm_MdShare_Menu = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/Adm_MdShare_delete/${id}`,
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Adm_MdShare_delete/${id}`,
         {
           method: "DELETE",
         }
@@ -119,7 +125,9 @@ const Adm_MdShare_Menu = () => {
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
+        const formattedDate = `${date.getDate()} ${getThaiMonth(
+          date.getMonth()
+        )} ${date.getFullYear() + 543}`;
         return formattedDate;
       },
     },
@@ -151,15 +159,13 @@ const Adm_MdShare_Menu = () => {
         <Space size="middle">
           <Link to={`/Admin/Adm_MdShare_View/${record.id}`}>
             <Button
-              icon={
-                <EyeOutlined style={{ fontSize: '16px', color: 'blue' }} />
-              }
+              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
             />
           </Link>
           <Link to={`/Admin/Adm_MdShare_edit/${record.id}`}>
             <Button
               icon={
-                <EditOutlined style={{ fontSize: '16px', color: 'green' }} />
+                <EditOutlined style={{ fontSize: "16px", color: "green" }} />
               }
             />
           </Link>
@@ -171,7 +177,7 @@ const Adm_MdShare_Menu = () => {
           >
             <Button
               icon={
-                <DeleteOutlined style={{ fontSize: '16px', color: 'red' }} />
+                <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
               }
             />
           </Popconfirm>
@@ -195,12 +201,8 @@ const Adm_MdShare_Menu = () => {
 
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
+      <Card className="cardsection">
+        <div className="cardsectionContent">
           จัดการสื่อชวนแชร์
           <Link to="/Admin/Adm_MdShare_Form">
             <Button
@@ -242,9 +244,9 @@ const Adm_MdShare_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

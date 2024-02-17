@@ -26,7 +26,7 @@ const Dashboard = () => {
         );
         if (response.ok) {
           const data = await response.json();
-          const filteredData = data.filter(item => item.status === 1);
+          const filteredData = data.filter((item) => item.status === 1);
           const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
           setter(sortedData);
         } else {

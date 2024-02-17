@@ -169,9 +169,7 @@ const MC_DetailsNotiChannels = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.mfi_moti === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_moti === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -183,10 +181,7 @@ const MC_DetailsNotiChannels = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "Motivation deleted successfully"
-        ) {
+        if (response.ok && responseData === "Motivation deleted successfully") {
           console.log("Motivation deleted successfully");
           fetchData();
         } else {
@@ -205,63 +200,63 @@ const MC_DetailsNotiChannels = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'รหัสช่องทางสื่อ',
-      dataIndex: 'dnc_med_id',
-      width: '60%',
+      title: "รหัสช่องทางสื่อ",
+      dataIndex: "dnc_med_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'รหัสการแจ้ง',
-      dataIndex: 'dnc_info_id',
-      width: '60%',
+      title: "รหัสการแจ้ง",
+      dataIndex: "dnc_info_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'รหัสผู้เผยแพร',
-      dataIndex: 'dnc_pub_id',
-      width: '60%',
+      title: "รหัสผู้เผยแพร",
+      dataIndex: "dnc_pub_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'รหัสรูปแบบข้อมูล',
-      dataIndex: 'dnc_fm_d_id',
-      width: '60%',
+      title: "รหัสรูปแบบข้อมูล",
+      dataIndex: "dnc_fm_d_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'รหัสการจัดการ',
-      dataIndex: 'dnc_prob_id',
-      width: '60%',
+      title: "รหัสการจัดการ",
+      dataIndex: "dnc_prob_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'ขอบเขตการเผยแพร',
-      dataIndex: 'dnc_scop_pub',
-      width: '60%',
+      title: "ขอบเขตการเผยแพร",
+      dataIndex: "dnc_scop_pub",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ',
-      dataIndex: 'dnc_num_mem_med',
-      width: '60%',
+      title: "จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ",
+      dataIndex: "dnc_num_mem_med",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'วันที่ในสื่อ',
-      dataIndex: 'dnc_date_med',
-      width: '60%',
+      title: "วันที่ในสื่อ",
+      dataIndex: "dnc_date_med",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'ภาพ capture',
-      dataIndex: 'dnc_capt',
-      width: '60%',
+      title: "ภาพ capture",
+      dataIndex: "dnc_capt",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'Link URL',
-      dataIndex: 'dnc_link',
-      width: '60%',
+      title: "Link URL",
+      dataIndex: "dnc_link",
+      width: "60%",
       editable: true,
     },
     {
@@ -311,7 +306,9 @@ const MC_DetailsNotiChannels = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -328,7 +325,10 @@ const MC_DetailsNotiChannels = () => {
         ]);
         stateSetter(options);
       } else {
-        console.error(`Error fetching ${fieldName} codes:`, response.statusText);
+        console.error(
+          `Error fetching ${fieldName} codes:`,
+          response.statusText
+        );
       }
     } catch (error) {
       console.error(`Error fetching ${fieldName} codes:`, error);
@@ -336,11 +336,19 @@ const MC_DetailsNotiChannels = () => {
   };
 
   const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
   };
 
   const onChange_dnc_info_id = () => {
-    fetchDataAndSetOptions("Information_request", "info", setSelectOptions_info);
+    fetchDataAndSetOptions(
+      "Information_request",
+      "info",
+      setSelectOptions_info
+    );
   };
 
   const onChange_dnc_pub_id = () => {
@@ -352,7 +360,11 @@ const MC_DetailsNotiChannels = () => {
   };
 
   const onChange_dnc_prob_id = () => {
-    fetchDataAndSetOptions("ProblemManagement_request", "prob_m", setSelectOptions_prob);
+    fetchDataAndSetOptions(
+      "ProblemManagement_request",
+      "prob_m",
+      setSelectOptions_prob
+    );
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -756,9 +768,9 @@ const MC_DetailsNotiChannels = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

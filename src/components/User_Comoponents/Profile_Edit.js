@@ -85,7 +85,7 @@ const Profile_Edit = () => {
       );
       const formData = new FormData();
       const appendIfDefined = (fieldName, value) => {
-        if (value !== undefined && value !== null && value !== '') {
+        if (value !== undefined && value !== null && value !== "") {
           formData.append(fieldName, value);
         }
       };
@@ -140,7 +140,9 @@ const Profile_Edit = () => {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>
+              {code[`${fieldName}_name`]}
+            </Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });

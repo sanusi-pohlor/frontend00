@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import "react-quill/dist/quill.snow.css";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Upload,
-  Card,
-  Select,
-} from "antd";
+import { Form, Input, Button, message, Upload, Card, Select } from "antd";
 import ReactQuill from "react-quill";
-import {
-  PlusOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -66,15 +55,12 @@ const Adm_MdShare_Form = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/user",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -149,7 +135,7 @@ const Adm_MdShare_Form = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  const maxId = Math.max(...dataSource.map(item => item.id));
+  const maxId = Math.max(...dataSource.map((item) => item.id));
   const onFinish = async (values) => {
     try {
       setLoading(true);
@@ -268,19 +254,15 @@ const Adm_MdShare_Form = () => {
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
   );
 
   return (
     <AdminMenu>
-      <Card
-        className="cardsection"
-      >
-        <div
-          className="cardsectionContent"
-        >
-          เพิ่มสื่อขวนแชร์
-        </div>
+      <Card className="cardsection">
+        <div className="cardsectionContent">เพิ่มสื่อขวนแชร์</div>
       </Card>
       <br />
       <Card>

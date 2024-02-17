@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, Divider, DatePicker, Select } from "antd";
 import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
-import { Typography,Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 const { Option } = Select;
 
 const MyTable = () => {
@@ -170,15 +170,15 @@ const MyTable = () => {
         </div>
         <Divider />
         <Box />
-          <DataGrid
-            rows={tableDataWithId}
-            columns={selectedOptionColumns}
-            pageSize={5}
-            autoHeight
-            components={{
-              Pagination: CustomPagination,
-            }}
-          />
+        <DataGrid
+          rows={tableDataWithId}
+          columns={selectedOptionColumns}
+          pageSize={5}
+          autoHeight
+          components={{
+            Pagination: CustomPagination,
+          }}
+        />
       </Card>
     </div>
   );

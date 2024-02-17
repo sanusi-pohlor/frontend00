@@ -96,15 +96,12 @@ const Adm_Article_Edit = () => {
 
   const fetchUser = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/user",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
 
       if (response.ok) {
         const data = await response.json();
@@ -283,7 +280,6 @@ const Adm_Article_Edit = () => {
     }
   };
 
-
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
@@ -292,12 +288,14 @@ const Adm_Article_Edit = () => {
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label} {text}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
   );
 
   return (
     <AdminMenu>
-            <Card className="cardsection">
+      <Card className="cardsection">
         <div className="cardsectionContent">แก้ไขบทความ</div>
       </Card>
       <Card>
@@ -432,8 +430,8 @@ const Adm_Article_Edit = () => {
             </Upload>
           </Form.Item>
           {data &&
-            Array.isArray(data.details_image) &&
-            data.details_image.length > 0 ? (
+          Array.isArray(data.details_image) &&
+          data.details_image.length > 0 ? (
             <Image
               width={200}
               src={data.details_image[0]}
@@ -443,11 +441,7 @@ const Adm_Article_Edit = () => {
             <div>ไม่ได้ใส่รูปภาพ</div>
           )}
           <br />
-          {data && data.tag ? (
-            data.tag
-          ) : (
-            <div>ไม่มีแท็ก</div>
-          )}
+          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}

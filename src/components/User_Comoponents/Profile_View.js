@@ -137,23 +137,16 @@ const Profile = () => {
   return (
     <UserProfile>
       <div className="cardsectionContent">
-        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+        <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
           ข้อมูลสมาชิก
         </Typography>
         <div className="setcardContent">
           <Link to={`/User/Profile/Edit/${user.id}`}>
-            <Button
-              type="primary"
-              className="buttonprofile"
-            >
+            <Button type="primary" className="buttonprofile">
               แก้ไข
             </Button>
           </Link>
-          <Button
-            type="primary"
-            onClick={showModal}
-            className="buttonprofile"
-          >
+          <Button type="primary" onClick={showModal} className="buttonprofile">
             {createTypography("ออกจากระบบ")}
           </Button>
           <Modal

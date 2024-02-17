@@ -87,11 +87,11 @@ const MenuProfile = ({ children }) => {
 
   if (loading) {
     return (
-    <div>
-      <Spin tip="กรุณารอสักครู่" size="large">
-        <div className="content" />
-      </Spin>
-    </div>
+      <div>
+        <Spin tip="กรุณารอสักครู่" size="large">
+          <div className="content" />
+        </Spin>
+      </div>
     );
   }
 
@@ -131,30 +131,73 @@ const MenuProfile = ({ children }) => {
                 <br />
                 {data && (
                   <div>
-                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <span>ข้อมูลที่แจ้งทั้งหมด</span>
                       <span>{data.length}</span>
                     </Typography>
                     <Divider />
                     <br />
-                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
-                      <span>{data.filter(item => item.fn_info_status === 0).length}</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 0)
+                            .length
+                        }
+                      </span>
                     </Typography>
                     <Divider />
                     <br />
-                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
-                      <span>{data.filter(item => item.fn_info_status === 1).length}</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 1)
+                            .length
+                        }
+                      </span>
                     </Typography>
                     <Divider />
                     <br />
-                    <Typography variant="body1" sx={{ fontSize: "25px", display: "flex", justifyContent: "space-between" }}>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
-                      <span>{data.filter(item => item.fn_info_status === 2).length}</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 2)
+                            .length
+                        }
+                      </span>
                     </Typography>
                     <Divider />
-                    <br/>
+                    <br />
                   </div>
                 )}
               </Card>

@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Popconfirm, Table, Button, Modal, message } from "antd";
-import { PlusCircleOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Table,
+  Button,
+  Modal,
+  message,
+} from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 
 const EditableCell = ({
@@ -128,15 +137,15 @@ const MC_Publisher = () => {
   };
   const columns = [
     {
-      title: 'รหัสผู้เผยแพร่',
-      dataIndex: 'pub_id',
-      width: '20%',
+      title: "รหัสผู้เผยแพร่",
+      dataIndex: "pub_id",
+      width: "20%",
       editable: true,
     },
     {
-      title: 'ชื่อผู้เผยแพร',
-      dataIndex: 'pub_name',
-      width: '60%',
+      title: "ชื่อผู้เผยแพร",
+      dataIndex: "pub_name",
+      width: "60%",
       editable: true,
     },
     {
@@ -186,10 +195,19 @@ const MC_Publisher = () => {
   });
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h1>จัดการประเภทการกระทำ</h1>
         <Button
-          type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
+          type="primary"
+          shape="round"
+          icon={<PlusCircleOutlined />}
+          size="large"
           onClick={() => {
             setModalVisible(true);
           }}

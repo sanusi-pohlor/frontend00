@@ -65,7 +65,6 @@ const M_DB_Adm_Menu = () => {
       if (response.ok) {
         const data = await response.json();
         setUser(data);
-
       } else {
         console.error("User data retrieval failed");
       }
@@ -214,31 +213,31 @@ const M_DB_Adm_Menu = () => {
           style={{ width: "100px", height: "100px", borderRadius: "50%" }}
         />
       ),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "1",
       label: createTypography("ชื่อ-สกุล"),
       children: user && createTypography(user.username, user.lastname),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "2",
       label: createTypography("เบอร์ติดต่อ"),
       children: user && createTypography(user.phone_number),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "3",
       label: createTypography("ไอดีไลน์"),
       children: user && createTypography(user.Id_line),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "4",
       label: createTypography("อีเมล"),
       children: user && createTypography(user.email),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "5",
@@ -246,7 +245,7 @@ const M_DB_Adm_Menu = () => {
       children:
         province.length > 0 &&
         createTypography("จังหวัดที่อยู่", province[0].prov_name),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "6",
@@ -257,7 +256,7 @@ const M_DB_Adm_Menu = () => {
           "เกี่ยวกับผู้เขียน",
           "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน"
         ),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' },
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
   ];
 
@@ -461,32 +460,41 @@ const M_DB_Adm_Menu = () => {
           items={items}
           style={{
             maxWidth: "80%",
-            margin: 'auto',
+            margin: "auto",
           }}
         />
         <br />
         <Divider />
-        <Typography variant="h3" gutterBottom style={{
+        <Typography
+          variant="h3"
+          gutterBottom
+          style={{
             maxWidth: "80%",
-            margin: 'auto',
-          }}>
+            margin: "auto",
+          }}
+        >
           ข้อมูล Admin
         </Typography>
         <Divider />
         <Descriptions
           style={{
             maxWidth: "80%",
-            margin: 'auto',
+            margin: "auto",
           }}
           bordered
           layout="vertical"
           items={items2}
         />
         <Divider />
-        <Button style={{
-          maxWidth: "80%",
-          margin: 'auto',
-        }} type="primary" onClick={showModal} className="form-button">
+        <Button
+          style={{
+            maxWidth: "80%",
+            margin: "auto",
+          }}
+          type="primary"
+          onClick={showModal}
+          className="form-button"
+        >
           {createTypography("ออกจากระบบ")}
         </Button>
         <Modal

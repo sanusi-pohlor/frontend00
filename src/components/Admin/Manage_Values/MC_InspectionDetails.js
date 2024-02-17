@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Popconfirm, Table, Button, Modal, Select, message } from "antd";
-import { PlusCircleOutlined } from '@ant-design/icons';
+import {
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Table,
+  Button,
+  Modal,
+  Select,
+  message,
+} from "antd";
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 
 const { Option } = Select;
@@ -130,33 +140,33 @@ const MC_InspectionDetails = () => {
   };
   const columns = [
     {
-      title: 'รหัสรายละเอียดการตรวจสอบ',
-      dataIndex: 'ins_dt_id',
-      width: '20%',
+      title: "รหัสรายละเอียดการตรวจสอบ",
+      dataIndex: "ins_dt_id",
+      width: "20%",
       editable: true,
     },
     {
-      title: 'รหัสการตรวจสอบ',
-      dataIndex: 'ins_dt_che_id',
-      width: '60%',
+      title: "รหัสการตรวจสอบ",
+      dataIndex: "ins_dt_che_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'รหัสการแจ้ง',
-      dataIndex: 'ins_dt_info_id',
-      width: '60%',
+      title: "รหัสการแจ้ง",
+      dataIndex: "ins_dt_info_id",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'วันที่ตรวจสอบ',
-      dataIndex: 'ins_dt_date',
-      width: '60%',
+      title: "วันที่ตรวจสอบ",
+      dataIndex: "ins_dt_date",
+      width: "60%",
       editable: true,
     },
     {
-      title: 'ข้อมูลเพิ่มเติม',
-      dataIndex: 'ins_dt_more',
-      width: '60%',
+      title: "ข้อมูลเพิ่มเติม",
+      dataIndex: "ins_dt_more",
+      width: "60%",
       editable: true,
     },
     {
@@ -206,7 +216,9 @@ const MC_InspectionDetails = () => {
   });
   const onGenderChange_ins_dt_che_id = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/TypeInformation_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/TypeInformation_request"
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -215,10 +227,12 @@ const MC_InspectionDetails = () => {
           </Option>
         ));
         form.setFieldsValue({ data_cha_id: undefined });
-        form.setFields([{
-          name: 'data_cha_id',
-          value: undefined,
-        }]);
+        form.setFields([
+          {
+            name: "data_cha_id",
+            value: undefined,
+          },
+        ]);
         setSelectOptions(options);
       } else {
         console.error("Error fetching type codes:", response.statusText);
@@ -229,7 +243,9 @@ const MC_InspectionDetails = () => {
   };
   const onGenderChange_ins_dt_info_id = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/TypeInformation_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/TypeInformation_request"
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -238,10 +254,12 @@ const MC_InspectionDetails = () => {
           </Option>
         ));
         form.setFieldsValue({ info_id: undefined });
-        form.setFields([{
-          name: 'info_id',
-          value: undefined,
-        }]);
+        form.setFields([
+          {
+            name: "info_id",
+            value: undefined,
+          },
+        ]);
         setSelectOptions(options);
       } else {
         console.error("Error fetching type codes:", response.statusText);
@@ -252,10 +270,19 @@ const MC_InspectionDetails = () => {
   };
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h1>จัดการประเด็นย่อย</h1>
         <Button
-          type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
+          type="primary"
+          shape="round"
+          icon={<PlusCircleOutlined />}
+          size="large"
           onClick={() => {
             setModalVisible(true);
             //onGenderChange(); // Call the function when the "Add" button is clicked

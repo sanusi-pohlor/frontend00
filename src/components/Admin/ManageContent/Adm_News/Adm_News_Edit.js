@@ -429,8 +429,8 @@ const Adm_News_Edit = () => {
             </Upload>
           </Form.Item>
           {data &&
-            Array.isArray(data.details_image) &&
-            data.details_image.length > 0 ? (
+          Array.isArray(data.details_image) &&
+          data.details_image.length > 0 ? (
             <Image
               width={200}
               src={data.details_image[0]}
@@ -440,11 +440,7 @@ const Adm_News_Edit = () => {
             <div>ไม่ได้ใส่รูปภาพ</div>
           )}
           <br />
-          {data && data.tag ? (
-            data.tag
-          ) : (
-            <div>ไม่มีแท็ก</div>
-          )}
+          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}

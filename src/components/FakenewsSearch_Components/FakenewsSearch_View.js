@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Card, Descriptions} from "antd";
+import { Card, Descriptions } from "antd";
 import { Paper, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -254,139 +254,183 @@ const FakenewsSearch_View = () => {
   };
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
   );
 
   const items = [
     {
       key: "1",
       label: createTypography("ประทับเวลา"),
-      children: fakeNewsInfo && createTypography(
-        <span>
-          {fakeNewsInfo.mfi_time &&
-            moment(fakeNewsInfo.mfi_time).locale("th").format("DD MMMM YYYY")}
-        </span>
-      ),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {fakeNewsInfo.mfi_time &&
+              moment(fakeNewsInfo.mfi_time).locale("th").format("DD MMMM YYYY")}
+          </span>
+        ),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "2",
       label: createTypography("จังหวัดของท่าน"),
-      children: fakeNewsInfo && createTypography(<span>{render_prov_name()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_prov_name()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "4",
       label: createTypography("แหล่งที่มาของข่าวปลอม"),
-      children: fakeNewsInfo && createTypography(<span>{renderReporter_fn_info_source()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{renderReporter_fn_info_source()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "6",
       label: createTypography("ระบุลิ้งค์ข้อมูล (ถ้ามี)"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_link}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_link}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "7",
       label: createTypography("แหล่งที่มาของข้อมูล"),
       span: 3,
-      children: fakeNewsInfo && createTypography(<span>{renderReporter_mfi_dis_c()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{renderReporter_mfi_dis_c()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "8",
-      label: createTypography("จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_num_mem}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      label: createTypography(
+        "จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+      ),
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{fakeNewsInfo.mfi_num_mem}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "9",
       label: createTypography("หน่วยงานที่เก็บข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_agency}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{fakeNewsInfo.mfi_agency}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "10",
       label: createTypography("หัวข้อข้อมูลผิดพลาด"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_d_topic}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{fakeNewsInfo.mfi_d_topic}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "11",
       label: createTypography("รูปแบบของข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{render_fm_d_name()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_fm_d_name()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "12",
       label: createTypography("ช่องทางการเผยแพร่"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_dis_c}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_dis_c}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "13",
       label: createTypography("ผู้เผยแพร่ข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_publ}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_publ}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "14",
       label: createTypography("ประเภทของข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{render_ty_info_name()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_ty_info_name()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "15",
       label: createTypography("เฉพาะโควิด-15"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่'}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>{fakeNewsInfo.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่"}</span>
+        ),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "16",
       label: createTypography("มีเนื้อหาเกี่ยวกับ"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_con_about}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{fakeNewsInfo.mfi_con_about}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "17",
       label: createTypography("แรงจูงใจการเผยแพร่"),
-      children: fakeNewsInfo && createTypography(<span>{render_mfi_moti_name()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_mfi_moti_name()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "18",
       label: createTypography("จำนวนการวนซ้ำ"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_iteration}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(<span>{fakeNewsInfo.mfi_iteration}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "19",
       label: createTypography("การตรวจสอบข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_che_d}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_che_d}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "20",
       label: createTypography("ลักษณะข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{render_mfi_data_cha()}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_mfi_data_cha()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "21",
       label: createTypography("เพิ่มเมื่อ"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.created_at && moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")}</span>),
-      labelStyle: { background: '#7BBD8F', color: 'white' }
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {fakeNewsInfo.created_at &&
+              moment(fakeNewsInfo.fn_info_dmy)
+                .locale("th")
+                .format("DD MMMM YYYY")}
+          </span>
+        ),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];
 
   return (
     <div className="backgroundColor">
-      <Paper elevation={0} className="paperContainer" style={{ backgroundColor: "#e4e4e4" }}>
+      <Paper
+        elevation={0}
+        className="paperContainer"
+        style={{ backgroundColor: "#e4e4e4" }}
+      >
         <Card className="cardsection">
-          <div className="cardsectionContent">
-            รายละเอียดข้อมูลเท็จ
-          </div>
+          <div className="cardsectionContent">รายละเอียดข้อมูลเท็จ</div>
         </Card>
         <br />
         <Card>
@@ -396,7 +440,8 @@ const FakenewsSearch_View = () => {
             items={items}
           />
         </Card>
-      </Paper></div>
+      </Paper>
+    </div>
   );
 };
 

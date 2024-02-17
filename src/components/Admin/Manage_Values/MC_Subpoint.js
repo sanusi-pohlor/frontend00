@@ -56,10 +56,11 @@ const MC_Subpoint = () => {
     }
   };
 
-  
   const onTypeChange = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/TypeInformation_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/TypeInformation_request"
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -68,10 +69,12 @@ const MC_Subpoint = () => {
           </Option>
         ));
         form.setFieldsValue({ type_info_name: undefined });
-        form.setFields([{
-          name: 'type_info_name',
-          value: undefined,
-        }]);
+        form.setFields([
+          {
+            name: "type_info_name",
+            value: undefined,
+          },
+        ]);
         setSelectOptions(options);
       } else {
         console.error("Error fetching type codes:", response.statusText);
@@ -197,10 +200,7 @@ const MC_Subpoint = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "Subpoint deleted successfully"
-        ) {
+        if (response.ok && responseData === "Subpoint deleted successfully") {
           console.log("Subpoint deleted successfully");
           fetchData();
         } else {
@@ -219,15 +219,15 @@ const MC_Subpoint = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'รหัสประเภท',
-      dataIndex: 'subp_type_id',
-      width: '25%',
+      title: "รหัสประเภท",
+      dataIndex: "subp_type_id",
+      width: "25%",
       editable: true,
     },
     {
-      title: 'ชื่อประเด็นย่อย',
-      dataIndex: 'subp_name',
-      width: '40%',
+      title: "ชื่อประเด็นย่อย",
+      dataIndex: "subp_name",
+      width: "40%",
       editable: true,
     },
     {
@@ -345,7 +345,7 @@ const MC_Subpoint = () => {
               },
             ]}
           >
-            <Input placeholder="ชื่อประเด็นย่อย"/>
+            <Input placeholder="ชื่อประเด็นย่อย" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
@@ -433,9 +433,9 @@ const MC_Subpoint = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

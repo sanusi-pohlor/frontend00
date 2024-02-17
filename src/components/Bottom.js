@@ -46,9 +46,7 @@ const Bottom = () => {
                   </strong>
                 </div>
               </span>
-              <span>
-                   ------------ -----------
-              </span>
+              <span>------------ -----------</span>
               <span>
                 <img src={CASLogo} alt="CAS Logo" className="partner-image" />
                 <div

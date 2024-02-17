@@ -9,9 +9,9 @@ import {
   Modal,
   Select,
   message,
-  DatePicker
+  DatePicker,
 } from "antd";
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 
 const { Option } = Select;
@@ -266,7 +266,9 @@ const MC_Information = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -283,7 +285,10 @@ const MC_Information = () => {
         ]);
         stateSetter(options);
       } else {
-        console.error(`Error fetching ${fieldName} codes:`, response.statusText);
+        console.error(
+          `Error fetching ${fieldName} codes:`,
+          response.statusText
+        );
       }
     } catch (error) {
       console.error(`Error fetching ${fieldName} codes:`, error);
@@ -295,7 +300,11 @@ const MC_Information = () => {
   };
 
   const onChange_info_vol_mem_id = () => {
-    fetchDataAndSetOptions("VolunteerMembers_request", "vol_mem", setSelectOptions_vol);
+    fetchDataAndSetOptions(
+      "VolunteerMembers_request",
+      "vol_mem",
+      setSelectOptions_vol
+    );
   };
 
   const onChange_info_moti_id = () => {
@@ -303,19 +312,36 @@ const MC_Information = () => {
   };
 
   const onChange_info_act_id = () => {
-    fetchDataAndSetOptions("ActionType_request", "act_ty", setSelectOptions_act);
+    fetchDataAndSetOptions(
+      "ActionType_request",
+      "act_ty",
+      setSelectOptions_act
+    );
   };
 
   const onChange_info_d_c_id = () => {
-    fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_d_c);
+    fetchDataAndSetOptions(
+      "DataCharacteristics_request",
+      "data_cha",
+      setSelectOptions_d_c
+    );
   };
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <h1>จัดการการแจ้งข้อมูลที่เป็นเท็จ</h1>
         <Button
-          type="primary" shape="round" icon={<PlusCircleOutlined />} size="large"
+          type="primary"
+          shape="round"
+          icon={<PlusCircleOutlined />}
+          size="large"
           onClick={() => {
             setModalVisible(true);
             onChange_info_subp_id();
@@ -466,7 +492,7 @@ const MC_Information = () => {
               },
             ]}
           >
-              <DatePicker />
+            <DatePicker />
           </Form.Item>
           <Form.Item
             name="info_status"

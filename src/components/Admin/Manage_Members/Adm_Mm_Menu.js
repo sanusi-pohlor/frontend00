@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { DeleteOutlined,EyeOutlined } from "@ant-design/icons";
-import { Popconfirm,Space,Button, Card, message } from "antd";
+import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Popconfirm, Space, Button, Card, message } from "antd";
 import {
   Table,
   TableCell,
@@ -85,19 +85,19 @@ const ManageMembers = () => {
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/User_delete/${id}`,
-        {
-          method: "DELETE",
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/User_delete/${id}`,
+          {
+            method: "DELETE",
+          }
+        );
+        if (response.ok) {
+          message.success("Item deleted successfully");
+          fetchData();
+        } else {
+          message.error("Error deleting item");
         }
-      );
-      if (response.ok) {
-        message.success("Item deleted successfully");
-        fetchData();
-      } else {
-        message.error("Error deleting item");
       }
-    }
     } catch (error) {
       console.error("Error deleting item:", error.message);
     }
@@ -136,13 +136,11 @@ const ManageMembers = () => {
       title: "จัดการ",
       editable: true,
       width: "10%",
-      render: (text,record) => (
+      render: (text, record) => (
         <Space size="middle">
           <Link to={`/Admin/ManageMembers/ManageMembers_View/${record.id}`}>
-          <Button
-              icon={
-                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
-              }
+            <Button
+              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
             />
           </Link>
           <Popconfirm
@@ -178,9 +176,9 @@ const ManageMembers = () => {
       <Card className="cardsection">
         <div className="cardsectionContent">จัดการสมาชิก</div>
       </Card>
-      <br/>
+      <br />
       <Card>
-      <TableContainer>
+        <TableContainer>
           <Table>
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
@@ -207,9 +205,9 @@ const ManageMembers = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

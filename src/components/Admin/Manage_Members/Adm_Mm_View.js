@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  Card, Descriptions } from "antd";
+import { Card, Descriptions } from "antd";
 import { Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
@@ -106,13 +106,13 @@ const Adm_Mm_View = () => {
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];
-  
+
   return (
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">ข้อมูลสมาชิก</div>
       </Card>
-      <br/>
+      <br />
       <Card>
         <Descriptions layout="vertical" bordered items={items} />
       </Card>

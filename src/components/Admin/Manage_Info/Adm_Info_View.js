@@ -217,37 +217,147 @@ const ManageInfo_view = () => {
   };
 
   const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>{label}</Typography>
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
   );
 
   const items = [
-    { key: "1", label: createTypography("หัวข้อ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_head),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "2", label: createTypography("ผู้แจ้ง"), children: userInfo && createTypography(renderReporterInfo()),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "3", label: createTypography("จังหวัด"), children: fakeNewsInfo && createTypography(province.length > 0 ? province[0].prov_name : "Loading..."),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "4", label: createTypography("เนื้อหา"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_content),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "5", label: createTypography("แหล่งที่มาของข่าวปลอม"), children: fakeNewsInfo && createTypography(renderReporter_fn_info_source()),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "6", label: createTypography("แจ้งเมื่อ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.created_at && moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "7", label: createTypography("รายละเอียดเพิ่มเติม"), span: 3, children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_more),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "8", label: createTypography("ลิ้งค์ข้อมูล"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_link),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "9", label: createTypography("จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_num_mem),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "10", label: createTypography("วัน/เดือน/ปี ที่เกิดเหตุ"), children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_dmy && moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "11", label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"), children: fakeNewsInfo && createTypography(<Image width={200} src={fakeNewsInfo.fn_info_image} alt="รูปภาพข่าวปลอม" />),labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
-    { key: "12", label: createTypography("สถานะ"), span: 3, children: fakeNewsInfo && <React.Fragment><Badge status={fakeNewsInfo.fn_info_status === 0 ? "warning" : fakeNewsInfo.fn_info_status === 1 ? "processing" : "success"} text={fakeNewsInfo.fn_info_status === 0 ? "รอตรวจสอบ" : fakeNewsInfo.fn_info_status === 1 ? "กำลังตรวจสอบ" : "ตรวจสอบแล้ว"} /></React.Fragment>,labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }  },
+    {
+      key: "1",
+      label: createTypography("หัวข้อ"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_head),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "2",
+      label: createTypography("ผู้แจ้ง"),
+      children: userInfo && createTypography(renderReporterInfo()),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "3",
+      label: createTypography("จังหวัด"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          province.length > 0 ? province[0].prov_name : "Loading..."
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "4",
+      label: createTypography("เนื้อหา"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_content),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "5",
+      label: createTypography("แหล่งที่มาของข่าวปลอม"),
+      children:
+        fakeNewsInfo && createTypography(renderReporter_fn_info_source()),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "6",
+      label: createTypography("แจ้งเมื่อ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          fakeNewsInfo.created_at &&
+            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "7",
+      label: createTypography("รายละเอียดเพิ่มเติม"),
+      span: 3,
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_more),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "8",
+      label: createTypography("ลิ้งค์ข้อมูล"),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_link),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "9",
+      label: createTypography(
+        "จำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ"
+      ),
+      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_num_mem),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "10",
+      label: createTypography("วัน/เดือน/ปี ที่เกิดเหตุ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          fakeNewsInfo.fn_info_dmy &&
+            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "11",
+      label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <Image
+            width={200}
+            src={fakeNewsInfo.fn_info_image}
+            alt="รูปภาพข่าวปลอม"
+          />
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
+      key: "12",
+      label: createTypography("สถานะ"),
+      span: 3,
+      children: fakeNewsInfo && (
+        <React.Fragment>
+          <Badge
+            status={
+              fakeNewsInfo.fn_info_status === 0
+                ? "warning"
+                : fakeNewsInfo.fn_info_status === 1
+                ? "processing"
+                : "success"
+            }
+            text={
+              fakeNewsInfo.fn_info_status === 0
+                ? "รอตรวจสอบ"
+                : fakeNewsInfo.fn_info_status === 1
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
+            }
+          />
+        </React.Fragment>
+      ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
   ];
 
   return (
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">
-        <Typography variant="h3">
-        จัดการข้อมูลรับแจ้ง
-        </Typography>
-          <Button onClick={handleCheck} type="primary" className="buttonfilterStyle">
+          <Typography variant="h3">จัดการข้อมูลรับแจ้ง</Typography>
+          <Button
+            onClick={handleCheck}
+            type="primary"
+            className="buttonfilterStyle"
+          >
             ตรวจสอบข้อมูล
           </Button>
         </div>
       </Card>
-      <br/>
+      <br />
       <Card>
         <Steps
           current={fakeNewsInfo?.fn_info_status}
@@ -277,8 +387,8 @@ const ManageInfo_view = () => {
           onCancel={() => setIsModalVisible(false)}
         ></Modal>
         <Divider />
-        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
-        รายละเอียดการแจ้ง
+        <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+          รายละเอียดการแจ้ง
         </Typography>
         <Divider />
         <Descriptions layout="vertical" bordered items={items} />

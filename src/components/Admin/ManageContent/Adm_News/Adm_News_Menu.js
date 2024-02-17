@@ -5,7 +5,7 @@ import {
   DeleteOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Space, Card, Button, Popconfirm, Switch ,Image } from "antd";
+import { Space, Card, Button, Popconfirm, Switch, Image } from "antd";
 import AdminMenu from "../../Adm_Menu";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -126,7 +126,9 @@ const Adm_News_Menu = () => {
       editable: true,
       render: (created_at) => {
         const date = new Date(created_at);
-        const formattedDate = `${date.getDate()} ${getThaiMonth(date.getMonth())} ${date.getFullYear() + 543}`;
+        const formattedDate = `${date.getDate()} ${getThaiMonth(
+          date.getMonth()
+        )} ${date.getFullYear() + 543}`;
         return formattedDate;
       },
     },
@@ -158,9 +160,7 @@ const Adm_News_Menu = () => {
         <Space size="middle">
           <Link to={`/Admin/Adm_News_View/${record.id}`}>
             <Button
-              icon={
-                <EyeOutlined style={{ fontSize: "16px", color: "blue" }} />
-              }
+              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
             />
           </Link>
           <Link to={`/Admin/Adm_News_edit/${record.id}`}>
@@ -245,9 +245,9 @@ const Adm_News_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

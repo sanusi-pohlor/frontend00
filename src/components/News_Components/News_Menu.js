@@ -60,85 +60,77 @@ const News_Menu = () => {
         <br />
         <Grid container spacing={2}>
           {isLargeScreen &&
-            sortedFiltered
-              .slice(0, 1)
-              .map((item) => (
-                <Grid item xs={12} key={item.id} className="gridItem">
-                  <Link
-                    to={`/News_Menu/News_view/${item.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <Card
-                      hoverable
-                      className="cardItem-head"
-                      cover={
-                        <div className="cardItemCover">
-                          <Flex justify="space-between">
-                            <img
-                              className="cardheadImage"
-                              src={item.cover_image}
-                            />
-                            <Flex
-                              vertical
-                              align="flex-end"
-                              justify="space-between"
-                              className="flex-card"
-                            >
-                              <strong>
-                                เผยแพร่{" "}
-                                {moment(item.created_at).format("DD-MM-YYYY")}
-                              </strong>
-                              <br />
-                              {item.title}
-                              <Button
-                                type="primary"
-                                href={`/News_Menu/News_view/${item.id}`}
-                                target="_blank"
-                                className="button-card"
-                              >
-                                อ่านต่อ
-                              </Button>
-                            </Flex>
-                          </Flex>
-                        </div>
-                      }
-                    />
-                  </Link>
-                </Grid>
-              ))}
-          {sortedFiltered
-            .slice(1)
-            .map((item) => (
-              <Grid item xs={12} md={4} key={item.id} className="gridItem">
+            sortedFiltered.slice(0, 1).map((item) => (
+              <Grid item xs={12} key={item.id} className="gridItem">
                 <Link
                   to={`/News_Menu/News_view/${item.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Card
                     hoverable
-                    className="cardItem"
+                    className="cardItem-head"
                     cover={
                       <div className="cardItemCover">
-                        <img
-                          className="cardImage"
-                          src={item.cover_image}
-                        />
-                        <div className="cardIitleTCover">
-                          <strong>
-                            เผยแพร่{" "}
-                            {moment(item.created_at).format("DD-MM-YYYY")}
-                          </strong>
-                          <br />
-                          {item.title.length > 150
-                            ? `${item.title.slice(0, 150)}...`
-                            : item.title}
-                        </div>
+                        <Flex justify="space-between">
+                          <img
+                            className="cardheadImage"
+                            src={item.cover_image}
+                          />
+                          <Flex
+                            vertical
+                            align="flex-end"
+                            justify="space-between"
+                            className="flex-card"
+                          >
+                            <strong>
+                              เผยแพร่{" "}
+                              {moment(item.created_at).format("DD-MM-YYYY")}
+                            </strong>
+                            <br />
+                            {item.title}
+                            <Button
+                              type="primary"
+                              href={`/News_Menu/News_view/${item.id}`}
+                              target="_blank"
+                              className="button-card"
+                            >
+                              อ่านต่อ
+                            </Button>
+                          </Flex>
+                        </Flex>
                       </div>
                     }
                   />
                 </Link>
               </Grid>
             ))}
+          {sortedFiltered.slice(1).map((item) => (
+            <Grid item xs={12} md={4} key={item.id} className="gridItem">
+              <Link
+                to={`/News_Menu/News_view/${item.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Card
+                  hoverable
+                  className="cardItem"
+                  cover={
+                    <div className="cardItemCover">
+                      <img className="cardImage" src={item.cover_image} />
+                      <div className="cardIitleTCover">
+                        <strong>
+                          เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}
+                        </strong>
+                        <br />
+                        {item.title.length > 150
+                          ? `${item.title.slice(0, 150)}...`
+                          : item.title}
+                      </div>
+                    </div>
+                  }
+                />
+              </Link>
+            </Grid>
+          ))}
         </Grid>
         {data.length > 0 && (
           <Box mt={4} display="flex" justifyContent="center">

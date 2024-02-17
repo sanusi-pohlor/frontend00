@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Button, Card,Divider } from "antd";
+import { Badge, Descriptions, Image, Button, Card, Divider } from "antd";
 import { useParams, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
@@ -416,14 +416,19 @@ const Manage_Fake_Info_View = () => {
     {
       key: "14",
       label: createTypography("ประเภทของข้อมูล"),
-      children: fakeNewsInfo && createTypography(<span>{render_ty_info_name()}</span>),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }
+      children:
+        fakeNewsInfo && createTypography(<span>{render_ty_info_name()}</span>),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "15",
       label: createTypography("เฉพาะโควิด-15"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่'}</span>),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>{fakeNewsInfo.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่"}</span>
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "16",
@@ -465,8 +470,17 @@ const Manage_Fake_Info_View = () => {
     {
       key: "21",
       label: createTypography("เพิ่มเมื่อ"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.created_at && moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")}</span>),
-      labelStyle: { background: '#7BBD8F', color: '#FFFFFF' }
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {fakeNewsInfo.created_at &&
+              moment(fakeNewsInfo.fn_info_dmy)
+                .locale("th")
+                .format("DD MMMM YYYY")}
+          </span>
+        ),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "22",
@@ -499,9 +513,7 @@ const Manage_Fake_Info_View = () => {
     <AdminMenu>
       <Card className="cardsection">
         <div className="cardsectionContent">
-        <Typography variant="h3">
-        รายละเอียดข้อมูลรับแจ้ง
-        </Typography>
+          <Typography variant="h3">รายละเอียดข้อมูลรับแจ้ง</Typography>
           <Link to={`/Admin/Manage_Fake_Info_Edit/${id}`}>
             <Button icon={<PlusCircleOutlined />} className="buttonfilterStyle">
               แก้ไข
@@ -511,8 +523,8 @@ const Manage_Fake_Info_View = () => {
       </Card>
       <br />
       <Card>
-      <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
-      รายละเอียดข้อมูลเท็จ
+        <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+          รายละเอียดข้อมูลเท็จ
         </Typography>
         <Divider />
         <Descriptions layout="vertical" bordered items={items} />

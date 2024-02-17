@@ -47,7 +47,9 @@ const Register_Dialog = ({ open, onClose }) => {
         receive = 1;
       }
 
-      const emailExists = user.some((existingUser) => existingUser.email === values.email);
+      const emailExists = user.some(
+        (existingUser) => existingUser.email === values.email
+      );
       if (emailExists) {
         message.error("อีเมลนี้มีการใช้งานแล้ว");
         setLoading(false);
@@ -64,10 +66,13 @@ const Register_Dialog = ({ open, onClose }) => {
       formData.append("province", values.province);
       formData.append("receive_ct_email", receive);
 
-      const registerResponse = await fetch("https://checkkonproject-sub.com/api/register", {
-        method: "POST",
-        body: formData,
-      });
+      const registerResponse = await fetch(
+        "https://checkkonproject-sub.com/api/register",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (registerResponse.ok) {
         message.success("สมัครสมาชิกเสร็จสิ้น");
@@ -127,7 +132,9 @@ const Register_Dialog = ({ open, onClose }) => {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
-            <Typography variant="body1" sx={{ fontSize: "20px" }}>{code[`${fieldName}_name`]}</Typography>
+            <Typography variant="body1" sx={{ fontSize: "20px" }}>
+              {code[`${fieldName}_name`]}
+            </Typography>
           </Option>
         ));
         form.setFieldsValue({ [fieldName]: undefined });
@@ -139,10 +146,7 @@ const Register_Dialog = ({ open, onClose }) => {
         ]);
         stateSetter(options);
       } else {
-        console.error(
-          `Error `,
-          response.statusText
-        );
+        console.error(`Error `, response.statusText);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -163,19 +167,9 @@ const Register_Dialog = ({ open, onClose }) => {
   );
 
   return (
-    <Modal
-      visible={visible}
-      onCancel={onClose}
-      footer={null}
-      width={800}
-    >
-      <div className="container-title">
-        สมัครสมาชิก
-      </div>
-      <Paper
-        elevation={0}
-        className="form-container"
-      >
+    <Modal visible={visible} onCancel={onClose} footer={null} width={800}>
+      <div className="container-title">สมัครสมาชิก</div>
+      <Paper elevation={0} className="form-container">
         <Form
           form={form}
           layout="vertical"
@@ -186,7 +180,7 @@ const Register_Dialog = ({ open, onClose }) => {
             maxWidth: "100%",
             fontSize: "50px",
           }}
-          labelCol={{ style: { fontSize: '18px' } }}
+          labelCol={{ style: { fontSize: "18px" } }}
         >
           <Form.Item
             label={createTypography("ชื่อ")}
@@ -222,7 +216,7 @@ const Register_Dialog = ({ open, onClose }) => {
               margin: "0 8px",
             }}
           >
-            <Input size="large"/>
+            <Input size="large" />
           </Form.Item>
           <Form.Item
             label={createTypography("อีเมล")}
@@ -315,14 +309,22 @@ const Register_Dialog = ({ open, onClose }) => {
             </Select>
           </Form.Item>
           <Form.Item name="CheckboxContent">
-            <Checkbox onChange={onChange}>{createTypography("รับคอนเทนต์ผ่านอีเมล")}</Checkbox>
+            <Checkbox onChange={onChange}>
+              {createTypography("รับคอนเทนต์ผ่านอีเมล")}
+            </Checkbox>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} className="form-button">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={loading}
+              className="form-button"
+            >
               {createTypography("ลงทะเบียน")}
             </Button>
           </Form.Item>
-        </Form></Paper>
+        </Form>
+      </Paper>
     </Modal>
   );
 };

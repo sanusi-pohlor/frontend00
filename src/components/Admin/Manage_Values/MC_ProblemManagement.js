@@ -152,9 +152,7 @@ const MC_ProblemManagement = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.mfi_moti === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_moti === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -188,9 +186,9 @@ const MC_ProblemManagement = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'วิธีการจัดการ',
-      dataIndex: 'prob_m_way',
-      width: '60%',
+      title: "วิธีการจัดการ",
+      dataIndex: "prob_m_way",
+      width: "60%",
       editable: true,
     },
     {
@@ -247,9 +245,9 @@ const MC_ProblemManagement = () => {
   };
   return (
     <div>
-            <Card className="cardsection">
+      <Card className="cardsection">
         <div className="cardsectionContent">
-        จัดการประเภทการกระทำ
+          จัดการประเภทการกระทำ
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -355,9 +353,9 @@ const MC_ProblemManagement = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

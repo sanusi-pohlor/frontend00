@@ -459,7 +459,11 @@ const FnInfoEdit = () => {
             />
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px" }}>วัน/เดือน/ปี ที่เกิดเหตุ</Typography>}
+            label={
+              <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                วัน/เดือน/ปี ที่เกิดเหตุ
+              </Typography>
+            }
             name="fn_info_dmy"
             rules={[
               {
@@ -467,7 +471,9 @@ const FnInfoEdit = () => {
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}
-          >          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+          >
+            {" "}
+            <Typography variant="body1" sx={{ fontSize: "25px" }}>
               {formattedDate}
             </Typography>
             เปลี่ยนใหม่
@@ -509,11 +515,11 @@ const FnInfoEdit = () => {
           ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จเก่า
           <br />
           {data && data.fn_info_image ? (
-              <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
-            ) : (
-              <div>No image available</div>
-            )}
-            <br />
+            <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div>No image available</div>
+          )}
+          <br />
           <Form.Item>
             <Button
               type="primary"

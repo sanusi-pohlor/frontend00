@@ -188,9 +188,9 @@ const MC_DataCharacteristics = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'ชื่อลักษณะข้อมูล',
-      dataIndex: 'data_cha_name',
-      width: '60%',
+      title: "ชื่อลักษณะข้อมูล",
+      dataIndex: "data_cha_name",
+      width: "60%",
       editable: true,
     },
     {
@@ -250,7 +250,7 @@ const MC_DataCharacteristics = () => {
     <div>
       <Card className="cardsection">
         <div className="cardsectionContent">
-        จัดการลักษณะข้อมูล
+          จัดการลักษณะข้อมูล
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -356,9 +356,9 @@ const MC_DataCharacteristics = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

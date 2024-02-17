@@ -187,9 +187,9 @@ const MC_TypeInformation = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'ชื่อประเภท',
-      dataIndex: 'type_info_name',
-      width: '60%',
+      title: "ชื่อประเภท",
+      dataIndex: "type_info_name",
+      width: "60%",
       editable: true,
     },
     {
@@ -297,7 +297,6 @@ const MC_TypeInformation = () => {
         </Form>
       </Modal>
 
-
       <Modal
         title="เพิ่มช่องทางสื่อ"
         visible={!!editRecord}
@@ -357,9 +356,9 @@ const MC_TypeInformation = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

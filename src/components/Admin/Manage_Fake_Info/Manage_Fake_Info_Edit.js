@@ -36,7 +36,7 @@ const Manage_Fake_Info_Edit = () => {
   const fetchTag = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request",
+        "https://checkkonproject-sub.com/api/Tags_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -89,10 +89,7 @@ const Manage_Fake_Info_Edit = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setOptions((prevOptions) => [
-          ...prevOptions,
-          { label: data.tag_name },
-        ]);
+        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
       } else {
         console.error("Error adding tag:", response.statusText);
       }
@@ -102,7 +99,9 @@ const Manage_Fake_Info_Edit = () => {
   };
   const fetchInfo_source = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/MediaChannels_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
+      );
       if (response.ok) {
         const Data = await response.json();
         setInfo_source(Data);
@@ -139,14 +138,14 @@ const Manage_Fake_Info_Edit = () => {
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
-      return '';
+      return "";
     }
 
     const user = userInfo.find(
       (user) => user.id === fakeNewsInfo.fn_info_nameid
     );
 
-    return user ? `${user.username} ${user.lastName}` : '';
+    return user ? `${user.username} ${user.lastName}` : "";
   };
 
   useEffect(() => {
@@ -158,7 +157,8 @@ const Manage_Fake_Info_Edit = () => {
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+            (item) =>
+              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
           console.log("Filtered provinces:", filteredIds);
@@ -181,7 +181,9 @@ const Manage_Fake_Info_Edit = () => {
 
   const fetchManage_Fake_Info_Edit = async () => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
+      );
       if (!response.ok) {
         console.error("Invalid data received from the server");
         return;
@@ -190,7 +192,9 @@ const Manage_Fake_Info_Edit = () => {
       const data = await response.json();
       setData(data);
       form.setFieldsValue({
-        mfi_time: data.mfi_time ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY") : "ไม่มีการประทับเวลา",
+        mfi_time: data.mfi_time
+          ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY")
+          : "ไม่มีการประทับเวลา",
         mfi_province: data.mfi_province,
         mfi_mem: data.mfi_mem,
         mfi_med_c: data.mfi_med_c,
@@ -204,13 +208,13 @@ const Manage_Fake_Info_Edit = () => {
         mfi_dis_c: data.mfi_dis_c,
         mfi_publ: data.mfi_publ,
         mfi_ty_info: data.mfi_ty_info,
-        mfi_only_cv: data.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่',
+        mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
         mfi_moti: data.mfi_moti,
         mfi_iteration: data.mfi_iteration,
         mfi_che_d: data.mfi_che_d,
         mfi_data_cha: data.mfi_data_cha,
         mfi_fninfo: data.mfi_fninfo,
-        mfi_results: data.mfi_results === 1 ? 'จริง' : 'เท็จ',
+        mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
         mfi_tag: data.mfi_tag,
       });
     } catch (error) {
@@ -241,7 +245,7 @@ const Manage_Fake_Info_Edit = () => {
       appendIfDefined("mfi_dis_c", values.mfi_dis_c);
       appendIfDefined("mfi_publ", values.mfi_publ);
       appendIfDefined("mfi_ty_info", values.mfi_ty_info);
-      const mfi_only_cv = data.mfi_only_cv === 1 ? 'ใช่' : 'ไม่ใช่';
+      const mfi_only_cv = data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่";
       if (values.mfi_only_cv !== mfi_only_cv) {
         formData.append("mfi_only_cv", values.mfi_only_cv);
       }
@@ -251,7 +255,7 @@ const Manage_Fake_Info_Edit = () => {
       appendIfDefined("mfi_che_d", values.mfi_che_d);
       appendIfDefined("mfi_data_cha", values.mfi_data_cha);
       // appendIfDefined("mfi_fninfo", parseInt(id, 10));
-      const mfi_results = data.mfi_results === 1 ? 'จริง' : 'เท็จ';
+      const mfi_results = data.mfi_results === 1 ? "จริง" : "เท็จ";
       if (values.mfi_results !== mfi_results) {
         formData.append("mfi_results", values.mfi_results);
       }
@@ -347,11 +351,7 @@ const Manage_Fake_Info_Edit = () => {
         <>
           <Input
             size="large"
-            placeholder={
-              source
-                ? source.med_c_name
-                : "No date available"
-            }
+            placeholder={source ? source.med_c_name : "No date available"}
             disabled
           />
         </>
@@ -446,9 +446,9 @@ const Manage_Fake_Info_Edit = () => {
                   placeholder={
                     fakeNewsInfo
                       ? fakeNewsInfo.created_at &&
-                      moment(fakeNewsInfo.created_at)
-                        .locale("th")
-                        .format("DD MMMM YYYY")
+                        moment(fakeNewsInfo.created_at)
+                          .locale("th")
+                          .format("DD MMMM YYYY")
                       : "No date available"
                   }
                   disabled
@@ -484,11 +484,7 @@ const Manage_Fake_Info_Edit = () => {
                   },
                 ]}
               >
-                <Input
-                  size="large"
-                  value={renderReporterInfo()}
-                  disabled
-                />
+                <Input size="large" value={renderReporterInfo()} disabled />
               </Form.Item>
               <Form.Item
                 name="mfi_med_c"
@@ -510,7 +506,8 @@ const Manage_Fake_Info_Edit = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเพิ่มภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ!",
+                    message:
+                      "กรุณาเพิ่มภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ!",
                   },
                 ]}
               >
@@ -566,7 +563,8 @@ const Manage_Fake_Info_Edit = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเพิ่มจำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ!",
+                    message:
+                      "กรุณาเพิ่มจำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ!",
                   },
                 ]}
               >
@@ -684,7 +682,8 @@ const Manage_Fake_Info_Edit = () => {
                 rules={[
                   {
                     required: false,
-                    message: "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?!",
+                    message:
+                      "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?!",
                   },
                 ]}
               >
@@ -763,7 +762,7 @@ const Manage_Fake_Info_Edit = () => {
               </Form.Item>
             </Col>
           </Row>
-          <Row style={{ marginBottom: '10px' }}>
+          <Row style={{ marginBottom: "10px" }}>
             <Form.Item
               name="mfi_results"
               label="ผลสรุป"
@@ -775,7 +774,7 @@ const Manage_Fake_Info_Edit = () => {
               ]}
               style={{
                 marginRight: "10px",
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -797,7 +796,7 @@ const Manage_Fake_Info_Edit = () => {
                 },
               ]}
               style={{
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -810,7 +809,7 @@ const Manage_Fake_Info_Edit = () => {
               </Select>
             </Form.Item>
           </Row>
-          <Row style={{ marginBottom: '10px' }}>
+          <Row style={{ marginBottom: "10px" }}>
             <Form.Item
               name="mfi_tag"
               label="แท็ก"
@@ -822,7 +821,7 @@ const Manage_Fake_Info_Edit = () => {
               ]}
               style={{
                 marginRight: "10px",
-                width: "50%"
+                width: "50%",
               }}
             >
               <Select
@@ -843,7 +842,8 @@ const Manage_Fake_Info_Edit = () => {
               บันทึก
             </Button>
           </Form.Item>
-        </Form></Card>
+        </Form>
+      </Card>
     </AdminMenu>
   );
 };

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar,  Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined } from "@ant-design/icons";
 
 const News_view = () => {
   const { id } = useParams();
@@ -50,12 +50,15 @@ const News_view = () => {
     fetchData();
   }, [data]);
 
-
   const items = [
     {
       key: "1",
       label: "ชื่อ-สกุล",
-      children: user && <span>{user.username} {user.lastName}</span>,
+      children: user && (
+        <span>
+          {user.username} {user.lastName}
+        </span>
+      ),
     },
     {
       key: "2",
@@ -94,7 +97,10 @@ const News_view = () => {
         <Card className="cardContent">
           <strong>{data.title}</strong>
           <br />
-          <strong>โดย : {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}</strong>
+          <strong>
+            โดย :{" "}
+            {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
+          </strong>
           <br />
           <strong>ลงเมื่อ : {thaiDate}</strong>
           <br />
@@ -165,7 +171,10 @@ const News_view = () => {
             </Space>
           </div>
           <p onClick={showModal}>
-          <Avatar size={64} icon={<UserOutlined />} >{user && user.username}</Avatar> โปรไฟลผู้เขียน <span>{user && user.username}</span>
+            <Avatar size={64} icon={<UserOutlined />}>
+              {user && user.username}
+            </Avatar>{" "}
+            โปรไฟลผู้เขียน <span>{user && user.username}</span>
           </p>
           <Modal
             title="โปรไฟล์ผู้เขียน"

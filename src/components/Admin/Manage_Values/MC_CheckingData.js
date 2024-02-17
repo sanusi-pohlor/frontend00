@@ -188,9 +188,9 @@ const MC_CheckingData = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'รูปแบบการตรวจสอบ',
-      dataIndex: 'che_d_format',
-      width: '60%',
+      title: "รูปแบบการตรวจสอบ",
+      dataIndex: "che_d_format",
+      width: "60%",
       editable: true,
     },
     {
@@ -249,7 +249,7 @@ const MC_CheckingData = () => {
     <div>
       <Card className="cardsection">
         <div className="cardsectionContent">
-        จัดการรูปแบบการตรวจสอบ
+          จัดการรูปแบบการตรวจสอบ
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -355,9 +355,9 @@ const MC_CheckingData = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

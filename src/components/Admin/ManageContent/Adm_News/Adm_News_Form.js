@@ -1,20 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import "react-quill/dist/quill.snow.css";
-import {
-  Form,
-  Input,
-  Button,
-  message,
-  Upload,
-  Card,
-  Select,
-} from "antd";
+import { Form, Input, Button, message, Upload, Card, Select } from "antd";
 import ReactQuill from "react-quill";
-import {
-  PlusOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
@@ -148,9 +137,9 @@ const Adm_News_Form = () => {
     fetchData();
   }, []);
 
-  const maxId = Math.max(...dataSource.map(item => item.id));
+  const maxId = Math.max(...dataSource.map((item) => item.id));
 
-  const onFinish = async (values) => { 
+  const onFinish = async (values) => {
     try {
       setLoading(true);
       const formData = new FormData();

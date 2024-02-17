@@ -215,7 +215,7 @@ const FakeNewInformation = () => {
   } else {
     return (
       <UserProfile>
-        <Typography variant="h3" gutterBottom sx={{ color: '#000000' }}>
+        <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
           ฟอร์มแจ้งข้อมูลเท็จ
         </Typography>
         <Divider />
@@ -228,7 +228,7 @@ const FakeNewInformation = () => {
           onFinishFailed={onFinishFailed}
           style={{
             maxWidth: "90%",
-            margin: 'auto',
+            margin: "auto",
           }}
           enctype="multipart/form-data"
         >
@@ -331,10 +331,7 @@ const FakeNewInformation = () => {
               onChange_dnc_med_id();
             }}
           >
-            <Select
-              onChange={onChange_dnc_med_id}
-              allowClear
-            >
+            <Select onChange={onChange_dnc_med_id} allowClear>
               {selectOptions_med}
             </Select>
           </Form.Item>

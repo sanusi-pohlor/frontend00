@@ -151,9 +151,7 @@ const MC_Motivation = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.mfi_moti === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_moti === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -165,10 +163,7 @@ const MC_Motivation = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "Motivation deleted successfully"
-        ) {
+        if (response.ok && responseData === "Motivation deleted successfully") {
           console.log("Motivation deleted successfully");
           fetchData();
         } else {
@@ -356,9 +351,9 @@ const MC_Motivation = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

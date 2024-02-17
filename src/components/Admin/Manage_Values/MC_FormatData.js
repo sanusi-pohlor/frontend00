@@ -152,9 +152,7 @@ const MC_FormatData = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.mfi_fm_d === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_fm_d === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -166,10 +164,7 @@ const MC_FormatData = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "FormatData deleted successfully"
-        ) {
+        if (response.ok && responseData === "FormatData deleted successfully") {
           console.log("FormatData deleted successfully");
           fetchData();
         } else {
@@ -188,9 +183,9 @@ const MC_FormatData = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: 'ชื่อรูปแบบข้อมูล',
-      dataIndex: 'fm_d_name',
-      width: '60%',
+      title: "ชื่อรูปแบบข้อมูล",
+      dataIndex: "fm_d_name",
+      width: "60%",
       editable: true,
     },
     {
@@ -249,7 +244,7 @@ const MC_FormatData = () => {
     <div>
       <Card className="cardsection">
         <div className="cardsectionContent">
-        จัดการรูปแบบข้อมูล
+          จัดการรูปแบบข้อมูล
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -356,9 +351,9 @@ const MC_FormatData = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

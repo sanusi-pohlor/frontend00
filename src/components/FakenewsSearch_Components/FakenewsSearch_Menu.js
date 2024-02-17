@@ -39,7 +39,7 @@ const FakenewsSearch_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        const filteredData = data.filter(item => item.mfi_results !== null);
+        const filteredData = data.filter((item) => item.mfi_results !== null);
         const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
         setDataOrg(sortedData);
@@ -497,7 +497,7 @@ const FakenewsSearch_Menu = () => {
                     )
                   : data
                 ).map((row, rowIndex) => (
-                  <TableRow key={rowIndex} hover> 
+                  <TableRow key={rowIndex} hover>
                     {columns.map((column, colIndex) => (
                       <TableCell key={`${rowIndex}-${colIndex}`} align="left">
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>

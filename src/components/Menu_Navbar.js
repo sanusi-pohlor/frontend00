@@ -135,21 +135,23 @@ function Menu_Navbar() {
       Navigate("/Admin/");
     }
   };
-  const pages = user ? [
-    { label: "หน้าหลัก", link: "/" },
-    { label: "ข่าวสาร", link: "/News_Menu" },
-    { label: "บทความ", link: "/Article_Menu" },
-    { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-    { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
-    { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-  ] : [
-    { label: "หน้าหลัก", link: "/" },
-    { label: "ข่าวสาร", link: "/News_Menu" },
-    { label: "บทความ", link: "/Article_Menu" },
-    { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-    { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
-    { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-  ];
+  const pages = user
+    ? [
+        { label: "หน้าหลัก", link: "/" },
+        { label: "ข่าวสาร", link: "/News_Menu" },
+        { label: "บทความ", link: "/Article_Menu" },
+        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+        { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+      ]
+    : [
+        { label: "หน้าหลัก", link: "/" },
+        { label: "ข่าวสาร", link: "/News_Menu" },
+        { label: "บทความ", link: "/Article_Menu" },
+        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+        { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
+        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+      ];
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>

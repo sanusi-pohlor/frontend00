@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Space, Button, Popconfirm,message, Card } from "antd";
+import { Space, Button, Popconfirm, message, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -135,17 +135,15 @@ const ManageMembers = () => {
       ? dataA.mfi_results === 0
         ? "ข่าวเท็จ"
         : dataA.mfi_results === 1
-          ? "ข่าวจริง"
-          : "ยังไม่ตรวจสอบ"
+        ? "ข่าวจริง"
+        : "ยังไม่ตรวจสอบ"
       : "ยังไม่ตรวจสอบ";
     return resultText;
   };
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = datamanage.filter(
-        (item) => item.mfi_fninfo === id
-      );
+      const filteredItems = datamanage.filter((item) => item.mfi_fninfo === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
@@ -157,9 +155,7 @@ const ManageMembers = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok
-        ) {
+        if (response.ok) {
           message.success("ลบข้อมูลเสร็จสิ้น");
           console.log("ActionType deleted successfully");
           fetchData();
@@ -319,9 +315,9 @@ const ManageMembers = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

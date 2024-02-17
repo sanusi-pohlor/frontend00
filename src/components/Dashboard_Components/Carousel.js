@@ -8,13 +8,25 @@ const Carousel = () => {
   return (
     <AntCarousel autoplay>
       <div>
-      <img src={Carousel1} alt="Carousel1" style={{ width: '100%', height: '100%' }} />
+        <img
+          src={Carousel1}
+          alt="Carousel1"
+          style={{ width: "100%", height: "100%" }}
+        />
       </div>
       <div>
-      <img src={Carousel2} alt="Carousel2" style={{ width: '100%', height: '100%' }} />
+        <img
+          src={Carousel2}
+          alt="Carousel2"
+          style={{ width: "100%", height: "100%" }}
+        />
       </div>
       <div>
-      <img src={Carousel3} alt="Carousel3" style={{ width: '100%', height: '100%' }} />
+        <img
+          src={Carousel3}
+          alt="Carousel3"
+          style={{ width: "100%", height: "100%" }}
+        />
       </div>
     </AntCarousel>
   );
