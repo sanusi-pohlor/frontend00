@@ -13,6 +13,7 @@ import {
   ListItemText,
   Divider,
   Drawer,
+  useMediaQuery,
 } from "@mui/material";
 import { CommentOutlined } from "@ant-design/icons";
 import { styled } from "@mui/system";
@@ -47,6 +48,7 @@ function Menu_Navbar() {
   const [loginVisible, setLoginVisible] = useState(false);
   const Navigate = useNavigate();
   const theme = useTheme();
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -195,11 +197,13 @@ function Menu_Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <img
-            src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
-            alt="WMO Logo"
-            className="image-style"
-          />
+          {!isMobileScreen && (
+            <img
+              src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
+              alt="WMO Logo"
+              className="image-style"
+            />
+          )}
           <div style={{ margin: "15px" }}></div>
           <YourTypography variant="h6">
             รู้เท่า ทันสื่อ - Check ก่อน
@@ -210,6 +214,7 @@ function Menu_Navbar() {
               variant="temporary"
               open={mobileOpen}
               onClose={handleDrawerToggle}
+              style={{ fontSize: "50px" }}
               ModalProps={{
                 keepMounted: false,
               }}

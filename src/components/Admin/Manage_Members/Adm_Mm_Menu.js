@@ -25,7 +25,7 @@ const ManageMembers = () => {
   const fetchFakeNewsInfo = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/ManageInfo_request"
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
         const data = await response.json();
