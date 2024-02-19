@@ -262,7 +262,7 @@ const MC_FormatData = () => {
       <br />
       <Modal
         title="เพิ่มรูปแบบข้อมูล"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -294,7 +294,7 @@ const MC_FormatData = () => {
 
       <Modal
         title="แก้ไขรูปแบบข้อมูล"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

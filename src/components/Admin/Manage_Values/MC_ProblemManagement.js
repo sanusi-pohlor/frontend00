@@ -265,7 +265,7 @@ const MC_ProblemManagement = () => {
       <br />
       <Modal
         title="เพิ่มประเภทการกระทำ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -296,7 +296,7 @@ const MC_ProblemManagement = () => {
       </Modal>
       <Modal
         title="แก้ไขวิธีการจัดการ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

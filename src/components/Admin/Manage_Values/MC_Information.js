@@ -357,7 +357,7 @@ const MC_Information = () => {
       </div>
       <Modal
         title="เพิ่มประเด็นย่อย"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >

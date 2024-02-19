@@ -452,7 +452,7 @@ const Manage_Fake_Info_Menu = () => {
               ตัวกรอง
             </Button>
             <Modal
-              visible={filterVisible}
+              open={filterVisible}
               onCancel={closeFilterDialog}
               footer={null}
             >

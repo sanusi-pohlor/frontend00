@@ -192,7 +192,7 @@ const Adm_Article_View = () => {
             </p>
             <Modal
               title="โปรไฟล์ผู้เขียน"
-              visible={isModalOpen}
+              open={isModalOpen}
               footer={null}
               onCancel={handleCancel}
             >

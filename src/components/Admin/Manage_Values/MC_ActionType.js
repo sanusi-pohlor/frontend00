@@ -265,7 +265,7 @@ const MC_ActionType = () => {
       <br />
       <Modal
         title="เพิ่มประเภทการกระทำ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -296,7 +296,7 @@ const MC_ActionType = () => {
       </Modal>
       <Modal
         title="แก้ไขประเภทการกระทำ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

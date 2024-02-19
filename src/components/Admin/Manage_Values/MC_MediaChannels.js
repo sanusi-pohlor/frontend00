@@ -267,7 +267,7 @@ const MC_MediaChannels = () => {
       <br />
       <Modal
         title="เพิ่มช่องทางสื่อ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -299,7 +299,7 @@ const MC_MediaChannels = () => {
 
       <Modal
         title="เพิ่มช่องทางสื่อ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

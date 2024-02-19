@@ -16,7 +16,6 @@ const Register_Dialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(open);
   const navigate = useNavigate();
   const { Option } = Select;
   const [form] = Form.useForm();
@@ -167,7 +166,7 @@ const Register_Dialog = ({ open, onClose }) => {
   );
 
   return (
-    <Modal visible={visible} onCancel={onClose} footer={null} width={800}>
+    <Modal open={open} onCancel={onClose} footer={null} width={800}>
       <div className="container-title">สมัครสมาชิก</div>
       <Paper elevation={0} className="form-container">
         <Form

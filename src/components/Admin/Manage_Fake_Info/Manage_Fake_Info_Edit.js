@@ -7,8 +7,6 @@ import {
   Select,
   message,
   Card,
-  Row,
-  Col,
   Image,
   Divider,
   Descriptions,
@@ -38,6 +36,20 @@ const Manage_Fake_Info_Edit = () => {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
+  useEffect(() => {
+    onChange_mfi_c_info_id();
+    onChange_mfi_fm_d_id();
+    onChange_mfi_dis_c_id();
+    onChange_mfi_ty_info_id();
+    onChange_mfi_moti_id();
+    onChange_mfi_data_cha_id();
+    onChange_dnc_med_id();
+    onChange_mfi_che_d_id();
+    fetchTag();
+    fetchUserInfo();
+    fetchInfo_source();
+  }, []);
+
   const fetchTag = async () => {
     try {
       const response = await fetch(
@@ -57,9 +69,6 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error:", error);
     }
   };
-  useEffect(() => {
-    fetchTag();
-  }, []);
 
   const fetchUserInfo = async () => {
     try {
@@ -76,9 +85,6 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  useEffect(() => {
-    fetchUserInfo();
-  }, []);
 
   const handleTagCreation = async (value) => {
     try {
@@ -117,9 +123,7 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching user data:", error);
     }
   };
-  useEffect(() => {
-    fetchInfo_source();
-  }, []);
+
 
   const fetchFakeNewsInfo = async () => {
     try {
@@ -325,13 +329,13 @@ const Manage_Fake_Info_Edit = () => {
             {code[`${fieldName}_name`]}
           </Option>
         ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
+        // form.setFieldsValue({ [fieldName]: undefined });
+        // form.setFields([
+        //   {
+        //     name: fieldName,
+        //     value: undefined,
+        //   },
+        // ]);
         stateSetter(options);
       } else {
         console.error(
@@ -414,10 +418,10 @@ const Manage_Fake_Info_Edit = () => {
             {code.che_d_format}
           </Option>
         ));
-        // form.setFieldsValue({ che_d_format: undefined });
+        // form.setFieldsValue({ [fieldName]: undefined });
         // form.setFields([
         //   {
-        //     name: che_d_format,
+        //     name: fieldName,
         //     value: undefined,
         //   },
         // ]);
@@ -429,16 +433,6 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching data:", error);
     }
   };
-
-  useEffect(() => {
-    onChange_mfi_c_info_id();
-    onChange_mfi_fm_d_id();
-    onChange_mfi_dis_c_id();
-    onChange_mfi_ty_info_id();
-    onChange_mfi_moti_id();
-    onChange_mfi_data_cha_id();
-    onChange_dnc_med_id();
-  }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

@@ -322,7 +322,7 @@ const FakenewsSearch_Menu = () => {
                 ตัวกรอง
               </Button>
               <Modal
-                visible={filterVisible}
+                open={filterVisible}
                 onCancel={closeFilterDialog}
                 footer={null}
               >

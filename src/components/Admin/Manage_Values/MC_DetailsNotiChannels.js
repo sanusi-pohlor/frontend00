@@ -403,7 +403,7 @@ const MC_DetailsNotiChannels = () => {
       <br />
       <Modal
         title="เพิ่มช่องทางสื่อ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -573,7 +573,7 @@ const MC_DetailsNotiChannels = () => {
 
       <Modal
         title="แก้ไขช่องทางสื่อ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >

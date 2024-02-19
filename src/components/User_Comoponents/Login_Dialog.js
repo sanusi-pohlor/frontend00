@@ -5,7 +5,6 @@ import { Paper, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 const LoginDialog = ({ open, onClose }) => {
-  const [visible, setVisible] = useState(open);
   const navigate = useNavigate();
   const onFinish = async (values) => {
     const formData = new FormData();
@@ -44,7 +43,7 @@ const LoginDialog = ({ open, onClose }) => {
     </Typography>
   );
   return (
-    <Modal visible={visible} onCancel={onClose} footer={null} width={500}>
+    <Modal open={open} onCancel={onClose} footer={null} width={500}>
       <div className="container-title">เข้าสู่ระบบ</div>
       <Paper elevation={0} className="form-container">
         <Form

@@ -267,7 +267,7 @@ const MC_CheckingData = () => {
       <br />
       <Modal
         title="เพิ่มรูปแบบการตรวจสอบ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -298,7 +298,7 @@ const MC_CheckingData = () => {
       </Modal>
       <Modal
         title="แก้ไขรูปแบบการตรวจสอบ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

@@ -263,7 +263,7 @@ const MC_Motivation = () => {
       <br />
       <Modal
         title="เพิ่มแรงจูงใจ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -294,7 +294,7 @@ const MC_Motivation = () => {
       </Modal>
       <Modal
         title="แก้ไขแรงจูงใจ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

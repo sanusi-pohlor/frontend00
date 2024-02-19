@@ -307,7 +307,7 @@ const MC_Subpoint = () => {
       <br />
       <Modal
         title="เพิ่มประเด็นย่อย"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -357,7 +357,7 @@ const MC_Subpoint = () => {
 
       <Modal
         title="เพิ่มช่องทางสื่อ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

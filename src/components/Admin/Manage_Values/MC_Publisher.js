@@ -218,7 +218,7 @@ const MC_Publisher = () => {
       </div>
       <Modal
         title="เพิ่มประเภทการกระทำ"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >

@@ -267,7 +267,7 @@ const MC_TypeInformation = () => {
       <br />
       <Modal
         title="เพิ่มประเภท"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -299,7 +299,7 @@ const MC_TypeInformation = () => {
 
       <Modal
         title="เพิ่มช่องทางสื่อ"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >

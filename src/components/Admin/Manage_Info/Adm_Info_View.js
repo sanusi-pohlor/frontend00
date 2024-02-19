@@ -382,7 +382,7 @@ const ManageInfo_view = () => {
         />
         <Modal
           title="ยืนยันการรับเรื่อง"
-          visible={isModalVisible}
+          open={isModalVisible}
           onOk={handleConfirm}
           onCancel={() => setIsModalVisible(false)}
         ></Modal>

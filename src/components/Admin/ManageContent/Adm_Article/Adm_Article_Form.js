@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
-import "react-quill/dist/quill.snow.css";
+import 'react-quill/dist/quill.snow.css';
 import { Form, Input, Button, message, Upload, Card, Select } from "antd";
 import ReactQuill from "react-quill";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";

@@ -136,7 +136,7 @@ const MdShare_view = () => {
           </p>
           <Modal
             title="โปรไฟล์ผู้เขียน"
-            visible={isModalOpen}
+            open={isModalOpen}
             footer={null}
             onCancel={handleCancel}
           >

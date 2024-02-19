@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Avatar, Divider, Box, Paper, Typography } from "@mui/material";
+import { Grid, Avatar, Divider, Paper, Typography } from "@mui/material";
 import { Card, Tabs, FloatButton, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
 
-const { TabPane } = Tabs;
 const items = [
   { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
   { key: "2", label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
@@ -87,11 +86,9 @@ const MenuProfile = ({ children }) => {
 
   if (loading) {
     return (
-      <div>
-        <Spin tip="กรุณารอสักครู่" size="large">
-          <div className="content" />
-        </Spin>
-      </div>
+      <Spin tip="กรุณารอสักครู่" size="large">
+        <div className="content" />
+      </Spin>
     );
   }
 
@@ -208,7 +205,7 @@ const MenuProfile = ({ children }) => {
             <Card>
               <Tabs defaultActiveKey={selectedKey}>
                 {items.map((item) => (
-                  <TabPane
+                  <Tabs
                     tab={
                       <Link to={item.link}>
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>
@@ -219,7 +216,7 @@ const MenuProfile = ({ children }) => {
                     key={item.key}
                   >
                     {children}
-                  </TabPane>
+                  </Tabs>
                 ))}
               </Tabs>
             </Card>

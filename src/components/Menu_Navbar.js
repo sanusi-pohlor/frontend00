@@ -28,19 +28,6 @@ import "./Menu_Navbar.css";
 import PSU from "./Images/PSU.jpg";
 import { useTheme } from "@mui/material/styles";
 
-const YourTypography = styled("Typography")({
-  flexGrow: 1,
-  marginRight: "5px",
-  fontFamily: "'Th Sarabun New', sans-serif",
-  fontWeight: "bold",
-  letterSpacing: ".1rem",
-  color: "gray",
-  fontSize: "250%",
-  overflow: "hidden",
-  textOverflow: "ellipsis",
-  whiteSpace: "nowrap",
-});
-
 function Menu_Navbar() {
   const location = useLocation();
   const [user, setUser] = useState(null);
@@ -49,7 +36,30 @@ function Menu_Navbar() {
   const Navigate = useNavigate();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/user",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.log("User data retrieval failed");
+        }
+      } catch (error) {
+        console.log("User data retrieval failed");
+      }
+    };
+    fetchUser();
+  }, []);
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
@@ -88,30 +98,7 @@ function Menu_Navbar() {
   const closeRegisterDialog = () => {
     setRegisterVisible(false);
   };
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/user",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          console.error("User data retrieval failed");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-    fetchUser();
-  }, []);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -157,9 +144,9 @@ function Menu_Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-        <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
-          รู้เท่า ทันสื่อ - Check ก่อน
-        </Typography>
+      <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
+        รู้เท่า ทันสื่อ - Check ก่อน
+      </Typography>
       <Divider />
       <List>
         {pages.map((page) => (
@@ -205,11 +192,22 @@ function Menu_Navbar() {
             />
           )}
           <div style={{ margin: "15px" }}></div>
-            <YourTypography variant="h6">
-              <Link to={`/`} style={{ textDecoration: 'none', color: '#7BBD8F' }}>
+          <Typography variant="h6" style={{
+            flexGrow: 1,
+            marginRight: "5px",
+            fontFamily: "'Th Sarabun New', sans-serif",
+            fontWeight: "bold",
+            letterSpacing: ".1rem",
+            color: "gray",
+            fontSize: "250%",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+          }}>
+            <Link to={`/`} style={{ textDecoration: 'none', color: '#7BBD8F' }}>
               รู้เท่า ทันสื่อ - Check ก่อน
-              </Link>
-            </YourTypography>
+            </Link>
+          </Typography>
           <Box component="nav">
             <Drawer
               container={container}

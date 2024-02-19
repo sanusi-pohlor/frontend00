@@ -268,7 +268,7 @@ const MC_DataCharacteristics = () => {
       <br />
       <Modal
         title="เพิ่มลักษณะข้อมูล"
-        visible={modalVisible}
+        open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
       >
@@ -299,7 +299,7 @@ const MC_DataCharacteristics = () => {
       </Modal>
       <Modal
         title="แก้ไขลักษณะข้อมูล"
-        visible={!!editRecord}
+        open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
       >
