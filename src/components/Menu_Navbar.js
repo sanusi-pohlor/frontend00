@@ -139,27 +139,27 @@ function Menu_Navbar() {
   };
   const pages = user
     ? [
-        { label: "หน้าหลัก", link: "/" },
-        { label: "ข่าวสาร", link: "/News_Menu" },
-        { label: "บทความ", link: "/Article_Menu" },
-        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-        { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
-        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-      ]
+      { label: "หน้าหลัก", link: "/" },
+      { label: "ข่าวสาร", link: "/News_Menu" },
+      { label: "บทความ", link: "/Article_Menu" },
+      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+      { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+    ]
     : [
-        { label: "หน้าหลัก", link: "/" },
-        { label: "ข่าวสาร", link: "/News_Menu" },
-        { label: "บทความ", link: "/Article_Menu" },
-        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-        { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
-        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-      ];
+      { label: "หน้าหลัก", link: "/" },
+      { label: "ข่าวสาร", link: "/News_Menu" },
+      { label: "บทความ", link: "/Article_Menu" },
+      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+      { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
+      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+    ];
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
-        รู้เท่า ทันสื่อ - Check ก่อน
-      </Typography>
+        <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
+          รู้เท่า ทันสื่อ - Check ก่อน
+        </Typography>
       <Divider />
       <List>
         {pages.map((page) => (
@@ -205,9 +205,11 @@ function Menu_Navbar() {
             />
           )}
           <div style={{ margin: "15px" }}></div>
-          <YourTypography variant="h6">
-            รู้เท่า ทันสื่อ - Check ก่อน
-          </YourTypography>
+            <YourTypography variant="h6">
+              <Link to={`/`} style={{ textDecoration: 'none', color: '#7BBD8F' }}>
+              รู้เท่า ทันสื่อ - Check ก่อน
+              </Link>
+            </YourTypography>
           <Box component="nav">
             <Drawer
               container={container}

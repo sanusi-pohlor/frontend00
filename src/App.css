@@ -1103,7 +1103,7 @@
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 500px) {
     .footer {
         text-align: center;
         color: #ffffff;
@@ -1239,7 +1239,7 @@
     }
 
     .text strong {
-        font-size: 25px;
+        font-size: 20px;
         font-family: 'Th Sarabun New', sans-serif;
     }
 

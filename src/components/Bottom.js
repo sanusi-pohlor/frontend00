@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Space } from "antd";
 import CASLogo from "./Images/CAS.png";
 import WMOLogo from "./Images/WMO.png";
@@ -7,6 +7,15 @@ import { PhoneOutlined, MailOutlined } from "@ant-design/icons";
 const { Footer } = Layout;
 
 const Bottom = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <Footer className="footer">
       <br />
@@ -46,7 +55,9 @@ const Bottom = () => {
                   </strong>
                 </div>
               </span>
-              <span>------------ -----------</span>
+              {!isMobile && (
+                <span>------------ -----------</span>
+              )}
               <span>
                 <img src={CASLogo} alt="CAS Logo" className="partner-image" />
                 <div

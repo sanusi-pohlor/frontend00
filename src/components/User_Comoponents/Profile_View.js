@@ -6,9 +6,20 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [data, setData] = useState(null);
   const [province, setProvince] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 768);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -70,6 +81,32 @@ const Profile = () => {
     };
     if (user && user.province) {
       fetchProvince();
+    }
+  }, [user]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const countData = data.filter(
+          (item) => item.fn_info_nameid === user.id
+        );
+        setData(countData);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (user) {
+      fetchData();
     }
   }, [user]);
 
@@ -136,30 +173,127 @@ const Profile = () => {
 
   return (
     <UserProfile>
-      <div className="cardsectionContent">
-        <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
-          ข้อมูลสมาชิก
-        </Typography>
-        <div className="setcardContent">
-          <Link to={`/User/Profile/Edit/${user.id}`}>
-            <Button type="primary" className="buttonprofile">
-              แก้ไข
+      {isMobile && (
+        <div >
+          <div >
+            <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+              ข้อมูลสมาชิก
+            </Typography>
+          </div>
+          <div className="setcardContent">
+            <Link to={`/User/Profile/Edit/${user.id}`}>
+              <Button type="primary" className="buttonprofile">
+                แก้ไข
+              </Button>
+            </Link>
+            <Button type="primary" onClick={showModal} className="buttonprofile">
+              {createTypography("ออกจากระบบ")}
             </Button>
-          </Link>
-          <Button type="primary" onClick={showModal} className="buttonprofile">
-            {createTypography("ออกจากระบบ")}
-          </Button>
-          <Modal
-            open={isModalOpen}
-            onOk={handleOk}
-            onCancel={handleCancel}
-            okText="ยืนยัน"
-            cancelText="ยกเลิก"
-          >
-            <p>{createTypography("ต้องการออกจากระบบ")}</p>
-          </Modal>
+            <Modal
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+            >
+              <p>{createTypography("ต้องการออกจากระบบ")}</p>
+            </Modal>
+          </div>
+          <Divider />
+                {data && (
+                  <div>
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>ข้อมูลที่แจ้งทั้งหมด</span>
+                      <span>{data.length}</span>
+                    </Typography>
+                    <Divider />
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 0)
+                            .length
+                        }
+                      </span>
+                    </Typography>
+                    <Divider />
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 1)
+                            .length
+                        }
+                      </span>
+                    </Typography>
+                    <Divider />
+                    <Typography
+                      variant="body1"
+                      sx={{
+                        fontSize: "25px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
+                      <span>
+                        {
+                          data.filter((item) => item.fn_info_status === 2)
+                            .length
+                        }
+                      </span>
+                    </Typography>
+                  </div>
+                )}
         </div>
-      </div>
+      )}
+      {!isMobile && (
+        <div className="cardsectionContent">
+          <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+            ข้อมูลสมาชิก
+          </Typography>
+          <div className="setcardContent">
+            <Link to={`/User/Profile/Edit/${user.id}`}>
+              <Button type="primary" className="buttonprofile">
+                แก้ไข
+              </Button>
+            </Link>
+            <Button type="primary" onClick={showModal} className="buttonprofile">
+              {createTypography("ออกจากระบบ")}
+            </Button>
+            <Modal
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+              okText="ยืนยัน"
+              cancelText="ยกเลิก"
+            >
+              <p>{createTypography("ต้องการออกจากระบบ")}</p>
+            </Modal>
+          </div>
+        </div>
+      )}
       <Divider />
       <Descriptions layout="vertical" bordered items={items} />
     </UserProfile>

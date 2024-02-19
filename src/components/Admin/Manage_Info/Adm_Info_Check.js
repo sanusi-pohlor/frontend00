@@ -5,14 +5,10 @@ import {
   Input,
   Descriptions,
   Button,
-  Popconfirm,
   Select,
-  Modal,
   message,
   Divider,
   Card,
-  Row,
-  Col,
   Image,
 } from "antd";
 import AdminMenu from "../Adm_Menu";
@@ -129,7 +125,6 @@ const Adm_Info_Check = () => {
   }, []);
 
   const fetchFakeNewsInfo = async () => {
-    console.log("id :", id);
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
