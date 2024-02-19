@@ -8,8 +8,6 @@ import {
   Modal,
   Space,
   Card,
-  Select,
-  DatePicker,
 } from "antd";
 import {
   PlusCircleOutlined,
@@ -26,7 +24,6 @@ import {
   TablePagination,
   TableBody,
 } from "@mui/material";
-const { Option } = Select;
 const rowsPerPageOptions = [10];
 
 const MC_DetailsNotiChannels = () => {
@@ -39,11 +36,6 @@ const MC_DetailsNotiChannels = () => {
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [editRecord, setEditRecord] = useState(null);
-  const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [selectOptions_info, setSelectOptions_info] = useState([]);
-  const [selectOptions_pub, setSelectOptions_pub] = useState([]);
-  const [selectOptions_fm_d, setSelectOptions_fm_d] = useState([]);
-  const [selectOptions_prob, setSelectOptions_prob] = useState([]);
 
   const fetchFakeNewsInfo = async () => {
     try {
@@ -82,20 +74,10 @@ const MC_DetailsNotiChannels = () => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("dnc_med_id", values.dnc_med_id);
-      formData.append("dnc_info_id", values.dnc_info_id);
-      formData.append("dnc_pub_id", values.dnc_pub_id);
-      formData.append("dnc_fm_d_id", values.dnc_fm_d_id);
-      formData.append("dnc_prob_id", values.dnc_prob_id);
-      formData.append("dnc_scop_pub", values.dnc_scop_pub);
-      formData.append("dnc_num_mem_med", values.dnc_num_mem_med);
-      formData.append("dnc_date_med", values.dnc_date_med);
-      formData.append("dnc_capt", values.dnc_capt);
-      formData.append("dnc_link", values.dnc_link);
+      formData.append("detail_name", values.detail_name);
       console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/DetailsNotiChannels_upload",
@@ -107,6 +89,7 @@ const MC_DetailsNotiChannels = () => {
 
       if (response.ok) {
         message.success("Form data sent successfully");
+        fetchData();
       } else {
         message.error("Error sending form data");
       }
@@ -122,10 +105,10 @@ const MC_DetailsNotiChannels = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("moti_name", values.moti_name);
+      formData.append("detail_name", values.detail_name);
 
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/Motivation_update/${id}`,
+        `https://checkkonproject-sub.com/api/DetailsNotiChannels_update/${id}`,
         {
           method: "POST",
           body: formData,
@@ -151,14 +134,14 @@ const MC_DetailsNotiChannels = () => {
 
   const editRow = (record) => {
     form.setFieldsValue({
-      moti_name: record.moti_name,
+      detail_name: record.detail_name,
     });
     setEditingKey(record.id);
     setEditRecord(record);
   };
   const add = () => {
     form.setFieldsValue({
-      moti_name: null,
+      detail_name: null,
     });
   };
 
@@ -174,15 +157,15 @@ const MC_DetailsNotiChannels = () => {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/Motivation_delete/${id}`,
+          `https://checkkonproject-sub.com/api/DetailsNotiChannels_delete/${id}`,
           {
             method: "DELETE",
           }
         );
         const responseData = await response.json();
 
-        if (response.ok && responseData === "Motivation deleted successfully") {
-          console.log("Motivation deleted successfully");
+        if (response.ok) {
+          console.log("DetailsNotiChannels deleted successfully");
           fetchData();
         } else {
           console.error("Error deleting item:", responseData);
@@ -200,62 +183,8 @@ const MC_DetailsNotiChannels = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: "รหัสช่องทางสื่อ",
-      dataIndex: "dnc_med_id",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "รหัสการแจ้ง",
-      dataIndex: "dnc_info_id",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "รหัสผู้เผยแพร",
-      dataIndex: "dnc_pub_id",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "รหัสรูปแบบข้อมูล",
-      dataIndex: "dnc_fm_d_id",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "รหัสการจัดการ",
-      dataIndex: "dnc_prob_id",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "ขอบเขตการเผยแพร",
-      dataIndex: "dnc_scop_pub",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ",
-      dataIndex: "dnc_num_mem_med",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "วันที่ในสื่อ",
-      dataIndex: "dnc_date_med",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "ภาพ capture",
-      dataIndex: "dnc_capt",
-      width: "60%",
-      editable: true,
-    },
-    {
-      title: "Link URL",
-      dataIndex: "dnc_link",
+      title: "ช่องทางการเผยแพร่",
+      dataIndex: "detail_name",
       width: "60%",
       editable: true,
     },
@@ -304,68 +233,6 @@ const MC_DetailsNotiChannels = () => {
     };
   });
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
-
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-
-  const onChange_dnc_info_id = () => {
-    fetchDataAndSetOptions(
-      "Information_request",
-      "info",
-      setSelectOptions_info
-    );
-  };
-
-  const onChange_dnc_pub_id = () => {
-    fetchDataAndSetOptions("Publisher_request", "pub", setSelectOptions_pub);
-  };
-
-  const onChange_dnc_fm_d_id = () => {
-    fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm_d);
-  };
-
-  const onChange_dnc_prob_id = () => {
-    fetchDataAndSetOptions(
-      "ProblemManagement_request",
-      "prob_m",
-      setSelectOptions_prob
-    );
-  };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -374,18 +241,11 @@ const MC_DetailsNotiChannels = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  useEffect(() => {
-    onChange_dnc_med_id();
-    onChange_dnc_info_id();
-    onChange_dnc_pub_id();
-    onChange_dnc_fm_d_id();
-    onChange_dnc_prob_id();
-  }, []);
   return (
     <div>
       <Card className="cardsection">
         <div className="cardsectionContent">
-          จัดการช่องทางสื่อ
+          จัดการขอบเขตการเผยแพร่
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -396,13 +256,13 @@ const MC_DetailsNotiChannels = () => {
             }}
             style={{ marginBottom: 16 }}
           >
-            เพิ่มช่องทางสื่อ
+            เพิ่มขอบเขตการเผยแพร่
           </Button>
         </div>
       </Card>
       <br />
       <Modal
-        title="เพิ่มช่องทางสื่อ"
+        title="เพิ่มขอบเขตการเผยแพร่"
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -414,146 +274,8 @@ const MC_DetailsNotiChannels = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="dnc_med_id"
-            label="ช่องทางสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_med_id}
-              allowClear
-            >
-              {selectOptions_med}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_info_id"
-            label="รหัสการแจ้ง"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_info_id}
-              allowClear
-            >
-              {selectOptions_info}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_pub_id"
-            label="รหัสผู้เผยแพร"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_pub_id}
-              allowClear
-            >
-              {selectOptions_pub}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_fm_d_id"
-            label="รหัสรูปแบบข้อมูล"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_fm_d_id}
-              allowClear
-            >
-              {selectOptions_fm_d}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_prob_id"
-            label="รหัสการจัดการ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_prob_id}
-              allowClear
-            >
-              {selectOptions_prob}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_scop_pub"
-            label="ขอบเขตการเผยแพร"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_num_mem_med"
-            label="จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_date_med"
-            label="วันที่ในสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <Form.Item
-            name="dnc_capt"
-            label="ภาพ capture"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_link"
-            label="Link URL"
+            name="detail_name"
+            label="ขอบเขตการเผยแพร่"
             rules={[
               {
                 required: true,
@@ -572,158 +294,20 @@ const MC_DetailsNotiChannels = () => {
       </Modal>
 
       <Modal
-        title="แก้ไขช่องทางสื่อ"
-        open={modalVisible}
-        onCancel={() => setModalVisible(false)}
+        title="แก้ไขรูปแบบข้อมูล"
+        open={!!editRecord}
+        onCancel={cancelEdit}
         footer={null}
       >
         <Form
           form={form}
           layout="vertical"
           name="member_form"
-          onFinish={onFinish}
+          onFinish={(values) => onFinishEdit(values, editRecord.id)}
         >
           <Form.Item
-            name="dnc_med_id"
-            label="ช่องทางสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_med_id}
-              allowClear
-            >
-              {selectOptions_med}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_info_id"
-            label="รหัสการแจ้ง"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_info_id}
-              allowClear
-            >
-              {selectOptions_info}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_pub_id"
-            label="รหัสผู้เผยแพร"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_pub_id}
-              allowClear
-            >
-              {selectOptions_pub}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_fm_d_id"
-            label="รหัสรูปแบบข้อมูล"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_fm_d_id}
-              allowClear
-            >
-              {selectOptions_fm_d}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_prob_id"
-            label="รหัสการจัดการ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Select
-              placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_prob_id}
-              allowClear
-            >
-              {selectOptions_prob}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="dnc_scop_pub"
-            label="ขอบเขตการเผยแพร"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_num_mem_med"
-            label="จำนวนสมาชิกในกลุ่มที่อยู่ในสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_date_med"
-            label="วันที่ในสื่อ"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <DatePicker />
-          </Form.Item>
-          <Form.Item
-            name="dnc_capt"
-            label="ภาพ capture"
-            rules={[
-              {
-                required: true,
-                message: "Please input the title of collection!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="dnc_link"
-            label="Link URL"
+            name="detail_name"
+            label="ขอบเขตการเผยแพร่"
             rules={[
               {
                 required: true,

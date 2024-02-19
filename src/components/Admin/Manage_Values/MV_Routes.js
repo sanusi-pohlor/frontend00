@@ -11,6 +11,7 @@ import MC_DetailsNotiChannels from "./MC_DetailsNotiChannels";
 import MC_DataCharacteristics from "./MC_DataCharacteristics";
 import MC_CheckingData from "./MC_CheckingData";
 import MC_ActionType from "./MC_ActionType";
+import MC_About from "./MC_About";
 import AdminMenu from "../Adm_Menu";
 import { Card } from "antd";
 
@@ -67,8 +68,13 @@ const items = [
   },
   {
     key: "11",
-    label: "รายละเอียดช่องทางการแจ้ง",
+    label: "ขอบเขตการเผยแพร่",
     children: <MC_DetailsNotiChannels />,
+  },
+  {
+    key: "12",
+    label: "เกี่บวกับ",
+    children: <MC_About />,
   },
 ];
 const ManageValues = () => (

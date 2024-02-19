@@ -35,7 +35,7 @@ function Menu_Navbar() {
   const [loginVisible, setLoginVisible] = useState(false);
   const Navigate = useNavigate();
   const theme = useTheme();
-  const isMobileScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -126,21 +126,21 @@ function Menu_Navbar() {
   };
   const pages = user
     ? [
-      { label: "หน้าหลัก", link: "/" },
-      { label: "ข่าวสาร", link: "/News_Menu" },
-      { label: "บทความ", link: "/Article_Menu" },
-      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-      { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
-      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-    ]
+        { label: "หน้าหลัก", link: "/" },
+        { label: "ข่าวสาร", link: "/News_Menu" },
+        { label: "บทความ", link: "/Article_Menu" },
+        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+        { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+      ]
     : [
-      { label: "หน้าหลัก", link: "/" },
-      { label: "ข่าวสาร", link: "/News_Menu" },
-      { label: "บทความ", link: "/Article_Menu" },
-      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-      { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
-      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-    ];
+        { label: "หน้าหลัก", link: "/" },
+        { label: "ข่าวสาร", link: "/News_Menu" },
+        { label: "บทความ", link: "/Article_Menu" },
+        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+        { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
+        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+      ];
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -192,19 +192,22 @@ function Menu_Navbar() {
             />
           )}
           <div style={{ margin: "15px" }}></div>
-          <Typography variant="h6" style={{
-            flexGrow: 1,
-            marginRight: "5px",
-            fontFamily: "'Th Sarabun New', sans-serif",
-            fontWeight: "bold",
-            letterSpacing: ".1rem",
-            color: "gray",
-            fontSize: "250%",
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-          }}>
-            <Link to={`/`} style={{ textDecoration: 'none', color: '#7BBD8F' }}>
+          <Typography
+            variant="h6"
+            style={{
+              flexGrow: 1,
+              marginRight: "5px",
+              fontFamily: "'Th Sarabun New', sans-serif",
+              fontWeight: "bold",
+              letterSpacing: ".1rem",
+              color: "gray",
+              fontSize: "250%",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
               รู้เท่า ทันสื่อ - Check ก่อน
             </Link>
           </Typography>

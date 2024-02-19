@@ -870,6 +870,49 @@ const ManageValues = () => {
       },
     },
   ];
+  const columns14 = [
+    {
+      title: "รหัสผู้เผยแพร่",
+      dataIndex: "age",
+      width: "20%",
+      editable: true,
+    },
+    {
+      title: "ชื่อผู้เผยแพร",
+      dataIndex: "name",
+      width: "60%",
+      editable: true,
+    },
+    {
+      title: "operation",
+      dataIndex: "operation",
+      render: (_, record) => {
+        const editable = isEditing(record);
+        return editable ? (
+          <span>
+            <Typography.Link
+              onClick={() => save(record.key)}
+              style={{
+                marginRight: 8,
+              }}
+            >
+              Save
+            </Typography.Link>
+            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
+              <a>Cancel</a>
+            </Popconfirm>
+          </span>
+        ) : (
+          <Typography.Link
+            disabled={editingKey !== ""}
+            onClick={() => edit(record)}
+          >
+            Edit
+          </Typography.Link>
+        );
+      },
+    },
+  ];
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label} {text}
@@ -889,6 +932,7 @@ const ManageValues = () => {
     columns11,
     columns12,
     columns13,
+    columns14,
   ];
   const items = columnSets.map((columns, index) => ({
     key: (index + 1).toString(),
@@ -906,6 +950,7 @@ const ManageValues = () => {
       "รายละเอียดช่องทางการแจ้ง",
       "การแจ้งข้อมูลที่เป็นเท็จ",
       "สมาชิกอาสา",
+      "เกี่ยงกับ",
     ][index],
     children: (
       <div>

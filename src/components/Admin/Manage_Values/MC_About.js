@@ -26,7 +26,7 @@ import {
 } from "@mui/material";
 const rowsPerPageOptions = [10];
 
-const MC_FormatData = () => {
+const MC_About = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
@@ -56,7 +56,7 @@ const MC_FormatData = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/FormatData_request"
+        "https://checkkonproject-sub.com/api/About_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -77,10 +77,10 @@ const MC_FormatData = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("fm_d_name", values.fm_d_name);
+      formData.append("about_name", values.about_name);
       console.log(formData);
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/FormatData_upload",
+        "https://checkkonproject-sub.com/api/About_upload",
         {
           method: "POST",
           body: formData,
@@ -105,10 +105,10 @@ const MC_FormatData = () => {
     setLoading(true);
     try {
       const formData = new FormData();
-      formData.append("fm_d_name", values.fm_d_name);
+      formData.append("about_name", values.about_name);
 
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/FormatData_update/${id}`,
+        `https://checkkonproject-sub.com/api/About_update/${id}`,
         {
           method: "POST",
           body: formData,
@@ -134,14 +134,14 @@ const MC_FormatData = () => {
 
   const editRow = (record) => {
     form.setFieldsValue({
-      fm_d_name: record.fm_d_name,
+        about_name: record.about_name,
     });
     setEditingKey(record.id);
     setEditRecord(record);
   };
   const add = () => {
     form.setFieldsValue({
-      fm_d_name: null,
+        about_name: null,
     });
   };
 
@@ -152,12 +152,12 @@ const MC_FormatData = () => {
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_fm_d === id);
+      const filteredItems = fakeNewsInfo.filter((item) => item.mfi_con_about === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/FormatData_delete/${id}`,
+          `https://checkkonproject-sub.com/api/About_delete/${id}`,
           {
             method: "DELETE",
           }
@@ -165,7 +165,7 @@ const MC_FormatData = () => {
         const responseData = await response.json();
 
         if (response.ok) {
-          console.log("FormatData deleted successfully");
+          console.log("About deleted successfully");
           fetchData();
         } else {
           console.error("Error deleting item:", responseData);
@@ -183,8 +183,8 @@ const MC_FormatData = () => {
       render: (text, record, index) => data.indexOf(record) + 1,
     },
     {
-      title: "ชื่อรูปแบบข้อมูล",
-      dataIndex: "fm_d_name",
+      title: "ชื่อเกี่ยวกับ",
+      dataIndex: "about_name",
       width: "60%",
       editable: true,
     },
@@ -244,7 +244,7 @@ const MC_FormatData = () => {
     <div>
       <Card className="cardsection">
         <div className="cardsectionContent">
-          จัดการรูปแบบข้อมูล
+          จัดการเกี่ยวกับ
           <Button
             className="buttonfilterStyle"
             type="primary"
@@ -255,13 +255,13 @@ const MC_FormatData = () => {
             }}
             style={{ marginBottom: 16 }}
           >
-            เพิ่มรูปแบบข้อมูล
+            เพิ่มเกี่ยวกับ
           </Button>
         </div>
       </Card>
       <br />
       <Modal
-        title="เพิ่มรูปแบบข้อมูล"
+        title="เพิ่มเกี่ยวกับ"
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -273,8 +273,8 @@ const MC_FormatData = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="fm_d_name"
-            label="ชื่อรูปแบบข้อมูล"
+            name="about_name"
+            label="ชื่อเกี่ยวกับ"
             rules={[
               {
                 required: true,
@@ -293,7 +293,7 @@ const MC_FormatData = () => {
       </Modal>
 
       <Modal
-        title="แก้ไขรูปแบบข้อมูล"
+        title="แก้ไขเกี่ยวกับ"
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -305,8 +305,8 @@ const MC_FormatData = () => {
           onFinish={(values) => onFinishEdit(values, editRecord.id)}
         >
           <Form.Item
-            name="fm_d_name"
-            label="ชื่อรูปแบบข้อมูล"
+            name="about_name"
+            label="ชื่อเกี่ยวกับ"
             rules={[
               {
                 required: true,
@@ -384,4 +384,4 @@ const MC_FormatData = () => {
     </div>
   );
 };
-export default MC_FormatData;
+export default MC_About;

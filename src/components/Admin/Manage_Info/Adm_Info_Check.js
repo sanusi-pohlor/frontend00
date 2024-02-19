@@ -22,45 +22,45 @@ const Adm_Info_Check = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
-  const [data, setData] = useState([]);
-  const [editingKey, setEditingKey] = useState("");
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_check_d, setSelectOptions_check_d] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
+  const [selectOptions_about, setSelectOptions_About] = useState([]);
   const [info_source, setInfo_source] = useState(null);
   const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
-  const fetchTag = async () => {
+  const handleTagCreation = async (value) => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request"
+        "https://checkkonproject-sub.com/api/Tags_upload",
+        {
+          method: "POST",
+          body: JSON.stringify({ tag_name: value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       if (response.ok) {
         const data = await response.json();
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          //value: item.tag_name,
-        }));
-        setOptions(formattedOptions);
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          { label: data.tag_name, value: data.tag_name },
+        ]);
       } else {
-        console.error("Tag data retrieval failed");
+        console.error("Error adding tag:", response.statusText);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error adding tag:", error);
     }
   };
-  useEffect(() => {
-    fetchTag();
-  }, []);
 
   const fetchUserInfo = async () => {
     try {
@@ -82,28 +82,6 @@ const Adm_Info_Check = () => {
     fetchUserInfo();
   }, []);
 
-  const handleTagCreation = async (value) => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_upload",
-        {
-          method: "POST",
-          body: JSON.stringify({ tag_name: value }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
-      } else {
-        console.error("Error adding tag:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error adding tag:", error);
-    }
-  };
   const fetchInfo_source = async () => {
     try {
       const response = await fetch(
@@ -156,25 +134,6 @@ const Adm_Info_Check = () => {
     return user ? `${user.username} ${user.lastName}` : "";
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   useEffect(() => {
     const fetchProvince = async () => {
       try {
@@ -215,7 +174,7 @@ const Adm_Info_Check = () => {
       formData.append("mfi_publ", values.mfi_publ);
       formData.append("mfi_ty_info", values.mfi_ty_info);
       formData.append("mfi_only_cv", values.mfi_only_cv);
-      //formData.append("mfi_con_about", values.mfi_con_about);
+      formData.append("mfi_con_about", values.mfi_con_about);
       formData.append("mfi_moti", values.mfi_moti);
       formData.append("mfi_iteration", values.mfi_iteration);
       formData.append("mfi_che_d", values.mfi_che_d);
@@ -234,7 +193,6 @@ const Adm_Info_Check = () => {
         console.log("Form data sent successfully");
         message.success("Form data sent successfully");
         form.resetFields();
-        fetchData();
         handleConfirm();
         navigate("/Admin/Manage_Fake_Info_Menu");
       } else {
@@ -313,9 +271,6 @@ const Adm_Info_Check = () => {
 
     return source.med_c_name;
   };
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
 
   const onChange_mfi_che_d_id = async () => {
     try {
@@ -329,13 +284,6 @@ const Adm_Info_Check = () => {
             {code.che_d_format}
           </Option>
         ));
-        // form.setFieldsValue({ che_d_format: undefined });
-        // form.setFields([
-        //   {
-        //     name: che_d_format,
-        //     value: undefined,
-        //   },
-        // ]);
         setSelectOptions_check_d(options);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -343,21 +291,6 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-  const onChange_mfi_med_c_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-
-  const onChange_mfi_c_info_id = () => {
-    fetchDataAndSetOptions(
-      "Motivation_request",
-      "c_info",
-      setSelectOptions_c_info
-    );
   };
 
   const onChange_mfi_fm_d_id = () => {
@@ -367,7 +300,7 @@ const Adm_Info_Check = () => {
   const onChange_mfi_dis_c_id = () => {
     fetchDataAndSetOptions(
       "DetailsNotiChannels_request",
-      "dnc_scop",
+      "detail",
       setSelectOptions_dis
     );
   };
@@ -397,9 +330,33 @@ const Adm_Info_Check = () => {
       setSelectOptions_med
     );
   };
+  const onChange_mfi_con_about_id = () => {
+    fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
+  };
+
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
 
   useEffect(() => {
-    onChange_mfi_c_info_id();
+    onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
     onChange_mfi_dis_c_id();
     onChange_mfi_ty_info_id();
@@ -407,6 +364,7 @@ const Adm_Info_Check = () => {
     onChange_mfi_data_cha_id();
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
+    onChange_Tags();
   }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
@@ -637,11 +595,11 @@ const Adm_Info_Check = () => {
             </Form.Item>
             <Form.Item
               name="mfi_dis_c"
-              label={createTypography("ช่องทางการเผยแพร่")}
+              label={createTypography("ขอบเขตการเผยแพร่")}
               rules={[
                 {
                   required: false,
-                  message: "กรุณาเพิ่มช่องทางการเผยแพร่!",
+                  message: "กรุณาเพิ่มขอบเขตการเผยแพร่!",
                 },
               ]}
               style={{
@@ -799,7 +757,7 @@ const Adm_Info_Check = () => {
               </Select>
             </Form.Item>
             <Form.Item
-              name="mfi_data_cha"
+              name="mfi_con_about"
               label={createTypography("เกี่ยวกับ")}
               rules={[
                 {
@@ -814,11 +772,11 @@ const Adm_Info_Check = () => {
               }}
             >
               <Select
-                onChange={onChange_mfi_data_cha_id}
+                onChange={onChange_mfi_con_about_id}
                 allowClear
                 style={{ width: "100%" }}
               >
-                {selectOptions_data}
+                {selectOptions_about}
               </Select>
             </Form.Item>
             <Form.Item
@@ -837,14 +795,17 @@ const Adm_Info_Check = () => {
             >
               <Select
                 mode="tags"
-                style={{ width: "100%" }}
+                size="large"
+                onChange={onChange_Tags}
                 onSearch={(value) => {
                   if (Array.isArray(options)) {
                     handleTagCreation(value);
                   }
                 }}
-                options={options}
-              />
+                allowClear
+              >
+                {selectOptions_tags}
+              </Select>
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit" className="form-button">

@@ -25,48 +25,41 @@ const Manage_Fake_Info_Edit = () => {
   const [data, setData] = useState([]);
   const [selectOptions_check_d, setSelectOptions_check_d] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [selectOptions_c_info, setSelectOptions_c_info] = useState([]);
   const [selectOptions_fm, setSelectOptions_fm] = useState([]);
   const [selectOptions_dis, setSelectOptions_dis] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
+  const [selectOptions_tags, setSelectOptions_tags] = useState([]);
+  const [selectOptions_about, setSelectOptions_About] = useState([]);
   const [info_source, setInfo_source] = useState(null);
   const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
-  useEffect(() => {
-    onChange_mfi_c_info_id();
-    onChange_mfi_fm_d_id();
-    onChange_mfi_dis_c_id();
-    onChange_mfi_ty_info_id();
-    onChange_mfi_moti_id();
-    onChange_mfi_data_cha_id();
-    onChange_dnc_med_id();
-    onChange_mfi_che_d_id();
-    fetchTag();
-    fetchUserInfo();
-    fetchInfo_source();
-  }, []);
-
-  const fetchTag = async () => {
+  const handleTagCreation = async (value) => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request"
+        "https://checkkonproject-sub.com/api/Tags_upload",
+        {
+          method: "POST",
+          body: JSON.stringify({ tag_name: value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
       );
       if (response.ok) {
         const data = await response.json();
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          //value: item.tag_name,
-        }));
-        setOptions(formattedOptions);
+        setOptions((prevOptions) => [
+          ...prevOptions,
+          { label: data.tag_name, value: data.tag_name },
+        ]);
       } else {
-        console.error("Tag data retrieval failed");
+        console.error("Error adding tag:", response.statusText);
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error adding tag:", error);
     }
   };
 
@@ -86,28 +79,6 @@ const Manage_Fake_Info_Edit = () => {
     }
   };
 
-  const handleTagCreation = async (value) => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_upload",
-        {
-          method: "POST",
-          body: JSON.stringify({ tag_name: value }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
-      } else {
-        console.error("Error adding tag:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error adding tag:", error);
-    }
-  };
   const fetchInfo_source = async () => {
     try {
       const response = await fetch(
@@ -123,7 +94,6 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
 
   const fetchFakeNewsInfo = async () => {
     try {
@@ -224,6 +194,7 @@ const Manage_Fake_Info_Edit = () => {
         mfi_data_cha: data.mfi_data_cha,
         mfi_fninfo: data.mfi_fninfo,
         mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
+        mfi_con_about: data.mfi_con_about,
         mfi_tag: data.mfi_tag,
       });
     } catch (error) {
@@ -240,14 +211,7 @@ const Manage_Fake_Info_Edit = () => {
           formData.append(fieldName, value);
         }
       };
-      //formData.append("mfi_time", fakeNewsInfo.created_at);
-      //formData.append("mfi_province", fakeNewsInfo.fn_info_province);
-      //formData.append("mfi_mem", fakeNewsInfo.fn_info_nameid);
-      //formData.append("mfi_med_c", fakeNewsInfo.fn_info_source);
-      //formData.append("mfi_img", fakeNewsInfo.fn_info_image);
-      //formData.append("mfi_link", fakeNewsInfo.fn_info_link);
       appendIfDefined("mfi_c_info", values.mfi_c_info);
-      // //formData.append("mfi_num_mem", fakeNewsInfo.fn_info_num_mem);
       appendIfDefined("mfi_agency", values.mfi_agency);
       appendIfDefined("mfi_d_topic", values.mfi_d_topic);
       appendIfDefined("mfi_fm_d", values.mfi_fm_d);
@@ -258,12 +222,11 @@ const Manage_Fake_Info_Edit = () => {
       if (values.mfi_only_cv !== mfi_only_cv) {
         formData.append("mfi_only_cv", values.mfi_only_cv);
       }
-      //formData.append("mfi_con_about", values.mfi_con_about);
+      appendIfDefined("mfi_con_about", values.mfi_con_about);
       appendIfDefined("mfi_moti", values.mfi_moti);
       appendIfDefined("mfi_iteration", values.mfi_iteration);
       appendIfDefined("mfi_che_d", values.mfi_che_d);
       appendIfDefined("mfi_data_cha", values.mfi_data_cha);
-      // appendIfDefined("mfi_fninfo", parseInt(id, 10));
       const mfi_results = data.mfi_results === 1 ? "จริง" : "เท็จ";
       if (values.mfi_results !== mfi_results) {
         formData.append("mfi_results", values.mfi_results);
@@ -329,13 +292,6 @@ const Manage_Fake_Info_Edit = () => {
             {code[`${fieldName}_name`]}
           </Option>
         ));
-        // form.setFieldsValue({ [fieldName]: undefined });
-        // form.setFields([
-        //   {
-        //     name: fieldName,
-        //     value: undefined,
-        //   },
-        // ]);
         stateSetter(options);
       } else {
         console.error(
@@ -356,15 +312,6 @@ const Manage_Fake_Info_Edit = () => {
     );
 
     return source.med_c_name;
-
-  };
-
-  const onChange_mfi_c_info_id = () => {
-    fetchDataAndSetOptions(
-      "Motivation_request",
-      "c_info",
-      setSelectOptions_c_info
-    );
   };
 
   const onChange_mfi_fm_d_id = () => {
@@ -374,7 +321,7 @@ const Manage_Fake_Info_Edit = () => {
   const onChange_mfi_dis_c_id = () => {
     fetchDataAndSetOptions(
       "DetailsNotiChannels_request",
-      "dnc_scop",
+      "detail",
       setSelectOptions_dis
     );
   };
@@ -404,7 +351,9 @@ const Manage_Fake_Info_Edit = () => {
       setSelectOptions_med
     );
   };
-
+  const onChange_mfi_con_about_id = () => {
+    fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
+  };
 
   const onChange_mfi_che_d_id = async () => {
     try {
@@ -418,13 +367,6 @@ const Manage_Fake_Info_Edit = () => {
             {code.che_d_format}
           </Option>
         ));
-        // form.setFieldsValue({ [fieldName]: undefined });
-        // form.setFields([
-        //   {
-        //     name: fieldName,
-        //     value: undefined,
-        //   },
-        // ]);
         setSelectOptions_check_d(options);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -433,6 +375,41 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching data:", error);
     }
   };
+
+  const onChange_Tags = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`tag_name`]}>
+            {code[`tag_name`]}
+          </Option>
+        ));
+        setSelectOptions_tags(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
+
+  useEffect(() => {
+    onChange_mfi_con_about_id();
+    onChange_mfi_fm_d_id();
+    onChange_mfi_dis_c_id();
+    onChange_mfi_ty_info_id();
+    onChange_mfi_moti_id();
+    onChange_mfi_data_cha_id();
+    onChange_dnc_med_id();
+    onChange_mfi_che_d_id();
+    onChange_Tags();
+    fetchUserInfo();
+    fetchInfo_source();
+  }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -483,7 +460,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -544,15 +521,15 @@ const Manage_Fake_Info_Edit = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "processing"
-                  : "success"
+                ? "processing"
+                : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "กำลังตรวจสอบ"
-                  : "ตรวจสอบแล้ว"
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -661,11 +638,11 @@ const Manage_Fake_Info_Edit = () => {
           </Form.Item>
           <Form.Item
             name="mfi_dis_c"
-            label={createTypography("ช่องทางการเผยแพร่")}
+            label={createTypography("ขอบเขตการเผยแพร่")}
             rules={[
               {
                 required: false,
-                message: "กรุณาเพิ่มช่องทางการเผยแพร่!",
+                message: "กรุณาเพิ่มขอบเขตการเผยแพร่!",
               },
             ]}
             style={{
@@ -823,7 +800,7 @@ const Manage_Fake_Info_Edit = () => {
             </Select>
           </Form.Item>
           <Form.Item
-            name="mfi_data_cha"
+            name="mfi_con_about"
             label={createTypography("เกี่ยวกับ")}
             rules={[
               {
@@ -838,11 +815,11 @@ const Manage_Fake_Info_Edit = () => {
             }}
           >
             <Select
-              onChange={onChange_mfi_data_cha_id}
+              onChange={onChange_mfi_con_about_id}
               allowClear
               style={{ width: "100%" }}
             >
-              {selectOptions_data}
+              {selectOptions_about}
             </Select>
           </Form.Item>
           <Form.Item
@@ -861,14 +838,17 @@ const Manage_Fake_Info_Edit = () => {
           >
             <Select
               mode="tags"
-              style={{ width: "100%" }}
+              size="large"
+              onChange={onChange_Tags}
               onSearch={(value) => {
                 if (Array.isArray(options)) {
                   handleTagCreation(value);
                 }
               }}
-              options={options}
-            />
+              allowClear
+            >
+              {selectOptions_tags}
+            </Select>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" className="form-button">
