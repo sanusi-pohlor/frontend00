@@ -34,7 +34,6 @@ const MC_Subpoint = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [editRecord, setEditRecord] = useState(null);
@@ -56,33 +55,36 @@ const MC_Subpoint = () => {
     }
   };
 
-  const onTypeChange = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/TypeInformation_request"
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code.id} value={code.id}>
-            {code.type_info_name}
-          </Option>
-        ));
-        form.setFieldsValue({ type_info_name: undefined });
-        form.setFields([
-          {
-            name: "type_info_name",
-            value: undefined,
-          },
-        ]);
-        setSelectOptions(options);
-      } else {
-        console.error("Error fetching type codes:", response.statusText);
+  useEffect(() => {
+    const onTypeChange = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/TypeInformation_request"
+        );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code.id} value={code.id}>
+              {code.type_info_name}
+            </Option>
+          ));
+          form.setFieldsValue({ type_info_name: undefined });
+          form.setFields([
+            {
+              name: "type_info_name",
+              value: undefined,
+            },
+          ]);
+          setSelectOptions(options);
+        } else {
+          console.error("Error fetching type codes:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching type codes:", error);
       }
-    } catch (error) {
-      console.error("Error fetching type codes:", error);
-    }
-  };
+    };
+    onTypeChange();
+  }, [form]);
 
   const fetchData = async () => {
     try {
@@ -102,11 +104,9 @@ const MC_Subpoint = () => {
   useEffect(() => {
     fetchData();
     fetchFakeNewsInfo();
-    onTypeChange();
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("subp_type_id", values.subp_type_id);
@@ -128,13 +128,10 @@ const MC_Subpoint = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
 
   const onFinishEdit = async (values, id) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("subp_type_id", values.subp_type_id);
@@ -157,8 +154,6 @@ const MC_Subpoint = () => {
     } catch (error) {
       console.error("Error updating form data:", error);
       message.error("Error updating form data");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -327,11 +322,7 @@ const MC_Subpoint = () => {
               },
             ]}
           >
-            <Select
-              placeholder="เลือกประเภท"
-              onChange={onTypeChange}
-              allowClear
-            >
+            <Select placeholder="เลือกประเภท" allowClear>
               {selectOptions}
             </Select>
           </Form.Item>
@@ -379,7 +370,6 @@ const MC_Subpoint = () => {
           >
             <Select
               placeholder="Select a option and change input text above"
-              onChange={onTypeChange}
               allowClear
             >
               {selectOptions}

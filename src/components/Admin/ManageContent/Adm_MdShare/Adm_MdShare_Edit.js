@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -32,33 +32,31 @@ const Adm_MdShare_Edit = () => {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    fetchFakeNewsData();
-  }, [id]);
-
-  const fetchFakeNewsData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-        form.setFieldsValue({
-          title: data.title,
-          type_new: data.type_new,
-          med_new: data.med_new,
-          prov_new: data.prov_new,
-          key_new: data.key_new,
-        });
-        setDetails(data.details);
-      } else {
-        console.error("Invalid date received from the server");
+    const fetchFakeNewsData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+          form.setFieldsValue({
+            title: data.title,
+            type_new: data.type_new,
+            med_new: data.med_new,
+            prov_new: data.prov_new,
+            key_new: data.key_new,
+          });
+          setDetails(data.details);
+        } else {
+          console.error("Invalid date received from the server");
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
+    };
+    fetchFakeNewsData();
+  }, [id,form]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -207,56 +205,61 @@ const Adm_MdShare_Edit = () => {
     }
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
+  const fetchDataAndSetOptions = useCallback(
+    async (endpoint, fieldName, stateSetter) => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
         );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              {code[`${fieldName}_name`]}
+            </Option>
+          ));
+          form.setFieldsValue({ [fieldName]: undefined });
+          form.setFields([
+            {
+              name: fieldName,
+              value: undefined,
+            },
+          ]);
+          stateSetter(options);
+        } else {
+          console.error(
+            `Error fetching ${fieldName} codes:`,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error(`Error fetching ${fieldName} codes:`, error);
       }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
+    },
+    [form]
+  );
 
-  const onChange_mfi_ty_info_id = () => {
+  const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
       "type_info",
       setSelectOptions_ty
     );
-  };
-  const onChange_dnc_med_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+
+  const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
       "med_c",
       setSelectOptions_med
     );
-  };
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
 
-  const onChange_Tags = async () => {
+  const onChange_mfi_province = useCallback(() => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+
+  const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
@@ -275,14 +278,19 @@ const Adm_MdShare_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
+  }, [setSelectOptions_tags]);
 
   useEffect(() => {
-    onChange_mfi_province();
-    onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_dnc_med_id();
+    onChange_mfi_province();
     onChange_Tags();
-  }, []);
+  }, [
+    onChange_mfi_ty_info_id,
+    onChange_dnc_med_id,
+    onChange_mfi_province,
+    onChange_Tags,
+  ]);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

@@ -329,7 +329,7 @@ const M_DB_Adm_Menu = () => {
       setChartData2(data[1]);
       setChartData3(data[2]);
     });
-  }, []);
+  }, [options]);
 
   const validData = data.filter(
     (item) => item.created_at && Date.parse(item.created_at)
@@ -340,20 +340,12 @@ const M_DB_Adm_Menu = () => {
     console.error("No valid date data found.");
     return null;
   }
-
-  const oldestDate = dateObjects.reduce(
-    (minDate, currentDate) => (currentDate < minDate ? currentDate : minDate),
-    dateObjects[0]
-  );
   const newestDate = dateObjects.reduce(
     (maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate),
     dateObjects[0]
   );
   const oldestMonthYear = moment().format("Do MMMM YYYY");
   const newestMonthYear = moment(newestDate).format("LLLL yyyy");
-  const newestMonthYearThai = moment(newestDate)
-    .locale(thaiLocale)
-    .format("LLLL yyyy");
 
   return (
     <AdminMenu>

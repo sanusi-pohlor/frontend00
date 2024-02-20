@@ -19,7 +19,6 @@ const ManageMembers = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [data, setData] = useState([]);
-  const [editingKey, setEditingKey] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
@@ -115,7 +114,6 @@ const ManageMembers = () => {
     Province();
   }, [data]);
 
-  const isEditing = (record) => record.key === editingKey;
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -124,6 +122,8 @@ const ManageMembers = () => {
         return "กำลังตรวจสอบ";
       case 2:
         return "ตรวจสอบเสร็จสิ้น";
+      default:
+        return "ไม่พบสถานะ";
     }
   };
 
@@ -267,7 +267,6 @@ const ManageMembers = () => {
         inputType: col.dataIndex === "vol_mem_id" ? "number" : "text",
         dataIndex: col.dataIndex,
         title: col.title,
-        editing: isEditing(record),
       }),
     };
   });

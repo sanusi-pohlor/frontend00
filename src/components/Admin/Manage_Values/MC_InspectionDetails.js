@@ -51,7 +51,6 @@ const EditableCell = ({
 const MC_InspectionDetails = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectOptions, setSelectOptions] = useState([]);
@@ -76,7 +75,6 @@ const MC_InspectionDetails = () => {
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("subp_type_id", values.subp_type_id);
@@ -88,17 +86,15 @@ const MC_InspectionDetails = () => {
           body: formData,
         }
       );
-
       if (response.ok) {
         message.success("Form data sent successfully");
+        fetchData();
       } else {
         message.error("Error sending form data");
       }
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
   const isEditing = (record) => record.key === editingKey;

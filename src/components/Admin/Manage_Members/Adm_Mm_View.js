@@ -9,6 +9,7 @@ const Adm_Mm_View = () => {
   const [user, setUser] = useState(null);
   const [province, setProvince] = useState([]);
 
+  useEffect(() => {
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -24,9 +25,8 @@ const Adm_Mm_View = () => {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchProvince = async () => {

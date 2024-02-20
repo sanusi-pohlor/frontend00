@@ -52,7 +52,6 @@ const EditableCell = ({
 const MC_Information = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [selectOptions_subp, setSelectOptions_subp] = useState([]);
@@ -80,7 +79,6 @@ const MC_Information = () => {
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("info_subp_id", values.info_subp_id);
@@ -109,8 +107,6 @@ const MC_Information = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
   const isEditing = (record) => record.key === editingKey;

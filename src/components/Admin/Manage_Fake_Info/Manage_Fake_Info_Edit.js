@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState } from "react";
 import {
   Badge,
   Form,
@@ -37,53 +37,53 @@ const Manage_Fake_Info_Edit = () => {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
-  const fetchManage_Fake_Info_Edit = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-        form.setFieldsValue({
-          mfi_time: data.mfi_time
-            ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY")
-            : "ไม่มีการประทับเวลา",
-          mfi_province: data.mfi_province,
-          mfi_mem: data.mfi_mem,
-          mfi_med_c: data.mfi_med_c,
-          mfi_img: data.mfi_img,
-          mfi_link: data.mfi_link,
-          mfi_c_info: data.mfi_c_info,
-          mfi_num_mem: data.mfi_num_mem,
-          mfi_agency: data.mfi_agency,
-          mfi_d_topic: data.mfi_d_topic,
-          mfi_fm_d: data.mfi_fm_d,
-          mfi_dis_c: data.mfi_dis_c,
-          mfi_publ: data.mfi_publ,
-          mfi_ty_info: data.mfi_ty_info,
-          mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
-          mfi_moti: data.mfi_moti,
-          mfi_iteration: data.mfi_iteration,
-          mfi_che_d: data.mfi_che_d,
-          mfi_data_cha: data.mfi_data_cha,
-          mfi_fninfo: data.mfi_fninfo,
-          mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
-          mfi_con_about: data.mfi_con_about,
-          mfi_tag: data.mfi_tag,
-        });
-      } else {
-        console.error("Invalid data received from the server");
-        return;
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
   useEffect(() => {
+    const fetchManage_Fake_Info_Edit = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+          form.setFieldsValue({
+            mfi_time: data.mfi_time
+              ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY")
+              : "ไม่มีการประทับเวลา",
+            mfi_province: data.mfi_province,
+            mfi_mem: data.mfi_mem,
+            mfi_med_c: data.mfi_med_c,
+            mfi_img: data.mfi_img,
+            mfi_link: data.mfi_link,
+            mfi_c_info: data.mfi_c_info,
+            mfi_num_mem: data.mfi_num_mem,
+            mfi_agency: data.mfi_agency,
+            mfi_d_topic: data.mfi_d_topic,
+            mfi_fm_d: data.mfi_fm_d,
+            mfi_dis_c: data.mfi_dis_c,
+            mfi_publ: data.mfi_publ,
+            mfi_ty_info: data.mfi_ty_info,
+            mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
+            mfi_moti: data.mfi_moti,
+            mfi_iteration: data.mfi_iteration,
+            mfi_che_d: data.mfi_che_d,
+            mfi_data_cha: data.mfi_data_cha,
+            mfi_fninfo: data.mfi_fninfo,
+            mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
+            mfi_con_about: data.mfi_con_about,
+            mfi_tag: data.mfi_tag,
+          });
+        } else {
+          console.error("Invalid data received from the server");
+          return;
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
     fetchManage_Fake_Info_Edit();
-  }, [id]);
+  }, [id, form]);
 
   const handleTagCreation = async (value) => {
     try {
@@ -126,7 +126,10 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
+  useEffect(() => {
+    fetchUserInfo();
+  }, []);
+  
   const fetchInfo_source = async () => {
     try {
       const response = await fetch(
@@ -142,26 +145,29 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching user data:", error);
     }
   };
+  useEffect(() => {
+    fetchInfo_source();
+  }, []);
 
-  const fetchFakeNewsInfo = async () => {
+  const fetchFakeNewsInfo = useCallback(async () => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data[0].mfi_fninfo}`
       );
       if (response.ok) {
-        const data = await response.json();
-        setFakeNewsInfo(data);
+        const responseData = await response.json();
+        setFakeNewsInfo(responseData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
+  }, [data]);
+  
   useEffect(() => {
     fetchFakeNewsInfo();
-  }, [data]);
+  }, [fetchFakeNewsInfo, data]);
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
@@ -200,10 +206,6 @@ const Manage_Fake_Info_Edit = () => {
       fetchProvince();
     }
   }, [fakeNewsInfo]);
-
-
-
-
 
   const onFinish = async (values) => {
     try {
@@ -282,26 +284,6 @@ const Manage_Fake_Info_Edit = () => {
     }
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        stateSetter(options);
-      } else {
-        console.error("data failed");
-      }
-    } catch (error) {
-      console.error("data failed");
-    }
-  };
   const renderReporter_fn_info_source = () => {
     if (!info_source) {
       return null;
@@ -313,52 +295,35 @@ const Manage_Fake_Info_Edit = () => {
     return source.med_c_name;
   };
 
-  const onChange_mfi_fm_d_id = () => {
-    fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  };
-
-  const onChange_mfi_dis_c_id = () => {
-    fetchDataAndSetOptions(
-      "DetailsNotiChannels_request",
-      "detail",
-      setSelectOptions_dis
-    );
-  };
-  const onChange_mfi_ty_info_id = () => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_ty
-    );
-  };
-
-  const onChange_mfi_moti_id = () => {
-    fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  };
-
-  const onChange_mfi_data_cha_id = () => {
-    fetchDataAndSetOptions(
-      "DataCharacteristics_request",
-      "data_cha",
-      setSelectOptions_data
-    );
-  };
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-  const onChange_mfi_con_about_id = () => {
-    fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
-  };
-
-  const onChange_mfi_che_d_id = async () => {
+  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/CheckingData_request"
-      );
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`id`]}>
+            {code[`${fieldName}_name`]}
+          </Option>
+        ));
+        form.setFieldsValue({ [fieldName]: undefined });
+        form.setFields([
+          {
+            name: fieldName,
+            value: undefined,
+          },
+        ]);
+        stateSetter(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  }, [form]);
+  
+  const onChange_mfi_che_d_id = useCallback(async () => {
+    try {
+      const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -373,13 +338,39 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
-  const onChange_Tags = async () => {
+  }, [setSelectOptions_check_d]);
+  
+  const onChange_mfi_fm_d_id = useCallback(() => {
+    fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
+  }, [fetchDataAndSetOptions, setSelectOptions_fm]);
+  
+  const onChange_mfi_dis_c_id = useCallback(() => {
+    fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
+  }, [fetchDataAndSetOptions, setSelectOptions_dis]);
+  
+  const onChange_mfi_ty_info_id = useCallback(() => {
+    fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  
+  const onChange_mfi_moti_id = useCallback(() => {
+    fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
+  }, [fetchDataAndSetOptions, setSelectOptions_moti]);
+  
+  const onChange_mfi_data_cha_id = useCallback(() => {
+    fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
+  }, [fetchDataAndSetOptions, setSelectOptions_data]);
+  
+  const onChange_dnc_med_id = useCallback(() => {
+    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  
+  const onChange_mfi_con_about_id = useCallback(() => {
+    fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
+  }, [fetchDataAndSetOptions, setSelectOptions_About]);
+  
+  const onChange_Tags = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -394,9 +385,9 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-
-  useEffect(() => {
+  }, [setSelectOptions_tags]);
+  
+  const memoizedFunctions = useCallback(() => {
     onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
     onChange_mfi_dis_c_id();
@@ -406,9 +397,21 @@ const Manage_Fake_Info_Edit = () => {
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
     onChange_Tags();
-    fetchUserInfo();
-    fetchInfo_source();
-  }, []);
+  }, [
+    onChange_mfi_con_about_id,
+    onChange_mfi_fm_d_id,
+    onChange_mfi_dis_c_id,
+    onChange_mfi_ty_info_id,
+    onChange_mfi_moti_id,
+    onChange_mfi_data_cha_id,
+    onChange_dnc_med_id,
+    onChange_mfi_che_d_id,
+    onChange_Tags,
+  ]);
+  
+  useEffect(() => {
+    memoizedFunctions();
+  }, [memoizedFunctions]);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -459,7 +462,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -491,7 +494,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.fn_info_dmy &&
-          moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -520,15 +523,15 @@ const Manage_Fake_Info_Edit = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "processing"
-                  : "success"
+                ? "processing"
+                : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "กำลังตรวจสอบ"
-                  : "ตรวจสอบแล้ว"
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>

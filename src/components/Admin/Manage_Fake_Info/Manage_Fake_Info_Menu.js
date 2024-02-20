@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Form,
   Button,
@@ -32,7 +32,6 @@ const Manage_Fake_Info_Menu = () => {
   const [data, setData] = useState([]);
   const [dataOrg, setDataOrg] = useState([]);
   const [dataInfo, setDataInfo] = useState([]);
-  const [editingKey, setEditingKey] = useState("");
   const [filterVisible, setFilterVisible] = useState(false);
   const [province, setProvince] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -97,17 +96,6 @@ const Manage_Fake_Info_Menu = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
-  const isEditing = (record) => record.key === editingKey;
-
-  const edit = (record) => {
-    form.setFieldsValue({ ...record });
-    setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey("");
-  };
 
   const Province = async () => {
     try {
@@ -213,55 +201,57 @@ const Manage_Fake_Info_Menu = () => {
     setData(filteredNews);
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching codes:`,
-          response.statusText
+  const fetchDataAndSetOptions = useCallback(
+    async (endpoint, fieldName, stateSetter) => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
         );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              {code[`${fieldName}_name`]}
+            </Option>
+          ));
+          form.setFieldsValue({ [fieldName]: undefined });
+          form.setFields([
+            {
+              name: fieldName,
+              value: undefined,
+            },
+          ]);
+          stateSetter(options);
+        } else {
+          console.error(`Error fetching codes:`, response.statusText);
+        }
+      } catch (error) {
+        console.error(`Error fetching codes:`, error);
       }
-    } catch (error) {
-      console.error(`Error fetching codes:`, error);
-    }
-  };
-  const onChange_mfi_province = () => {
+    },
+    [form]
+  );
+  const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
-  const onChange_mfi_ty_info_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+
+  const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
       "type_info",
       setSelectOptions_ty
     );
-  };
-  const onChange_dnc_med_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+
+  const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
       "med_c",
       setSelectOptions_med
     );
-  };
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
 
-  const onChange_Tags = async () => {
+  const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
@@ -280,8 +270,8 @@ const Manage_Fake_Info_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-  const onChange_mfi_mem = async () => {
+  }, [setSelectOptions_tags]);
+  const onChange_mfi_mem = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/AmUser"
@@ -300,14 +290,24 @@ const Manage_Fake_Info_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-  useEffect(() => {
+  }, [setSelectOptions_mem]);
+  const memoizedFunctions = useCallback(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_mfi_mem();
     onChange_Tags();
-  }, []);
+  }, [
+    onChange_mfi_province,
+    onChange_dnc_med_id,
+    onChange_mfi_ty_info_id,
+    onChange_mfi_mem,
+    onChange_Tags,
+  ]);
+
+  useEffect(() => {
+    memoizedFunctions();
+  }, [memoizedFunctions]);
 
   const renderResultText = (mfi_fninfo) => {
     const dataA = dataInfo

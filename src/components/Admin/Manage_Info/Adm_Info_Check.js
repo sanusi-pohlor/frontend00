@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 import {
   Badge,
   Form,
@@ -100,7 +100,7 @@ const Adm_Info_Check = () => {
     fetchInfo_source();
   }, []);
 
-  const fetchFakeNewsInfo = async () => {
+  const fetchFakeNewsInfo = useCallback(async () => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
@@ -114,11 +114,11 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [id, setFakeNewsInfo]);
 
   useEffect(() => {
     fetchFakeNewsInfo();
-  }, [id]);
+  }, [fetchFakeNewsInfo]);
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
@@ -158,7 +158,6 @@ const Adm_Info_Check = () => {
     }
   }, [fakeNewsInfo]);
 
-  const parsedId = parseInt(id, 10);
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
@@ -225,12 +224,21 @@ const Adm_Info_Check = () => {
       console.error("Error updating status:", error);
     }
   };
+  const renderReporter_fn_info_source = () => {
+    if (!info_source) {
+      return null;
+    }
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    const source = info_source.find(
+      (source) => source.id === fakeNewsInfo?.fn_info_source
+    );
+
+    return source.med_c_name;
+  };
+
+  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -247,32 +255,16 @@ const Adm_Info_Check = () => {
         ]);
         stateSetter(options);
       } else {
-        console.error(
-          `Error fetching  codes:`,
-          response.statusText
-        );
+        console.error(`Error fetching codes:`, response.statusText);
       }
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-  const renderReporter_fn_info_source = () => {
-    if (!info_source) {
-      return null;
-    }
-
-    const source = info_source.find(
-      (source) => source.id === fakeNewsInfo?.fn_info_source
-    );
-
-    return source.med_c_name;
-  };
-
-  const onChange_mfi_che_d_id = async () => {
+  }, [form]);
+  
+  const onChange_mfi_che_d_id = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/CheckingData_request"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -287,54 +279,39 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
-  const onChange_mfi_fm_d_id = () => {
+  }, [setSelectOptions_check_d]);
+  
+  const onChange_mfi_fm_d_id = useCallback(() => {
     fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  };
-
-  const onChange_mfi_dis_c_id = () => {
-    fetchDataAndSetOptions(
-      "DetailsNotiChannels_request",
-      "detail",
-      setSelectOptions_dis
-    );
-  };
-  const onChange_mfi_ty_info_id = () => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_ty
-    );
-  };
-
-  const onChange_mfi_moti_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_fm]);
+  
+  const onChange_mfi_dis_c_id = useCallback(() => {
+    fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
+  }, [fetchDataAndSetOptions, setSelectOptions_dis]);
+  
+  const onChange_mfi_ty_info_id = useCallback(() => {
+    fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  
+  const onChange_mfi_moti_id = useCallback(() => {
     fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  };
-
-  const onChange_mfi_data_cha_id = () => {
-    fetchDataAndSetOptions(
-      "DataCharacteristics_request",
-      "data_cha",
-      setSelectOptions_data
-    );
-  };
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
-  const onChange_mfi_con_about_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_moti]);
+  
+  const onChange_mfi_data_cha_id = useCallback(() => {
+    fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
+  }, [fetchDataAndSetOptions, setSelectOptions_data]);
+  
+  const onChange_dnc_med_id = useCallback(() => {
+    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  
+  const onChange_mfi_con_about_id = useCallback(() => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
-  };
-
-  const onChange_Tags = async () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_About]);
+  
+  const onChange_Tags = useCallback(async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Tags_request"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -349,9 +326,9 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-
-  useEffect(() => {
+  }, [setSelectOptions_tags]);
+  
+  const memoizedFunctions = useCallback(() => {
     onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
     onChange_mfi_dis_c_id();
@@ -361,7 +338,21 @@ const Adm_Info_Check = () => {
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
     onChange_Tags();
-  }, []);
+  }, [
+    onChange_mfi_con_about_id,
+    onChange_mfi_fm_d_id,
+    onChange_mfi_dis_c_id,
+    onChange_mfi_ty_info_id,
+    onChange_mfi_moti_id,
+    onChange_mfi_data_cha_id,
+    onChange_dnc_med_id,
+    onChange_mfi_che_d_id,
+    onChange_Tags,
+  ]);
+  
+  useEffect(() => {
+    memoizedFunctions();
+  }, [memoizedFunctions]);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

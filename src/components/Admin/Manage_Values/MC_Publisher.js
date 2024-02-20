@@ -49,7 +49,6 @@ const EditableCell = ({
 const MC_Publisher = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -73,7 +72,6 @@ const MC_Publisher = () => {
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("pub_name", values.pub_name);
@@ -93,8 +91,6 @@ const MC_Publisher = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -162,7 +158,7 @@ const MC_Publisher = () => {
               Save
             </Typography.Link>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              Cancel
             </Popconfirm>
           </span>
         ) : (

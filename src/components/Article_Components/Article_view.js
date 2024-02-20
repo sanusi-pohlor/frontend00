@@ -16,7 +16,7 @@ const News_view = () => {
   const handleCancel = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNews = async () => {
       try {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/Article_show/${id}`
@@ -29,8 +29,7 @@ const News_view = () => {
       }
     };
 
-    fetchData();
-  }, [id]);
+    fetchNews();
 
   const fetchData = async () => {
     try {
@@ -47,9 +46,8 @@ const News_view = () => {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
-    fetchData();
-  }, [data]);
+  fetchData();
+}, [id, data]);
 
   const items = [
     {

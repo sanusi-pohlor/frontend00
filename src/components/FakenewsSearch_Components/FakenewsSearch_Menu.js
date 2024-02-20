@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useCallback, useState, useEffect } from "react";
 import { Card, Button, Form, DatePicker, Modal, Select, Space } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -30,7 +30,6 @@ const FakenewsSearch_Menu = () => {
   const [data, setData] = useState([]);
   const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
-  const [options, setOptions] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -100,21 +99,6 @@ const FakenewsSearch_Menu = () => {
     Province();
   }, [data]);
 
-  useEffect(() => {
-    fetch("https://checkkonproject-sub.com/api/Tags_request")
-      .then((response) => response.json())
-      .then((data) => {
-        const formattedOptions = data.map((item) => ({
-          label: item.tag_name,
-          value: item.tag_name,
-        }));
-        setOptions(formattedOptions);
-      })
-      .catch((error) => {
-        console.error("Error fetching tag:", error);
-      });
-  }, []);
-
   const onFinish = (values) => {
     const { type_new, med_new, prov_new, tags, results } = values;
     const formattedTags = tags || [];
@@ -155,7 +139,7 @@ const FakenewsSearch_Menu = () => {
     setData(filteredNews);
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/${endpoint}`
@@ -184,27 +168,9 @@ const FakenewsSearch_Menu = () => {
     } catch (error) {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
-  };
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
-  const onChange_mfi_ty_info_id = () => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_ty
-    );
-  };
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
+  }, [form]);
 
-  const onChange_Tags = async () => {
-    try {
+  const onChange_Tags = useCallback(async () => {    try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
       );
@@ -222,15 +188,27 @@ const FakenewsSearch_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
+  }, []);
 
+  const onChange_mfi_province = useCallback(() => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+  
+  const onChange_mfi_ty_info_id = useCallback(() => {
+    fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  
+  const onChange_dnc_med_id = useCallback(() => {
+    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_Tags();
-  }, []);
-
+  }, [onChange_mfi_province, onChange_dnc_med_id, onChange_mfi_ty_info_id, onChange_Tags]);
+  
   const columns = [
     {
       title: "ลำดับ",
@@ -296,11 +274,6 @@ const FakenewsSearch_Menu = () => {
     setPage(0);
   };
 
-  const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>
-      {label} {text}
-    </Typography>
-  );
   return (
     <div className="backgroundColor">
       <Paper

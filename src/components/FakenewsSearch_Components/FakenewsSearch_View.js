@@ -18,47 +18,46 @@ const FakenewsSearch_View = () => {
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_about, setSelectOptions_about] = useState([]);
 
-  const fetchFakeNewsInfo = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setFakeNewsInfo(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
-    fetchFakeNewsInfo();
-  }, [id]);
-
-  const fetchFNInfo = async () => {
-    if (fakeNewsInfo && fakeNewsInfo.mfi_fninfo) {
+    const fetchFakeNewsInfo = async () => {
       try {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${fakeNewsInfo.mfi_fninfo}`
+          `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();
-          setFnInfo(data);
+          setFakeNewsInfo(data);
         } else {
-          console.error(
-            "Error fetching fake news info data:",
-            response.statusText
-          );
+          console.error("Error fetching data:", response.statusText);
         }
       } catch (error) {
-        console.error("Error fetching fake news info data:", error);
+        console.error("Error fetching data:", error);
       }
-    }
-  };
+    };
+    fetchFakeNewsInfo();
+  }, [id]);
+
   useEffect(() => {
+    const fetchFNInfo = async () => {
+      if (fakeNewsInfo && fakeNewsInfo.mfi_fninfo) {
+        try {
+          const response = await fetch(
+            `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${fakeNewsInfo.mfi_fninfo}`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setFnInfo(data);
+          } else {
+            console.error(
+              "Error fetching fake news info data:",
+              response.statusText
+            );
+          }
+        } catch (error) {
+          console.error("Error fetching fake news info data:", error);
+        }
+      }
+    };
     fetchFNInfo();
   }, [fakeNewsInfo]);
 
@@ -71,8 +70,7 @@ const FakenewsSearch_View = () => {
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) =>
-              item.id === (fnInfo && fnInfo.fn_info_province)
+            (item) => item.id === (fnInfo && fnInfo.fn_info_province)
           );
           setProvince(filteredIds);
         } else {
@@ -123,38 +121,36 @@ const FakenewsSearch_View = () => {
         const typeCodes = await response.json();
         stateSetter(typeCodes);
       } else {
-        console.error(
-          `Error fetching codes:`,
-          response.statusText
-        );
+        console.error(`Error fetching codes:`, response.statusText);
       }
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
   };
 
-  const requests = [
-    { type: "MediaChannels_request", setter: setSelectOptions_med },
-    { type: "FormatData_request", setter: setSelectOptions_fm },
-    { type: "DetailsNotiChannels_request", setter: setSelectOptions_dis_c },
-    { type: "TypeInformation_request", setter: setSelectOptions_ty },
-    { type: "Motivation_request", setter: setSelectOptions_moti },
-    { type: "DataCharacteristics_request", setter: setSelectOptions_data },
-    { type: "MediaChannels_request", setter: setSelectOptions_med },
-    { type: "CheckingData_request", setter: setSelectOptions_che },
-    { type: "About_request", setter: setSelectOptions_about },
-  ];
-  const onChange = async (requestType, setOptionsFunction) => {
-    await fetchDataAndSetOptions(requestType, setOptionsFunction);
-  };
-
-  const initializeOptions = async () => {
-    for (const { type, setter } of requests) {
-      await onChange(type, setter);
-    }
-  };
-
   useEffect(() => {
+    const requests = [
+      { type: "MediaChannels_request", setter: setSelectOptions_med },
+      { type: "FormatData_request", setter: setSelectOptions_fm },
+      { type: "DetailsNotiChannels_request", setter: setSelectOptions_dis_c },
+      { type: "TypeInformation_request", setter: setSelectOptions_ty },
+      { type: "Motivation_request", setter: setSelectOptions_moti },
+      { type: "DataCharacteristics_request", setter: setSelectOptions_data },
+      { type: "MediaChannels_request", setter: setSelectOptions_med },
+      { type: "CheckingData_request", setter: setSelectOptions_che },
+      { type: "About_request", setter: setSelectOptions_about },
+    ];
+
+    const onChange = async (requestType, setOptionsFunction) => {
+      await fetchDataAndSetOptions(requestType, setOptionsFunction);
+    };
+
+    const initializeOptions = async () => {
+      for (const { type, setter } of requests) {
+        await onChange(type, setter);
+      }
+    };
+
     initializeOptions();
   }, []);
 
@@ -173,7 +169,6 @@ const FakenewsSearch_View = () => {
     </Typography>
   );
 
-
   const items2 = [
     {
       key: "0",
@@ -190,7 +185,11 @@ const FakenewsSearch_View = () => {
       label: createTypography("แหล่งที่มาของข้อมูล"),
       children:
         fakeNewsInfo &&
-        createTypography(<span>{renderOption(selectOptions_med, 'id', 'med_c_name', 'mfi_dis_c')}</span>),
+        createTypography(
+          <span>
+            {renderOption(selectOptions_med, "id", "med_c_name", "mfi_dis_c")}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -213,14 +212,29 @@ const FakenewsSearch_View = () => {
       key: "4",
       label: createTypography("รูปแบบของข้อมูล"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_fm, 'id', 'fm_d_name', 'mfi_fm_d')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(selectOptions_fm, "id", "fm_d_name", "mfi_fm_d")}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "5",
       label: createTypography("ขอบเขตการเผยแพร่"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_dis_c, 'id', 'detail_name', 'mfi_dis_c')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(
+              selectOptions_dis_c,
+              "id",
+              "detail_name",
+              "mfi_dis_c"
+            )}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -234,7 +248,17 @@ const FakenewsSearch_View = () => {
       key: "7",
       label: createTypography("ประเภทของข้อมูล"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_ty, 'id', 'type_info_name', 'mfi_ty_info')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(
+              selectOptions_ty,
+              "id",
+              "type_info_name",
+              "mfi_ty_info"
+            )}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -251,7 +275,12 @@ const FakenewsSearch_View = () => {
       key: "9",
       label: createTypography("แรงจูงใจการเผยแพร่"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_moti, 'id', 'moti_name', 'mfi_moti')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(selectOptions_moti, "id", "moti_name", "mfi_moti")}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -266,14 +295,29 @@ const FakenewsSearch_View = () => {
       key: "11",
       label: createTypography("การตรวจสอบข้อมูล"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_che, 'id', 'che_d_format', 'mfi_che_d')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(selectOptions_che, "id", "che_d_format", "mfi_che_d")}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "12",
       label: createTypography("ลักษณะข้อมูล"),
       children:
-        fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_data, 'id', 'data_cha_name', 'mfi_data_cha')}</span>),
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(
+              selectOptions_data,
+              "id",
+              "data_cha_name",
+              "mfi_data_cha"
+            )}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -301,15 +345,15 @@ const FakenewsSearch_View = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "processing"
-                  : "success"
+                ? "processing"
+                : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                  ? "กำลังตรวจสอบ"
-                  : "ตรวจสอบแล้ว"
+                ? "กำลังตรวจสอบ"
+                : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -319,23 +363,38 @@ const FakenewsSearch_View = () => {
     {
       key: "15",
       label: createTypography("ผลการตรวจสอบ"),
-      children: fakeNewsInfo && createTypography(fakeNewsInfo.mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ"),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          fakeNewsInfo.mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ"
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "16",
       label: createTypography("เกี่ยวกับ"),
-      children: fakeNewsInfo && createTypography(<span>{renderOption(selectOptions_about, 'id', 'about_name', 'mfi_con_about')}</span>),
+      children:
+        fakeNewsInfo &&
+        createTypography(
+          <span>
+            {renderOption(
+              selectOptions_about,
+              "id",
+              "about_name",
+              "mfi_con_about"
+            )}
+          </span>
+        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "17",
       label: createTypography("แท็ก"),
-      children: fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_tag}</span>),
+      children:
+        fakeNewsInfo && createTypography(<span>{fakeNewsInfo.mfi_tag}</span>),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
   ];
-
 
   return (
     <div className="backgroundColor">

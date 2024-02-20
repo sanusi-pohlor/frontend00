@@ -151,7 +151,7 @@ const Adm_MdShare_View = () => {
             >
               {data.details_image &&
                 JSON.parse(data.details_image).map((imageName, index) => (
-                  <img
+                  <Image
                     key={index}
                     className="details-image"
                     src={`https://checkkonproject-sub.com/cover_image/${imageName}`}

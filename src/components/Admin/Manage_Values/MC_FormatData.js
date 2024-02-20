@@ -32,7 +32,6 @@ const MC_FormatData = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [editRecord, setEditRecord] = useState(null);
@@ -74,7 +73,6 @@ const MC_FormatData = () => {
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("fm_d_name", values.fm_d_name);
@@ -95,13 +93,10 @@ const MC_FormatData = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
 
   const onFinishEdit = async (values, id) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("fm_d_name", values.fm_d_name);
@@ -124,8 +119,6 @@ const MC_FormatData = () => {
     } catch (error) {
       console.error("Error updating form data:", error);
       message.error("Error updating form data");
-    } finally {
-      setLoading(false);
     }
   };
 

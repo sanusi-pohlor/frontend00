@@ -42,9 +42,6 @@ const FnInfoEdit = () => {
   useEffect(() => {
     fetchmed();
   }, []);
-  useEffect(() => {
-    fetchFakeNewsData();
-  }, [id, med]);
 
   const handlenum_memChange = (value) => {
     setSelectednum_mem(value);
@@ -73,31 +70,35 @@ const FnInfoEdit = () => {
     }
   };
 
-  const fetchFakeNewsData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/FakeNewsInfo_edit/${id}`
-      );
-      if (response.ok) {
-        const FakeNewsData = await response.json();
-        setData(FakeNewsData);
-        form.setFieldsValue({
-          fn_info_head: FakeNewsData.fn_info_head,
-          fn_info_content: FakeNewsData.fn_info_content,
-          fn_info_source: FakeNewsData.fn_info_source,
-          fn_info_num_mem: FakeNewsData.fn_info_num_mem,
-          fn_info_more: FakeNewsData.fn_info_more,
-          fn_info_link: FakeNewsData.fn_info_link,
-        });
-        setFormattedDate(moment(FakeNewsData.fn_info_dmy).format("YYYY-MM-DD"));
-      } else {
-        console.error("Invalid date received from the server");
+  useEffect(() => {
+    const fetchFakeNewsData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/FakeNewsInfo_edit/${id}`
+        );
+        if (response.ok) {
+          const FakeNewsData = await response.json();
+          setData(FakeNewsData);
+          form.setFieldsValue({
+            fn_info_head: FakeNewsData.fn_info_head,
+            fn_info_content: FakeNewsData.fn_info_content,
+            fn_info_source: FakeNewsData.fn_info_source,
+            fn_info_num_mem: FakeNewsData.fn_info_num_mem,
+            fn_info_more: FakeNewsData.fn_info_more,
+            fn_info_link: FakeNewsData.fn_info_link,
+          });
+          setFormattedDate(
+            moment(FakeNewsData.fn_info_dmy).format("YYYY-MM-DD")
+          );
+        } else {
+          console.error("Invalid date received from the server");
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
+    };
+    fetchFakeNewsData();
+  }, [id, med, form]);
   const onFinish = async (values) => {
     try {
       const filteredIds = med.filter(
@@ -194,47 +195,29 @@ const FnInfoEdit = () => {
     }
   }, [user]);
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            <Typography variant="body1" sx={{ fontSize: "20px" }}>
-              {code[`${fieldName}_name`]}
-            </Typography>
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
-      }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  };
-
-  const onChange_dnc_med_id = () => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  };
   useEffect(() => {
+    const onChange_dnc_med_id = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/MediaChannels_request"
+        );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                {code["med_c_name"]}
+              </Typography>
+            </Option>
+          ));
+          setSelectOptions_med(options);
+        } else {
+          console.error(`Error fetching  codes:`, response.statusText);
+        }
+      } catch (error) {
+        console.error(`Error fetching  codes:`, error);
+      }
+    };
     onChange_dnc_med_id();
   }, []);
 
@@ -360,13 +343,9 @@ const FnInfoEdit = () => {
                 message: "Please input your email!",
               },
             ]}
-            onClick={() => {
-              onChange_dnc_med_id();
-            }}
           >
             <Select
               placeholder="Select a option and change input text above"
-              onChange={onChange_dnc_med_id}
               allowClear
             >
               {selectOptions_med}
@@ -508,7 +487,7 @@ const FnInfoEdit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <br />
+          <br /><br />
           <Form.Item>
             <Button
               type="primary"
@@ -522,8 +501,6 @@ const FnInfoEdit = () => {
             </Button>
           </Form.Item>
         </Form>
-        <br />
-        <br />
       </UserProfile>
     );
   }

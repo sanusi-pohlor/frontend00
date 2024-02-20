@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback,useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -32,8 +32,7 @@ const Adm_Article_Edit = () => {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    fetchFakeData();
-  }, [id]);
+
 
   const fetchFakeData = async () => {
     try {
@@ -58,7 +57,8 @@ const Adm_Article_Edit = () => {
       console.error("Error:", error);
     }
   };
-
+  fetchFakeData();
+}, [id,form]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -206,7 +206,7 @@ const Adm_Article_Edit = () => {
     }
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/${endpoint}`
@@ -235,27 +235,29 @@ const Adm_Article_Edit = () => {
     } catch (error) {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
-  };
-
-  const onChange_mfi_ty_info_id = () => {
+  }, [form]);
+  
+  const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
       "type_info",
       setSelectOptions_ty
     );
-  };
-  const onChange_dnc_med_id = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  
+  const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
       "med_c",
       setSelectOptions_med
     );
-  };
-  const onChange_mfi_province = () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  
+  const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
-
-  const onChange_Tags = async () => {
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+  
+  const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
@@ -274,14 +276,19 @@ const Adm_Article_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  };
-
+  }, [setSelectOptions_tags]);
+  
   useEffect(() => {
-    onChange_mfi_province();
-    onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
+    onChange_dnc_med_id();
+    onChange_mfi_province();
     onChange_Tags();
-  }, []);
+  }, [
+    onChange_mfi_ty_info_id,
+    onChange_dnc_med_id,
+    onChange_mfi_province,
+    onChange_Tags,
+  ]);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

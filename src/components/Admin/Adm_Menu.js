@@ -3,7 +3,6 @@ import {
   UserOutlined,
   PieChartOutlined,
   FormOutlined,
-  HomeOutlined,
   BookOutlined,
   CommentOutlined,
   SendOutlined,
@@ -11,7 +10,7 @@ import {
   BarsOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu} from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { Typography } from "@mui/material";
 
@@ -53,9 +52,6 @@ const determineSelectedKey = (pathname) => {
 const AdminMenu = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
   const selectedKey = determineSelectedKey(location.pathname);
   const [openKeys, setOpenKeys] = useState([
     determineSelectedSubMenu(location.pathname),

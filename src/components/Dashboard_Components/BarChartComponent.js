@@ -81,58 +81,57 @@ const MyBarChart = () => {
   }, [options, selectedOption, formattedDate]);
 
   useEffect(() => {
+    const fetchData = async (endpoint, name, dataIndex) => {
+      try {
+        const Manage_Fake_Info = await fetch(
+          `https://checkkonproject-sub.com/api/Manage_Fake_Info_request`
+        );
+        const MediaChannels = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
+        );
+  
+        if (Manage_Fake_Info.ok && MediaChannels.ok) {
+          const Manage_Fake_Infodata = await Manage_Fake_Info.json();
+          const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
+            (data) => ({
+              ...data,
+              mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+            })
+          );
+  
+          const filteredManage_Fake_Infodata =
+            formattedManage_Fake_Infodata.filter((data) => {
+              if (!formattedDate || formattedDate.length === 0) return true;
+              return data.mfi_time === formattedDate;
+            });
+  
+          const MediaChannelsData = await MediaChannels.json();
+          const countByMedCId = MediaChannelsData.map((channel) => {
+            const count = filteredManage_Fake_Infodata.filter(
+              (fakeInfo) => fakeInfo[dataIndex] === channel.id
+            ).length;
+  
+            return {
+              name: channel[name],
+              value: count,
+            };
+          });
+  
+          setChartData(countByMedCId);
+        } else {
+          console.error("Failed to fetch data");
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     if (selectedOption) {
       const selected = options.find((opt) => opt.title === selectedOption);
       if (selected) {
         fetchData(selected.value, selected.name, selected.dataIndex);
       }
     }
-  }, [selectedOption, formattedDate]);
-
-  const fetchData = async (endpoint, name, dataIndex) => {
-    try {
-      const Manage_Fake_Info = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_request`
-      );
-      const MediaChannels = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-
-      if (Manage_Fake_Info.ok && MediaChannels.ok) {
-        const Manage_Fake_Infodata = await Manage_Fake_Info.json();
-        const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
-          (data) => ({
-            ...data,
-            mfi_time: moment(data.mfi_time).format("YYYY-MM"),
-          })
-        );
-
-        const filteredManage_Fake_Infodata =
-          formattedManage_Fake_Infodata.filter((data) => {
-            if (!formattedDate || formattedDate.length === 0) return true;
-            return data.mfi_time === formattedDate;
-          });
-
-        const MediaChannelsData = await MediaChannels.json();
-        const countByMedCId = MediaChannelsData.map((channel) => {
-          const count = filteredManage_Fake_Infodata.filter(
-            (fakeInfo) => fakeInfo[dataIndex] === channel.id
-          ).length;
-
-          return {
-            name: channel[name],
-            value: count,
-          };
-        });
-
-        setChartData(countByMedCId);
-      } else {
-        console.error("Failed to fetch data");
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  }, [options,selectedOption, formattedDate]);
 
   const handleSelectChange = (value) => {
     setSelectedOption(value);

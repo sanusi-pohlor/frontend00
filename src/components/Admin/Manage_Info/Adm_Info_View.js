@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Badge,
   Descriptions,
@@ -8,7 +8,6 @@ import {
   Divider,
   Modal,
   Card,
-  Form,
 } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
@@ -16,13 +15,9 @@ import moment from "moment";
 import { Typography } from "@mui/material";
 
 const ManageInfo_view = () => {
-  const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
   const [province, setProvince] = useState([]);
-  const [current, setCurrent] = useState(0);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [confirmedStep, setConfirmedStep] = useState(-1);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [info_source, setInfo_source] = useState(null);
@@ -87,9 +82,9 @@ const ManageInfo_view = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  const fetchFakeNewsInfo = async () => {
+  const fetchFakeNewsInfo = useCallback(async () => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
@@ -103,10 +98,11 @@ const ManageInfo_view = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
+  }, [id, setFakeNewsInfo]);
+
   useEffect(() => {
     fetchFakeNewsInfo();
-  }, [id]);
+  }, [id, fetchFakeNewsInfo]);
 
   useEffect(() => {
     const fetchProvince = async () => {
@@ -157,8 +153,6 @@ const ManageInfo_view = () => {
   };
 
   const handleConfirm = async () => {
-    setModalVisible(false);
-    setConfirmedStep(current);
     try {
       const formData = new FormData();
       formData.append("status", 1);

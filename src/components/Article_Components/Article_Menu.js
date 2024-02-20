@@ -5,7 +5,7 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Flex } from "antd";
+import { Card, Button, Input, Flex , Image} from "antd";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
@@ -118,7 +118,7 @@ const Article_Menu = () => {
                   className="cardItem"
                   cover={
                     <div className="cardItemCover">
-                      <img className="cardImage" src={item.cover_image} />
+                      <Image className="cardImage" src={item.cover_image} />
                       <div className="cardIitleTCover">
                         <strong>
                           เผยแพร่ {moment(item.created_at).format("DD-MM-YYYY")}

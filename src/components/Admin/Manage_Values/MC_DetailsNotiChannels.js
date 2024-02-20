@@ -32,7 +32,6 @@ const MC_DetailsNotiChannels = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const [editRecord, setEditRecord] = useState(null);
@@ -74,7 +73,6 @@ const MC_DetailsNotiChannels = () => {
   }, []);
 
   const onFinish = async (values) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("detail_name", values.detail_name);
@@ -95,13 +93,10 @@ const MC_DetailsNotiChannels = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
 
   const onFinishEdit = async (values, id) => {
-    setLoading(true);
     try {
       const formData = new FormData();
       formData.append("detail_name", values.detail_name);
@@ -124,8 +119,6 @@ const MC_DetailsNotiChannels = () => {
     } catch (error) {
       console.error("Error updating form data:", error);
       message.error("Error updating form data");
-    } finally {
-      setLoading(false);
     }
   };
 
