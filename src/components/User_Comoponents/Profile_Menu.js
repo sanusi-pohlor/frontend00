@@ -58,27 +58,27 @@ const MenuProfile = ({ children }) => {
     fetchUser();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        const countData = data.filter(
-          (item) => item.fn_info_nameid === user.id
-        );
-        setData(countData);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const countData = data.filter(
+            (item) => item.fn_info_nameid === user.id
+          );
+          setData(countData);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     if (user) {
       fetchData();
     }

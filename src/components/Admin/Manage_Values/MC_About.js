@@ -78,7 +78,6 @@ const MC_About = () => {
     try {
       const formData = new FormData();
       formData.append("about_name", values.about_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/About_upload",
         {

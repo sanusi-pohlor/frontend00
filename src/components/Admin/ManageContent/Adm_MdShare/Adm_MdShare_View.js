@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Modal, Divider, Descriptions, Card, Space, Tag ,Image} from "antd";
 import moment from "moment";
 import AdminMenu from "../../Adm_Menu";
 import { Paper } from "@mui/material";
@@ -24,7 +24,6 @@ const Adm_MdShare_View = () => {
         const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
-        console.log("tags :", tags);
       } catch (error) {
         console.error("Error fetching news data:", error);
       }
@@ -130,7 +129,7 @@ const Adm_MdShare_View = () => {
                 marginTop: "16px",
               }}
             >
-              <img
+              <Image
                 className="details-image"
                 src={data.cover_image}
                 style={{

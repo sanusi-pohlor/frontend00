@@ -78,7 +78,6 @@ const MC_CheckingData = () => {
     try {
       const formData = new FormData();
       formData.append("che_d_format", values.che_d_format);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/CheckingData_upload",
         {

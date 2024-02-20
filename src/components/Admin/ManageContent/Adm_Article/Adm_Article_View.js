@@ -24,7 +24,6 @@ const Adm_Article_View = () => {
         const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
-        console.log("tags :", tags);
       } catch (error) {
         console.error("Error fetching news data:", error);
       }

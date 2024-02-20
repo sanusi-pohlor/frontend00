@@ -71,12 +71,12 @@ const Adm_News_Menu = () => {
       );
 
       if (response.status === 200) {
-        console.log(`Status updated successfully for ID: ${id}`);
+        console.log(`Status updated successfully`);
       } else {
-        console.error(`Error updating status for ID: ${id}`);
+        console.error(`Error updating status`);
       }
     } catch (error) {
-      console.error(`Error updating status for ID: ${id}`, error);
+      console.error(`Error updating status`, error);
     }
   };
 

@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
 
@@ -33,8 +33,6 @@ const Manage_Fake_Info_Menu = () => {
   const [dataOrg, setDataOrg] = useState([]);
   const [dataInfo, setDataInfo] = useState([]);
   const [editingKey, setEditingKey] = useState("");
-  const [userInfo, setUserInfo] = useState(null);
-  const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [province, setProvince] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
@@ -60,25 +58,6 @@ const Manage_Fake_Info_Menu = () => {
   };
   useEffect(() => {
     fetchDataInfo();
-  }, []);
-
-  const fetchUserInfo = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
-      if (response.ok) {
-        const userData = await response.json();
-        setUserInfo(userData);
-      } else {
-        console.error("Failed to fetch user data");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchUserInfo();
   }, []);
 
   function getThaiMonth(month) {
@@ -256,12 +235,12 @@ const Manage_Fake_Info_Menu = () => {
         stateSetter(options);
       } else {
         console.error(
-          `Error fetching ${fieldName} codes:`,
+          `Error fetching codes:`,
           response.statusText
         );
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error(`Error fetching codes:`, error);
     }
   };
   const onChange_mfi_province = () => {

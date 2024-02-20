@@ -69,7 +69,6 @@ const Adm_Info_Check = () => {
       );
       if (response.ok) {
         const userData = await response.json();
-        console.log("user :", userData);
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -89,7 +88,6 @@ const Adm_Info_Check = () => {
       );
       if (response.ok) {
         const Data = await response.json();
-        console.log("source :", Data);
         setInfo_source(Data);
       } else {
         console.error("Failed to fetch user data");
@@ -147,7 +145,6 @@ const Adm_Info_Check = () => {
               item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -163,7 +160,6 @@ const Adm_Info_Check = () => {
 
   const parsedId = parseInt(id, 10);
   const onFinish = async (values) => {
-    console.log("mfi_fninfo = ", values);
     try {
       const formData = new FormData();
       formData.append("mfi_c_info", values.mfi_c_info);
@@ -252,12 +248,12 @@ const Adm_Info_Check = () => {
         stateSetter(options);
       } else {
         console.error(
-          `Error fetching ${fieldName} codes:`,
+          `Error fetching  codes:`,
           response.statusText
         );
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error(`Error fetching codes:`, error);
     }
   };
   const renderReporter_fn_info_source = () => {
@@ -416,7 +412,7 @@ const Adm_Info_Check = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -448,7 +444,7 @@ const Adm_Info_Check = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.fn_info_dmy &&
-            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -477,15 +473,15 @@ const Adm_Info_Check = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>

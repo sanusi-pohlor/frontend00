@@ -163,7 +163,8 @@ const MC_Motivation = () => {
         );
         const responseData = await response.json();
 
-        if (response.ok && responseData === "Motivation deleted successfully") {
+        if (response.ok) {
+          message.success("Motivation deleted successfully");
           console.log("Motivation deleted successfully");
           fetchData();
         } else {

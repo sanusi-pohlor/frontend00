@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Badge, Descriptions, Image, Steps, Divider, Card } from "antd";
+import { Badge, Descriptions, Image, Steps, Divider } from "antd";
 import { useParams } from "react-router-dom";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import moment from "moment";
@@ -10,6 +10,8 @@ const FnInfoView = () => {
   const [province, setProvince] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+  const [data, setData] = useState([]);
+  const [about, setAbout] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
@@ -33,31 +35,73 @@ const FnInfoView = () => {
   }, [id]);
 
   useEffect(() => {
-    const fetchProvince = async () => {
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        const filteredIds = pv.filter(
+          (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
+        );
+        setData(filteredIds);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+    fetchData();
+  }, [fakeNewsInfo]);
+
+  useEffect(() => {
+    const fetchAbout = async () => {
       try {
         const response = await fetch(
-          "https://checkkonproject-sub.com/api/Province_request"
+          "https://checkkonproject-sub.com/api/About_request"
         );
         if (response.ok) {
           const pv = await response.json();
           const filteredIds = pv.filter(
-            (item) =>
-              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+            (item) => item.id === (data.length > 0 && data[0].mfi_con_about)
           );
-          setProvince(filteredIds);
+          setAbout(filteredIds);
         } else {
-          console.error("Error fetching province data:", response.statusText);
+          console.error("Error fetching data:", response.statusText);
         }
       } catch (error) {
-        console.error("Error fetching province data:", error);
+        console.error("Error fetching data:", error);
       }
     };
+    fetchAbout();
+  }, [data]);
 
-    if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
-      fetchProvince();
+  useEffect(() => {
+  const fetchProvince = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Province_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        const filteredIds = pv.filter(
+          (item) =>
+            item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+        );
+        setProvince(filteredIds);
+      } else {
+        console.error("Error fetching province data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching province data:", error);
     }
+  };
+    fetchProvince();
   }, [fakeNewsInfo]);
 
+  useEffect(() => {
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -76,11 +120,10 @@ const FnInfoView = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
-  useEffect(() => {
     fetchUserInfo();
   }, [fakeNewsInfo]);
 
+  useEffect(() => {
   const fetchDataAndSetOptions = async () => {
     try {
       const response = await fetch(
@@ -99,8 +142,6 @@ const FnInfoView = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
-  useEffect(() => {
     fetchDataAndSetOptions();
   }, [fakeNewsInfo]);
 
@@ -167,7 +208,7 @@ const FnInfoView = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
     },
     {
@@ -194,7 +235,7 @@ const FnInfoView = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.fn_info_dmy &&
-            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
     },
     {
@@ -220,27 +261,38 @@ const FnInfoView = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? createTypography("รอตรวจสอบ")
                 : fakeNewsInfo.fn_info_status === 1
-                ? createTypography("กำลังตรวจสอบ")
-                : createTypography("ตรวจสอบแล้ว")
+                  ? createTypography("กำลังตรวจสอบ")
+                  : createTypography("ตรวจสอบแล้ว")
             }
           />
         </React.Fragment>
       ),
     },
+    {
+      key: "13",
+      label: createTypography("ผลการตรวจสอบ", "25px", 3),
+      children: fakeNewsInfo && createTypography(data.length > 0 ? (data[0].mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ") : ""),
+    },
+    {
+      key: "14",
+      label: createTypography("เกี่ยวกับ"),
+      children: fakeNewsInfo && createTypography(about.length > 0 ? about[0].about_name : ""),
+    },
   ];
 
   return (
     <UserProfile>
-      <Card className="cardsection">
-        <div className="cardsectionContent">รายละเอียดการแจ้งข้อมูลเท็จ</div>
-      </Card>
+      <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+        รายละเอียดการแจ้งข้อมูลเท็จ
+      </Typography>
+      <br />
       <React.Fragment>
         <Steps
           current={fakeNewsInfo?.fn_info_status}

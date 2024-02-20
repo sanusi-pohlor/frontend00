@@ -78,7 +78,6 @@ const MC_ActionType = () => {
     try {
       const formData = new FormData();
       formData.append("act_ty_name", values.act_ty_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/ActionType_upload",
         {

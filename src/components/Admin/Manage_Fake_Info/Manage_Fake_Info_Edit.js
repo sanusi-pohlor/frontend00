@@ -37,6 +37,54 @@ const Manage_Fake_Info_Edit = () => {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
 
+  const fetchManage_Fake_Info_Edit = async () => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+        form.setFieldsValue({
+          mfi_time: data.mfi_time
+            ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY")
+            : "ไม่มีการประทับเวลา",
+          mfi_province: data.mfi_province,
+          mfi_mem: data.mfi_mem,
+          mfi_med_c: data.mfi_med_c,
+          mfi_img: data.mfi_img,
+          mfi_link: data.mfi_link,
+          mfi_c_info: data.mfi_c_info,
+          mfi_num_mem: data.mfi_num_mem,
+          mfi_agency: data.mfi_agency,
+          mfi_d_topic: data.mfi_d_topic,
+          mfi_fm_d: data.mfi_fm_d,
+          mfi_dis_c: data.mfi_dis_c,
+          mfi_publ: data.mfi_publ,
+          mfi_ty_info: data.mfi_ty_info,
+          mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
+          mfi_moti: data.mfi_moti,
+          mfi_iteration: data.mfi_iteration,
+          mfi_che_d: data.mfi_che_d,
+          mfi_data_cha: data.mfi_data_cha,
+          mfi_fninfo: data.mfi_fninfo,
+          mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
+          mfi_con_about: data.mfi_con_about,
+          mfi_tag: data.mfi_tag,
+        });
+      } else {
+        console.error("Invalid data received from the server");
+        return;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchManage_Fake_Info_Edit();
+  }, [id]);
+
   const handleTagCreation = async (value) => {
     try {
       const response = await fetch(
@@ -98,7 +146,7 @@ const Manage_Fake_Info_Edit = () => {
   const fetchFakeNewsInfo = async () => {
     try {
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data.mfi_fninfo}`
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data[0].mfi_fninfo}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -140,7 +188,6 @@ const Manage_Fake_Info_Edit = () => {
               item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -154,56 +201,11 @@ const Manage_Fake_Info_Edit = () => {
     }
   }, [fakeNewsInfo]);
 
-  useEffect(() => {
-    fetchManage_Fake_Info_Edit();
-  }, [id]);
 
-  const fetchManage_Fake_Info_Edit = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
-      );
-      if (!response.ok) {
-        console.error("Invalid data received from the server");
-        return;
-      }
 
-      const data = await response.json();
-      setData(data);
-      form.setFieldsValue({
-        mfi_time: data.mfi_time
-          ? moment(data.mfi_time).locale("th").format("DD MMMM YYYY")
-          : "ไม่มีการประทับเวลา",
-        mfi_province: data.mfi_province,
-        mfi_mem: data.mfi_mem,
-        mfi_med_c: data.mfi_med_c,
-        mfi_img: data.mfi_img,
-        mfi_link: data.mfi_link,
-        mfi_c_info: data.mfi_c_info,
-        mfi_num_mem: data.mfi_num_mem,
-        mfi_agency: data.mfi_agency,
-        mfi_d_topic: data.mfi_d_topic,
-        mfi_fm_d: data.mfi_fm_d,
-        mfi_dis_c: data.mfi_dis_c,
-        mfi_publ: data.mfi_publ,
-        mfi_ty_info: data.mfi_ty_info,
-        mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
-        mfi_moti: data.mfi_moti,
-        mfi_iteration: data.mfi_iteration,
-        mfi_che_d: data.mfi_che_d,
-        mfi_data_cha: data.mfi_data_cha,
-        mfi_fninfo: data.mfi_fninfo,
-        mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
-        mfi_con_about: data.mfi_con_about,
-        mfi_tag: data.mfi_tag,
-      });
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+
 
   const onFinish = async (values) => {
-    console.log("value :", values);
     try {
       const formData = new FormData();
       const appendIfDefined = (fieldName, value) => {
@@ -294,13 +296,10 @@ const Manage_Fake_Info_Edit = () => {
         ));
         stateSetter(options);
       } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
+        console.error("data failed");
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error("data failed");
     }
   };
   const renderReporter_fn_info_source = () => {
@@ -460,7 +459,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -492,7 +491,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.fn_info_dmy &&
-            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -521,15 +520,15 @@ const Manage_Fake_Info_Edit = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>

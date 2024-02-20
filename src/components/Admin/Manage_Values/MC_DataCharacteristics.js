@@ -78,7 +78,6 @@ const MC_DataCharacteristics = () => {
     try {
       const formData = new FormData();
       formData.append("data_cha_name", values.data_cha_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/DataCharacteristics_upload",
         {
@@ -166,10 +165,7 @@ const MC_DataCharacteristics = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "DataCharacteristics deleted successfully"
-        ) {
+        if (response.ok) {
           console.log("DataCharacteristics deleted successfully");
           fetchData();
         } else {

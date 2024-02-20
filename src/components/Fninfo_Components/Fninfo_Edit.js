@@ -33,13 +33,11 @@ const FnInfoEdit = () => {
   const [data, setData] = useState(null);
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
-  const [loading, setLoading] = useState(true);
   const [med, setmed] = useState([]);
   const [selectednum_mem, setSelectednum_mem] = useState("");
   const [selectOptions_med, setSelectOptions_med] = useState([]);
   const [formattedDate, setFormattedDate] = useState(null);
   const navigate = useNavigate();
-  const [source, setSource] = useState(null);
 
   useEffect(() => {
     fetchmed();
@@ -83,9 +81,6 @@ const FnInfoEdit = () => {
       if (response.ok) {
         const FakeNewsData = await response.json();
         setData(FakeNewsData);
-        const filteredIds = med.filter(
-          (item) => item.id === (FakeNewsData && FakeNewsData.fn_info_source)
-        );
         form.setFieldsValue({
           fn_info_head: FakeNewsData.fn_info_head,
           fn_info_content: FakeNewsData.fn_info_content,
@@ -94,7 +89,6 @@ const FnInfoEdit = () => {
           fn_info_more: FakeNewsData.fn_info_more,
           fn_info_link: FakeNewsData.fn_info_link,
         });
-        setSource(FakeNewsData.fn_info_source);
         setFormattedDate(moment(FakeNewsData.fn_info_dmy).format("YYYY-MM-DD"));
       } else {
         console.error("Invalid date received from the server");
@@ -105,19 +99,16 @@ const FnInfoEdit = () => {
   };
 
   const onFinish = async (values) => {
-    console.log("values : ", values);
     try {
       const filteredIds = med.filter(
         (item) => item.id === (data && data.fn_info_source)
       );
       const formData = new FormData();
-
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined) {
           formData.append(fieldName, value);
         }
       };
-
       appendIfDefined("fn_info_head", values.fn_info_head);
       appendIfDefined("fn_info_content", values.fn_info_content);
       if (values.fn_info_source !== filteredIds[0]?.med_c_name) {
@@ -147,8 +138,6 @@ const FnInfoEdit = () => {
     } catch (error) {
       console.error("Error updating form data:", error);
       message.error("Error updating form data");
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -165,10 +165,7 @@ const MC_TypeInformation = () => {
         );
         const responseData = await response.json();
 
-        if (
-          response.ok &&
-          responseData === "TypeInformation deleted successfully"
-        ) {
+        if (response.ok) {
           console.log("TypeInformation deleted successfully");
           fetchData();
         } else {

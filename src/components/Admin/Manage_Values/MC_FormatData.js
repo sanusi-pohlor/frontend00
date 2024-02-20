@@ -78,7 +78,6 @@ const MC_FormatData = () => {
     try {
       const formData = new FormData();
       formData.append("fm_d_name", values.fm_d_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/FormatData_upload",
         {

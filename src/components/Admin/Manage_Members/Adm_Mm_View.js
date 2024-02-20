@@ -40,7 +40,6 @@ const Adm_Mm_View = () => {
             (item) => item.id === (user && user.province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }

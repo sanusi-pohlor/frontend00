@@ -136,13 +136,6 @@ const Register_Dialog = ({ open, onClose }) => {
             </Typography>
           </Option>
         ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
         stateSetter(options);
       } else {
         console.error(`Error `, response.statusText);
@@ -152,11 +145,8 @@ const Register_Dialog = ({ open, onClose }) => {
     }
   };
 
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
   useEffect(() => {
-    onChange_mfi_province();
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   }, []);
 
   const createTypography = (label, text, fontSize = "30px") => (
@@ -303,7 +293,7 @@ const Register_Dialog = ({ open, onClose }) => {
               },
             ]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select allowClear>
               {selectOptions_prov}
             </Select>
           </Form.Item>

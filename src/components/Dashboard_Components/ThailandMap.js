@@ -46,7 +46,6 @@ const MapWidget = () => {
   const handleSelectDate = (date) => {
     if (date) {
       setFormattedDate(date.format("YYYY-MM"));
-      console.log("date.format", date.format("YYYY-MM"));
     } else {
       setFormattedDate("");
     }

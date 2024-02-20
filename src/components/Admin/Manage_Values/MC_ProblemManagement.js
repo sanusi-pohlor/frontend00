@@ -78,7 +78,6 @@ const MC_ProblemManagement = () => {
     try {
       const formData = new FormData();
       formData.append("prob_m_way", values.prob_m_way);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/ProblemManagement_upload",
         {

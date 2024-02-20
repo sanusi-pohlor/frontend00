@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import { Form, Button, Input, Modal, message } from "antd";
 import { Paper, Typography } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LoginDialog = ({ open, onClose }) => {
   const navigate = useNavigate();

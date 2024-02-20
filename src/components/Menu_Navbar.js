@@ -16,7 +16,6 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { CommentOutlined } from "@ant-design/icons";
-import { styled } from "@mui/system";
 import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -25,7 +24,6 @@ import LoginDialog from "./User_Comoponents/Login_Dialog";
 import RegisterDialog from "./User_Comoponents/Register_Dialog";
 import PropTypes from "prop-types";
 import "./Menu_Navbar.css";
-import PSU from "./Images/PSU.jpg";
 import { useTheme } from "@mui/material/styles";
 
 function Menu_Navbar() {

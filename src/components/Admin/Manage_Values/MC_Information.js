@@ -55,12 +55,11 @@ const MC_Information = () => {
   const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectOptions_subp, setSelectOptions_subp] = useState([]); // State for select options
-  const [selectOptions_vol, setSelectOptions_vol] = useState([]); // State for select options
-  const [selectOptions_moti, setSelectOptions_moti] = useState([]); // State for select options
-  const [selectOptions_act, setSelectOptions_act] = useState([]); // State for select options
-  const [selectOptions_d_c, setSelectOptions_d_c] = useState([]); // State for select options
-
+  const [selectOptions_subp, setSelectOptions_subp] = useState([]);
+  const [selectOptions_vol, setSelectOptions_vol] = useState([]); 
+  const [selectOptions_moti, setSelectOptions_moti] = useState([]);
+  const [selectOptions_act, setSelectOptions_act] = useState([]); 
+  const [selectOptions_d_c, setSelectOptions_d_c] = useState([]); 
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -81,7 +80,6 @@ const MC_Information = () => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const formData = new FormData();
@@ -95,7 +93,6 @@ const MC_Information = () => {
       formData.append("info_date", values.info_date);
       formData.append("info_status", values.info_status);
       formData.append("info_cont_topic", values.info_cont_topic);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Information_upload",
         {
@@ -286,12 +283,12 @@ const MC_Information = () => {
         stateSetter(options);
       } else {
         console.error(
-          `Error fetching ${fieldName} codes:`,
+          `Error fetching codes:`,
           response.statusText
         );
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error(`Error fetching codes:`, error);
     }
   };
 

@@ -5,7 +5,7 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Flex } from "antd";
+import { Card, Button, Input, Flex, Image  } from "antd";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
@@ -74,7 +74,7 @@ const MdShare_Menu = () => {
                       cover={
                         <div className="cardItemCover">
                           <Flex justify="space-between">
-                            <img
+                            <Image
                               className="cardheadImage"
                               src={item.cover_image}
                             />
@@ -119,7 +119,7 @@ const MdShare_Menu = () => {
                     className="cardItem"
                     cover={
                       <div className="cardItemCover">
-                        <img
+                        <Image
                           className="cardImage"
                           src={item.cover_image}
                         />

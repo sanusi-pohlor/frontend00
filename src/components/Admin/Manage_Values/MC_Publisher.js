@@ -73,12 +73,10 @@ const MC_Publisher = () => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const formData = new FormData();
       formData.append("pub_name", values.pub_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Publisher_upload",
         {

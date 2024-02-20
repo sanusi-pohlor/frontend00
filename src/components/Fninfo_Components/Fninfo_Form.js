@@ -33,7 +33,6 @@ const FakeNewInformation = () => {
   const [user, setUser] = useState(null);
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [selectednum_mem, setSelectednum_mem] = useState("");
   const [selectOptions_med, setSelectOptions_med] = useState([]);
 
@@ -48,29 +47,30 @@ const FakeNewInformation = () => {
     return e && e.fileList;
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        if (data) {
-          const filteredData = data.filter(
-            (item) => item.fn_info_nameid === user.id
-          );
-          setData(filteredData);
-        } else {
-          console.error("Data is missing or null");
-        }
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          if (data) {
+            const filteredData = data.filter(
+              (item) => item.fn_info_nameid === user.id
+            );
+            setData(filteredData);
+          } else {
+            console.error("Data is missing or null");
+          }
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
     if (user) {
       fetchData();
     }
@@ -79,8 +79,6 @@ const FakeNewInformation = () => {
   const maxId = Math.max(...data.map((item) => item.id));
 
   const onFinish = async (values) => {
-    setLoading(true);
-    console.log("values:", values);
     try {
       const formData = new FormData();
       formData.append("fn_info_nameid", user.id);
@@ -110,8 +108,6 @@ const FakeNewInformation = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -155,7 +151,6 @@ const FakeNewInformation = () => {
             (item) => item.id === (user && user.province)
           );
           setProvince(filteredIds);
-          console.log("Filtered provinces:", filteredIds);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -223,7 +218,6 @@ const FakeNewInformation = () => {
           form={form}
           layout="vertical"
           name="FakeNewInformation"
-          //onChange={onChange_dnc_med_id}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           style={{
@@ -238,7 +232,6 @@ const FakeNewInformation = () => {
                 ผู้ส่งรายงาน
               </Typography>
             }
-            //name="fn_info_nameid"
             rules={[
               {
                 required: true,
@@ -260,7 +253,6 @@ const FakeNewInformation = () => {
                   จังหวัดของท่าน
                 </Typography>
               }
-              //name="fn_info_province"
               rules={[
                 {
                   required: true,
@@ -291,7 +283,6 @@ const FakeNewInformation = () => {
           >
             <Input
               size="large"
-              //prefix={<LinkOutlined className="site-form-item-icon" />}
             />
           </Form.Item>
           <Form.Item

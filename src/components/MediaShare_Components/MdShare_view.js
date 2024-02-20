@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag , Image } from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
 import { UserOutlined } from "@ant-design/icons";
@@ -16,40 +16,39 @@ const MdShare_view = () => {
   const [tags, setTags] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNews = async () => {
       try {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/MdShare_show/${id}`
         );
-        const data = await response.json();
-        setData(data);
-        setTags(JSON.parse(data.tag) || []);
+        const result = await response.json();
+        setData(result);
+        setTags(JSON.parse(result.tag) || []);
+      } catch (error) {
+        console.error("Error fetching news data:", error);
+      }
+    };
+  
+    fetchNews();
+  
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
+        );
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
-  }, [id]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, [data]);
+  }, [id, data]);
 
   const items = [
     {
@@ -92,7 +91,7 @@ const MdShare_view = () => {
         style={{ backgroundColor: "#e4e4e4" }}
       >
         <Card className="cardsection">
-          <div className="cardsectionContent">สื่อชวนแชร์</div>
+          <div className="cardsectionContent">ข่าวสาร</div>
         </Card>
         <br />
         <Card className="cardContent">
@@ -106,7 +105,50 @@ const MdShare_view = () => {
           <strong>ลงเมื่อ : {thaiDate}</strong>
           <br />
           <Divider />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            <Image
+              className="details-image"
+              src={data.cover_image}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "500px",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
           <div dangerouslySetInnerHTML={{ __html: data.details }} />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            {data.details_image &&
+              JSON.parse(data.details_image).map((imageName, index) => (
+                <Image
+                  key={index}
+                  className="details-image"
+                  src={`https://checkkonproject-sub.com/cover_image/${imageName}`}
+                  alt={`Image ${index + 1}`}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "400px",
+                    borderRadius: "8px",
+                  }}
+                />
+              ))}
+          </div>
           <div>
             {data.link &&
               JSON.parse(data.link).map((item, index) => (

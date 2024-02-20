@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Space, Popconfirm, Button, Card, Divider } from "antd";
+import React, { useEffect, useState,useCallback  } from "react";
+import { Space, Popconfirm, Button, Divider } from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -64,7 +64,7 @@ const NotificationHistory = () => {
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
@@ -86,8 +86,14 @@ const NotificationHistory = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  };
-
+  }, [user, setData]);
+  
+  useEffect(() => {
+    if (user) {
+      fetchData();
+    }
+  }, [user, fetchData]);
+  
   const fetchData_Manage = async () => {
     try {
       const response = await fetch(
@@ -112,12 +118,6 @@ const NotificationHistory = () => {
     fetchUser();
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
-
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -141,7 +141,7 @@ const NotificationHistory = () => {
         : dataA.mfi_results === 1
         ? "ข่าวจริง"
         : "รอตรวจสอบ"
-      : "รอตรวจสอบ";
+      : "";
     return resultText;
   };
 

@@ -78,7 +78,6 @@ const MC_DetailsNotiChannels = () => {
     try {
       const formData = new FormData();
       formData.append("detail_name", values.detail_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/DetailsNotiChannels_upload",
         {

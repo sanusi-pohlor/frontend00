@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag } from "antd";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image } from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
 import { UserOutlined } from "@ant-design/icons";
@@ -16,7 +16,7 @@ const News_view = () => {
   const handleCancel = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchNews = async () => {
       try {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/News_show/${id}`
@@ -28,27 +28,27 @@ const News_view = () => {
         console.error("Error fetching news data:", error);
       }
     };
-    fetchData();
-  }, [id]);
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
+  
+    fetchNews();
+  
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
+        );
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(userData);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
+    };
+  
     fetchData();
-  }, [data]);
+  }, [id, data]);
 
   const items = [
     {
@@ -114,7 +114,7 @@ const News_view = () => {
               marginTop: "16px",
             }}
           >
-            <img
+            <Image
               className="details-image"
               src={data.cover_image}
               style={{
@@ -136,7 +136,7 @@ const News_view = () => {
           >
             {data.details_image &&
               JSON.parse(data.details_image).map((imageName, index) => (
-                <img
+                <Image
                   key={index}
                   className="details-image"
                   src={`https://checkkonproject-sub.com/cover_image/${imageName}`}

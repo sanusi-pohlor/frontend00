@@ -200,7 +200,7 @@ const MC_Subpoint = () => {
         );
         const responseData = await response.json();
 
-        if (response.ok && responseData === "Subpoint deleted successfully") {
+        if (response.ok) {
           console.log("Subpoint deleted successfully");
           fetchData();
         } else {

@@ -45,9 +45,6 @@ const Adm_MdShare_Edit = () => {
         setData(data);
         form.setFieldsValue({
           title: data.title,
-          //details: data.details,
-          //link: data.link,
-          //tag: data.tag,
           type_new: data.type_new,
           med_new: data.med_new,
           prov_new: data.prov_new,
@@ -188,7 +185,6 @@ const Adm_MdShare_Edit = () => {
       appendIfDefined("type_new", values.type_new);
       appendIfDefined("med_new", values.med_new);
       appendIfDefined("prov_new", values.prov_new);
-      //appendIfDefined("key_new", values.key_new);
 
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,

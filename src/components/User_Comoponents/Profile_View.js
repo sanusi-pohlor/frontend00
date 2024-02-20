@@ -9,9 +9,9 @@ const Profile = () => {
   const [data, setData] = useState(null);
   const [province, setProvince] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
+  
   useEffect(() => {
     function handleResize() {
       setIsMobile(window.innerWidth < 768);
@@ -46,7 +46,6 @@ const Profile = () => {
             },
           }
         );
-
         if (response.ok) {
           const data = await response.json();
           setUser(data);
@@ -84,30 +83,27 @@ const Profile = () => {
     }
   }, [user]);
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        const countData = data.filter(
-          (item) => item.fn_info_nameid === user.id
-        );
-        setData(countData);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
   useEffect(() => {
-    if (user) {
-      fetchData();
-    }
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const countData = data.filter(
+            (item) => item.fn_info_nameid === user.id
+          );
+          setData(countData);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [user]);
 
   const createTypography = (label, text, fontSize = "25px") => (
@@ -200,72 +196,72 @@ const Profile = () => {
             </Modal>
           </div>
           <Divider />
-                {data && (
-                  <div>
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "25px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>ข้อมูลที่แจ้งทั้งหมด</span>
-                      <span>{data.length}</span>
-                    </Typography>
-                    <Divider />
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "25px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
-                      <span>
-                        {
-                          data.filter((item) => item.fn_info_status === 0)
-                            .length
-                        }
-                      </span>
-                    </Typography>
-                    <Divider />
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "25px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
-                      <span>
-                        {
-                          data.filter((item) => item.fn_info_status === 1)
-                            .length
-                        }
-                      </span>
-                    </Typography>
-                    <Divider />
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "25px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                      }}
-                    >
-                      <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
-                      <span>
-                        {
-                          data.filter((item) => item.fn_info_status === 2)
-                            .length
-                        }
-                      </span>
-                    </Typography>
-                  </div>
-                )}
+          {data && (
+            <div>
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "25px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>ข้อมูลที่แจ้งทั้งหมด</span>
+                <span>{data.length}</span>
+              </Typography>
+              <Divider />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "25px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
+                <span>
+                  {
+                    data.filter((item) => item.fn_info_status === 0)
+                      .length
+                  }
+                </span>
+              </Typography>
+              <Divider />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "25px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
+                <span>
+                  {
+                    data.filter((item) => item.fn_info_status === 1)
+                      .length
+                  }
+                </span>
+              </Typography>
+              <Divider />
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "25px",
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
+                <span>
+                  {
+                    data.filter((item) => item.fn_info_status === 2)
+                      .length
+                  }
+                </span>
+              </Typography>
+            </div>
+          )}
         </div>
       )}
       {!isMobile && (

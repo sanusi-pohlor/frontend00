@@ -43,38 +43,37 @@ const Profile_Edit = () => {
   }, []);
 
   useEffect(() => {
-    fetchFakeNewsData();
-  }, [id, province]);
-
-  const fetchFakeNewsData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/User_edit/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setUserdata(data);
-        const filteredIds = province.filter(
-          (item) => item.id === (data && data.province)
+    const fetchFakeNewsData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/User_edit/${id}`
         );
-        form.setFieldsValue({
-          username: data.username,
-          lastName: data.lastName,
-          email: data.email,
-          password: data.password,
-          phone_number: data.phone_number,
-          Id_line: data.Id_line,
-          province: filteredIds[0].prov_name,
-          receive_ct_email: data.receive_ct_email,
-        });
-        setProv(data.province);
-      } else {
-        console.error("Invalid date received from the server");
+        if (response.ok) {
+          const data = await response.json();
+          setUserdata(data);
+          const filteredIds = province.filter(
+            (item) => item.id === (data && data.province)
+          );
+          form.setFieldsValue({
+            username: data.username,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            phone_number: data.phone_number,
+            Id_line: data.Id_line,
+            province: filteredIds[0].prov_name,
+            receive_ct_email: data.receive_ct_email,
+          });
+          setProv(data.province);
+        } else {
+          console.error("Invalid date received from the server");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+    };
+    fetchFakeNewsData();
+  }, [id, province, form]);
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -175,10 +174,9 @@ const Profile_Edit = () => {
 
   return (
     <UserProfile>
-      <Card className="cardsection">
-        <div className="cardsectionContent">แก้ไขข้อมูลสมาชิก</div>
-      </Card>
-      <br />
+      <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+        แก้ไขข้อมูลสมาชิก
+      </Typography>
       <Card>
         <Form
           form={form}

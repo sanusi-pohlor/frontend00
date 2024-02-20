@@ -54,7 +54,7 @@ const MC_InspectionDetails = () => {
   const [loading, setLoading] = useState(true);
   const [editingKey, setEditingKey] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectOptions, setSelectOptions] = useState([]); // State for select options
+  const [selectOptions, setSelectOptions] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -76,13 +76,11 @@ const MC_InspectionDetails = () => {
   }, []);
 
   const onFinish = async (values) => {
-    console.log(values);
     setLoading(true);
     try {
       const formData = new FormData();
       formData.append("subp_type_id", values.subp_type_id);
       formData.append("subp_name", values.subp_name);
-      console.log(formData);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Subpoint_upload",
         {

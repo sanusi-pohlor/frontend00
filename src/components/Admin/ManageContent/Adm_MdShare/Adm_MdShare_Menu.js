@@ -70,12 +70,12 @@ const Adm_MdShare_Menu = () => {
         { status }
       );
       if (response.status === 200) {
-        console.log(`อัปเดต status สำเร็จสำหรับ ID: ${id}`);
+        console.log(`อัปเดต status สำเร็จ`);
       } else {
-        console.error(`เกิดข้อผิดพลาดในการอัปเดต status สำหรับ ID: ${id}`);
+        console.error(`เกิดข้อผิดพลาดในการอัปเดต status`);
       }
     } catch (error) {
-      console.error(`เกิดข้อผิดพลาดในการอัปเดต status สำหรับ ID: ${id}`, error);
+      console.error(`เกิดข้อผิดพลาดในการอัปเดต status`, error);
     }
   };
 
