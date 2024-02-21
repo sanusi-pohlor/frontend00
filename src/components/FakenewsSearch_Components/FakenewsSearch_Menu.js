@@ -1,4 +1,4 @@
-import React, {useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { Card, Button, Form, DatePicker, Modal, Select, Space } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -139,38 +139,42 @@ const FakenewsSearch_Menu = () => {
     setData(filteredNews);
   };
 
-  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
+  const fetchDataAndSetOptions = useCallback(
+    async (endpoint, fieldName, stateSetter) => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
         );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              {code[`${fieldName}_name`]}
+            </Option>
+          ));
+          form.setFieldsValue({ [fieldName]: undefined });
+          form.setFields([
+            {
+              name: fieldName,
+              value: undefined,
+            },
+          ]);
+          stateSetter(options);
+        } else {
+          console.error(
+            `Error fetching ${fieldName} codes:`,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error(`Error fetching ${fieldName} codes:`, error);
       }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  }, [form]);
+    },
+    [form]
+  );
 
-  const onChange_Tags = useCallback(async () => {    try {
+  const onChange_Tags = useCallback(async () => {
+    try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
       );
@@ -193,22 +197,35 @@ const FakenewsSearch_Menu = () => {
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   }, [fetchDataAndSetOptions, setSelectOptions_prov]);
-  
+
   const onChange_mfi_ty_info_id = useCallback(() => {
-    fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
+    fetchDataAndSetOptions(
+      "TypeInformation_request",
+      "type_info",
+      setSelectOptions_ty
+    );
   }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
+
   const onChange_dnc_med_id = useCallback(() => {
-    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
   }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
+
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_Tags();
-  }, [onChange_mfi_province, onChange_dnc_med_id, onChange_mfi_ty_info_id, onChange_Tags]);
-  
+  }, [
+    onChange_mfi_province,
+    onChange_dnc_med_id,
+    onChange_mfi_ty_info_id,
+    onChange_Tags,
+  ]);
+
   const columns = [
     {
       title: "ลำดับ",
@@ -230,11 +247,14 @@ const FakenewsSearch_Menu = () => {
     },
     {
       title: "จังหวัดของผู้แจ้ง",
-      dataIndex: "mfi_province",
+      dataIndex: "mfi_fninfo",
       width: "10%",
-      render: (mfi_province) => {
-        const provinceId = parseInt(mfi_province, 10);
-        const provinceData = province.find((item) => item.id === provinceId);
+      render: (mfi_fninfo) => {
+        const correspondingInfo = infoData.find(
+          (item) => item.id === mfi_fninfo
+        );
+        const resultText = correspondingInfo ? correspondingInfo.fn_info_province : null;
+        const provinceData = province.find((item) => item.id === resultText);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
     },

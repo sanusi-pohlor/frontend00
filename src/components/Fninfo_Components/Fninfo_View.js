@@ -23,6 +23,7 @@ const FnInfoView = () => {
         );
         if (response.status === 200) {
           const data = await response.data;
+          console.log("data : ",data);
           setFakeNewsInfo(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -242,16 +243,39 @@ const FnInfoView = () => {
     {
       key: "11",
       label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
-      children:
+      children: (
         fakeNewsInfo &&
-        createTypography(
-          <Image
-            width={200}
-            src={fakeNewsInfo.fn_info_image}
-            alt="รูปภาพข่าวปลอม"
-          />
-        ),
-    },
+        (
+          <>
+            {fakeNewsInfo.fn_info_image_0 && (
+              <Image
+                key="image_0"
+                width={200}
+                src={fakeNewsInfo.fn_info_image_0}
+                alt="รูปภาพข่าวปลอม"
+              />
+            )}
+            {fakeNewsInfo.fn_info_image_1 && (
+              <Image
+                key="image_1"
+                width={200}
+                src={fakeNewsInfo.fn_info_image_1}
+                alt="รูปภาพข่าวปลอม"
+              />
+            )}
+            {fakeNewsInfo.fn_info_image_2 && (
+              <Image
+                key="image_2"
+                width={200}
+                src={fakeNewsInfo.fn_info_image_2}
+                alt="รูปภาพข่าวปลอม"
+              />
+            )}
+          </>
+        )
+      ),
+      span: 2,
+    },    
     {
       key: "12",
       label: createTypography("สถานะ", "25px", 3),
@@ -279,12 +303,12 @@ const FnInfoView = () => {
     {
       key: "13",
       label: createTypography("ผลการตรวจสอบ", "25px", 3),
-      children: fakeNewsInfo && createTypography(data.length > 0 ? (data[0].mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ") : ""),
+      children: fakeNewsInfo && createTypography(data.length > 0 ? (data[0].mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ") : "รอตรวจสอบ"),
     },
     {
       key: "14",
       label: createTypography("เกี่ยวกับ"),
-      children: fakeNewsInfo && createTypography(about.length > 0 ? about[0].about_name : ""),
+      children: fakeNewsInfo && createTypography(about.length > 0 ? about[0].about_name : "รอตรวจสอบ"),
     },
   ];
 

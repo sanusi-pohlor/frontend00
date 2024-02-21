@@ -29,7 +29,6 @@ const { TextArea } = Input;
 
 const FakeNewInformation = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
@@ -47,37 +46,6 @@ const FakeNewInformation = () => {
     return e && e.fileList;
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          if (data) {
-            const filteredData = data.filter(
-              (item) => item.fn_info_nameid === user.id
-            );
-            setData(filteredData);
-          } else {
-            console.error("Data is missing or null");
-          }
-        } else {
-          console.error("Error fetching data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
-
-  const maxId = Math.max(...data.map((item) => item.id));
-
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
@@ -90,7 +58,9 @@ const FakeNewInformation = () => {
       formData.append("fn_info_more", values.fn_info_more);
       formData.append("fn_info_link", values.fn_info_link);
       formData.append("fn_info_dmy", values.fn_info_dmy);
-      formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
+      values.fn_info_image.forEach((file, index) => {
+        formData.append(`fn_info_image_${index}`, file.originFileObj);
+      });
       const response = await fetch(
         "https://checkkonproject-sub.com/api/FakeNewsInfo_upload",
         {
@@ -101,7 +71,7 @@ const FakeNewInformation = () => {
       if (response.ok) {
         console.log("Form data sent successfully");
         message.success("Form data sent successfully");
-        navigate(`/FakeNews/fninfoview/${maxId + 1}`);
+        navigate(`/FakeNews/NotificationHistory`);
       } else {
         message.error("Error sending form data");
       }

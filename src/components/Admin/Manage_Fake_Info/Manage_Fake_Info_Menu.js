@@ -305,6 +305,15 @@ const Manage_Fake_Info_Menu = () => {
     const resultText = dataA ? dataA.fn_info_head : null;
     return resultText;
   };
+  const renderprovince = (mfi_fninfo) => {
+    const dataA = dataInfo
+      ? dataInfo.find((item) => item.id === mfi_fninfo)
+      : null;
+    const resultText = dataA ? dataA.fn_info_province : null;
+    const provinceData = province.find((item) => item.id === resultText);
+    return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
+  };
+
 
   const columns = [
     {
@@ -320,13 +329,9 @@ const Manage_Fake_Info_Menu = () => {
     },
     {
       title: "จังหวัดของผู้แจ้ง",
-      dataIndex: "mfi_province",
+      dataIndex: "mfi_fninfo",
       width: "10%",
-      render: (mfi_province) => {
-        const provinceId = parseInt(mfi_province, 10);
-        const provinceData = province.find((item) => item.id === provinceId);
-        return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
-      },
+      render: (mfi_fninfo) => renderprovince(mfi_fninfo),
     },
     {
       title: "ตรวจเมื่อ",
