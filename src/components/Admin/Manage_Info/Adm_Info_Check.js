@@ -15,6 +15,7 @@ import AdminMenu from "../Adm_Menu";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import moment from "moment";
+import axios from 'axios';
 const { Option } = Select;
 
 const Adm_Info_Check = () => {
@@ -35,6 +36,27 @@ const Adm_Info_Check = () => {
   const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
+  const [datamfn, setDatamfn] = useState([]);
+
+  useEffect(() => {
+    const fetchDatamfn = async () => {
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        );
+        if (response.status === 200) {
+          const pv = await response.data;
+          setDatamfn(pv);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+      fetchDatamfn();
+    }, []); 
+  
 
   const handleTagCreation = async (value) => {
     try {
@@ -158,8 +180,26 @@ const Adm_Info_Check = () => {
     }
   }, [fakeNewsInfo]);
 
+  const mfnmaxId = Math.max(...datamfn.map((item) => item.id));
+
   const onFinish = async (values) => {
     try {
+      const formData2 = new FormData();
+      formData2.append("fn_minfo_id", mfnmaxId);
+  
+      const response2 = await fetch(
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
+        {
+          method: "POST",
+          body: formData2,
+        }
+      );
+  
+      if (response2.status === 200) {
+        console.log("Additional form data sent successfully");
+      } else {
+        throw new Error("Error sending additional form data");
+      }
       const formData = new FormData();
       formData.append("mfi_c_info", values.mfi_c_info);
       formData.append("mfi_agency", values.mfi_agency);
@@ -196,6 +236,24 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
+    }
+    try {
+      const formData = new FormData();
+      formData.append("fn_minfo_id", mfnmaxId +1);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        console.log("Form data sent successfully");
+      } else {
+        message.error("Error sending form data");
+      }
+    } catch (error) {
+      console.error("Error sending form data:", error);
     }
   };
 

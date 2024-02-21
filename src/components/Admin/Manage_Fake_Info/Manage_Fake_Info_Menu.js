@@ -214,13 +214,6 @@ const Manage_Fake_Info_Menu = () => {
               {code[`${fieldName}_name`]}
             </Option>
           ));
-          form.setFieldsValue({ [fieldName]: undefined });
-          form.setFields([
-            {
-              name: fieldName,
-              value: undefined,
-            },
-          ]);
           stateSetter(options);
         } else {
           console.error(`Error fetching codes:`, response.statusText);
@@ -229,7 +222,7 @@ const Manage_Fake_Info_Menu = () => {
         console.error(`Error fetching codes:`, error);
       }
     },
-    [form]
+    []
   );
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
@@ -305,10 +298,6 @@ const Manage_Fake_Info_Menu = () => {
     onChange_Tags,
   ]);
 
-  useEffect(() => {
-    memoizedFunctions();
-  }, [memoizedFunctions]);
-
   const renderResultText = (mfi_fninfo) => {
     const dataA = dataInfo
       ? dataInfo.find((item) => item.id === mfi_fninfo)
@@ -341,11 +330,11 @@ const Manage_Fake_Info_Menu = () => {
     },
     {
       title: "ตรวจเมื่อ",
-      dataIndex: "mfi_time",
+      dataIndex: "created_at",
       width: "10%",
       editable: true,
-      render: (mfi_time) => {
-        const date = new Date(mfi_time);
+      render: (created_at) => {
+        const date = new Date(created_at);
         const formattedDate = `${date.getDate()} ${getThaiMonth(
           date.getMonth()
         )} ${date.getFullYear() + 543}`;
@@ -360,8 +349,8 @@ const Manage_Fake_Info_Menu = () => {
         mfi_results === 0
           ? "ข่าวเท็จ"
           : mfi_results === 1
-          ? "ข่าวจริง"
-          : "กำลังตรวจสอบ",
+            ? "ข่าวจริง"
+            : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -401,6 +390,7 @@ const Manage_Fake_Info_Menu = () => {
   ];
 
   const showFilterDialog = () => {
+    memoizedFunctions();
     setFilterVisible(true);
   };
 
@@ -462,7 +452,6 @@ const Manage_Fake_Info_Menu = () => {
                     <Select
                       size="large"
                       placeholder="เลือกประเภทข่าว"
-                      onChange={onChange_mfi_ty_info_id}
                       allowClear
                     >
                       {selectOptions_ty}
@@ -479,7 +468,6 @@ const Manage_Fake_Info_Menu = () => {
                     <Select
                       size="large"
                       placeholder="เลือกช่องทางสื่อ"
-                      onChange={onChange_dnc_med_id}
                       allowClear
                     >
                       {selectOptions_med}
@@ -508,7 +496,6 @@ const Manage_Fake_Info_Menu = () => {
                     <Select
                       size="large"
                       placeholder="เลือกจังหวัด"
-                      onChange={onChange_mfi_province}
                       allowClear
                     >
                       {selectOptions_prov}
@@ -527,7 +514,6 @@ const Manage_Fake_Info_Menu = () => {
                       mode="multiple"
                       size="large"
                       placeholder="เลือกคำสำคัญ"
-                      onChange={onChange_Tags}
                       allowClear
                     >
                       {selectOptions_tags}
@@ -563,7 +549,6 @@ const Manage_Fake_Info_Menu = () => {
                     <Select
                       size="large"
                       placeholder="เลือกผู้ส่งรายงาน"
-                      onChange={onChange_mfi_mem}
                       allowClear
                     >
                       {selectOptions_mem}
@@ -617,19 +602,15 @@ const Manage_Fake_Info_Menu = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={rowIndex} hover>
                   {columns.map((column, colIndex) => (
-                    <TableCell key={`${rowIndex}-${colIndex}`} align="left">
-                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                        {column.render
-                          ? column.render(row[column.dataIndex], row)
-                          : row[column.dataIndex]}
-                      </Typography>
+                    <TableCell key={`${rowIndex}-${colIndex}`} align="left" style={{ fontSize: "25px" }}>
+                      {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
                     </TableCell>
                   ))}
                 </TableRow>

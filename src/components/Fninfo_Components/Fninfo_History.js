@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useCallback  } from "react";
-import { Space, Popconfirm, Button, Divider } from "antd";
+import { Space, Popconfirm, Button,message} from "antd";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -13,6 +13,7 @@ import {
   TableBody,
   TablePagination,
 } from "@mui/material";
+import axios from 'axios';
 const rowsPerPageOptions = [10];
 
 const NotificationHistory = () => {
@@ -46,31 +47,33 @@ const NotificationHistory = () => {
   };
 
   const fetchUser = async () => {
-    try {
-      const response = await fetch("https://checkkonproject-sub.com/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        console.error("User data retrieval failed");
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/user",
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          }
+        );
+        if (response.status === 200) {
+          const data = await response.data;
+          setUser(data);
+        } else {
+          console.error("User data retrieval failed");
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
+    };
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = await response.data;
         if (data) {
           const filteredData = data.filter(
             (item) => item.fn_info_nameid === user.id
@@ -96,11 +99,11 @@ const NotificationHistory = () => {
   
   const fetchData_Manage = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = await response.data;
         setDatamanage(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -225,12 +228,10 @@ const NotificationHistory = () => {
   ];
 
   const handleDelete = (id) => {
-    fetch(`https://checkkonproject-sub.com/api/FakeNewsInfo_delete/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message === "Fake News deleted successfully") {
+    axios.delete(`https://checkkonproject-sub.com/api/FakeNewsInfo_delete/${id}`)
+      .then((response) => {
+        if (response.status === 200) {
+          message.success("ลบข้อมูลเสร็จสิ้น");
           fetchData();
         } else {
           console.error("เกิดข้อผิดพลาดในการลบรายการ:", data);
@@ -257,10 +258,10 @@ const NotificationHistory = () => {
   } else {
     return (
       <UserProfile>
+        <br/>
         <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
           ประวัติการแจ้งข้อมูล
         </Typography>
-        <Divider />
         <TableContainer>
           <Table
             pagination={pagination}
@@ -297,14 +298,10 @@ const NotificationHistory = () => {
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>
-                  {mergedColumns.map((column) => (
-                    <TableCell key={column.title} align="left">
-                      <Typography variant="body1" sx={{ fontSize: "20px" }}>
-                        {column.render
-                          ? column.render(row[column.dataIndex], row)
-                          : row[column.dataIndex]}
-                      </Typography>
-                    </TableCell>
+                  {mergedColumns.map((column, colIndex) => (
+                    <TableCell key={`${rowIndex}-${colIndex}`} align="left" style={{ fontSize: "25px" }}>
+                    {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
+                  </TableCell>
                   ))}
                 </TableRow>
               ))}

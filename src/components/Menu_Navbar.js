@@ -25,6 +25,7 @@ import RegisterDialog from "./User_Comoponents/Register_Dialog";
 import PropTypes from "prop-types";
 import "./Menu_Navbar.css";
 import { useTheme } from "@mui/material/styles";
+import axios from 'axios';
 
 function Menu_Navbar() {
   const location = useLocation();
@@ -37,25 +38,26 @@ function Menu_Navbar() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/user",
           {
-            method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
           }
         );
-        if (response.ok) {
-          const data = await response.json();
+  
+        if (response.status === 200) {
+          const data = response.data;
           setUser(data);
         } else {
           console.log("User data retrieval failed");
         }
       } catch (error) {
-        console.log("User data retrieval failed");
+        console.log("User data retrieval failed", error);
       }
     };
+  
     fetchUser();
   }, []);
   const createTypography = (label, text, fontSize = "25px") => (

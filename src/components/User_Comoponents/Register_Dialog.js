@@ -10,6 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Register_Dialog = ({ open, onClose }) => {
   const [user, setUser] = useState(null);
@@ -19,13 +20,12 @@ const Register_Dialog = ({ open, onClose }) => {
   const navigate = useNavigate();
   const { Option } = Select;
   const [form] = Form.useForm();
+
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
-      if (response.ok) {
-        const data = await response.json();
+      const response = await axios.get("https://checkkonproject-sub.com/api/AmUser");
+      if (response.status === 200) {
+        const data = response.data;
         setUser(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -34,10 +34,9 @@ const Register_Dialog = ({ open, onClose }) => {
       console.error("Error fetching data:", error);
     }
   };
-  useEffect(() => {
+useEffect(() => {
     fetchData();
   }, []);
-
   const onFinish = async (values) => {
     setLoading(true);
     try {
@@ -65,35 +64,31 @@ const Register_Dialog = ({ open, onClose }) => {
       formData.append("province", values.province);
       formData.append("receive_ct_email", receive);
 
-      const registerResponse = await fetch(
+      const registerResponse = await axios.post(
         "https://checkkonproject-sub.com/api/register",
-        {
-          method: "POST",
-          body: formData,
-        }
+        formData
       );
 
-      if (registerResponse.ok) {
+      if (registerResponse.status === 200) {
         message.success("สมัครสมาชิกเสร็จสิ้น");
-        const registerData = await registerResponse.json();
+        const registerData = await registerResponse.data;
         localStorage.setItem("access_token", registerData.message);
 
-        const loginResponse = await fetch(
+        const loginResponse = await axios.post(
           "https://checkkonproject-sub.com/api/login",
           {
-            method: "POST",
+            email: values.email,
+            password: values.password,
+          },
+          {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              email: values.email,
-              password: values.password,
-            }),
           }
         );
 
-        if (loginResponse.ok) {
-          const loginData = await loginResponse.json();
+        if (loginResponse.status === 200) {
+          const loginData = await loginResponse.data;
           localStorage.setItem("access_token", loginData.message);
           window.location.reload();
         } else {
@@ -124,11 +119,11 @@ const Register_Dialog = ({ open, onClose }) => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
-      if (response.ok) {
-        const typeCodes = await response.json();
+      if (response.status === 200) {
+        const typeCodes = response.data;
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>

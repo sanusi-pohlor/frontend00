@@ -4,6 +4,7 @@ import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image } from "a
 import { Paper } from "@mui/material";
 import moment from "moment";
 import { UserOutlined } from "@ant-design/icons";
+import axios from 'axios';
 
 const News_view = () => {
   const { id } = useParams();
@@ -16,31 +17,21 @@ const News_view = () => {
   const handleCancel = () => setIsModalOpen(false);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/News_show/${id}`
-        );
-        const result = await response.json();
-        setData(result);
-        setTags(JSON.parse(result.tag) || []);
-      } catch (error) {
-        console.error("Error fetching news data:", error);
-      }
-    };
-  
-    fetchNews();
-  
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
-        );
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData);
-        } else {
-          console.error("Error fetching data:", response.statusText);
+        const newsResponse = await axios.get(`https://checkkonproject-sub.com/api/News_show/${id}`);
+        const newsData = newsResponse.data;
+        setData(newsData);
+        setTags(JSON.parse(newsData.tag) || []);
+  
+        if (newsData.Author) {
+          const userResponse = await axios.get(`https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`);
+          if (userResponse.status === 200) {
+            const userData = userResponse.data;
+            setUser(userData);
+          } else {
+            console.error("Error fetching user data:", userResponse.statusText);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -48,8 +39,7 @@ const News_view = () => {
     };
   
     fetchData();
-  }, [id, data]);
-
+  }, [id]);
   const items = [
     {
       key: "1",

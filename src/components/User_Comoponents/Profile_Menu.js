@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Avatar, Divider, Paper, Typography } from "@mui/material";
-import { Card, Tabs, FloatButton, Spin } from "antd";
+import { Grid, Avatar, Divider, Paper, Typography, Tab, Tabs } from "@mui/material";
+import { Card, Spin } from "antd";
 import { Link, useLocation } from "react-router-dom";
+import axios from 'axios';
 
 const items = [
   { key: "1", label: "ข้อมูลส่วนตัว", link: "/User/Profile" },
@@ -34,25 +35,22 @@ const MenuProfile = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/user",
           {
-            method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
           }
         );
-        if (response.ok) {
-          const userData = await response.json();
-          setUser(userData);
+        if (response.status === 200) {
+          const data = response.data;
+          setUser(data);
         } else {
-          console.error("Failed to retrieve user data");
+          console.error("User data retrieval failed");
         }
       } catch (error) {
-        console.error("Error fetching user data");
-      } finally {
-        setLoading(false);
+        console.error("Error:", error);
       }
     };
     fetchUser();
@@ -61,11 +59,11 @@ const MenuProfile = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           const countData = data.filter(
             (item) => item.fn_info_nameid === user.id
           );
@@ -203,26 +201,26 @@ const MenuProfile = ({ children }) => {
           </Grid>
           <Grid item xs={12} sm={8}>
             <Card>
-              <Tabs defaultActiveKey={selectedKey}>
+              <Tabs value={selectedKey} centered>
                 {items.map((item) => (
-                  <Tabs
-                    tab={
-                      <Link to={item.link}>
+                  <Tab
+                    key={item.key}
+                    label={
+                      <Link to={item.link} style={{ textDecoration: 'none' }}>
                         <Typography variant="body1" sx={{ fontSize: "25px" }}>
                           {item.label}
                         </Typography>
                       </Link>
                     }
-                    key={item.key}
-                  >
-                    {children}
-                  </Tabs>
+                    value={item.key}
+                  />
                 ))}
               </Tabs>
+              <br/>
+              {children}
             </Card>
           </Grid>
         </Grid>
-        <FloatButton.BackTop />
       </Paper>
     </div>
   );

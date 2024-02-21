@@ -3,6 +3,7 @@ import UserProfile from "./Profile_Menu";
 import { Button, Modal, Descriptions, Divider } from "antd";
 import { Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -37,17 +38,16 @@ const Profile = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/user",
           {
-            method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
           }
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           setUser(data);
         } else {
           console.error("User data retrieval failed");
@@ -62,11 +62,11 @@ const Profile = () => {
   useEffect(() => {
     const fetchProvince = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/Province_request"
         );
-        if (response.ok) {
-          const pv = await response.json();
+        if (response.status === 200) {
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.id === (user && user.province)
           );
@@ -86,25 +86,28 @@ const Profile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          const countData = data.filter(
-            (item) => item.fn_info_nameid === user.id
+        if (user) { // Check if user is not null
+          const response = await axios.get(
+            "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
           );
-          setData(countData);
-        } else {
-          console.error("Error fetching data:", response.statusText);
+          if (response.status === 200) {
+            const data = await response.data;
+            const countData = data.filter(
+              (item) => item.fn_info_nameid === user.id
+            );
+            setData(countData);
+          } else {
+            console.error("Error fetching data:", response.statusText);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, [user]);
+  
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

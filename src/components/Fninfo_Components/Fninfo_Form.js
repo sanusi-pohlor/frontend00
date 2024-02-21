@@ -21,7 +21,7 @@ import moment from "moment";
 import "moment/locale/th";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
-
+import axios from 'axios';
 moment.locale("th");
 
 const { Option } = Select;
@@ -50,7 +50,7 @@ const FakeNewInformation = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
         );
         if (response.ok) {
@@ -224,7 +224,6 @@ const FakeNewInformation = () => {
             maxWidth: "90%",
             margin: "auto",
           }}
-          enctype="multipart/form-data"
         >
           <Form.Item
             label={

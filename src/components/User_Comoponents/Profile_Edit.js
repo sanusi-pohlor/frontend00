@@ -10,6 +10,7 @@ import {
 import { useParams, useNavigate } from "react-router-dom";
 import UserProfile from "./Profile_Menu";
 import { Typography } from "@mui/material";
+import axios from 'axios';
 
 const Profile_Edit = () => {
   const { id } = useParams();
@@ -25,11 +26,11 @@ const Profile_Edit = () => {
 
   const fetchProvince = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/Province_request"
       );
-      if (response.ok) {
-        const data = await response.json();
+      if (response.status === 200) {
+        const data = await response.data;
         setProvince(data);
       } else {
         console.error("Error fetching province data:", response.statusText);
@@ -45,11 +46,11 @@ const Profile_Edit = () => {
   useEffect(() => {
     const fetchFakeNewsData = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `https://checkkonproject-sub.com/api/User_edit/${id}`
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           setUserdata(data);
           const filteredIds = province.filter(
             (item) => item.id === (data && data.province)
@@ -100,14 +101,11 @@ const Profile_Edit = () => {
         appendIfDefined("province", values.province);
       }
       formData.append("receive_ct_email", receive);
-      const response = await fetch(
+      const response = await axios.post(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
-        {
-          method: "POST",
-          body: formData,
-        }
+        formData
       );
-      if (response.ok) {
+      if (response.status === 200) {
         message.success("แก้ไขข้อมูลส่วนตัวเสร็จสิ้น");
         navigate(`/User/Profile`);
       } else {
@@ -132,11 +130,11 @@ const Profile_Edit = () => {
 
   const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
-      if (response.ok) {
-        const typeCodes = await response.json();
+      if (response.status === 200) {
+        const typeCodes = await response.data;
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>
@@ -195,7 +193,7 @@ const Profile_Edit = () => {
             name="username"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มชื่อ!",
               },
             ]}
@@ -214,7 +212,7 @@ const Profile_Edit = () => {
             name="lastName"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มนามสกุล!",
               },
             ]}
@@ -231,7 +229,7 @@ const Profile_Edit = () => {
             name="email"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มอีเมล!",
               },
             ]}
@@ -244,7 +242,7 @@ const Profile_Edit = () => {
           <Form.Item
             label="รหัสผ่าน"
             name="password"
-            rules={[{ required: true, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+            rules={[{ required: false, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
           >
             <Input.Password
               size="large"
@@ -256,7 +254,7 @@ const Profile_Edit = () => {
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
-              { required: true, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
+              { required: false, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue("password") === value) {
@@ -277,7 +275,7 @@ const Profile_Edit = () => {
             name="phone_number"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรูณาเพิ่มเบอร์ติดต่อ!",
               },
             ]}
@@ -292,7 +290,7 @@ const Profile_Edit = () => {
             name="Id_line"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มไอดีไลน์!",
               },
             ]}
@@ -307,7 +305,7 @@ const Profile_Edit = () => {
             name="province"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเลือกจังหวัดที่สังกัด!",
               },
             ]}

@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import moment from "moment";
+import axios from 'axios';
 
 const Manage_Fake_Info_View = () => {
   const [fnInfo, setFnInfo] = useState([]);
@@ -22,11 +23,11 @@ const Manage_Fake_Info_View = () => {
 
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/AmUser"
       );
-      if (response.ok) {
-        const userData = await response.json();
+      if (response.status === 200) {
+        const userData = await response.data;
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -42,11 +43,11 @@ const Manage_Fake_Info_View = () => {
   useEffect(() => {
     const fetchFakeNewsInfo = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           setFakeNewsInfo(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -63,11 +64,11 @@ const Manage_Fake_Info_View = () => {
     const fetchFNInfo = async () => {
       if (fakeNewsInfo && fakeNewsInfo.mfi_fninfo) {
         try {
-          const response = await fetch(
+          const response = await axios.get(
             `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${fakeNewsInfo.mfi_fninfo}`
           );
-          if (response.ok) {
-            const data = await response.json();
+          if (response.status === 200) {
+            const data = await response.data;
             setFnInfo(data);
           } else {
             console.error(
@@ -87,11 +88,11 @@ const Manage_Fake_Info_View = () => {
   useEffect(() => {
     const fetchProvince = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/Province_request"
         );
-        if (response.ok) {
-          const pv = await response.json();
+        if (response.status === 200) {
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.id === (fnInfo && fnInfo.fn_info_province)
           );
@@ -111,11 +112,11 @@ const Manage_Fake_Info_View = () => {
 
   const fetchDataAndSetOptions = async (endpoint, stateSetter) => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
-      if (response.ok) {
-        const typeCodes = await response.json();
+      if (response.status === 200) {
+        const typeCodes = await response.data;
         stateSetter(typeCodes);
       } else {
         console.error(`Error fetching codes:`, response.statusText);

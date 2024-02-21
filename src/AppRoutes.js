@@ -31,12 +31,10 @@ import ManageFakeInfoEdit from "./components/Admin/Manage_Fake_Info/Manage_Fake_
 import ManageMembers from "./components/Admin/Manage_Members/Adm_Mm_Menu";
 import ManageMembersView from "./components/Admin/Manage_Members/Adm_Mm_View";
 
-import AdmDashboardView from "./components/Admin/ManageContent/Adm_Dashboard/Adm_Dashboard_View";
 import AdmNewsView from "./components/Admin/ManageContent/Adm_News/Adm_News_view";
 import AdmArticleView from "./components/Admin/ManageContent/Adm_Article/Adm_Article_View";
 import AdmMdShareView from "./components/Admin/ManageContent/Adm_MdShare/Adm_MdShare_View";
 
-import AdmDashboardMenu from "./components/Admin/ManageContent/Adm_Dashboard/Adm_Dashboard_Menu";
 import AdmNewsMenu from "./components/Admin/ManageContent/Adm_News/Adm_News_Menu";
 import AdmArticleMenu from "./components/Admin/ManageContent/Adm_Article/Adm_Article_Menu";
 import AdmMdShareMenu from "./components/Admin/ManageContent/Adm_MdShare/Adm_MdShare_Menu";
@@ -45,7 +43,6 @@ import AdmNewsedit from "./components/Admin/ManageContent/Adm_News/Adm_News_Edit
 import AdmArticleedit from "./components/Admin/ManageContent/Adm_Article/Adm_Article_Edit";
 import AdmMdShareedit from "./components/Admin/ManageContent/Adm_MdShare/Adm_MdShare_Edit";
 
-import AdmDashboardForm from "./components/Admin/ManageContent/Adm_Dashboard/Adm_Dashboard_Form";
 import AdmArticleForm from "./components/Admin/ManageContent/Adm_Article/Adm_Article_Form";
 import AdmMdShareForm from "./components/Admin/ManageContent/Adm_MdShare/Adm_MdShare_Form";
 import AdmNewsForm from "./components/Admin/ManageContent/Adm_News/Adm_News_Form";
@@ -124,9 +121,7 @@ const routes = [
     element: <ManageMembersView />,
   },
 
-  { path: "/Admin/Adm_Dashboard_View", element: <AdmDashboardView /> },
 
-  { path: "/Admin/Adm_Dashboard_Menu", element: <AdmDashboardMenu /> },
   { path: "/Admin/Adm_News_Menu", element: <AdmNewsMenu /> },
   { path: "/Admin/Adm_Article_Menu", element: <AdmArticleMenu /> },
   { path: "/Admin/Adm_MdShare_Menu", element: <AdmMdShareMenu /> },
@@ -138,7 +133,6 @@ const routes = [
   { path: "/Admin/Adm_News_View/:id", element: <AdmNewsView /> },
   { path: "/Admin/Adm_Article_View", element: <AdmArticleView /> },
   { path: "/Admin/Adm_MdShare_View", element: <AdmMdShareView /> },
-  { path: "/Admin/Adm_Dashboard_Form", element: <AdmDashboardForm /> },
   { path: "/Admin/Adm_Article_Form", element: <AdmArticleForm /> },
   { path: "/Admin/Adm_MdShare_Form", element: <AdmMdShareForm /> },
   { path: "/Admin/Adm_News_Form", element: <AdmNewsForm /> },

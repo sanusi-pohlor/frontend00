@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import UserProfile from "../User_Comoponents/Profile_Menu";
 import moment from "moment";
 import { Typography } from "@mui/material";
+import axios from 'axios';
 
 const FnInfoView = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
@@ -17,11 +18,11 @@ const FnInfoView = () => {
   useEffect(() => {
     const fetchFakeNewsInfo = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
         );
-        if (response.ok) {
-          const data = await response.json();
+        if (response.status === 200) {
+          const data = await response.data;
           setFakeNewsInfo(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -37,11 +38,11 @@ const FnInfoView = () => {
   useEffect(() => {
   const fetchData = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
-      if (response.ok) {
-        const pv = await response.json();
+      if (response.status === 200) {
+        const pv = await response.data;
         const filteredIds = pv.filter(
           (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
         );
@@ -59,11 +60,11 @@ const FnInfoView = () => {
   useEffect(() => {
     const fetchAbout = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://checkkonproject-sub.com/api/About_request"
         );
-        if (response.ok) {
-          const pv = await response.json();
+        if (response.status === 200) {
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.id === (data.length > 0 && data[0].mfi_con_about)
           );
@@ -81,11 +82,11 @@ const FnInfoView = () => {
   useEffect(() => {
   const fetchProvince = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/Province_request"
       );
-      if (response.ok) {
-        const pv = await response.json();
+      if (response.status === 200) {
+        const pv = await response.data;
         const filteredIds = pv.filter(
           (item) =>
             item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
@@ -104,11 +105,11 @@ const FnInfoView = () => {
   useEffect(() => {
   const fetchUserInfo = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/AmUser"
       );
-      if (response.ok) {
-        const userData = await response.json();
+      if (response.status === 200) {
+        const userData = await response.data;
         const filteredIds = userData.filter(
           (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_nameid)
         );
@@ -126,11 +127,11 @@ const FnInfoView = () => {
   useEffect(() => {
   const fetchDataAndSetOptions = async () => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
-      if (response.ok) {
-        const userData = await response.json();
+      if (response.status === 200) {
+        const userData = await response.data;
         const filteredIds = userData.filter(
           (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_source)
         );
@@ -316,7 +317,6 @@ const FnInfoView = () => {
         />
         <Divider />
         <Descriptions
-          title={createTypography("รายละเอียดการแจ้ง")}
           layout="vertical"
           bordered
           items={items}
