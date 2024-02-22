@@ -150,29 +150,21 @@ const Adm_News_view = () => {
                 marginTop: "16px",
               }}
             >
-              {[...Array(8).keys()].map((index) => (
-                data[`details_image_${index}`] && (
-                  <Image
-                    key={index}
-                    className="details-image"
-                    src={data[`details_image_${index}`]}
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "300px",
-                      borderRadius: "8px",
-                    }}
-                  />
-                )
-              ))}
-            </div>
-            <div>
-              {data.link &&
-                JSON.parse(data.link).map((item, index) => (
-                  <p key={index}>
-                    Link:{" "}
-                    <a href={item.first}>{item.first.substring(0, 100)}...</a>
-                  </p>
-                ))}
+              {[...Array(8).keys()].map(
+                (index) =>
+                  data[`details_image_${index}`] && (
+                    <Image
+                      key={index}
+                      className="details-image"
+                      src={data[`details_image_${index}`]}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "300px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  )
+              )}
             </div>
             <div>
               <Space size={[4, 8]} wrap>

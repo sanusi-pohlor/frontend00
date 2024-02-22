@@ -204,36 +204,39 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/${endpoint}`
-      );
-      if (response.ok) {
-        const typeCodes = await response.json();
-        const options = typeCodes.map((code) => (
-          <Option key={code[`id`]} value={code[`id`]}>
-            {code[`${fieldName}_name`]}
-          </Option>
-        ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
-      } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
+  const fetchDataAndSetOptions = useCallback(
+    async (endpoint, fieldName, stateSetter) => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
         );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              {code[`${fieldName}_name`]}
+            </Option>
+          ));
+          form.setFieldsValue({ [fieldName]: undefined });
+          form.setFields([
+            {
+              name: fieldName,
+              value: undefined,
+            },
+          ]);
+          stateSetter(options);
+        } else {
+          console.error(
+            `Error fetching ${fieldName} codes:`,
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error(`Error fetching ${fieldName} codes:`, error);
       }
-    } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
-    }
-  }, [form]);
+    },
+    [form]
+  );
 
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
@@ -365,7 +368,8 @@ const Adm_News_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <br /><br />
+          <br />
+          <br />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
@@ -387,9 +391,15 @@ const Adm_News_Edit = () => {
           </Form.Item>
           <Form.Item
             name=""
-            label={<Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
-            รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
-          </Typography>}
+            label={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "25px", color: "red" }}
+              >
+                รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน
+                ไม่ต้องอัพโหลดใหม่)
+              </Typography>
+            }
             rules={[{ required: false }]}
             style={{
               display: "inline-block",
@@ -409,9 +419,14 @@ const Adm_News_Edit = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label={<Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
-              รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
-            </Typography>}
+            label={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "25px", color: "red" }}
+              >
+                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
+              </Typography>
+            }
             name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -437,7 +452,14 @@ const Adm_News_Edit = () => {
             </Upload>
           </Form.Item>
           {createTypography("รูปภาพเพิ่มเติมเก่า")}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
             {Array.from({ length: 8 }, (_, index) => {
               const imageKey = `details_image_${index}`;
               return data && data[imageKey] ? (
@@ -446,11 +468,10 @@ const Adm_News_Edit = () => {
                   width={200}
                   height={200}
                   src={data[imageKey]}
-                  style={{ borderRadius: '8px' }}
+                  style={{ borderRadius: "8px" }}
                 />
               ) : (
-                <div>
-                </div>
+                <div></div>
               );
             })}
           </div>
@@ -476,10 +497,11 @@ const Adm_News_Edit = () => {
             </Select>
           </Form.Item>
           <Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
-            แท็กเก่า (ให้อัพโหลดใหม่ทุกครั้ง)
+            แท็กเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
           </Typography>
           {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
-          <br /><br />
+          <br />
+          <br />
           <Form.Item
             name="type_new"
             label={createTypography("ประเภทข่าว")}

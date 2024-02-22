@@ -19,7 +19,6 @@ const Adm_News_Form = () => {
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
-  const [dataSource, setDataSource] = useState([]);
   const [options, setOptions] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -117,27 +116,6 @@ const Adm_News_Form = () => {
   const handleChange = (html) => {
     setEditorHtml(html);
   };
-
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Adm_News_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setDataSource(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const maxId = Math.max(...dataSource.map((item) => item.id));
 
   const onFinish = async (values) => {
     try {

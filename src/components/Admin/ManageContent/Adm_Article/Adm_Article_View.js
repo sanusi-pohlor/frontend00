@@ -150,20 +150,21 @@ const Adm_Article_View = () => {
                 marginTop: "16px",
               }}
             >
-              {data.details_image &&
-                JSON.parse(data.details_image).map((imageName, index) => (
-                  <Image
-                    key={index}
-                    className="details-image"
-                    src={`https://checkkonproject-sub.com/cover_image/${imageName}`}
-                    alt={`Image ${index + 1}`}
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "400px",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ))}
+              {[...Array(8).keys()].map(
+                (index) =>
+                  data[`details_image_${index}`] && (
+                    <Image
+                      key={index}
+                      className="details-image"
+                      src={data[`details_image_${index}`]}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "300px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  )
+              )}
             </div>
             <div>
               {data.link &&

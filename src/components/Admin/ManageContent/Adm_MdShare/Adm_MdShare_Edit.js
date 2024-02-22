@@ -35,7 +35,7 @@ const Adm_MdShare_Edit = () => {
     const fetchFakeNewsData = async () => {
       try {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
+          `https://checkkonproject-sub.com/api/MdShare_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -56,7 +56,7 @@ const Adm_MdShare_Edit = () => {
       }
     };
     fetchFakeNewsData();
-  }, [id,form]);
+  }, [id, form]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -173,7 +173,7 @@ const Adm_MdShare_Edit = () => {
       if (values.details_image !== undefined) {
         if (values.details_image && values.details_image.length > 0) {
           values.details_image.forEach((image, index) => {
-            formData.append(`details_image[${index}]`, image.originFileObj);
+            formData.append(`details_image_${index}`, image.originFileObj);
           });
         }
       }
@@ -304,7 +304,7 @@ const Adm_MdShare_Edit = () => {
         <div className="cardsectionContent">แก้ไขสื่อชวนแชร์</div>
       </Card>
       <Card>
-        <Form
+      <Form
           form={form}
           layout="vertical"
           name="dynamic_form_complex"
@@ -360,13 +360,15 @@ const Adm_MdShare_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          รูปภาพหน้าปกเก่า
-          <br />
+          <Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+            รูปภาพหน้าปกเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
+          </Typography>
           {data && data.cover_image ? (
             <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
           ) : (
             <div>No image available</div>
           )}
+          <br />
           <br />
           <Form.Item
             name="details"
@@ -389,7 +391,15 @@ const Adm_MdShare_Edit = () => {
           </Form.Item>
           <Form.Item
             name=""
-            label={createTypography("รายละเอียดเพิ่มเติมเก่า")}
+            label={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "25px", color: "red" }}
+              >
+                รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน
+                ไม่ต้องอัพโหลดใหม่)
+              </Typography>
+            }
             rules={[{ required: false }]}
             style={{
               display: "inline-block",
@@ -409,7 +419,14 @@ const Adm_MdShare_Edit = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปก")}
+            label={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "25px", color: "red" }}
+              >
+                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
+              </Typography>
+            }
             name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -434,19 +451,31 @@ const Adm_MdShare_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          {data &&
-          Array.isArray(data.details_image) &&
-          data.details_image.length > 0 ? (
-            <Image
-              width={200}
-              src={data.details_image[0]}
-              alt="รูปภาพข่าวปลอม"
-            />
-          ) : (
-            <div>ไม่ได้ใส่รูปภาพ</div>
-          )}
+          {createTypography("รูปภาพเพิ่มเติมเก่า")}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            {Array.from({ length: 8 }, (_, index) => {
+              const imageKey = `details_image_${index}`;
+              return data && data[imageKey] ? (
+                <Image
+                  key={imageKey}
+                  width={200}
+                  height={200}
+                  src={data[imageKey]}
+                  style={{ borderRadius: "8px" }}
+                />
+              ) : (
+                <div></div>
+              );
+            })}
+          </div>
           <br />
-          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
@@ -467,6 +496,12 @@ const Adm_MdShare_Edit = () => {
               {selectOptions_tags}
             </Select>
           </Form.Item>
+          <Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+            แท็กเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
+          </Typography>
+          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
+          <br />
+          <br />
           <Form.Item
             name="type_new"
             label={createTypography("ประเภทข่าว")}

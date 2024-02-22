@@ -19,7 +19,6 @@ const Adm_Article_Form = () => {
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
-  const [dataSource, setDataSource] = useState([]);
   const [options, setOptions] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -118,25 +117,7 @@ const Adm_Article_Form = () => {
     setEditorHtml(html);
   };
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Adm_Article_request"
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setDataSource(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const maxId = Math.max(...dataSource.map((item) => item.id));
+
   const onFinish = async (values) => {
     try {
       setLoading(true);
@@ -145,8 +126,8 @@ const Adm_Article_Form = () => {
       formData.append("title", values.title);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("details", editorHtml);
-      values.details_image.forEach((file, index) => {
-        formData.append(`details_image_${index}`, file.originFileObj);
+      values.details_image.forEach((image, index) => {
+        formData.append(`details_image_${index}`, image.originFileObj);
       });
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
@@ -163,7 +144,7 @@ const Adm_Article_Form = () => {
 
       if (response.ok) {
         message.success("Data saved successfully");
-        navigate(`/Admin/Adm_Article_View/${maxId + 1}`);
+        navigate("/Admin/Adm_Article_Menu");
       } else {
         message.error("Failed to save data");
       }
@@ -356,7 +337,7 @@ const Adm_Article_Form = () => {
           >
             <Upload
               name="details_image"
-              maxCount={10}
+              maxCount={8}
               listType="picture-card"
               beforeUpload={() => false}
             >

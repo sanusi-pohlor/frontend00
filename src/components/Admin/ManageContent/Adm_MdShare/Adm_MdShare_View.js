@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, Divider, Descriptions, Card, Space, Tag ,Image} from "antd";
+import { Modal, Divider, Descriptions, Card, Space, Tag, Image } from "antd";
 import moment from "moment";
 import AdminMenu from "../../Adm_Menu";
 import { Paper } from "@mui/material";
@@ -19,7 +19,7 @@ const Adm_MdShare_View = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/Adm_MdShare_show/${id}`
+          `https://checkkonproject-sub.com/api/MdShare_show/${id}`
         );
         const data = await response.json();
         setData(data);
@@ -149,29 +149,21 @@ const Adm_MdShare_View = () => {
                 marginTop: "16px",
               }}
             >
-              {data.details_image &&
-                JSON.parse(data.details_image).map((imageName, index) => (
-                  <Image
-                    key={index}
-                    className="details-image"
-                    src={`https://checkkonproject-sub.com/cover_image/${imageName}`}
-                    alt={`Image ${index + 1}`}
-                    style={{
-                      maxWidth: "100%",
-                      maxHeight: "400px",
-                      borderRadius: "8px",
-                    }}
-                  />
-                ))}
-            </div>
-            <div>
-              {data.link &&
-                JSON.parse(data.link).map((item, index) => (
-                  <p key={index}>
-                    Link:{" "}
-                    <a href={item.first}>{item.first.substring(0, 100)}...</a>
-                  </p>
-                ))}
+              {[...Array(8).keys()].map(
+                (index) =>
+                  data[`details_image_${index}`] && (
+                    <Image
+                      key={index}
+                      className="details-image"
+                      src={data[`details_image_${index}`]}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "300px",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  )
+              )}
             </div>
             <div>
               <Space size={[4, 8]} wrap>
