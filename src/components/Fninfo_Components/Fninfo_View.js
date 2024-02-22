@@ -23,7 +23,7 @@ const FnInfoView = () => {
         );
         if (response.status === 200) {
           const data = await response.data;
-          console.log("data : ",data);
+          console.log("data : ", data);
           setFakeNewsInfo(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -37,24 +37,24 @@ const FnInfoView = () => {
   }, [id]);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await axios.get(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
-      );
-      if (response.status === 200) {
-        const pv = await response.data;
-        const filteredIds = pv.filter(
-          (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
         );
-        setData(filteredIds);
-      } else {
-        console.error("Error fetching data:", response.statusText);
+        if (response.status === 200) {
+          const pv = await response.data;
+          const filteredIds = pv.filter(
+            (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
+          );
+          setData(filteredIds);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+    };
     fetchData();
   }, [fakeNewsInfo]);
 
@@ -81,69 +81,69 @@ const FnInfoView = () => {
   }, [data]);
 
   useEffect(() => {
-  const fetchProvince = async () => {
-    try {
-      const response = await axios.get(
-        "https://checkkonproject-sub.com/api/Province_request"
-      );
-      if (response.status === 200) {
-        const pv = await response.data;
-        const filteredIds = pv.filter(
-          (item) =>
-            item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+    const fetchProvince = async () => {
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/Province_request"
         );
-        setProvince(filteredIds);
-      } else {
-        console.error("Error fetching province data:", response.statusText);
+        if (response.status === 200) {
+          const pv = await response.data;
+          const filteredIds = pv.filter(
+            (item) =>
+              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
+          );
+          setProvince(filteredIds);
+        } else {
+          console.error("Error fetching province data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching province data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching province data:", error);
-    }
-  };
+    };
     fetchProvince();
   }, [fakeNewsInfo]);
 
   useEffect(() => {
-  const fetchUserInfo = async () => {
-    try {
-      const response = await axios.get(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
-      if (response.status === 200) {
-        const userData = await response.data;
-        const filteredIds = userData.filter(
-          (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_nameid)
+    const fetchUserInfo = async () => {
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/AmUser"
         );
-        setUserInfo(filteredIds);
-      } else {
-        console.error("Failed to fetch user data");
+        if (response.status === 200) {
+          const userData = await response.data;
+          const filteredIds = userData.filter(
+            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_nameid)
+          );
+          setUserInfo(filteredIds);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+    };
     fetchUserInfo();
   }, [fakeNewsInfo]);
 
   useEffect(() => {
-  const fetchDataAndSetOptions = async () => {
-    try {
-      const response = await axios.get(
-        "https://checkkonproject-sub.com/api/MediaChannels_request"
-      );
-      if (response.status === 200) {
-        const userData = await response.data;
-        const filteredIds = userData.filter(
-          (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_source)
+    const fetchDataAndSetOptions = async () => {
+      try {
+        const response = await axios.get(
+          "https://checkkonproject-sub.com/api/MediaChannels_request"
         );
-        setSelectOptions_med(filteredIds);
-      } else {
-        console.error("Failed to fetch user data");
+        if (response.status === 200) {
+          const userData = await response.data;
+          const filteredIds = userData.filter(
+            (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_source)
+          );
+          setSelectOptions_med(filteredIds);
+        } else {
+          console.error("Failed to fetch user data");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+    };
     fetchDataAndSetOptions();
   }, [fakeNewsInfo]);
 
@@ -247,35 +247,25 @@ const FnInfoView = () => {
         fakeNewsInfo &&
         (
           <>
-            {fakeNewsInfo.fn_info_image_0 && (
-              <Image
-                key="image_0"
-                width={200}
-                src={fakeNewsInfo.fn_info_image_0}
-                alt="รูปภาพข่าวปลอม"
-              />
-            )}
-            {fakeNewsInfo.fn_info_image_1 && (
-              <Image
-                key="image_1"
-                width={200}
-                src={fakeNewsInfo.fn_info_image_1}
-                alt="รูปภาพข่าวปลอม"
-              />
-            )}
-            {fakeNewsInfo.fn_info_image_2 && (
-              <Image
-                key="image_2"
-                width={200}
-                src={fakeNewsInfo.fn_info_image_2}
-                alt="รูปภาพข่าวปลอม"
-              />
-            )}
+            {[
+              fakeNewsInfo.fn_info_image_0,
+              fakeNewsInfo.fn_info_image_1,
+              fakeNewsInfo.fn_info_image_2,
+            ]
+              .filter(image => image !== null)
+              .map((image, index) => (
+                <Image
+                  key={`image_${index}`}
+                  style={{ width: '200px', height: '200px', marginRight: '10px' }}
+                  src={image}
+                  alt={`รูปภาพข่าวปลอม ${index}`}
+                />
+              ))}
           </>
         )
       ),
       span: 2,
-    },    
+    },
     {
       key: "12",
       label: createTypography("สถานะ", "25px", 3),

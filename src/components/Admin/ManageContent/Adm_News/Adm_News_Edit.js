@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -14,10 +14,11 @@ import {
 } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_News_Edit = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [form] = Form.useForm();
   const [data, setData] = useState(null);
@@ -35,7 +36,7 @@ const Adm_News_Edit = () => {
     const fetchFakeNewsData = async () => {
       try {
         const response = await fetch(
-          `https://checkkonproject-sub.com/api/Adm_News_edit/${id}`
+          `https://checkkonproject-sub.com/api/News_show/${id}`
         );
         if (response.ok) {
           const data = await response.json();
@@ -56,7 +57,7 @@ const Adm_News_Edit = () => {
       }
     };
     fetchFakeNewsData();
-  }, [id,form]);
+  }, [id, form]);
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -171,7 +172,7 @@ const Adm_News_Edit = () => {
       if (values.details_image !== undefined) {
         if (values.details_image && values.details_image.length > 0) {
           values.details_image.forEach((image, index) => {
-            formData.append(`details_image[${index}]`, image.originFileObj);
+            formData.append(`details_image_${index}`, image.originFileObj);
           });
         }
       }
@@ -192,6 +193,7 @@ const Adm_News_Edit = () => {
 
       if (response.ok) {
         message.success("Data saved successfully");
+        navigate("/Admin/Adm_News_Menu");
       } else {
         message.error("Failed to save data");
       }
@@ -232,7 +234,7 @@ const Adm_News_Edit = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   }, [form]);
-  
+
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
@@ -240,7 +242,7 @@ const Adm_News_Edit = () => {
       setSelectOptions_ty
     );
   }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
+
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -248,11 +250,11 @@ const Adm_News_Edit = () => {
       setSelectOptions_med
     );
   }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
+
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   }, [fetchDataAndSetOptions, setSelectOptions_prov]);
-  
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -273,7 +275,7 @@ const Adm_News_Edit = () => {
       console.error(`Error fetching codes:`, error);
     }
   }, [setSelectOptions_tags]);
-  
+
   useEffect(() => {
     onChange_mfi_ty_info_id();
     onChange_dnc_med_id();
@@ -285,7 +287,7 @@ const Adm_News_Edit = () => {
     onChange_mfi_province,
     onChange_Tags,
   ]);
-  
+
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label} {text}
@@ -355,14 +357,15 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          รูปภาพหน้าปกเก่า
-          <br />
+          <Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+            รูปภาพหน้าปกเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
+          </Typography>
           {data && data.cover_image ? (
             <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
           ) : (
             <div>No image available</div>
           )}
-          <br />
+          <br /><br />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
@@ -384,7 +387,9 @@ const Adm_News_Edit = () => {
           </Form.Item>
           <Form.Item
             name=""
-            label={createTypography("รายละเอียดเพิ่มเติมเก่า")}
+            label={<Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+            รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
+          </Typography>}
             rules={[{ required: false }]}
             style={{
               display: "inline-block",
@@ -404,7 +409,9 @@ const Adm_News_Edit = () => {
             </div>
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปก")}
+            label={<Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+              รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
+            </Typography>}
             name="details_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -429,19 +436,25 @@ const Adm_News_Edit = () => {
               </div>
             </Upload>
           </Form.Item>
-          {data &&
-          Array.isArray(data.details_image) &&
-          data.details_image.length > 0 ? (
-            <Image
-              width={200}
-              src={data.details_image[0]}
-              alt="รูปภาพข่าวปลอม"
-            />
-          ) : (
-            <div>ไม่ได้ใส่รูปภาพ</div>
-          )}
+          {createTypography("รูปภาพเพิ่มเติมเก่า")}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginTop: '16px' }}>
+            {Array.from({ length: 8 }, (_, index) => {
+              const imageKey = `details_image_${index}`;
+              return data && data[imageKey] ? (
+                <Image
+                  key={imageKey}
+                  width={200}
+                  height={200}
+                  src={data[imageKey]}
+                  style={{ borderRadius: '8px' }}
+                />
+              ) : (
+                <div>
+                </div>
+              );
+            })}
+          </div>
           <br />
-          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
@@ -462,6 +475,11 @@ const Adm_News_Edit = () => {
               {selectOptions_tags}
             </Select>
           </Form.Item>
+          <Typography variant="body1" sx={{ fontSize: "25px", color: "red" }}>
+            แท็กเก่า (ให้อัพโหลดใหม่ทุกครั้ง)
+          </Typography>
+          {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
+          <br /><br />
           <Form.Item
             name="type_new"
             label={createTypography("ประเภทข่าว")}

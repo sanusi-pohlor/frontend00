@@ -74,7 +74,7 @@ const Article_Menu = () => {
                     cover={
                       <div className="cardItemCover">
                         <Flex justify="space-between">
-                          <img
+                          <Image
                             className="cardheadImage"
                             src={item.cover_image}
                             alt={item.title}

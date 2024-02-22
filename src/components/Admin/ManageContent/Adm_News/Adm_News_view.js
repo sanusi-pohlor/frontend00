@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Modal, Divider, Descriptions, Card, Space, Tag , Image} from "antd";
+import { Modal, Divider, Descriptions, Card, Space, Tag, Image } from "antd";
 import moment from "moment";
 import AdminMenu from "../../Adm_Menu";
 import { Paper } from "@mui/material";
@@ -150,20 +150,20 @@ const Adm_News_view = () => {
                 marginTop: "16px",
               }}
             >
-              {data.details_image &&
-                JSON.parse(data.details_image).map((imageName, index) => (
+              {[...Array(8).keys()].map((index) => (
+                data[`details_image_${index}`] && (
                   <Image
                     key={index}
                     className="details-image"
-                    src={`https://checkkonproject-sub.com/cover_image/${imageName}`}
-                    alt={`Image ${index + 1}`}
+                    src={data[`details_image_${index}`]}
                     style={{
                       maxWidth: "100%",
-                      maxHeight: "400px",
+                      maxHeight: "300px",
                       borderRadius: "8px",
                     }}
                   />
-                ))}
+                )
+              ))}
             </div>
             <div>
               {data.link &&

@@ -147,8 +147,8 @@ const Adm_News_Form = () => {
       formData.append("title", values.title);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("details", editorHtml);
-      values.details_image.forEach((file, index) => {
-        formData.append(`details_image_${index}`, file.originFileObj);
+      values.details_image.forEach((image, index) => {
+        formData.append(`details_image_${index}`, image.originFileObj);
       });
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
@@ -165,7 +165,7 @@ const Adm_News_Form = () => {
 
       if (response.ok) {
         message.success("Data saved successfully");
-        navigate(`/Admin/Adm_News_View/${maxId + 1}`);
+        navigate("/Admin/Adm_News_Menu");
       } else {
         message.error("Failed to save data");
       }
@@ -362,7 +362,7 @@ const Adm_News_Form = () => {
           >
             <Upload
               name="details_image"
-              maxCount={10}
+              maxCount={8}
               listType="picture-card"
               beforeUpload={() => false}
             >

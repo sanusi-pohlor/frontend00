@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import 'react-quill/dist/quill.snow.css';
 import { Form, Input, Button, message, Upload, Card, Select } from "antd";
@@ -145,11 +145,9 @@ const Adm_Article_Form = () => {
       formData.append("title", values.title);
       formData.append("cover_image", values.cover_image[0].originFileObj);
       formData.append("details", editorHtml);
-      if (values.details_image && values.details_image.length > 0) {
-        values.details_image.forEach((image, index) => {
-          formData.append(`details_image[${index}]`, image.originFileObj);
-        });
-      }
+      values.details_image.forEach((file, index) => {
+        formData.append(`details_image_${index}`, file.originFileObj);
+      });
       formData.append("tag", JSON.stringify(values.tag));
       formData.append("type_new", values.type_new);
       formData.append("med_new", values.med_new);
@@ -207,7 +205,7 @@ const Adm_Article_Form = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   }, [form]);
-  
+
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
@@ -215,7 +213,7 @@ const Adm_Article_Form = () => {
       setSelectOptions_ty
     );
   }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
+
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -223,11 +221,11 @@ const Adm_Article_Form = () => {
       setSelectOptions_med
     );
   }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
+
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   }, [fetchDataAndSetOptions, setSelectOptions_prov]);
-  
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -248,7 +246,7 @@ const Adm_Article_Form = () => {
       console.error(`Error fetching codes:`, error);
     }
   }, [setSelectOptions_tags]);
-  
+
   useEffect(() => {
     onChange_mfi_ty_info_id();
     onChange_dnc_med_id();
