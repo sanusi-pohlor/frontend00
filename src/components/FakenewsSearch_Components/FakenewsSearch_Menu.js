@@ -38,10 +38,8 @@ const FakenewsSearch_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        const filteredData = data.filter((item) => item.mfi_results !== null);
-        const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
-        setData(sortedData);
-        setDataOrg(sortedData);
+        setData(data);
+        setDataOrg(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
