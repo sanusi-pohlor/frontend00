@@ -46,7 +46,7 @@ const Adm_MdShare_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Adm_MdShare_request"
+        "https://checkkonproject-sub.com/api/MdShare_request"
       );
       if (response.ok) {
         const data = await response.json();

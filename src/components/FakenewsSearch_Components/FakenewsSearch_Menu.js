@@ -34,7 +34,7 @@ const FakenewsSearch_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -56,7 +56,7 @@ const FakenewsSearch_Menu = () => {
   const fetchInfoData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        "https://checkkonproject-sub.com/api/fiSearch_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -266,8 +266,8 @@ const FakenewsSearch_Menu = () => {
         mfi_results === 0
           ? "ข่าวเท็จ"
           : mfi_results === 1
-          ? "ข่าวจริง"
-          : "กำลังตรวจสอบ",
+            ? "ข่าวจริง"
+            : "กำลังตรวจสอบ",
     },
     {
       title: "จัดการ",
@@ -485,19 +485,15 @@ const FakenewsSearch_Menu = () => {
               <TableBody>
                 {(rowsPerPage > 0
                   ? data.slice(
-                      page * rowsPerPage,
-                      page * rowsPerPage + rowsPerPage
-                    )
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
                   : data
                 ).map((row, rowIndex) => (
                   <TableRow key={rowIndex} hover>
                     {columns.map((column, colIndex) => (
-                      <TableCell key={`${rowIndex}-${colIndex}`} align="left">
-                        <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                          {column.render
-                            ? column.render(row[column.dataIndex], row)
-                            : row[column.dataIndex]}
-                        </Typography>
+                      <TableCell key={`${rowIndex}-${colIndex}`} align="left" style={{ fontSize: "25px" }}>
+                        {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
                       </TableCell>
                     ))}
                   </TableRow>

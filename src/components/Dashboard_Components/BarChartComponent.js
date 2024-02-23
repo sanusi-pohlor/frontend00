@@ -84,7 +84,7 @@ const MyBarChart = () => {
     const fetchData = async (endpoint, name, dataIndex) => {
       try {
         const Manage_Fake_Info = await fetch(
-          `https://checkkonproject-sub.com/api/Manage_Fake_Info_request`
+          `https://checkkonproject-sub.com/api/mfi_d_request`
         );
         const MediaChannels = await fetch(
           `https://checkkonproject-sub.com/api/${endpoint}`

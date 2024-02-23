@@ -46,7 +46,7 @@ const Adm_Article_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Adm_Article_request"
+        "https://checkkonproject-sub.com/api/Article_request"
       );
       if (response.ok) {
         const data = await response.json();

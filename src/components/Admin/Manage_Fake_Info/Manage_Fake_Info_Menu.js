@@ -43,7 +43,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchDataInfo = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        "https://checkkonproject-sub.com/api/fiSearch_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -79,7 +79,7 @@ const Manage_Fake_Info_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
         const data = await response.json();

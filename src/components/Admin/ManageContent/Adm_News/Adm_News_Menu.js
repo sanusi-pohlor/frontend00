@@ -46,7 +46,7 @@ const Adm_News_Menu = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Adm_News_request"
+        "https://checkkonproject-sub.com/api/News_request"
       );
       if (response.ok) {
         const data = await response.json();
