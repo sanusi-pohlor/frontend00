@@ -23,7 +23,7 @@ const Register_Dialog = ({ open, onClose }) => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get("https://checkkonproject-sub.com/api/AmUser");
+      const response = await axios.get("https://checkkonproject-sub.com/api/EmailUser");
       if (response.status === 200) {
         const data = response.data;
         setUser(data);
@@ -34,80 +34,77 @@ const Register_Dialog = ({ open, onClose }) => {
       console.error("Error fetching data:", error);
     }
   };
-useEffect(() => {
+
+  useEffect(() => {
     fetchData();
   }, []);
+
   const onFinish = async (values) => {
     setLoading(true);
+    let receive = 0;
+    if (receiveCtEmail) {
+      receive = 1;
+    }
+  
+    const formData = new FormData();
+    formData.append("username", values.username);
+    formData.append("lastName", values.lastName);
+    formData.append("email", values.email);
+    formData.append("password", values.password);
+    formData.append("phone_number", values.phone_number);
+    formData.append("Id_line", values.Id_line);
+    formData.append("province", values.province);
+    formData.append("receive_ct_email", receive);
+  
     try {
-      let receive = 0;
-      if (receiveCtEmail) {
-        receive = 1;
-      }
-
-      const emailExists = user.some(
-        (existingUser) => existingUser.email === values.email
-      );
-      if (emailExists) {
-        message.error("อีเมลนี้มีการใช้งานแล้ว");
-        setLoading(false);
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("username", values.username);
-      formData.append("lastName", values.lastName);
-      formData.append("email", values.email);
-      formData.append("password", values.password);
-      formData.append("phone_number", values.phone_number);
-      formData.append("Id_line", values.Id_line);
-      formData.append("province", values.province);
-      formData.append("receive_ct_email", receive);
-
-      const registerResponse = await axios.post(
-        "https://checkkonproject-sub.com/api/register",
-        formData
-      );
-
-      if (registerResponse.status === 200) {
+      // Register the user
+      const registerResponse = await fetch("https://checkkonproject-sub.com/api/register", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (registerResponse.ok) {
+        const registerData = await registerResponse.json();
         message.success("สมัครสมาชิกเสร็จสิ้น");
-        const registerData = await registerResponse.data;
-        localStorage.setItem("access_token", registerData.message);
-
-        const loginResponse = await axios.post(
-          "https://checkkonproject-sub.com/api/login",
-          {
+        
+        // Login the user
+        const loginResponse = await fetch("https://checkkonproject-sub.com/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
             email: values.email,
             password: values.password,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (loginResponse.status === 200) {
-          const loginData = await loginResponse.data;
+          }),
+        });
+  
+        if (loginResponse.ok) {
+          const loginData = await loginResponse.json();
           localStorage.setItem("access_token", loginData.message);
           window.location.reload();
         } else {
-          message.error("เกิดข้อผิดพลาด");
+          message.error("เกิดข้อผิดพลาดในการล็อกอิน");
         }
+  
         onClose();
         navigate(`/`);
         window.location.reload();
       } else {
-        message.error("เกิดข้อผิดพลาด");
+        if (registerResponse.status === 409) {
+          message.error("อีเมลนี้มีการใช้งานแล้ว");
+        } else {
+          message.error("เกิดข้อผิดพลาดในการสมัครสมาชิก");
+        }
       }
     } catch (error) {
       console.error("Error registering user:", error);
-      message.error("เกิดข้อผิดพลาด");
+      message.error("เกิดข้อผิดพลาดในการล็อกอิน");
     } finally {
       setLoading(false);
     }
   };
-
+  
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };

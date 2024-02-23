@@ -210,7 +210,7 @@ const Adm_Article_Menu = () => {
               icon={<PlusCircleOutlined />}
               className="buttonfilterStyle"
             >
-              จัดการบทความ
+              เพิ่มบทความ
             </Button>
           </Link>
         </div>

@@ -25,7 +25,7 @@ const Adm_Article_View = () => {
         setData(data);
         setTags(JSON.parse(data.tag) || []);
       } catch (error) {
-        console.error("Error fetching news data:", error);
+        console.error("Error fetching Article data:", error);
       }
     };
 

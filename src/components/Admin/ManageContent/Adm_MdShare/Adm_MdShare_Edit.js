@@ -32,7 +32,7 @@ const Adm_MdShare_Edit = () => {
   const [options, setOptions] = useState([]);
 
   useEffect(() => {
-    const fetchFakeNewsData = async () => {
+    const fetchFakeData = async () => {
       try {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/MdShare_show/${id}`
@@ -55,7 +55,7 @@ const Adm_MdShare_Edit = () => {
         console.error("Error:", error);
       }
     };
-    fetchFakeNewsData();
+    fetchFakeData();
   }, [id, form]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -185,7 +185,7 @@ const Adm_MdShare_Edit = () => {
       appendIfDefined("prov_new", values.prov_new);
 
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
+        `https://checkkonproject-sub.com/api/Adm_MdShare_update/${id}`,
         {
           method: "POST",
           body: formData,

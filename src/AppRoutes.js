@@ -131,8 +131,8 @@ const routes = [
   { path: "/Admin/Adm_MdShare_edit/:id", element: <AdmMdShareedit /> },
 
   { path: "/Admin/Adm_News_View/:id", element: <AdmNewsView /> },
-  { path: "/Admin/Adm_Article_View", element: <AdmArticleView /> },
-  { path: "/Admin/Adm_MdShare_View", element: <AdmMdShareView /> },
+  { path: "/Admin/Adm_Article_View/:id", element: <AdmArticleView /> },
+  { path: "/Admin/Adm_MdShare_View/:id", element: <AdmMdShareView /> },
   { path: "/Admin/Adm_Article_Form", element: <AdmArticleForm /> },
   { path: "/Admin/Adm_MdShare_Form", element: <AdmMdShareForm /> },
   { path: "/Admin/Adm_News_Form", element: <AdmNewsForm /> },

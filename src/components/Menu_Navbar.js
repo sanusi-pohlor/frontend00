@@ -35,6 +35,7 @@ function Menu_Navbar() {
   const Navigate = useNavigate();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -54,12 +55,53 @@ function Menu_Navbar() {
           console.log("User data retrieval failed");
         }
       } catch (error) {
-        console.log("User data retrieval failed", error);
+        if (error.response && error.response.status === 401) {
+          try {
+            const refreshResponse = await axios.post(
+              "https://checkkonproject-sub.com/api/refresh-token",
+              {},
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+  
+            if (refreshResponse.status === 200) {
+              const newToken = refreshResponse.data.token;
+              localStorage.setItem("access_token", newToken);
+  
+              const retryResponse = await axios.get(
+                "https://checkkonproject-sub.com/api/user",
+                {
+                  headers: {
+                    Authorization: `Bearer ${newToken}`,
+                  },
+                }
+              );
+  
+              if (retryResponse.status === 200) {
+                const retryData = retryResponse.data;
+                setUser(retryData);
+              } else {
+                console.log("User data retrieval after token refresh failed");
+              }
+            } else {
+              console.log("Token refresh failed");
+            }
+          } catch (refreshError) {
+            console.log("Token refresh request failed", refreshError);
+          }
+        } else {
+          console.log("User data retrieval failed", error);
+        }
       }
     };
   
     fetchUser();
-  }, []);
+  }, []);  
+  
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
