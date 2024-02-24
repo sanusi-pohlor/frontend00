@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const Register_Dialog = ({ open, onClose }) => {
-  const [user, setUser] = useState(null);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,31 +20,12 @@ const Register_Dialog = ({ open, onClose }) => {
   const { Option } = Select;
   const [form] = Form.useForm();
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get("https://checkkonproject-sub.com/api/EmailUser");
-      if (response.status === 200) {
-        const data = response.data;
-        setUser(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const onFinish = async (values) => {
     setLoading(true);
     let receive = 0;
     if (receiveCtEmail) {
       receive = 1;
     }
-  
     const formData = new FormData();
     formData.append("username", values.username);
     formData.append("lastName", values.lastName);
@@ -55,19 +35,14 @@ const Register_Dialog = ({ open, onClose }) => {
     formData.append("Id_line", values.Id_line);
     formData.append("province", values.province);
     formData.append("receive_ct_email", receive);
-  
     try {
-      // Register the user
       const registerResponse = await fetch("https://checkkonproject-sub.com/api/register", {
         method: "POST",
         body: formData,
       });
-  
+
       if (registerResponse.ok) {
-        const registerData = await registerResponse.json();
         message.success("สมัครสมาชิกเสร็จสิ้น");
-        
-        // Login the user
         const loginResponse = await fetch("https://checkkonproject-sub.com/api/login", {
           method: "POST",
           headers: {
@@ -78,7 +53,6 @@ const Register_Dialog = ({ open, onClose }) => {
             password: values.password,
           }),
         });
-  
         if (loginResponse.ok) {
           const loginData = await loginResponse.json();
           localStorage.setItem("access_token", loginData.message);
@@ -86,7 +60,6 @@ const Register_Dialog = ({ open, onClose }) => {
         } else {
           message.error("เกิดข้อผิดพลาดในการล็อกอิน");
         }
-  
         onClose();
         navigate(`/`);
         window.location.reload();
@@ -104,7 +77,7 @@ const Register_Dialog = ({ open, onClose }) => {
       setLoading(false);
     }
   };
-  
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -114,21 +87,21 @@ const Register_Dialog = ({ open, onClose }) => {
     setReceiveCtEmail(isChecked);
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+  const fetchDataAndSetOptions = async () => {
     try {
       const response = await axios.get(
-        `https://checkkonproject-sub.com/api/${endpoint}`
+        "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.status === 200) {
         const typeCodes = response.data;
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>
-              {code[`${fieldName}_name`]}
+              {code["prov_name"]}
             </Typography>
           </Option>
         ));
-        stateSetter(options);
+        setSelectOptions_prov(options);
       } else {
         console.error(`Error `, response.statusText);
       }
@@ -138,7 +111,7 @@ const Register_Dialog = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+    fetchDataAndSetOptions();
   }, []);
 
   const createTypography = (label, text, fontSize = "30px") => (

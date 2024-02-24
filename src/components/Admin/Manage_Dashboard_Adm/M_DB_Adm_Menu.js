@@ -90,7 +90,7 @@ const M_DB_Adm_Menu = () => {
   const fetchData_Manage = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -449,6 +449,7 @@ const M_DB_Adm_Menu = () => {
         <Descriptions
           bordered
           items={items}
+          layout="vertical"
           style={{
             maxWidth: "80%",
             margin: "auto",

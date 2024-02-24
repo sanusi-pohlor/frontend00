@@ -15,32 +15,31 @@ const FnInfoView = () => {
   const [about, setAbout] = useState([]);
   const { id } = useParams();
 
-  useEffect(() => {
-    const fetchFakeNewsInfo = async () => {
-      try {
-        const response = await axios.get(
-          `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
-        );
-        if (response.status === 200) {
-          const data = await response.data;
-          console.log("data : ", data);
-          setFakeNewsInfo(data);
-        } else {
-          console.error("Error fetching data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
+  const fetchFakeNewsInfo = async () => {
+    try {
+      const response = await axios.get(
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
+      );
+      if (response.status === 200) {
+        const data = await response.data;
+        setFakeNewsInfo(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
     fetchFakeNewsInfo();
-  }, [id]);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+          `https://checkkonproject-sub.com/api/mfi_fn_request/${fakeNewsInfo.id}`
         );
         if (response.status === 200) {
           const pv = await response.data;

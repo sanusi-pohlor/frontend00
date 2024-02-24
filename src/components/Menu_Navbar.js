@@ -25,7 +25,6 @@ import RegisterDialog from "./User_Comoponents/Register_Dialog";
 import PropTypes from "prop-types";
 import "./Menu_Navbar.css";
 import { useTheme } from "@mui/material/styles";
-import axios from 'axios';
 
 function Menu_Navbar() {
   const location = useLocation();
@@ -35,21 +34,22 @@ function Menu_Navbar() {
   const Navigate = useNavigate();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           "https://checkkonproject-sub.com/api/user",
           {
+            method: "GET",
             headers: {
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
             },
           }
         );
-  
-        if (response.status === 200) {
-          const data = response.data;
+
+        if (response.ok) {
+          const data = await response.json();
           setUser(data);
         } else {
           console.log("User data retrieval failed");
@@ -57,32 +57,34 @@ function Menu_Navbar() {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           try {
-            const refreshResponse = await axios.post(
+            const refreshResponse = await fetch(
               "https://checkkonproject-sub.com/api/refresh-token",
-              {},
               {
+                method: "POST",
                 headers: {
                   Authorization: `Bearer ${localStorage.getItem("access_token")}`,
                   "Content-Type": "application/json",
                 },
               }
             );
-  
-            if (refreshResponse.status === 200) {
-              const newToken = refreshResponse.data.token;
+
+            if (refreshResponse.ok) {
+              const refreshData = await refreshResponse.json();
+              const newToken = refreshData.token;
               localStorage.setItem("access_token", newToken);
-  
-              const retryResponse = await axios.get(
+
+              const retryResponse = await fetch(
                 "https://checkkonproject-sub.com/api/user",
                 {
+                  method: "GET",
                   headers: {
                     Authorization: `Bearer ${newToken}`,
                   },
                 }
               );
-  
-              if (retryResponse.status === 200) {
-                const retryData = retryResponse.data;
+
+              if (retryResponse.ok) {
+                const retryData = await retryResponse.json();
                 setUser(retryData);
               } else {
                 console.log("User data retrieval after token refresh failed");
@@ -98,10 +100,10 @@ function Menu_Navbar() {
         }
       }
     };
-  
+
     fetchUser();
-  }, []);  
-  
+  }, []);
+
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
@@ -168,21 +170,21 @@ function Menu_Navbar() {
   };
   const pages = user
     ? [
-        { label: "หน้าหลัก", link: "/" },
-        { label: "ข่าวสาร", link: "/News_Menu" },
-        { label: "บทความ", link: "/Article_Menu" },
-        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-        { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
-        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-      ]
+      { label: "หน้าหลัก", link: "/" },
+      { label: "ข่าวสาร", link: "/News_Menu" },
+      { label: "บทความ", link: "/Article_Menu" },
+      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+      { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
+      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+    ]
     : [
-        { label: "หน้าหลัก", link: "/" },
-        { label: "ข่าวสาร", link: "/News_Menu" },
-        { label: "บทความ", link: "/Article_Menu" },
-        { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
-        { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
-        { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-      ];
+      { label: "หน้าหลัก", link: "/" },
+      { label: "ข่าวสาร", link: "/News_Menu" },
+      { label: "บทความ", link: "/Article_Menu" },
+      { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
+      { label: "แจ้งข้อมูลเท็จ", link: "/Warn" },
+      { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
+    ];
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
