@@ -8,11 +8,11 @@ import axios from 'axios';
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [data, setData] = useState(null);
-  const [province, setProvince] = useState([]);
+  const [province, setProvince] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     function handleResize() {
       setIsMobile(window.innerWidth < 768);
@@ -34,11 +34,10 @@ const Profile = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
+        const userResponse = await axios.get(
           "https://checkkonproject-sub.com/api/user",
           {
             headers: {
@@ -46,9 +45,33 @@ const Profile = () => {
             },
           }
         );
-        if (response.status === 200) {
-          const data = await response.data;
-          setUser(data);
+        if (userResponse.status === 200) {
+          const userData = await userResponse.data;
+          setUser(userData);
+  
+          // Fetch additional data and province data only if user data is available
+          const [fiproResponse, provinceResponse] = await Promise.all([
+            axios.get(
+              `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
+            ),
+            axios.get(
+              `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
+            ),
+          ]);
+  
+          if (fiproResponse.status === 200) {
+            const fiproData = await fiproResponse.data;
+            setData(fiproData);
+          } else {
+            console.error("Error fetching data:", fiproResponse.statusText);
+          }
+  
+          if (provinceResponse.status === 200) {
+            const provinceData = await provinceResponse.data;
+            setProvince(provinceData);
+          } else {
+            console.error("Error fetching province data:", provinceResponse.statusText);
+          }
         } else {
           console.error("User data retrieval failed");
         }
@@ -56,58 +79,11 @@ const Profile = () => {
         console.error("Error:", error);
       }
     };
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    const fetchProvince = async () => {
-      try {
-        const response = await axios.get(
-          "https://checkkonproject-sub.com/api/Province_request"
-        );
-        if (response.status === 200) {
-          const pv = await response.data;
-          const filteredIds = pv.filter(
-            (item) => item.id === (user && user.province)
-          );
-          setProvince(filteredIds);
-        } else {
-          console.error("Error fetching province data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching province data:", error);
-      }
-    };
-    if (user && user.province) {
-      fetchProvince();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) { // Check if user is not null
-          const response = await axios.get(
-            "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-          );
-          if (response.status === 200) {
-            const data = await response.data;
-            const countData = data.filter(
-              (item) => item.fn_info_nameid === user.id
-            );
-            setData(countData);
-          } else {
-            console.error("Error fetching data:", response.statusText);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
   
     fetchData();
-  }, [user]);
+  }, []);
   
+
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -157,7 +133,7 @@ const Profile = () => {
     {
       key: "7",
       label: createTypography("จังหวัดที่อยู่"),
-      children: province.length > 0 && createTypography(province[0].prov_name),
+      children: province && createTypography(province[0].prov_name),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
   ];
@@ -210,7 +186,7 @@ const Profile = () => {
                 }}
               >
                 <span>ข้อมูลที่แจ้งทั้งหมด</span>
-                <span>{data.length}</span>
+                <span>{data.sam}</span>
               </Typography>
               <Divider />
               <Typography
@@ -224,8 +200,7 @@ const Profile = () => {
                 <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
                 <span>
                   {
-                    data.filter((item) => item.fn_info_status === 0)
-                      .length
+                    data.status_0
                   }
                 </span>
               </Typography>
@@ -241,8 +216,7 @@ const Profile = () => {
                 <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
                 <span>
                   {
-                    data.filter((item) => item.fn_info_status === 1)
-                      .length
+                    data.status_1
                   }
                 </span>
               </Typography>
@@ -258,8 +232,7 @@ const Profile = () => {
                 <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
                 <span>
                   {
-                    data.filter((item) => item.fn_info_status === 2)
-                      .length
+                    data.status_2
                   }
                 </span>
               </Typography>
@@ -294,6 +267,9 @@ const Profile = () => {
         </div>
       )}
       <Divider />
+      <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
+        ข้อมูลส่วนตัว
+      </Typography>
       <Descriptions layout="vertical" bordered items={items} />
     </UserProfile>
   );

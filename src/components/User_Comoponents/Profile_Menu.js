@@ -17,7 +17,6 @@ const determineSelectedKey = (pathname) => {
 
 const MenuProfile = ({ children }) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [user, setUser] = useState(null);
@@ -33,9 +32,9 @@ const MenuProfile = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get(
+        const userResponse = await axios.get(
           "https://checkkonproject-sub.com/api/user",
           {
             headers: {
@@ -43,9 +42,22 @@ const MenuProfile = ({ children }) => {
             },
           }
         );
-        if (response.status === 200) {
-          const data = response.data;
-          setUser(data);
+        if (userResponse.status === 200) {
+          const userData = await userResponse.data;
+          setUser(userData);
+          const [fiproResponse] = await Promise.all([
+            axios.get(
+              `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
+            ),
+          ]);
+
+          if (fiproResponse.status === 200) {
+            const fiproData = await fiproResponse.data;
+            setData(fiproData);
+          } else {
+            console.error("Error fetching data:", fiproResponse.statusText);
+          }
+
         } else {
           console.error("User data retrieval failed");
         }
@@ -53,43 +65,18 @@ const MenuProfile = ({ children }) => {
         console.error("Error:", error);
       }
     };
-    fetchUser();
+
+    fetchData();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-        );
-        if (response.status === 200) {
-          const data = await response.data;
-          const countData = data.filter(
-            (item) => item.fn_info_nameid === user.id
-          );
-          setData(countData);
-        } else {
-          console.error("Error fetching data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (user) {
-      fetchData();
-    }
-  }, [user]);
 
-  if (loading) {
+  if (!user) {
     return (
       <Spin tip="กรุณารอสักครู่" size="large">
         <div className="content" />
       </Spin>
     );
   }
-
   return (
     <div className="backgroundColor">
       <Paper
@@ -135,7 +122,7 @@ const MenuProfile = ({ children }) => {
                       }}
                     >
                       <span>ข้อมูลที่แจ้งทั้งหมด</span>
-                      <span>{data.length}</span>
+                      <span>{data.sam}</span>
                     </Typography>
                     <Divider />
                     <br />
@@ -150,8 +137,7 @@ const MenuProfile = ({ children }) => {
                       <span>ข้อมูลที่รอดำเนินการตรวจสอบ</span>
                       <span>
                         {
-                          data.filter((item) => item.fn_info_status === 0)
-                            .length
+                          data.status_0
                         }
                       </span>
                     </Typography>
@@ -168,8 +154,7 @@ const MenuProfile = ({ children }) => {
                       <span>ข้อมูลที่อยู่ระหว่างการตรวจสอบ</span>
                       <span>
                         {
-                          data.filter((item) => item.fn_info_status === 1)
-                            .length
+                          data.status_1
                         }
                       </span>
                     </Typography>
@@ -186,8 +171,7 @@ const MenuProfile = ({ children }) => {
                       <span>ข้อมูลที่ดำเนินการตรวจสอบเสร็จสิ้น</span>
                       <span>
                         {
-                          data.filter((item) => item.fn_info_status === 2)
-                            .length
+                          data.status_2
                         }
                       </span>
                     </Typography>
@@ -216,7 +200,7 @@ const MenuProfile = ({ children }) => {
                   />
                 ))}
               </Tabs>
-              <br/>
+              <br />
               {children}
             </Card>
           </Grid>

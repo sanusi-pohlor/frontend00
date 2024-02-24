@@ -24,25 +24,6 @@ const Profile_Edit = () => {
   const [prov, setProv] = useState(null);
   const navigate = useNavigate();
 
-  const fetchProvince = async () => {
-    try {
-      const response = await axios.get(
-        "https://checkkonproject-sub.com/api/Province_request"
-      );
-      if (response.status === 200) {
-        const data = await response.data;
-        setProvince(data);
-      } else {
-        console.error("Error fetching province data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching province data:", error);
-    }
-  };
-  useEffect(() => {
-    fetchProvince();
-  }, []);
-
   useEffect(() => {
     const fetchFakeNewsData = async () => {
       try {
@@ -128,41 +109,35 @@ const Profile_Edit = () => {
     setReceiveCtEmail(isChecked);
   };
 
-  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+  const fetchDataAndSetOptions = async () => {
     try {
       const response = await axios.get(
-        `https://checkkonproject-sub.com/api/${endpoint}`
+        "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.status === 200) {
-        const typeCodes = await response.data;
+        const typeCodes = response.data;
+        setProvince(typeCodes);
+        setProvince(typeCodes);
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>
-              {code[`${fieldName}_name`]}
+              {code["prov_name"]}
             </Typography>
           </Option>
         ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
-        stateSetter(options);
+        setSelectOptions_prov(options);
       } else {
-        console.error(
-          `Error fetching ${fieldName} codes:`,
-          response.statusText
-        );
+        console.error(`Error `, response.statusText);
       }
     } catch (error) {
-      console.error(`Error fetching ${fieldName} codes:`, error);
+      console.error("Error:", error);
     }
   };
-  const onChange_mfi_province = () => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  };
+
+  useEffect(() => {
+    fetchDataAndSetOptions();
+  }, []);
+
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -310,7 +285,7 @@ const Profile_Edit = () => {
               },
             ]}
           >
-            <Select onChange={onChange_mfi_province} allowClear>
+            <Select allowClear>
               {selectOptions_prov}
             </Select>
           </Form.Item>

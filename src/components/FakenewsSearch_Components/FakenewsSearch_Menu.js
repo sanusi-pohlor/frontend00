@@ -109,7 +109,7 @@ const FakenewsSearch_Menu = () => {
   };
   useEffect(() => {
     Province();
-  }, [data]);
+  }, []);
 
   const onFinish = (values) => {
     const { type_new, med_new, prov_new, tags, results } = values;
@@ -164,13 +164,6 @@ const FakenewsSearch_Menu = () => {
               {code[`${fieldName}_name`]}
             </Option>
           ));
-          form.setFieldsValue({ [fieldName]: undefined });
-          form.setFields([
-            {
-              name: fieldName,
-              value: undefined,
-            },
-          ]);
           stateSetter(options);
         } else {
           console.error(
@@ -182,7 +175,7 @@ const FakenewsSearch_Menu = () => {
         console.error(`Error fetching ${fieldName} codes:`, error);
       }
     },
-    [form]
+    []
   );
 
   const onChange_Tags = useCallback(async () => {
@@ -208,7 +201,7 @@ const FakenewsSearch_Menu = () => {
 
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+  }, []);
 
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
@@ -216,7 +209,7 @@ const FakenewsSearch_Menu = () => {
       "type_info",
       setSelectOptions_ty
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  }, []);
 
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
@@ -224,19 +217,14 @@ const FakenewsSearch_Menu = () => {
       "med_c",
       setSelectOptions_med
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  }, []);
 
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_Tags();
-  }, [
-    onChange_mfi_province,
-    onChange_dnc_med_id,
-    onChange_mfi_ty_info_id,
-    onChange_Tags,
-  ]);
+  }, []);
 
   const columns = [
     {
