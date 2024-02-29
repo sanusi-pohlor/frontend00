@@ -31,6 +31,20 @@ const FakenewsSearch_Menu = () => {
   const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
 
+  const fetchAll = async () => {
+    await fetchData();
+    await fetchInfoData();
+    await Province();
+    await onChange_Tags();
+    await onChange_mfi_province();
+    await onChange_dnc_med_id();
+    await onChange_mfi_ty_info_id();
+  };
+
+  useEffect(() => {
+    fetchAll();
+  }, []);
+
   const fetchData = async () => {
     try {
       const response = await fetch(
