@@ -75,7 +75,7 @@ const M_DB_Adm_Menu = () => {
   const fetchDataInfo = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
+        "https://checkkonproject-sub.com/api/fiadmin_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -288,7 +288,7 @@ const M_DB_Adm_Menu = () => {
     const fetchData = async (endpoint, name, dataIndex) => {
       try {
         const Manage_Fake_Info = await fetch(
-          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+          "https://checkkonproject-sub.com/api/mfi_d_request"
         );
         const MediaChannels = await fetch(
           `https://checkkonproject-sub.com/api/${endpoint}`
@@ -354,90 +354,40 @@ const M_DB_Adm_Menu = () => {
       </Card>
       <Divider />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={4}>
-          <Card hoverable className="dataCard">
-            <div className="pieChartTitle">ประเภทสื่อ</div>
-            <Divider />
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart className="PieChartContainer">
-                <Tooltip />
-                <Legend />
-                <Pie
-                  data={chartData1}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
-                >
-                  {chartData1.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Card hoverable className="dataCard">
-            <div className="pieChartTitle">รูปแบบข่าว</div>
-            <Divider />
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart className="PieChartContainer">
-                <Tooltip />
-                <Legend />
-                <Pie
-                  data={chartData2}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
-                >
-                  {chartData2.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Card hoverable className="dataCard">
-            <div className="pieChartTitle">จังหวัด</div>
-            <Divider />
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart className="PieChartContainer">
-                <Tooltip />
-                <Legend />
-                <Pie
-                  data={chartData3}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
-                >
-                  {chartData3.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-              </PieChart>
-            </ResponsiveContainer>
-          </Card>
-        </Grid>
+        {[
+          { data: chartData1, title: 'ประเภทสื่อ' },
+          { data: chartData2, title: 'รูปแบบข่าว' },
+          { data: chartData3, title: 'จังหวัด' },
+        ].map((chart, gridIndex) => (
+          <Grid key={`grid-${gridIndex}`} item xs={12} md={4}>
+            <Card hoverable className="dataCard">
+              <div className="pieChartTitle">{chart.title}</div>
+              <Divider />
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart className="PieChartContainer">
+                  <Tooltip />
+                  <Legend />
+                  <Pie
+                    data={chart.data}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={`${Math.min(80, 80) - 1}%`}
+                    label
+                  >
+                    {chart.data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${entry.name}-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </Card>
+          </Grid>
+        ))}
       </Grid>
       <Divider />
       <Card>

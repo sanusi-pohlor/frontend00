@@ -201,6 +201,7 @@ const Adm_Info_Check = () => {
         throw new Error("Error sending additional form data");
       }
       const formData = new FormData();
+      formData.append("mfi_province", fakeNewsInfo.fn_info_province);
       formData.append("mfi_c_info", values.mfi_c_info);
       formData.append("mfi_agency", values.mfi_agency);
       formData.append("mfi_d_topic", values.mfi_d_topic);

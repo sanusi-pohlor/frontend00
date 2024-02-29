@@ -77,10 +77,7 @@ const Adm_MdShare_Edit = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setOptions((prevOptions) => [
-          ...prevOptions,
-          { label: data.tag_name, value: data.tag_name },
-        ]);
+        setOptions((prevOptions) => [...prevOptions, { label: data.tag_name }]);
       } else {
         console.error("Error adding tag:", response.statusText);
       }
@@ -304,7 +301,7 @@ const Adm_MdShare_Edit = () => {
         <div className="cardsectionContent">แก้ไขสื่อชวนแชร์</div>
       </Card>
       <Card>
-      <Form
+        <Form
           form={form}
           layout="vertical"
           name="dynamic_form_complex"
