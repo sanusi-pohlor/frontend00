@@ -14,10 +14,11 @@ import {
 } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 const { Option } = Select;
 
 const Adm_MdShare_Edit = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [form] = Form.useForm();
   const [data, setData] = useState(null);
@@ -191,6 +192,7 @@ const Adm_MdShare_Edit = () => {
 
       if (response.ok) {
         message.success("Data saved successfully");
+        navigate("/Admin/Adm_MdShare_Menu");
       } else {
         message.error("Failed to save data");
       }
