@@ -83,9 +83,8 @@ const Manage_Fake_Info_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        const sortedData = data.slice().sort((a, b) => b.id - a.id);
-        setData(sortedData);
-        setDataOrg(sortedData);
+        setData(data);
+        setDataOrg(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -114,7 +113,7 @@ const Manage_Fake_Info_Menu = () => {
   };
   useEffect(() => {
     Province();
-  }, [data]);
+  }, []);
 
   const handleConfirm = async (id) => {
     try {

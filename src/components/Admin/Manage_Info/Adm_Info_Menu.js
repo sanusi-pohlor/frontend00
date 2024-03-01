@@ -41,7 +41,7 @@ const ManageMembers = () => {
   const fetchData_Manage = async () => {
     try {
       const response = await fetch(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/mfi_menu_request"
       );
       if (response.ok) {
         const data = await response.json();
@@ -112,7 +112,7 @@ const ManageMembers = () => {
   };
   useEffect(() => {
     Province();
-  }, [data]);
+  }, []);
 
   const getStatusText = (status) => {
     switch (status) {

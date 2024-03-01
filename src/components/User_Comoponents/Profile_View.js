@@ -48,8 +48,6 @@ const Profile = () => {
         if (userResponse.status === 200) {
           const userData = await userResponse.data;
           setUser(userData);
-  
-          // Fetch additional data and province data only if user data is available
           const [fiproResponse, provinceResponse] = await Promise.all([
             axios.get(
               `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
@@ -58,14 +56,12 @@ const Profile = () => {
               `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
             ),
           ]);
-  
           if (fiproResponse.status === 200) {
             const fiproData = await fiproResponse.data;
             setData(fiproData);
           } else {
             console.error("Error fetching data:", fiproResponse.statusText);
           }
-  
           if (provinceResponse.status === 200) {
             const provinceData = await provinceResponse.data;
             setProvince(provinceData);
@@ -79,11 +75,8 @@ const Profile = () => {
         console.error("Error:", error);
       }
     };
-  
     fetchData();
   }, []);
-  
-
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

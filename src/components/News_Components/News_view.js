@@ -37,9 +37,9 @@ const News_view = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
     fetchData();
-  }, [id]);
+  }, []);
+  
   const items = [
     {
       key: "1",

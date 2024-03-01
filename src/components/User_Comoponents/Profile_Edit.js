@@ -24,36 +24,37 @@ const Profile_Edit = () => {
   const [prov, setProv] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchFakeNewsData = async () => {
-      try {
-        const response = await axios.get(
-          `https://checkkonproject-sub.com/api/User_edit/${id}`
+
+  const fetchFakeNewsData = async () => {
+    try {
+      const response = await axios.get(
+        `https://checkkonproject-sub.com/api/User_edit/${id}`
+      );
+      if (response.status === 200) {
+        const data = await response.data;
+        setUserdata(data);
+        const filteredIds = province.filter(
+          (item) => item.id === (data && data.province)
         );
-        if (response.status === 200) {
-          const data = await response.data;
-          setUserdata(data);
-          const filteredIds = province.filter(
-            (item) => item.id === (data && data.province)
-          );
-          form.setFieldsValue({
-            username: data.username,
-            lastName: data.lastName,
-            email: data.email,
-            password: data.password,
-            phone_number: data.phone_number,
-            Id_line: data.Id_line,
-            province: filteredIds[0].prov_name,
-            receive_ct_email: data.receive_ct_email,
-          });
-          setProv(data.province);
-        } else {
-          console.error("Invalid date received from the server");
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+        form.setFieldsValue({
+          username: data.username,
+          lastName: data.lastName,
+          email: data.email,
+          password: data.password,
+          phone_number: data.phone_number,
+          Id_line: data.Id_line,
+          province: filteredIds[0].prov_name,
+          receive_ct_email: data.receive_ct_email,
+        });
+        setProv(data.province);
+      } else {
+        console.error("Invalid date received from the server");
       }
-    };
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  useEffect(() => {
     fetchFakeNewsData();
   }, [id, province, form]);
 

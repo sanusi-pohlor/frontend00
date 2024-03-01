@@ -62,27 +62,7 @@ const ManageInfo_view = () => {
     fetchInfo_source();
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
-        );
-        if (response.ok) {
-          const data = await response.json();
-          const filteredIds = data.filter(
-            (item) => item.mfi_fninfo === parseInt(id, 10)
-          );
-          setData(filteredIds);
-        } else {
-          console.error("Error fetching data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-    fetchData();
-  }, [id]);
+
 
   const fetchFakeNewsInfo = useCallback(async () => {
     try {
@@ -98,11 +78,30 @@ const ManageInfo_view = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [id, setFakeNewsInfo]);
+  }, []);
 
   useEffect(() => {
     fetchFakeNewsInfo();
-  }, [id, fetchFakeNewsInfo]);
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/mfi_info_view_request/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const fetchProvince = async () => {

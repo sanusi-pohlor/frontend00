@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Badge,
   Form,
@@ -36,27 +36,6 @@ const Adm_Info_Check = () => {
   const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
-  const [datamfn, setDatamfn] = useState([]);
-
-  useEffect(() => {
-    const fetchDatamfn = async () => {
-      try {
-        const response = await axios.get(
-          "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
-        );
-        if (response.status === 200) {
-          const pv = await response.data;
-          setDatamfn(pv);
-        } else {
-          console.error("Error fetching data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-      fetchDatamfn();
-    }, []); 
-  
 
   const handleTagCreation = async (value) => {
     try {
@@ -140,7 +119,7 @@ const Adm_Info_Check = () => {
 
   useEffect(() => {
     fetchFakeNewsInfo();
-  }, [fetchFakeNewsInfo]);
+  }, []);
 
   const renderReporterInfo = () => {
     if (!userInfo || !fakeNewsInfo) {
@@ -158,15 +137,11 @@ const Adm_Info_Check = () => {
     const fetchProvince = async () => {
       try {
         const response = await fetch(
-          "https://checkkonproject-sub.com/api/Province_request"
+          `https://checkkonproject-sub.com/api/Pvname_request/${fakeNewsInfo.fn_info_province.id}`
         );
         if (response.ok) {
           const pv = await response.json();
-          const filteredIds = pv.filter(
-            (item) =>
-              item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
-          );
-          setProvince(filteredIds);
+          setProvince(pv);
         } else {
           console.error("Error fetching province data:", response.statusText);
         }
@@ -174,32 +149,10 @@ const Adm_Info_Check = () => {
         console.error("Error fetching province data:", error);
       }
     };
-
-    if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
-      fetchProvince();
-    }
-  }, [fakeNewsInfo]);
-
-  const mfnmaxId = Math.max(...datamfn.map((item) => item.id));
+  }, []);
 
   const onFinish = async (values) => {
     try {
-      const formData2 = new FormData();
-      formData2.append("fn_minfo_id", mfnmaxId);
-  
-      const response2 = await fetch(
-        `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
-        {
-          method: "POST",
-          body: formData2,
-        }
-      );
-  
-      if (response2.status === 200) {
-        console.log("Additional form data sent successfully");
-      } else {
-        throw new Error("Error sending additional form data");
-      }
       const formData = new FormData();
       formData.append("mfi_province", fakeNewsInfo.fn_info_province);
       formData.append("mfi_c_info", values.mfi_c_info);
@@ -237,24 +190,6 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error sending form data:", error);
       message.error("Error sending form data");
-    }
-    try {
-      const formData = new FormData();
-      formData.append("fn_minfo_id", mfnmaxId +1);
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (response.ok) {
-        console.log("Form data sent successfully");
-      } else {
-        message.error("Error sending form data");
-      }
-    } catch (error) {
-      console.error("Error sending form data:", error);
     }
   };
 
@@ -305,13 +240,6 @@ const Adm_Info_Check = () => {
             {code[`${fieldName}_name`]}
           </Option>
         ));
-        form.setFieldsValue({ [fieldName]: undefined });
-        form.setFields([
-          {
-            name: fieldName,
-            value: undefined,
-          },
-        ]);
         stateSetter(options);
       } else {
         console.error(`Error fetching codes:`, response.statusText);
@@ -319,8 +247,8 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [form]);
-  
+  }, []);
+
   const onChange_mfi_che_d_id = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
@@ -338,36 +266,36 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [setSelectOptions_check_d]);
-  
-  const onChange_mfi_fm_d_id = useCallback(() => {
+  }, []);
+
+  const onChange_mfi_fm_d_id = () => {
     fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  }, [fetchDataAndSetOptions, setSelectOptions_fm]);
-  
-  const onChange_mfi_dis_c_id = useCallback(() => {
+  };
+
+  const onChange_mfi_dis_c_id = () => {
     fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
-  }, [fetchDataAndSetOptions, setSelectOptions_dis]);
-  
-  const onChange_mfi_ty_info_id = useCallback(() => {
+  };
+
+  const onChange_mfi_ty_info_id = () => {
     fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
-  const onChange_mfi_moti_id = useCallback(() => {
+  };
+
+  const onChange_mfi_moti_id = () => {
     fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  }, [fetchDataAndSetOptions, setSelectOptions_moti]);
-  
-  const onChange_mfi_data_cha_id = useCallback(() => {
+  };
+
+  const onChange_mfi_data_cha_id = () => {
     fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
-  }, [fetchDataAndSetOptions, setSelectOptions_data]);
-  
-  const onChange_dnc_med_id = useCallback(() => {
+  };
+
+  const onChange_dnc_med_id = () => {
     fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
-  const onChange_mfi_con_about_id = useCallback(() => {
+  };
+
+  const onChange_mfi_con_about_id = () => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
-  }, [fetchDataAndSetOptions, setSelectOptions_About]);
-  
+  };
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
@@ -385,9 +313,9 @@ const Adm_Info_Check = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [setSelectOptions_tags]);
-  
-  const memoizedFunctions = useCallback(() => {
+  }, []);
+
+  useEffect(() => {
     onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
     onChange_mfi_dis_c_id();
@@ -397,21 +325,7 @@ const Adm_Info_Check = () => {
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
     onChange_Tags();
-  }, [
-    onChange_mfi_con_about_id,
-    onChange_mfi_fm_d_id,
-    onChange_mfi_dis_c_id,
-    onChange_mfi_ty_info_id,
-    onChange_mfi_moti_id,
-    onChange_mfi_data_cha_id,
-    onChange_dnc_med_id,
-    onChange_mfi_che_d_id,
-    onChange_Tags,
-  ]);
-  
-  useEffect(() => {
-    memoizedFunctions();
-  }, [memoizedFunctions]);
+  }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

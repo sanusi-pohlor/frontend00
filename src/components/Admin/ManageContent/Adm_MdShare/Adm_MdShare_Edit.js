@@ -11,10 +11,11 @@ import {
   Card,
   Select,
   Image,
+  Divider,
 } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import { useParams ,useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_MdShare_Edit = () => {
@@ -302,6 +303,7 @@ const Adm_MdShare_Edit = () => {
       <Card className="cardsection">
         <div className="cardsectionContent">แก้ไขสื่อชวนแชร์</div>
       </Card>
+      <br />
       <Card>
         <Form
           form={form}
@@ -326,6 +328,7 @@ const Adm_MdShare_Edit = () => {
               disabled
             />
           </Form.Item>
+          <Divider />
           <Form.Item
             name="title"
             label={createTypography("หัวข้อ")}
@@ -333,6 +336,7 @@ const Adm_MdShare_Edit = () => {
           >
             <Input />
           </Form.Item>
+          <Divider />
           <Form.Item
             label={createTypography("รูปภาพหน้าปกใหม่")}
             name="cover_image"
@@ -367,8 +371,7 @@ const Adm_MdShare_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <br />
-          <br />
+          <Divider />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
@@ -417,13 +420,14 @@ const Adm_MdShare_Edit = () => {
               />
             </div>
           </Form.Item>
+          <Divider />
           <Form.Item
             label={
               <Typography
                 variant="body1"
                 sx={{ fontSize: "25px", color: "red" }}
               >
-                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
+                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง อัปโหลดใหม่แล้วรูปจะทับรูปเดิมทั้งหมด)
               </Typography>
             }
             name="details_image"
@@ -474,7 +478,7 @@ const Adm_MdShare_Edit = () => {
               );
             })}
           </div>
-          <br />
+          <Divider />
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
@@ -499,8 +503,7 @@ const Adm_MdShare_Edit = () => {
             แท็กเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
           </Typography>
           {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
-          <br />
-          <br />
+          <Divider />
           <Form.Item
             name="type_new"
             label={createTypography("ประเภทข่าว")}
@@ -514,6 +517,7 @@ const Adm_MdShare_Edit = () => {
               {selectOptions_ty}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item
             name="med_new"
             label={createTypography("ช่องทางสื่อ")}
@@ -527,6 +531,7 @@ const Adm_MdShare_Edit = () => {
               {selectOptions_med}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item
             name="prov_new"
             label={createTypography("จังหวัด")}
@@ -540,6 +545,7 @@ const Adm_MdShare_Edit = () => {
               {selectOptions_prov}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item>
             <Button
               type="primary"

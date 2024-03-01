@@ -100,7 +100,7 @@ const NotificationHistory = () => {
   const fetchData_Manage = async () => {
     try {
       const response = await axios.get(
-        "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
+        "https://checkkonproject-sub.com/api/mfi_menu_request"
       );
       if (response.status === 200) {
         const data = await response.data;
@@ -144,7 +144,7 @@ const NotificationHistory = () => {
         : dataA.mfi_results === 1
         ? "ข่าวจริง"
         : "รอตรวจสอบ"
-      : "";
+      : "ยังไม่ตรวจสอบ";
     return resultText;
   };
 

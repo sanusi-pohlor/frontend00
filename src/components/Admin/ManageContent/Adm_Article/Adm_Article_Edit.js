@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -11,10 +11,11 @@ import {
   Card,
   Select,
   Image,
+  Divider,
 } from "antd";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
 import { Typography } from "@mui/material";
-import { useParams , useNavigate} from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const Adm_Article_Edit = () => {
@@ -35,31 +36,31 @@ const Adm_Article_Edit = () => {
   useEffect(() => {
 
 
-  const fetchFakeData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Article_show/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setData(data);
-        form.setFieldsValue({
-          title: data.title,
-          type_new: data.type_new,
-          med_new: data.med_new,
-          prov_new: data.prov_new,
-          key_new: data.key_new,
-        });
-        setDetails(data.details);
-      } else {
-        console.error("Invalid date received from the server");
+    const fetchFakeData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/Article_show/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setData(data);
+          form.setFieldsValue({
+            title: data.title,
+            type_new: data.type_new,
+            med_new: data.med_new,
+            prov_new: data.prov_new,
+            key_new: data.key_new,
+          });
+          setDetails(data.details);
+        } else {
+          console.error("Invalid date received from the server");
+        }
+      } catch (error) {
+        console.error("Error:", error);
       }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-  fetchFakeData();
-}, [id,form]);
+    };
+    fetchFakeData();
+  }, [id, form]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -239,7 +240,7 @@ const Adm_Article_Edit = () => {
       console.error(`Error fetching ${fieldName} codes:`, error);
     }
   }, [form]);
-  
+
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
@@ -247,7 +248,7 @@ const Adm_Article_Edit = () => {
       setSelectOptions_ty
     );
   }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
+
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
@@ -255,11 +256,11 @@ const Adm_Article_Edit = () => {
       setSelectOptions_med
     );
   }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
+
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
   }, [fetchDataAndSetOptions, setSelectOptions_prov]);
-  
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -280,7 +281,7 @@ const Adm_Article_Edit = () => {
       console.error(`Error fetching codes:`, error);
     }
   }, [setSelectOptions_tags]);
-  
+
   useEffect(() => {
     onChange_mfi_ty_info_id();
     onChange_dnc_med_id();
@@ -304,8 +305,9 @@ const Adm_Article_Edit = () => {
       <Card className="cardsection">
         <div className="cardsectionContent">แก้ไขบทความ</div>
       </Card>
+      <br />
       <Card>
-      <Form
+        <Form
           form={form}
           layout="vertical"
           name="dynamic_form_complex"
@@ -328,6 +330,7 @@ const Adm_Article_Edit = () => {
               disabled
             />
           </Form.Item>
+          <Divider />
           <Form.Item
             name="title"
             label={createTypography("หัวข้อ")}
@@ -335,6 +338,7 @@ const Adm_Article_Edit = () => {
           >
             <Input />
           </Form.Item>
+          <Divider />
           <Form.Item
             label={createTypography("รูปภาพหน้าปกใหม่")}
             name="cover_image"
@@ -369,8 +373,7 @@ const Adm_Article_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <br />
-          <br />
+          <Divider />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
@@ -419,13 +422,14 @@ const Adm_Article_Edit = () => {
               />
             </div>
           </Form.Item>
+          <Divider />
           <Form.Item
             label={
               <Typography
                 variant="body1"
                 sx={{ fontSize: "25px", color: "red" }}
               >
-                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง)
+                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง อัปโหลดใหม่แล้วรูปจะทับรูปเดิมทั้งหมด)
               </Typography>
             }
             name="details_image"
@@ -476,7 +480,7 @@ const Adm_Article_Edit = () => {
               );
             })}
           </div>
-          <br />
+          <Divider />
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
@@ -501,8 +505,7 @@ const Adm_Article_Edit = () => {
             แท็กเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
           </Typography>
           {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
-          <br />
-          <br />
+          <Divider />
           <Form.Item
             name="type_new"
             label={createTypography("ประเภทข่าว")}
@@ -516,6 +519,7 @@ const Adm_Article_Edit = () => {
               {selectOptions_ty}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item
             name="med_new"
             label={createTypography("ช่องทางสื่อ")}
@@ -529,6 +533,7 @@ const Adm_Article_Edit = () => {
               {selectOptions_med}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item
             name="prov_new"
             label={createTypography("จังหวัด")}
@@ -542,6 +547,7 @@ const Adm_Article_Edit = () => {
               {selectOptions_prov}
             </Select>
           </Form.Item>
+          <Divider />
           <Form.Item>
             <Button
               type="primary"
