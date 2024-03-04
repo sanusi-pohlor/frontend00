@@ -25,7 +25,7 @@ const Dashboard = () => {
           `https://checkkonproject-sub.com/api/${endpoint}`
         );
         if (response.ok) {
-          const data = await response.json();
+          const data = response.json();
           const filteredData = data.filter((item) => item.status === 1);
           const sortedData = filteredData.slice().sort((a, b) => b.id - a.id);
           setter(sortedData);

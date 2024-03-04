@@ -45,7 +45,7 @@ const MC_Subpoint = () => {
         "https://checkkonproject-sub.com/api/Subpoint_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -62,7 +62,7 @@ const MC_Subpoint = () => {
           "https://checkkonproject-sub.com/api/TypeInformation_request"
         );
         if (response.ok) {
-          const typeCodes = await response.json();
+          const typeCodes = response.json();
           const options = typeCodes.map((code) => (
             <Option key={code.id} value={code.id}>
               {code.type_info_name}
@@ -92,7 +92,7 @@ const MC_Subpoint = () => {
         "https://checkkonproject-sub.com/api/Subpoint_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -193,7 +193,7 @@ const MC_Subpoint = () => {
             method: "DELETE",
           }
         );
-        const responseData = await response.json();
+        const responseData = response.json();
 
         if (response.ok) {
           console.log("Subpoint deleted successfully");

@@ -16,7 +16,7 @@ const Adm_Mm_View = () => {
         `https://checkkonproject-sub.com/api/User_edit/${id}`
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setUser(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -35,7 +35,7 @@ const Adm_Mm_View = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = await response.json();
+          const pv = response.json();
           const filteredIds = pv.filter(
             (item) => item.id === (user && user.province)
           );

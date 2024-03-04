@@ -21,7 +21,7 @@ const LoginDialog = ({ open, onClose }) => {
 
       if (response.ok) {
         message.success("เข้าสู่ระบบสำเร็จ");
-        const data = await response.json();
+        const data = response.json();
         localStorage.setItem("access_token", data.message);
         navigate(`/`);
         window.location.reload();

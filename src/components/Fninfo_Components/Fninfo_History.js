@@ -57,7 +57,7 @@ const NotificationHistory = () => {
           }
         );
         if (response.status === 200) {
-          const data = await response.data;
+          const data = response.data;
           setUser(data);
         } else {
           console.error("User data retrieval failed");
@@ -73,7 +73,7 @@ const NotificationHistory = () => {
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.status === 200) {
-        const data = await response.data;
+        const data = response.data;
         if (data) {
           const filteredData = data.filter(
             (item) => item.fn_info_nameid === user.id
@@ -103,7 +103,7 @@ const NotificationHistory = () => {
         "https://checkkonproject-sub.com/api/mfi_menu_request"
       );
       if (response.status === 200) {
-        const data = await response.data;
+        const data = response.data;
         setDatamanage(data);
       } else {
         console.error("Error fetching data:", response.statusText);

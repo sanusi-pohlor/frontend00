@@ -60,7 +60,7 @@ const FnInfoEdit = () => {
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
-        const Data = await response.json();
+        const Data = response.json();
         setmed(Data);
       } else {
         console.error("Failed to fetch user data");
@@ -77,7 +77,7 @@ const FnInfoEdit = () => {
           `https://checkkonproject-sub.com/api/FakeNewsInfo_edit/${id}`
         );
         if (response.ok) {
-          const FakeNewsData = await response.json();
+          const FakeNewsData = response.json();
           setData(FakeNewsData);
           form.setFieldsValue({
             fn_info_head: FakeNewsData.fn_info_head,
@@ -156,7 +156,7 @@ const FnInfoEdit = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setUser(data);
       } else {
         console.error("User data retrieval failed");
@@ -177,7 +177,7 @@ const FnInfoEdit = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = await response.json();
+          const pv = response.json();
           const filteredIds = pv.filter(
             (item) => item.id === (user && user.province)
           );
@@ -202,7 +202,7 @@ const FnInfoEdit = () => {
           "https://checkkonproject-sub.com/api/MediaChannels_request"
         );
         if (response.ok) {
-          const typeCodes = await response.json();
+          const typeCodes = response.json();
           const options = typeCodes.map((code) => (
             <Option key={code[`id`]} value={code[`id`]}>
               <Typography variant="body1" sx={{ fontSize: "20px" }}>

@@ -49,7 +49,7 @@ const Adm_News_Menu = () => {
         "https://checkkonproject-sub.com/api/News_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         const sortedData = data.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
       } else {
@@ -88,7 +88,7 @@ const Adm_News_Menu = () => {
           method: "DELETE",
         }
       );
-      const data = await response.json();
+      const data = response.json();
       if (response.ok) {
         console.log("Item deleted successfully");
         fetchData();

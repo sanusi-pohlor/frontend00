@@ -44,7 +44,7 @@ const Manage_Fake_Info_Edit = () => {
           `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
         );
         if (response.ok) {
-          const data = await response.json();
+          const data = response.json();
           setData(data);
           form.setFieldsValue({
             mfi_time: data.mfi_time
@@ -98,7 +98,7 @@ const Manage_Fake_Info_Edit = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setOptions((prevOptions) => [
           ...prevOptions,
           { label: data.tag_name, value: data.tag_name },
@@ -117,7 +117,7 @@ const Manage_Fake_Info_Edit = () => {
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
-        const userData = await response.json();
+        const userData = response.json();
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -136,7 +136,7 @@ const Manage_Fake_Info_Edit = () => {
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
-        const Data = await response.json();
+        const Data = response.json();
         setInfo_source(Data);
       } else {
         console.error("Failed to fetch user data");
@@ -155,7 +155,7 @@ const Manage_Fake_Info_Edit = () => {
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data[0].mfi_fninfo}`
       );
       if (response.ok) {
-        const responseData = await response.json();
+        const responseData = response.json();
         setFakeNewsInfo(responseData);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -188,7 +188,7 @@ const Manage_Fake_Info_Edit = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = await response.json();
+          const pv = response.json();
           const filteredIds = pv.filter(
             (item) =>
               item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
@@ -205,7 +205,7 @@ const Manage_Fake_Info_Edit = () => {
     if (fakeNewsInfo && fakeNewsInfo.fn_info_province) {
       fetchProvince();
     }
-  }, [fakeNewsInfo]);
+  }, []);
 
   const onFinish = async (values) => {
     try {
@@ -299,7 +299,7 @@ const Manage_Fake_Info_Edit = () => {
     try {
       const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
@@ -325,7 +325,7 @@ const Manage_Fake_Info_Edit = () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code.id} value={code.id}>
             {code.che_d_format}
@@ -338,41 +338,41 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [setSelectOptions_check_d]);
+  }, []);
   
   const onChange_mfi_fm_d_id = useCallback(() => {
     fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  }, [fetchDataAndSetOptions, setSelectOptions_fm]);
+  }, []);
   
   const onChange_mfi_dis_c_id = useCallback(() => {
     fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
-  }, [fetchDataAndSetOptions, setSelectOptions_dis]);
+  }, []);
   
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  }, []);
   
   const onChange_mfi_moti_id = useCallback(() => {
     fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  }, [fetchDataAndSetOptions, setSelectOptions_moti]);
+  }, []);
   
   const onChange_mfi_data_cha_id = useCallback(() => {
     fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
-  }, [fetchDataAndSetOptions, setSelectOptions_data]);
+  }, []);
   
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  }, []);
   
   const onChange_mfi_con_about_id = useCallback(() => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
-  }, [fetchDataAndSetOptions, setSelectOptions_About]);
+  }, []);
   
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`tag_name`]}>
             {code[`tag_name`]}
@@ -385,7 +385,7 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [setSelectOptions_tags]);
+  }, []);
   
   const memoizedFunctions = useCallback(() => {
     onChange_mfi_con_about_id();
@@ -397,21 +397,11 @@ const Manage_Fake_Info_Edit = () => {
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
     onChange_Tags();
-  }, [
-    onChange_mfi_con_about_id,
-    onChange_mfi_fm_d_id,
-    onChange_mfi_dis_c_id,
-    onChange_mfi_ty_info_id,
-    onChange_mfi_moti_id,
-    onChange_mfi_data_cha_id,
-    onChange_dnc_med_id,
-    onChange_mfi_che_d_id,
-    onChange_Tags,
-  ]);
+  }, []);
   
   useEffect(() => {
     memoizedFunctions();
-  }, [memoizedFunctions]);
+  }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>

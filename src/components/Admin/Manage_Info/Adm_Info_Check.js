@@ -50,7 +50,7 @@ const Adm_Info_Check = () => {
         }
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setOptions((prevOptions) => [
           ...prevOptions,
           { label: data.tag_name, value: data.tag_name },
@@ -69,7 +69,7 @@ const Adm_Info_Check = () => {
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
-        const userData = await response.json();
+        const userData = response.json();
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -88,7 +88,7 @@ const Adm_Info_Check = () => {
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
-        const Data = await response.json();
+        const Data = response.json();
         setInfo_source(Data);
       } else {
         console.error("Failed to fetch user data");
@@ -107,7 +107,7 @@ const Adm_Info_Check = () => {
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -140,7 +140,7 @@ const Adm_Info_Check = () => {
           `https://checkkonproject-sub.com/api/Pvname_request/${fakeNewsInfo.fn_info_province.id}`
         );
         if (response.ok) {
-          const pv = await response.json();
+          const pv = response.json();
           setProvince(pv);
         } else {
           console.error("Error fetching province data:", response.statusText);
@@ -234,7 +234,7 @@ const Adm_Info_Check = () => {
     try {
       const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
@@ -253,7 +253,7 @@ const Adm_Info_Check = () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code.id} value={code.id}>
             {code.che_d_format}
@@ -300,7 +300,7 @@ const Adm_Info_Check = () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
       if (response.ok) {
-        const typeCodes = await response.json();
+        const typeCodes = response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`tag_name`]}>
             {code[`tag_name`]}

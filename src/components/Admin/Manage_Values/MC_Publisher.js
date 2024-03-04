@@ -58,7 +58,7 @@ const MC_Publisher = () => {
         "https://checkkonproject-sub.com/api/Publisher_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);

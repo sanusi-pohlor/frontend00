@@ -31,7 +31,7 @@ const Profile_Edit = () => {
         `https://checkkonproject-sub.com/api/User_edit/${id}`
       );
       if (response.status === 200) {
-        const data = await response.data;
+        const data = response.data;
         setUserdata(data);
         const filteredIds = province.filter(
           (item) => item.id === (data && data.province)

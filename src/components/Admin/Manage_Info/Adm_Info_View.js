@@ -31,7 +31,7 @@ const ManageInfo_view = () => {
           "https://checkkonproject-sub.com/api/AmUser"
         );
         if (response.ok) {
-          const userData = await response.json();
+          const userData = response.json();
           setUserInfo(userData);
         } else {
           console.error("Failed to fetch user data");
@@ -50,7 +50,7 @@ const ManageInfo_view = () => {
           "https://checkkonproject-sub.com/api/MediaChannels_request"
         );
         if (response.ok) {
-          const Data = await response.json();
+          const Data = response.json();
           setInfo_source(Data);
         } else {
           console.error("Failed to fetch user data");
@@ -70,7 +70,7 @@ const ManageInfo_view = () => {
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -91,7 +91,7 @@ const ManageInfo_view = () => {
           `https://checkkonproject-sub.com/api/mfi_info_view_request/${id}`
         );
         if (response.ok) {
-          const data = await response.json();
+          const data = response.json();
           setData(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -110,7 +110,7 @@ const ManageInfo_view = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = await response.json();
+          const pv = response.json();
           const filteredIds = pv.filter(
             (item) =>
               item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)

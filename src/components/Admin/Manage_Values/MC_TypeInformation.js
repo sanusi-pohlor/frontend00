@@ -42,7 +42,7 @@ const MC_TypeInformation = () => {
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -58,7 +58,7 @@ const MC_TypeInformation = () => {
         "https://checkkonproject-sub.com/api/TypeInformation_request"
       );
       if (response.ok) {
-        const data = await response.json();
+        const data = response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -156,7 +156,7 @@ const MC_TypeInformation = () => {
             method: "DELETE",
           }
         );
-        const responseData = await response.json();
+        const responseData = response.json();
 
         if (response.ok) {
           console.log("TypeInformation deleted successfully");

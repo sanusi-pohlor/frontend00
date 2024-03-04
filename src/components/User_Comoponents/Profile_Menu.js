@@ -43,7 +43,7 @@ const MenuProfile = ({ children }) => {
           }
         );
         if (userResponse.status === 200) {
-          const userData = await userResponse.data;
+          const userData = userResponse.data;
           setUser(userData);
           const [fiproResponse] = await Promise.all([
             axios.get(
@@ -52,7 +52,7 @@ const MenuProfile = ({ children }) => {
           ]);
 
           if (fiproResponse.status === 200) {
-            const fiproData = await fiproResponse.data;
+            const fiproData = fiproResponse.data;
             setData(fiproData);
           } else {
             console.error("Error fetching data:", fiproResponse.statusText);
