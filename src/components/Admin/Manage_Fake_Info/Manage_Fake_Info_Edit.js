@@ -501,16 +501,28 @@ const Manage_Fake_Info_Edit = () => {
     {
       key: "11",
       label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
-      children:
+      children: (
         fakeNewsInfo &&
-        createTypography(
-          <Image
-            width={200}
-            src={fakeNewsInfo.fn_info_image}
-            alt="รูปภาพข่าวปลอม"
-          />
-        ),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+        (
+          <>
+            {[
+              fakeNewsInfo.fn_info_image_0,
+              fakeNewsInfo.fn_info_image_1,
+              fakeNewsInfo.fn_info_image_2,
+            ]
+              .filter(image => image !== null)
+              .map((image, index) => (
+                <Image
+                  key={`image_${index}`}
+                  style={{ width: '200px', height: '200px', marginRight: '10px' }}
+                  src={image}
+                  alt={`รูปภาพข่าวปลอม ${index}`}
+                />
+              ))}
+          </>
+        )
+      ),
+      span: 2,
     },
     {
       key: "12",

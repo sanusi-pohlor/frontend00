@@ -242,7 +242,7 @@ const Manage_Fake_Info_View = () => {
     {
       key: "8",
       label: createTypography("ลิ้งค์ข้อมูล"),
-      children: fnInfo && createTypography(fnInfo.fn_info_link),
+      children: fnInfo ? createTypography(fnInfo.fn_info_link) : "ไม่มี",
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -267,12 +267,28 @@ const Manage_Fake_Info_View = () => {
     {
       key: "11",
       label: createTypography("ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"),
-      children:
+      children: (
         fnInfo &&
-        createTypography(
-          <Image width={200} src={fnInfo.fn_info_image} alt="รูปภาพข่าวปลอม" />
-        ),
-      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+        (
+          <>
+            {[
+              fnInfo.fn_info_image_0,
+              fnInfo.fn_info_image_1,
+              fnInfo.fn_info_image_2,
+            ]
+              .filter(image => image !== null)
+              .map((image, index) => (
+                <Image
+                  key={`image_${index}`}
+                  style={{ width: '200px', height: '200px', marginRight: '10px' }}
+                  src={image}
+                  alt={`รูปภาพข่าวปลอม ${index}`}
+                />
+              ))}
+          </>
+        )
+      ),
+      span: 2,
     },
     {
       key: "12",
