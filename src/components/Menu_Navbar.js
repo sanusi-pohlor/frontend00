@@ -49,7 +49,7 @@ function Menu_Navbar() {
         );
 
         if (response.ok) {
-          const data = response.json();
+          const data = await response.json();
           setUser(data);
         } else {
           console.log("User data retrieval failed");
@@ -69,7 +69,7 @@ function Menu_Navbar() {
             );
 
             if (refreshResponse.ok) {
-              const refreshData = refreshResponse.json();
+              const refreshData = await refreshResponse.json();
               const newToken = refreshData.token;
               localStorage.setItem("access_token", newToken);
 
@@ -84,7 +84,7 @@ function Menu_Navbar() {
               );
 
               if (retryResponse.ok) {
-                const retryData = retryResponse.json();
+                const retryData = await retryResponse.json();
                 setUser(retryData);
               } else {
                 console.log("User data retrieval after token refresh failed");

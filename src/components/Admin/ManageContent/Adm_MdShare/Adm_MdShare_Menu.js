@@ -49,7 +49,7 @@ const Adm_MdShare_Menu = () => {
         "https://checkkonproject-sub.com/api/MdShare_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         const sortedData = data.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
       } else {
@@ -87,7 +87,7 @@ const Adm_MdShare_Menu = () => {
           method: "DELETE",
         }
       );
-      const data = response.json();
+      const data = await response.json();
       if (response.ok) {
         console.log("Item deleted successfully");
         fetchData();

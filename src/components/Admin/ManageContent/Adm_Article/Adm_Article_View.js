@@ -21,7 +21,7 @@ const Adm_Article_View = () => {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/Article_show/${id}`
         );
-        const data = response.json();
+        const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
       } catch (error) {
@@ -46,7 +46,7 @@ const Adm_Article_View = () => {
         );
 
         if (response.ok) {
-          const data = response.json();
+          const data = await response.json();
           setUser(data);
         } else {
           console.error("User data retrieval failed");

@@ -12,7 +12,7 @@ const MapWidget = () => {
         "https://checkkonproject-sub.com/api/Map_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Failed to fetch user data");

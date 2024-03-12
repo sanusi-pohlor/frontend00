@@ -27,7 +27,7 @@ const Manage_Fake_Info_View = () => {
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.status === 200) {
-        const userData = response.data;
+        const userData = await response.data;
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -47,7 +47,7 @@ const Manage_Fake_Info_View = () => {
           `https://checkkonproject-sub.com/api/Manage_Fake_Info_show/${id}`
         );
         if (response.status === 200) {
-          const data = response.data;
+          const data = await response.data;
           setFakeNewsInfo(data);
         } else {
           console.error("Error fetching data:", response.statusText);
@@ -68,7 +68,7 @@ const Manage_Fake_Info_View = () => {
             `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${fakeNewsInfo.mfi_fninfo}`
           );
           if (response.status === 200) {
-            const data = response.data;
+            const data = await response.data;
             setFnInfo(data);
           } else {
             console.error(
@@ -92,7 +92,7 @@ const Manage_Fake_Info_View = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.status === 200) {
-          const pv = response.data;
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.id === (fnInfo && fnInfo.fn_info_province)
           );
@@ -116,7 +116,7 @@ const Manage_Fake_Info_View = () => {
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.status === 200) {
-        const typeCodes = response.data;
+        const typeCodes = await response.data;
         stateSetter(typeCodes);
       } else {
         console.error(`Error fetching codes:`, response.statusText);

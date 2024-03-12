@@ -21,7 +21,7 @@ const MdShare_view = () => {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/MdShare_show/${id}`
         );
-        const result = response.json();
+        const result = await response.json();
         setData(result);
         setTags(JSON.parse(result.tag) || []);
       } catch (error) {
@@ -37,7 +37,7 @@ const MdShare_view = () => {
           `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
         );
         if (response.ok) {
-          const userData = response.json();
+          const userData = await response.json();
           setUser(userData);
         } else {
           console.error("Error fetching data:", response.statusText);

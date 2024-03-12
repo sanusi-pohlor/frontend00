@@ -46,7 +46,7 @@ const Manage_Fake_Info_Menu = () => {
         "https://checkkonproject-sub.com/api/fiSearch_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setDataInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -82,7 +82,7 @@ const Manage_Fake_Info_Menu = () => {
         "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
         setDataOrg(data);
       } else {
@@ -102,7 +102,7 @@ const Manage_Fake_Info_Menu = () => {
         "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setProvince(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -145,7 +145,7 @@ const Manage_Fake_Info_Menu = () => {
           method: "DELETE",
         }
       );
-      const data = response.json();
+      const data = await response.json();
       if (response.ok) {
         console.log("Item deleted successfully");
         handleConfirm(id);
@@ -207,7 +207,7 @@ const Manage_Fake_Info_Menu = () => {
           `https://checkkonproject-sub.com/api/${endpoint}`
         );
         if (response.ok) {
-          const typeCodes = response.json();
+          const typeCodes = await response.json();
           const options = typeCodes.map((code) => (
             <Option key={code[`id`]} value={code[`id`]}>
               {code[`${fieldName}_name`]}
@@ -225,7 +225,7 @@ const Manage_Fake_Info_Menu = () => {
   );
   const onChange_mfi_province = useCallback(() => {
     fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  }, []);
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
 
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions(
@@ -233,7 +233,7 @@ const Manage_Fake_Info_Menu = () => {
       "type_info",
       setSelectOptions_ty
     );
-  }, []);
+  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
 
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions(
@@ -241,7 +241,7 @@ const Manage_Fake_Info_Menu = () => {
       "med_c",
       setSelectOptions_med
     );
-  }, []);
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
 
   const onChange_Tags = useCallback(async () => {
     try {
@@ -249,7 +249,7 @@ const Manage_Fake_Info_Menu = () => {
         "https://checkkonproject-sub.com/api/Tags_request"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`tag_name`]}>
             {code[`tag_name`]}
@@ -262,14 +262,14 @@ const Manage_Fake_Info_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, []);
+  }, [setSelectOptions_tags]);
   const onChange_mfi_mem = useCallback(async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code.id} value={code.id}>
             {`${code.username} ${code.lastName}`}
@@ -289,7 +289,13 @@ const Manage_Fake_Info_Menu = () => {
     onChange_mfi_ty_info_id();
     onChange_mfi_mem();
     onChange_Tags();
-  }, []);
+  }, [
+    onChange_mfi_province,
+    onChange_dnc_med_id,
+    onChange_mfi_ty_info_id,
+    onChange_mfi_mem,
+    onChange_Tags,
+  ]);
 
   const renderResultText = (mfi_fninfo) => {
     const dataA = dataInfo

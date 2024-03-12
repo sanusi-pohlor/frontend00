@@ -28,7 +28,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -44,7 +44,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -64,7 +64,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.ok) {
-        const pv = response.json();
+        const pv = await response.json();
         setProvince(pv);
       } else {
         console.error("Error fetching data:", response.statusText);

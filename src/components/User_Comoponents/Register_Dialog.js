@@ -54,7 +54,7 @@ const Register_Dialog = ({ open, onClose }) => {
           }),
         });
         if (loginResponse.ok) {
-          const loginData = loginResponse.json();
+          const loginData = await loginResponse.json();
           localStorage.setItem("access_token", loginData.message);
           window.location.reload();
         } else {

@@ -63,7 +63,7 @@ const M_DB_Adm_Menu = () => {
         },
       });
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setUser(data);
       } else {
         console.error("User data retrieval failed");
@@ -78,7 +78,7 @@ const M_DB_Adm_Menu = () => {
         "https://checkkonproject-sub.com/api/fiadmin_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -93,7 +93,7 @@ const M_DB_Adm_Menu = () => {
         "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setDatamanage(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -115,7 +115,7 @@ const M_DB_Adm_Menu = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = response.json();
+          const pv = await response.json();
           const filteredIds = pv.filter(
             (item) => item.id === (user && user.province)
           );
@@ -295,8 +295,8 @@ const M_DB_Adm_Menu = () => {
         );
 
         if (Manage_Fake_Info.ok && MediaChannels.ok) {
-          const Manage_Fake_Infodata = Manage_Fake_Info.json();
-          const MediaChannelsData = MediaChannels.json();
+          const Manage_Fake_Infodata = await Manage_Fake_Info.json();
+          const MediaChannelsData = await MediaChannels.json();
 
           const countByMedCId = MediaChannelsData.map((channel) => {
             const count = Manage_Fake_Infodata.filter(

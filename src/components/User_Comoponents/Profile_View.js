@@ -46,7 +46,7 @@ const Profile = () => {
           }
         );
         if (userResponse.status === 200) {
-          const userData = userResponse.data;
+          const userData = await userResponse.data;
           setUser(userData);
           const [fiproResponse, provinceResponse] = await Promise.all([
             axios.get(
@@ -57,13 +57,13 @@ const Profile = () => {
             ),
           ]);
           if (fiproResponse.status === 200) {
-            const fiproData = fiproResponse.data;
+            const fiproData = await fiproResponse.data;
             setData(fiproData);
           } else {
             console.error("Error fetching data:", fiproResponse.statusText);
           }
           if (provinceResponse.status === 200) {
-            const provinceData = provinceResponse.data;
+            const provinceData = await provinceResponse.data;
             setProvince(provinceData);
           } else {
             console.error("Error fetching province data:", provinceResponse.statusText);

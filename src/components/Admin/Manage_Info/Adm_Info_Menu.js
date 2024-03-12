@@ -29,7 +29,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/AmUser"
       );
       if (response.ok) {
-        const userData = response.json();
+        const userData = await response.json();
         setUserInfo(userData);
       } else {
         console.error("Failed to fetch user data");
@@ -44,7 +44,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/mfi_menu_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setDatamanage(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -81,7 +81,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         const sortedData = data.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
       } else {
@@ -101,7 +101,7 @@ const ManageMembers = () => {
         "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.ok) {
-        const pv = response.json();
+        const pv = await response.json();
         setProvince(pv);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -153,7 +153,7 @@ const ManageMembers = () => {
             method: "DELETE",
           }
         );
-        const responseData = response.json();
+        const responseData = await response.json();
 
         if (response.ok) {
           message.success("ลบข้อมูลเสร็จสิ้น");

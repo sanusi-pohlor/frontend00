@@ -21,6 +21,7 @@ import moment from "moment";
 import "moment/locale/th";
 import { useNavigate } from "react-router-dom";
 import "../../App.css";
+import axios from 'axios';
 moment.locale("th");
 
 const { Option } = Select;
@@ -94,7 +95,7 @@ const FakeNewInformation = () => {
       });
 
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setUser(data);
       } else {
         console.error("User data retrieval failed");
@@ -115,7 +116,7 @@ const FakeNewInformation = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.ok) {
-          const pv = response.json();
+          const pv = await response.json();
           const filteredIds = pv.filter(
             (item) => item.id === (user && user.province)
           );
@@ -139,7 +140,7 @@ const FakeNewInformation = () => {
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>

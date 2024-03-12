@@ -89,7 +89,7 @@ const MyPieChart = () => {
         );
 
         if (Manage_Fake_Info.ok && MediaChannels.ok) {
-          const Manage_Fake_Infodata = Manage_Fake_Info.json();
+          const Manage_Fake_Infodata = await Manage_Fake_Info.json();
           const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
             (data) => ({
               ...data,
@@ -103,7 +103,7 @@ const MyPieChart = () => {
               return data.mfi_time === formattedDate;
             });
 
-          const MediaChannelsData = MediaChannels.json();
+          const MediaChannelsData = await MediaChannels.json();
           const countByMedCId = MediaChannelsData.map((channel) => {
             const count = filteredManage_Fake_Infodata.filter(
               (fakeInfo) => fakeInfo[dataIndex] === channel.id

@@ -51,7 +51,7 @@ const FakenewsSearch_Menu = () => {
         "https://checkkonproject-sub.com/api/mfi_Search_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
         setDataOrg(data);
       } else {
@@ -71,7 +71,7 @@ const FakenewsSearch_Menu = () => {
         "https://checkkonproject-sub.com/api/fiSearch_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setInfoData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -98,7 +98,7 @@ const FakenewsSearch_Menu = () => {
         "https://checkkonproject-sub.com/api/Province_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setProvince(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -158,7 +158,7 @@ const FakenewsSearch_Menu = () => {
           `https://checkkonproject-sub.com/api/${endpoint}`
         );
         if (response.ok) {
-          const typeCodes = response.json();
+          const typeCodes = await response.json();
           const options = typeCodes.map((code) => (
             <Option key={code[`id`]} value={code[`id`]}>
               {code[`${fieldName}_name`]}
@@ -184,7 +184,7 @@ const FakenewsSearch_Menu = () => {
         "https://checkkonproject-sub.com/api/Tags_request"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`tag_name`]}>
             {code[`tag_name`]}

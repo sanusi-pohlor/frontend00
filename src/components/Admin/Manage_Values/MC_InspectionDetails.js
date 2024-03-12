@@ -61,7 +61,7 @@ const MC_InspectionDetails = () => {
         "https://checkkonproject-sub.com/api/Subpoint_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -214,7 +214,7 @@ const MC_InspectionDetails = () => {
         "https://checkkonproject-sub.com/api/TypeInformation_request"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code.data_cha_id} value={code.data_cha_id}>
             {code.data_cha_name}
@@ -241,7 +241,7 @@ const MC_InspectionDetails = () => {
         "https://checkkonproject-sub.com/api/TypeInformation_request"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code.info_id} value={code.info_id}>
             {code.info_det_cont}

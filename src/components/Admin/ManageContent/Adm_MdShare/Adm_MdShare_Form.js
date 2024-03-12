@@ -39,7 +39,7 @@ const Adm_MdShare_Form = () => {
         }
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setOptions((prevOptions) => [
           ...prevOptions,
           { label: data.tag_name, value: data.tag_name },
@@ -62,7 +62,7 @@ const Adm_MdShare_Form = () => {
       });
 
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setUser(data);
       } else {
         console.error("User data retrieval failed");
@@ -161,7 +161,7 @@ const Adm_MdShare_Form = () => {
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             {code[`${fieldName}_name`]}
@@ -212,7 +212,7 @@ const Adm_MdShare_Form = () => {
         "https://checkkonproject-sub.com/api/Tags_request"
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`tag_name`]}>
             {code[`tag_name`]}

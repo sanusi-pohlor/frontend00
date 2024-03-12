@@ -42,7 +42,7 @@ const MC_MediaChannels = () => {
         "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -58,7 +58,7 @@ const MC_MediaChannels = () => {
         "https://checkkonproject-sub.com/api/MediaChannels_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -156,7 +156,7 @@ const MC_MediaChannels = () => {
             method: "DELETE",
           }
         );
-        const responseData = response.json();
+        const responseData = await response.json();
 
         if (
           response.ok &&

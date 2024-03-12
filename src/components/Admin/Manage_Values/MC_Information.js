@@ -65,7 +65,7 @@ const MC_Information = () => {
         "https://checkkonproject-sub.com/api/Information_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -263,7 +263,7 @@ const MC_Information = () => {
         `https://checkkonproject-sub.com/api/${endpoint}`
       );
       if (response.ok) {
-        const typeCodes = response.json();
+        const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
           <Option key={code[`${fieldName}_id`]} value={code[`${fieldName}_id`]}>
             {code[`${fieldName}_name`]}

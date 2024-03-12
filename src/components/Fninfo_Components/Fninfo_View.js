@@ -22,7 +22,7 @@ const FnInfoView = () => {
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${id}`
       );
       if (response.status === 200) {
-        const data = response.data;
+        const data = await response.data;
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -42,7 +42,7 @@ const FnInfoView = () => {
           `https://checkkonproject-sub.com/api/mfi_fn_request/${fakeNewsInfo.id}`
         );
         if (response.status === 200) {
-          const pv = response.data;
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
           );
@@ -64,7 +64,7 @@ const FnInfoView = () => {
           "https://checkkonproject-sub.com/api/About_request"
         );
         if (response.status === 200) {
-          const pv = response.data;
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) => item.id === (data.length > 0 && data[0].mfi_con_about)
           );
@@ -86,7 +86,7 @@ const FnInfoView = () => {
           "https://checkkonproject-sub.com/api/Province_request"
         );
         if (response.status === 200) {
-          const pv = response.data;
+          const pv = await response.data;
           const filteredIds = pv.filter(
             (item) =>
               item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_province)
@@ -109,7 +109,7 @@ const FnInfoView = () => {
           "https://checkkonproject-sub.com/api/AmUser"
         );
         if (response.status === 200) {
-          const userData = response.data;
+          const userData = await response.data;
           const filteredIds = userData.filter(
             (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_nameid)
           );
@@ -131,7 +131,7 @@ const FnInfoView = () => {
           "https://checkkonproject-sub.com/api/MediaChannels_request"
         );
         if (response.status === 200) {
-          const userData = response.data;
+          const userData = await response.data;
           const filteredIds = userData.filter(
             (item) => item.id === (fakeNewsInfo && fakeNewsInfo.fn_info_source)
           );

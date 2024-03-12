@@ -42,7 +42,7 @@ const MC_Motivation = () => {
         "https://checkkonproject-sub.com/api/Manage_Fake_Info_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setFakeNewsInfo(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -58,7 +58,7 @@ const MC_Motivation = () => {
         "https://checkkonproject-sub.com/api/Motivation_request"
       );
       if (response.ok) {
-        const data = response.json();
+        const data = await response.json();
         setData(data);
       } else {
         console.error("Error fetching data:", response.statusText);
@@ -154,7 +154,7 @@ const MC_Motivation = () => {
             method: "DELETE",
           }
         );
-        const responseData = response.json();
+        const responseData = await response.json();
 
         if (response.ok) {
           message.success("Motivation deleted successfully");

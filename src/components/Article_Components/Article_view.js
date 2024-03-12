@@ -21,7 +21,7 @@ const News_view = () => {
         const response = await fetch(
           `https://checkkonproject-sub.com/api/Article_show/${id}`
         );
-        const data = response.json();
+        const data = await response.json();
         setData(data);
         setTags(JSON.parse(data.tag) || []);
       } catch (error) {
@@ -37,7 +37,7 @@ const News_view = () => {
           `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
         );
         if (response.ok) {
-          const data = response.json();
+          const data = await response.json();
           setUser(data);
         } else {
           console.error("Error fetching data:", response.statusText);
