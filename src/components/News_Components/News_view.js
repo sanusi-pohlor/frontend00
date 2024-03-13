@@ -23,7 +23,7 @@ const News_view = () => {
         const newsData = newsResponse.data;
         setData(newsData);
         setTags(JSON.parse(newsData.tag) || []);
-  
+
         if (newsData.Author) {
           const userResponse = await axios.get(`https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`);
           if (userResponse.status === 200) {
@@ -39,7 +39,7 @@ const News_view = () => {
     };
     fetchData();
   }, []);
-  
+
   const items = [
     {
       key: "1",
@@ -84,17 +84,7 @@ const News_view = () => {
           <div className="cardsectionContent">ข่าวสาร</div>
         </Card>
         <br />
-        <Card className="cardContent">
-          <strong>{data.title}</strong>
-          <br />
-          <strong>
-            โดย :{" "}
-            {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
-          </strong>
-          <br />
-          <strong>ลงเมื่อ : {thaiDate}</strong>
-          <br />
-          <Divider />
+        <Card>
           <div
             style={{
               display: "flex",
@@ -114,16 +104,25 @@ const News_view = () => {
               }}
             />
           </div>
-          <div dangerouslySetInnerHTML={{ __html: data.details }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "16px",
-              marginTop: "16px",
-            }}
-          >
+          <Divider />
+          <div className="Contenttitle">{data.title}</div>
+          <div className="cardContent">
+            โดย :{" "}
+            {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
+            <br />
+            {thaiDate}
+            <br />
+            <Divider />
+            <div dangerouslySetInnerHTML={{ __html: data.details }} />
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "16px",
+                marginTop: "16px",
+              }}
+            >
               {[...Array(8).keys()].map(
                 (index) =>
                   data[`details_image_${index}`] && (
@@ -139,42 +138,43 @@ const News_view = () => {
                     />
                   )
               )}
+            </div>
+            <div>
+              {data.link &&
+                JSON.parse(data.link).map((item, index) => (
+                  <p key={index}>
+                    Link:{" "}
+                    <a href={item.first}>{item.first.substring(0, 100)}...</a>
+                  </p>
+                ))}
+            </div>
+            <div>
+              <Space size={[4, 8]} wrap>
+                {tags.map((tag, index) => (
+                  <Tag
+                    key={index}
+                    style={{ fontSize: "20px", textAlign: "center" }}
+                  >
+                    #{tag}
+                  </Tag>
+                ))}
+              </Space>
+            </div>
+            <p onClick={showModal}>
+              <Avatar size={64} icon={<UserOutlined />}>
+                {user && user.username}
+              </Avatar>{" "}
+              ผู้เขียน <span>{user && user.username}</span>
+            </p>
+            <Modal
+              title="โปรไฟล์ผู้เขียน"
+              open={isModalOpen}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <Descriptions layout="vertical" bordered items={items} />
+            </Modal>
           </div>
-          <div>
-            {data.link &&
-              JSON.parse(data.link).map((item, index) => (
-                <p key={index}>
-                  Link:{" "}
-                  <a href={item.first}>{item.first.substring(0, 100)}...</a>
-                </p>
-              ))}
-          </div>
-          <div>
-            <Space size={[4, 8]} wrap>
-              {tags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  style={{ fontSize: "20px", textAlign: "center" }}
-                >
-                  #{tag}
-                </Tag>
-              ))}
-            </Space>
-          </div>
-          <p onClick={showModal}>
-            <Avatar size={64} icon={<UserOutlined />}>
-              {user && user.username}
-            </Avatar>{" "}
-            โปรไฟลผู้เขียน <span>{user && user.username}</span>
-          </p>
-          <Modal
-            title="โปรไฟล์ผู้เขียน"
-            open={isModalOpen}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <Descriptions layout="vertical" bordered items={items} />
-          </Modal>
         </Card>
       </Paper>
     </div>

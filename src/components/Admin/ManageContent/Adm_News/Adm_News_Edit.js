@@ -27,9 +27,6 @@ const Adm_News_Edit = () => {
   const [loading, setLoading] = useState(false);
   const [editorHtml, setEditorHtml] = useState("");
   const [user, setUser] = useState(null);
-  const [selectOptions_med, setSelectOptions_med] = useState([]);
-  const [selectOptions_ty, setSelectOptions_ty] = useState([]);
-  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
 
@@ -44,10 +41,6 @@ const Adm_News_Edit = () => {
           setData(data);
           form.setFieldsValue({
             title: data.title,
-            type_new: data.type_new,
-            med_new: data.med_new,
-            prov_new: data.prov_new,
-            key_new: data.key_new,
           });
           setDetails(data.details);
         } else {
@@ -180,9 +173,6 @@ const Adm_News_Edit = () => {
       if (values.tag !== undefined) {
         formData.append("tag", JSON.stringify(values.tag));
       }
-      appendIfDefined("type_new", values.type_new);
-      appendIfDefined("med_new", values.med_new);
-      appendIfDefined("prov_new", values.prov_new);
 
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
@@ -205,59 +195,6 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-  const fetchDataAndSetOptions = useCallback(
-    async (endpoint, fieldName, stateSetter) => {
-      try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/${endpoint}`
-        );
-        if (response.ok) {
-          const typeCodes = await response.json();
-          const options = typeCodes.map((code) => (
-            <Option key={code[`id`]} value={code[`id`]}>
-              {code[`${fieldName}_name`]}
-            </Option>
-          ));
-          form.setFieldsValue({ [fieldName]: undefined });
-          form.setFields([
-            {
-              name: fieldName,
-              value: undefined,
-            },
-          ]);
-          stateSetter(options);
-        } else {
-          console.error(
-            `Error fetching ${fieldName} codes:`,
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error(`Error fetching ${fieldName} codes:`, error);
-      }
-    },
-    [form]
-  );
-
-  const onChange_mfi_ty_info_id = useCallback(() => {
-    fetchDataAndSetOptions(
-      "TypeInformation_request",
-      "type_info",
-      setSelectOptions_ty
-    );
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-
-  const onChange_dnc_med_id = useCallback(() => {
-    fetchDataAndSetOptions(
-      "MediaChannels_request",
-      "med_c",
-      setSelectOptions_med
-    );
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
-
-  const onChange_mfi_province = useCallback(() => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
 
   const onChange_Tags = useCallback(async () => {
     try {
@@ -281,16 +218,8 @@ const Adm_News_Edit = () => {
   }, [setSelectOptions_tags]);
 
   useEffect(() => {
-    onChange_mfi_ty_info_id();
-    onChange_dnc_med_id();
-    onChange_mfi_province();
     onChange_Tags();
-  }, [
-    onChange_mfi_ty_info_id,
-    onChange_dnc_med_id,
-    onChange_mfi_province,
-    onChange_Tags,
-  ]);
+  }, []);
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -503,48 +432,6 @@ const Adm_News_Edit = () => {
             แท็กเก่า (หากไม่ต้องการเปลี่ยน ไม่ต้องอัพโหลดใหม่)
           </Typography>
           {data && data.tag ? data.tag : <div>ไม่มีแท็ก</div>}
-          <Divider />
-          <Form.Item
-            name="type_new"
-            label={createTypography("ประเภทข่าว")}
-            rules={[{ required: false }]}
-          >
-            <Select
-              placeholder={createTypography("เลือกประเภทข่าว")}
-              onChange={onChange_mfi_ty_info_id}
-              allowClear
-            >
-              {selectOptions_ty}
-            </Select>
-          </Form.Item>
-          <Divider />
-          <Form.Item
-            name="med_new"
-            label={createTypography("ช่องทางสื่อ")}
-            rules={[{ required: false }]}
-          >
-            <Select
-              placeholder={createTypography("เลือกช่องทางสื่อ")}
-              onChange={onChange_dnc_med_id}
-              allowClear
-            >
-              {selectOptions_med}
-            </Select>
-          </Form.Item>
-          <Divider />
-          <Form.Item
-            name="prov_new"
-            label={createTypography("จังหวัด")}
-            rules={[{ required: false }]}
-          >
-            <Select
-              onChange={onChange_mfi_province}
-              allowClear
-              placeholder={createTypography("เลือกจังหวัด")}
-            >
-              {selectOptions_prov}
-            </Select>
-          </Form.Item>
           <Divider />
           <Form.Item>
             <Button

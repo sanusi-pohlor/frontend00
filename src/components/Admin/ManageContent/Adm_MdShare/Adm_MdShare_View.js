@@ -117,7 +117,7 @@ const Adm_MdShare_View = () => {
               โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
             </strong>
             <br />
-            <strong>ลงเมื่อ : {thaiDate}</strong>
+            <strong>{thaiDate}</strong>
             <br />
             <Divider />
             <div

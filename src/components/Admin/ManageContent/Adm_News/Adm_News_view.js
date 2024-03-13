@@ -118,7 +118,7 @@ const Adm_News_view = () => {
               โดย : {user ? user.username : "ไม่พบข้อมูลผู้เขียน"}
             </strong>
             <br />
-            <strong>ลงเมื่อ : {thaiDate}</strong>
+            <strong>{thaiDate}</strong>
             <br />
             <Divider />
             <div
