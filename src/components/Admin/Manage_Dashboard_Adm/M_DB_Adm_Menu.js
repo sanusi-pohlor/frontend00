@@ -10,7 +10,7 @@ import {
 } from "recharts";
 import AdminMenu from "../Adm_Menu";
 import { Grid, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/th";
 
@@ -20,6 +20,9 @@ const M_DB_Adm_Menu = () => {
   const [data, setData] = useState([]);
   const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
   const COLORS = [
     "#0088FE",
     "#00C49F",
@@ -51,9 +54,6 @@ const M_DB_Adm_Menu = () => {
     "#808000",
     "#800000",
   ];
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
   const fetchUser = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/user", {
@@ -357,7 +357,6 @@ const M_DB_Adm_Menu = () => {
         {[
           { data: chartData1, title: 'ประเภทสื่อ' },
           { data: chartData2, title: 'รูปแบบข่าว' },
-          { data: chartData3, title: 'จังหวัด' },
         ].map((chart, gridIndex) => (
           <Grid key={`grid-${gridIndex}`} item xs={12} md={4}>
             <Card hoverable className="dataCard">
@@ -367,6 +366,37 @@ const M_DB_Adm_Menu = () => {
                 <PieChart className="PieChartContainer">
                   <Tooltip />
                   <Legend />
+                  <Pie
+                    data={chart.data}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={`${Math.min(80, 80) - 1}%`}
+                    label
+                  >
+                    {chart.data.map((entry, index) => (
+                      <Cell
+                        key={`cell-${entry.name}-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </Card>
+          </Grid>
+        ))}
+        {[
+          { data: chartData3, title: 'จังหวัด' },
+        ].map((chart, gridIndex) => (
+          <Grid key={`grid-${gridIndex}`} item xs={12} md={4}>
+            <Card hoverable className="dataCard">
+              <div className="pieChartTitle">{chart.title}</div>
+              <Divider />
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart className="PieChartContainer">
+                  <Tooltip />
                   <Pie
                     data={chart.data}
                     dataKey="value"
@@ -407,16 +437,29 @@ const M_DB_Adm_Menu = () => {
         />
         <br />
         <Divider />
-        <Typography
-          variant="h3"
-          gutterBottom
+        <div className="setcardContent"
           style={{
             maxWidth: "80%",
             margin: "auto",
-          }}
-        >
-          ข้อมูล Admin
-        </Typography>
+          }}>
+          <Typography
+            variant="h3"
+            gutterBottom
+            style={{
+              maxWidth: "80%",
+              margin: "auto",
+            }}
+          >
+            ข้อมูล Admin
+          </Typography>
+          {user && user.id && (
+            <Link to={`/M_DB_Adm_Edit/${user.id}`}>
+              <Button type="primary" className="buttonprofile">
+                แก้ไข
+              </Button>
+            </Link>
+          )}
+        </div>
         <Divider />
         <Descriptions
           style={{
