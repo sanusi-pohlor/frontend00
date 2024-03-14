@@ -94,15 +94,33 @@ const MdShare_view = () => {
           <div className="cardsectionContent">ข่าวสาร</div>
         </Card>
         <br />
-        <Card className="cardContent">
-          <strong>{data.title}</strong>
-          <br />
-          <strong>
+        <Card>
+        <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            <Image
+              className="details-image"
+              src={data.cover_image}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "500px",
+                borderRadius: "8px",
+              }}
+            />
+          </div>
+          <Divider />
+          <div className="Contenttitle">{data.title}</div>
+          <div className="cardContent">
             โดย :{" "}
             {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
-          </strong>
           <br />
-          <strong>ลงเมื่อ : {thaiDate}</strong>
+          <strong>{thaiDate}</strong>
           <br />
           <Divider />
           <div
@@ -185,6 +203,7 @@ const MdShare_view = () => {
           >
             <Descriptions layout="vertical" bordered items={items} />
           </Modal>
+          </div>
         </Card>
       </Paper>
     </div>

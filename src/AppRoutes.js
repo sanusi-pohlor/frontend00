@@ -59,6 +59,7 @@ import Fninfoedit from "./components/Fninfo_Components/Fninfo_Edit";
 import Warn from "./components/Fninfo_Components/Warn";
 
 import MDBAdmMenu from "./components/Admin/Manage_Dashboard_Adm/M_DB_Adm_Menu";
+import MDBAdmEdit from "./components/Admin/Manage_Dashboard_Adm/M_DB_Adm_Edit";
 
 import AboutUsView from "./components/About_Us/About_Us_View";
 
@@ -94,6 +95,7 @@ const routes = [
   { path: "/About_Us_View", element: <AboutUsView /> },
 
   { path: "/Admin", element: <MDBAdmMenu /> },
+  { path: "/M_DB_Adm_Edit/:id", element: <MDBAdmEdit /> },
 
   { path: "/Admin/ManageInfo", element: <ManageInfo /> },
 

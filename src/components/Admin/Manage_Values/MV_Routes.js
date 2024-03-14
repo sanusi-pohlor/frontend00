@@ -11,6 +11,7 @@ import MCDataCharacteristics from "./MC_DataCharacteristics";
 import MCCheckingData from "./MC_CheckingData";
 import MCActionType from "./MC_ActionType";
 import MCAbout from "./MC_About";
+import MCResult from "./MC_Result";
 import AdminMenu from "../Adm_Menu";
 import { Card } from "antd";
 
@@ -70,10 +71,14 @@ const items = [
     label: "เกี่บวกับ",
     children: <MCAbout />,
   },
+  {
+    key: "12",
+    label: "ผลลัพธ์",
+    children: <MCResult />,
+  },
 ];
 const ManageValues = () => (
   <AdminMenu>
-    {" "}
     <Card className="cardsection">
       <div className="cardsectionContent">จัดการค่า</div>
     </Card>

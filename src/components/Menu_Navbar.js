@@ -67,7 +67,6 @@ function Menu_Navbar() {
                 },
               }
             );
-
             if (refreshResponse.ok) {
               const refreshData = await refreshResponse.json();
               const newToken = refreshData.token;
@@ -82,7 +81,6 @@ function Menu_Navbar() {
                   },
                 }
               );
-
               if (retryResponse.ok) {
                 const retryData = await retryResponse.json();
                 setUser(retryData);
@@ -252,7 +250,7 @@ function Menu_Navbar() {
             }}
           >
             <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
-              รู้เท่า ทันสื่อ - Check ก่อน
+              รู้เท่าทันสื่อ-Checkก่อน
             </Link>
           </Typography>
           <Box component="nav">
@@ -284,8 +282,8 @@ function Menu_Navbar() {
                 component={Link}
                 to={page.link}
                 sx={{
-                  mr: 3,
-                  fontSize: getFontSize(theme.breakpoints.width),
+                  mr: 1,
+                  fontSize: theme.breakpoints.down("md") ? "30px" : "30px",
                   color: page.link === location.pathname ? "#7BBD8F" : "grey",
                   whiteSpace: "nowrap",
                 }}
