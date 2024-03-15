@@ -88,6 +88,7 @@ const Adm_News_Form = () => {
         ["link"],
         ["clean"],
         ["code-block"],
+        ["image"],
         [{ align: [] }],
       ],
     },
@@ -107,6 +108,7 @@ const Adm_News_Form = () => {
     "list",
     "bullet",
     "link",
+    "image",
     "align",
   ];
 
