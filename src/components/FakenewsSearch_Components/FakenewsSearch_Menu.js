@@ -30,7 +30,23 @@ const FakenewsSearch_Menu = () => {
   const [data, setData] = useState([]);
   const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
-
+  function getThaiMonth(month) {
+    const thaiMonths = [
+      "มกราคม",
+      "กุมภาพันธ์",
+      "มีนาคม",
+      "เมษายน",
+      "พฤษภาคม",
+      "มิถุนายน",
+      "กรกฎาคม",
+      "สิงหาคม",
+      "กันยายน",
+      "ตุลาคม",
+      "พฤศจิกายน",
+      "ธันวาคม",
+    ];
+    return thaiMonths[month];
+  }
   const fetchAll = async () => {
     await fetchData();
     await fetchInfoData();
@@ -259,6 +275,19 @@ const FakenewsSearch_Menu = () => {
       },
     },
     {
+      title: "ตรวจเมื่อ",
+      dataIndex: "created_at",
+      width: "10%",
+      editable: true,
+      render: (created_at) => {
+        const date = new Date(created_at);
+        const formattedDate = `${date.getDate()} ${getThaiMonth(
+          date.getMonth()
+        )} ${date.getFullYear() + 543}`;
+        return formattedDate;
+      },
+    },
+    {
       title: "ผลการตรวจสอบ",
       dataIndex: "mfi_results",
       width: "10%",
@@ -270,7 +299,7 @@ const FakenewsSearch_Menu = () => {
             : "กำลังตรวจสอบ",
     },
     {
-      title: "จัดการ",
+      title: "รายละเอียด",
       width: "5%",
       editable: true,
       render: (text, record) => (

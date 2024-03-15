@@ -223,7 +223,7 @@ const Register_Dialog = ({ open, onClose }) => {
             name="phone_number"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรูณาเพิ่มเบอร์ติดต่อ!",
               },
             ]}
@@ -238,7 +238,7 @@ const Register_Dialog = ({ open, onClose }) => {
             name="Id_line"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาเพิ่มไอดีไลน์!",
               },
             ]}

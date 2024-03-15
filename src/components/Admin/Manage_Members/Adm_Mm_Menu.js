@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { Popconfirm, Space, Button, Card, message } from "antd";
+import { DeleteOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
 import {
   Table,
   TableCell,
@@ -14,14 +14,24 @@ import {
 import AdminMenu from "../Adm_Menu";
 import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
-
+const { Option } = Select;
 const ManageMembers = () => {
+  const [form] = Form.useForm();
   const [data, setData] = useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [province, setProvince] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const fetchFakeNewsInfo = async () => {
     try {
       const response = await fetch(
@@ -103,6 +113,25 @@ const ManageMembers = () => {
     }
   };
 
+  const handleAdd = async (id) => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/User_updatestatus/${id}`,
+        {
+          method: "POST",
+        }
+      );
+      if (response.ok) {
+        message.success("Item updatestatus successfully");
+        fetchData();
+      } else {
+        message.error("Error deleting item");
+      }
+    } catch (error) {
+      console.error("Error updatestatus item:", error.message);
+    }
+  };
+
   const columns = [
     {
       title: "ลำดับ",
@@ -138,6 +167,43 @@ const ManageMembers = () => {
       width: "10%",
       render: (text, record) => (
         <Space size="middle">
+          <Button
+            icon={
+              <PlusCircleOutlined style={{ fontSize: "16px", color: "green" }} />
+            }
+            onClick={showModal}
+          />
+          <Modal title="กำหนดระดับสมาชิก" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+            <Form
+              form={form}
+              layout="vertical"
+              name="member_form"
+              onFinish={handleAdd}
+            >
+              <Form.Item
+                name="act_ty_name"
+                label="ระดับสมาชิก"
+                rules={[
+                  {
+                    required: true,
+                    message: "กรุณาเลือกระดับสมาชิก!",
+                  },
+                ]}
+              >
+                <Select
+                  allowClear
+                >
+                  <Option value="1">สมาชิกปกติ</Option>
+                  <Option value="2">สมาชิก editor</Option>
+                </Select>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="form-button">
+                  เพิ่ม
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
           <Link to={`/Admin/ManageMembers/ManageMembers_View/${record.id}`}>
             <Button
               icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
@@ -205,9 +271,9 @@ const ManageMembers = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

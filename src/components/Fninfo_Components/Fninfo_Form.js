@@ -245,7 +245,7 @@ const FakeNewInformation = () => {
             name="fn_info_head"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "กรุณาระบุหัวข้อ",
               },
             ]}
@@ -263,7 +263,7 @@ const FakeNewInformation = () => {
             name="fn_info_content"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "Please input your email!",
               },
             ]}
@@ -283,7 +283,7 @@ const FakeNewInformation = () => {
             name="fn_info_source"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "Please input your email!",
               },
             ]}
@@ -305,7 +305,7 @@ const FakeNewInformation = () => {
             rules={[
               {
                 required: false,
-                message: "Please input your email!",
+                message: "กรุณากรอกจำนวนสมาชิกที่อยู่ในกลุ่มที่อาจเผยแพร่ข้อมูลเท็จ",
               },
             ]}
           >
@@ -376,7 +376,7 @@ const FakeNewInformation = () => {
             name="fn_info_dmy"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}

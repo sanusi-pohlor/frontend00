@@ -171,6 +171,12 @@ const FakenewsSearch_View = () => {
 
   const items2 = [
     {
+      key: "99",
+      label: createTypography("หัวข้อ"),
+      children: fnInfo && createTypography(fnInfo.fn_info_head),
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
+    },
+    {
       key: "0",
       label: createTypography("จังหวัด"),
       children:
