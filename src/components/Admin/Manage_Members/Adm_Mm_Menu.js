@@ -12,6 +12,7 @@ import {
   TableBody,
 } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
+import axios from "axios";
 import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
@@ -113,22 +114,20 @@ const ManageMembers = () => {
     }
   };
 
-  const handleAdd = async (id) => {
+  const handleAdd = async (id, values) => {
     try {
-      const response = await fetch(
+      const response = await axios.put(
         `https://checkkonproject-sub.com/api/User_updatestatus/${id}`,
-        {
-          method: "POST",
-        }
+        values.status
       );
-      if (response.ok) {
+      if (response.status === 200) {
         message.success("Item updatestatus successfully");
         fetchData();
       } else {
-        message.error("Error deleting item");
+        message.error("Error updating item");
       }
     } catch (error) {
-      console.error("Error updatestatus item:", error.message);
+      console.error("Error updating item:", error.message);
     }
   };
 
@@ -178,10 +177,10 @@ const ManageMembers = () => {
               form={form}
               layout="vertical"
               name="member_form"
-              onFinish={handleAdd}
+              onFinish={(values) => handleAdd(record.id, values)}
             >
               <Form.Item
-                name="act_ty_name"
+                name="status"
                 label="ระดับสมาชิก"
                 rules={[
                   {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image } from "antd";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image ,Button} from "antd";
 import { Paper } from "@mui/material";
 import moment from "moment";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined ,FacebookOutlined } from "@ant-design/icons";
 import axios from 'axios';
 
 const News_view = () => {
@@ -15,7 +15,11 @@ const News_view = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-
+  useEffect(() => {
+    if (window.FB) {
+      window.FB.XFBML.parse();
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -72,6 +76,10 @@ const News_view = () => {
       children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
+  const handleFacebookShare = () => {
+    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
 
   return (
     <div className="backgroundColor">
@@ -160,6 +168,13 @@ const News_view = () => {
                 ))}
               </Space>
             </div>
+            <Button
+              type="primary"
+              icon={<FacebookOutlined />}
+              onClick={handleFacebookShare}
+            >
+              แชร์ไปยัง Facebook
+            </Button>
             <p onClick={showModal}>
               <Avatar size={64} icon={<UserOutlined />}>
                 {user && user.username}
