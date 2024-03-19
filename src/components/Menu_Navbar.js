@@ -19,7 +19,7 @@ import { CommentOutlined } from "@ant-design/icons";
 import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FloatButton } from "antd";
+import { FloatButton, Modal } from "antd";
 import LoginDialog from "./User_Comoponents/Login_Dialog";
 import RegisterDialog from "./User_Comoponents/Register_Dialog";
 import PropTypes from "prop-types";
@@ -34,7 +34,10 @@ function Menu_Navbar() {
   const Navigate = useNavigate();
   const theme = useTheme();
   const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
-
+  const [visible, setVisible] = useState(false);
+  const handleModalCancel = () => {
+    setVisible(false);
+  };
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -162,9 +165,19 @@ function Menu_Navbar() {
   const handleDrawerToggleProfile = async () => {
     if (user.level === 3) {
       Navigate("/User/Profile");
-    } else {
+    } else if (user.level === 2) {
       Navigate("/Admin/");
+    } else if (user.level === 1) {
+      Navigate("/Admin/");
+    } else if (user.level === 0) {
+      setVisible(true);
     }
+  };
+  const handleOk = () => {
+    localStorage.removeItem("access_token");
+    Navigate(`/`);
+    window.location.reload();
+    console.log("Logged out successfully");
   };
   const pages = user
     ? [
@@ -174,8 +187,7 @@ function Menu_Navbar() {
       { label: "สื่อชวนแชร์", link: "/MediaShare_Menu" },
       { label: "แจ้งข้อมูลเท็จ", link: "/FakeNews_Menu" },
       { label: "เกี่ยวกับเรา", link: "/About_Us_View" },
-    ]
-    : [
+    ] : [
       { label: "หน้าหลัก", link: "/" },
       { label: "ข่าวสาร", link: "/News_Menu" },
       { label: "บทความ", link: "/Article_Menu" },
@@ -207,181 +219,195 @@ function Menu_Navbar() {
   );
   const container = window.document.body;
   return (
-    <Box className="custom-font">
-      <CssBaseline />
-      <AppBar
-        className="AppBarContainer"
-        sx={{ backgroundColor: "white", color: "#7BBD8F", height: "10%" }}
+    <div>
+      <Button onClick={handleDrawerToggleProfile}>Toggle Modal</Button>
+      <Modal
+        title="รอ admin ยืนยัน"
+        visible={visible}
+        onCancel={handleModalCancel}
+        footer={null}
       >
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          {!isMobileScreen && (
-            <img
-              src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
-              alt="WMO Logo"
-              className="image-style"
-            />
-          )}
-          <div style={{ margin: "15px" }}></div>
-          <Typography
-            variant="h6"
-            style={{
-              flexGrow: 1,
-              marginRight: "5px",
-              fontFamily: "'Th Sarabun New', sans-serif",
-              fontWeight: "bold",
-              letterSpacing: ".1rem",
-              color: "gray",
-              fontSize: "250%",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
-              รู้เท่าทันสื่อ-Checkก่อน
-            </Link>
-          </Typography>
-          <Box component="nav">
-            <Drawer
-              container={container}
-              variant="temporary"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              style={{ fontSize: "50px" }}
-              ModalProps={{
-                keepMounted: false,
-              }}
+        <p>รอ admin ยืนยัน</p>
+        <Button type="primary" onClick={handleOk}>
+          {createTypography("ออกจากระบบ")}
+        </Button>
+      </Modal>
+      <Box className="custom-font">
+        <CssBaseline />
+        <AppBar
+          className="AppBarContainer"
+          sx={{ backgroundColor: "white", color: "#7BBD8F", height: "10%" }}
+        >
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
               sx={{
-                display: { xs: "block", sm: "block" },
-                "& .MuiDrawer-paper": {
-                  boxSizing: "border-box",
-                  width: drawerWidth,
-                  fontWeight: "bold",
-                },
+                mr: 2,
+                display: { xs: "flex", md: "none" },
               }}
             >
-              {drawerMenu}
-            </Drawer>
-          </Box>
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.label}
-                component={Link}
-                to={page.link}
+              <MenuIcon />
+            </IconButton>
+            {!isMobileScreen && (
+              <img
+                src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
+                alt="WMO Logo"
+                className="image-style"
+              />
+            )}
+            <div style={{ margin: "15px" }}></div>
+            <Typography
+              variant="h6"
+              style={{
+                flexGrow: 1,
+                marginRight: "5px",
+                fontFamily: "'Th Sarabun New', sans-serif",
+                fontWeight: "bold",
+                letterSpacing: ".1rem",
+                color: "gray",
+                fontSize: "250%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }}
+            >
+              <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
+                รู้เท่าทันสื่อ-Checkก่อน
+              </Link>
+            </Typography>
+            <Box component="nav">
+              <Drawer
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                style={{ fontSize: "50px" }}
+                ModalProps={{
+                  keepMounted: false,
+                }}
                 sx={{
-                  mr: 1,
-                  fontSize: theme.breakpoints.down("md") ? "35px" : "35px",
-                  color: page.link === location.pathname ? "#7BBD8F" : "grey",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {page.label}
-              </Button>
-            ))}
-          </Box>
-          {user ? (
-            <Box sx={{ flexGrow: 0 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <IconButton onClick={handleDrawerToggleProfile} sx={{ p: 0 }}>
-                  <UserOutlined
-                    style={{ fontSize: "2rem", color: "#7BBD8F" }}
-                  />
-                </IconButton>
-              </div>
-            </Box>
-          ) : (
-            <Box sx={{ flexGrow: 0 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Button
-                  className="register-button"
-                  size="large"
-                  type="primary"
-                  style={{
-                    ...registerbuttonStyle,
+                  display: { xs: "block", sm: "block" },
+                  "& .MuiDrawer-paper": {
+                    boxSizing: "border-box",
+                    width: drawerWidth,
                     fontWeight: "bold",
-                    fontSize: "20px",
+                  },
+                }}
+              >
+                {drawerMenu}
+              </Drawer>
+            </Box>
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page.label}
+                  component={Link}
+                  to={page.link}
+                  sx={{
+                    mr: 1,
+                    fontSize: theme.breakpoints.down("md") ? "35px" : "35px",
+                    color: page.link === location.pathname ? "#7BBD8F" : "grey",
                     whiteSpace: "nowrap",
                   }}
-                  onClick={showRegisterDialog}
                 >
-                  {createTypography("สมัครสมาชิก")}
+                  {page.label}
                 </Button>
-                {registerVisible && (
-                  <RegisterDialog
-                    open={registerVisible}
-                    onClose={closeRegisterDialog}
-                    handleSubmit={handleSubmit}
-                    RegisterFinish={RegisterFinish}
-                  />
-                )}
-                <div style={{ margin: "5px" }}></div>
-                <Button
-                  className="login-button"
-                  size="large"
-                  type="primary"
-                  style={{
-                    ...loginbuttonStyle,
-                    fontWeight: "bold",
-                    fontSize: "20px",
-                    whiteSpace: "nowrap",
-                  }}
-                  onClick={showLoginDialog}
-                >
-                  {createTypography("เข้าสู่ระบบ")}
-                </Button>
-                {loginVisible && (
-                  <LoginDialog
-                    open={loginVisible}
-                    onClose={closeLoginDialog}
-                    handleSubmit={handleSubmit}
-                    RegisterFinish={LoginFinish}
-                  />
-                )}
-              </div>
+              ))}
             </Box>
-          )}
-        </Toolbar>
-      </AppBar>
-      <>
-        <FloatButton.Group
-          trigger="click"
-          style={{
-            right: 80,
-          }}
-          icon={<CommentOutlined />}
-        >
-          <FloatButton
-            icon={<FacebookOutlined />}
-            onClick={handleButtonClick}
-          />
-        </FloatButton.Group>
-      </>
-    </Box>
+            {user ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <IconButton onClick={handleDrawerToggleProfile} sx={{ p: 0 }}>
+                    <UserOutlined
+                      style={{ fontSize: "2rem", color: "#7BBD8F" }}
+                    />
+                  </IconButton>
+                </div>
+              </Box>
+            ) : (
+              <Box sx={{ flexGrow: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <Button
+                    className="register-button"
+                    size="large"
+                    type="primary"
+                    style={{
+                      ...registerbuttonStyle,
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      whiteSpace: "nowrap",
+                    }}
+                    onClick={showRegisterDialog}
+                  >
+                    {createTypography("สมัครสมาชิก")}
+                  </Button>
+                  {registerVisible && (
+                    <RegisterDialog
+                      open={registerVisible}
+                      onClose={closeRegisterDialog}
+                      handleSubmit={handleSubmit}
+                      RegisterFinish={RegisterFinish}
+                    />
+                  )}
+                  <div style={{ margin: "5px" }}></div>
+                  <Button
+                    className="login-button"
+                    size="large"
+                    type="primary"
+                    style={{
+                      ...loginbuttonStyle,
+                      fontWeight: "bold",
+                      fontSize: "20px",
+                      whiteSpace: "nowrap",
+                    }}
+                    onClick={showLoginDialog}
+                  >
+                    {createTypography("เข้าสู่ระบบ")}
+                  </Button>
+                  {loginVisible && (
+                    <LoginDialog
+                      open={loginVisible}
+                      onClose={closeLoginDialog}
+                      handleSubmit={handleSubmit}
+                      RegisterFinish={LoginFinish}
+                    />
+                  )}
+                </div>
+              </Box>
+            )}
+          </Toolbar>
+        </AppBar>
+        <>
+          <FloatButton.Group
+            trigger="click"
+            style={{
+              right: 80,
+            }}
+            icon={<CommentOutlined />}
+          >
+            <FloatButton
+              icon={<FacebookOutlined />}
+              onClick={handleButtonClick}
+            />
+          </FloatButton.Group>
+        </>
+      </Box>
+    </div>
   );
 }
 Menu_Navbar.propTypes = {

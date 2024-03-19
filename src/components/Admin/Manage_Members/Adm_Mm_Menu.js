@@ -12,7 +12,6 @@ import {
   TableBody,
 } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
-import axios from "axios";
 import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
@@ -24,11 +23,10 @@ const ManageMembers = () => {
   const [province, setProvince] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
+  const [selectedRecordId, setSelectedRecordId] = useState(null);
+  const showModal = (id) => {
     setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
+    setSelectedRecordId(id);
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -114,18 +112,22 @@ const ManageMembers = () => {
     }
   };
 
-  const handleAdd = async (record, values) => {
-    console.log("id,values",record, values);
+  const handleAdd = async (values) => {
     try {
+      if (!selectedRecordId || !values || !values.status) {
+        message.error("กรุณาเลือกระดับสมาชิก!");
+        return;
+      }
       const formData = new FormData();
       formData.append("status", values.status);
-      const response = await fetch(`https://checkkonproject-sub.com/api/User_updatestatus/${record.id}`, {
+      const response = await fetch(`https://checkkonproject-sub.com/api/User_updatestatus/${selectedRecordId}`, {
         method: 'POST',
         body: formData,
       });
       if (response.ok) {
-        message.success("Item updatestatus successfully");
+        message.success("ยืนยันสมาชิกเรียบร้อย");
         fetchData();
+        setIsModalOpen(false);
       } else {
         message.error("Error updating item");
       }
@@ -133,7 +135,7 @@ const ManageMembers = () => {
       console.error("Error updating item:", error.message);
     }
   };
-  
+
   const columns = [
     {
       title: "ลำดับ",
@@ -169,18 +171,18 @@ const ManageMembers = () => {
       width: "10%",
       render: (text, record) => (
         <Space size="middle">
-          <Button
-            icon={
-              <CheckOutlined style={{ fontSize: "16px", color: "green" }} />
-            }
-            onClick={showModal}
-          />
-          <Modal title="กำหนดระดับสมาชิก" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+          {record.level === 0 && (
+            <Button
+              icon={<CheckOutlined style={{ fontSize: "16px", color: "green" }} />}
+              onClick={() => showModal(record.id)}
+            />
+          )}
+          <Modal title="กำหนดระดับสมาชิก" open={isModalOpen} onCancel={handleCancel} footer={null}>
             <Form
               form={form}
               layout="vertical"
               name="member_form"
-              onFinish={(values) => handleAdd(record, values)}
+              onFinish={handleAdd}
             >
               <Form.Item
                 name="status"
@@ -196,7 +198,7 @@ const ManageMembers = () => {
                   allowClear
                 >
                   <Option value="3">สมาชิกปกติ</Option>
-                  <Option value="2">สมาชิก editor</Option>
+                  <Option value="2">สมาชิก Editor</Option>
                 </Select>
               </Form.Item>
               <Form.Item>

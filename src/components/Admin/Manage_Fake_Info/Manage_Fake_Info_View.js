@@ -20,6 +20,7 @@ const Manage_Fake_Info_View = () => {
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_about, setSelectOptions_about] = useState([]);
+  const [selectOptions_result, setSelectOptions_result] = useState([]);
 
   const fetchUserInfo = async () => {
     try {
@@ -137,6 +138,7 @@ const Manage_Fake_Info_View = () => {
       { type: "MediaChannels_request", setter: setSelectOptions_med },
       { type: "CheckingData_request", setter: setSelectOptions_che },
       { type: "About_request", setter: setSelectOptions_about },
+      { type: "Result_request", setter: setSelectOptions_result },
     ];
 
     const onChange = async (requestType, setOptionsFunction) => {
@@ -228,7 +230,7 @@ const Manage_Fake_Info_View = () => {
         fnInfo &&
         createTypography(
           fnInfo.created_at &&
-            moment(fnInfo.created_at).locale("th").format("DD MMMM YYYY")
+          moment(fnInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -260,7 +262,7 @@ const Manage_Fake_Info_View = () => {
         fnInfo &&
         createTypography(
           fnInfo.fn_info_dmy &&
-            moment(fnInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+          moment(fnInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -301,15 +303,15 @@ const Manage_Fake_Info_View = () => {
               fnInfo.fn_info_status === 0
                 ? "warning"
                 : fnInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fnInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fnInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -484,15 +486,15 @@ const Manage_Fake_Info_View = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -505,7 +507,9 @@ const Manage_Fake_Info_View = () => {
       children:
         fakeNewsInfo &&
         createTypography(
-          fakeNewsInfo.mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ"
+          <span>
+            {renderOption(selectOptions_result, "id", "result_name", "mfi_results")}
+          </span>
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
