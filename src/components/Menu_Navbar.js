@@ -283,7 +283,7 @@ function Menu_Navbar() {
                 to={page.link}
                 sx={{
                   mr: 1,
-                  fontSize: theme.breakpoints.down("md") ? "30px" : "30px",
+                  fontSize: theme.breakpoints.down("md") ? "35px" : "35px",
                   color: page.link === location.pathname ? "#7BBD8F" : "grey",
                   whiteSpace: "nowrap",
                 }}
