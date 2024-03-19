@@ -20,7 +20,7 @@ const { Option } = Select;
 
 const Adm_Info_Check = () => {
   const navigate = useNavigate();
-  const [fakeNewsInfo, setFakeNewsInfo] = useState(null);
+  const [fakeNewsInfo, setFakeNewsInfo] = useState(null);  
   const [province, setProvince] = useState([]);
   const [form] = Form.useForm();
   const [selectOptions_med, setSelectOptions_med] = useState([]);
@@ -32,6 +32,7 @@ const Adm_Info_Check = () => {
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [selectOptions_about, setSelectOptions_About] = useState([]);
+  const [selectOptions_result, setSelectOptions_Result] = useState([]);
   const [info_source, setInfo_source] = useState(null);
   const [options, setOptions] = useState([]);
   const { id } = useParams();
@@ -296,6 +297,10 @@ const Adm_Info_Check = () => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
   };
 
+  const onChange_mfi_results_id = () => {
+    fetchDataAndSetOptions("Result_request", "result", setSelectOptions_Result);
+  };
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
@@ -324,6 +329,7 @@ const Adm_Info_Check = () => {
     onChange_mfi_data_cha_id();
     onChange_dnc_med_id();
     onChange_mfi_che_d_id();
+    onChange_mfi_results_id();
     onChange_Tags();
   }, []);
 
@@ -437,6 +443,7 @@ const Adm_Info_Check = () => {
         )
       ),
       span: 2,
+      labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
       key: "12",
@@ -723,9 +730,8 @@ const Adm_Info_Check = () => {
                 width: "calc(33% - 8px)",
               }}
             >
-              <Select allowClear style={{ width: "100%" }}>
-                <Select.Option value="0">ข่าวเท็จ</Select.Option>
-                <Select.Option value="1">ข่าวจริง</Select.Option>
+              <Select onChange={onChange_mfi_results_id} allowClear>
+                {selectOptions_result}
               </Select>
             </Form.Item>
             <Form.Item

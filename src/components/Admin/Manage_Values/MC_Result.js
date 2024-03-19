@@ -75,7 +75,7 @@ const MC_Result = () => {
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
-      formData.append("Result_name", values.Result_name);
+      formData.append("result_name", values.result_name);
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Result_upload",
         {
@@ -99,7 +99,7 @@ const MC_Result = () => {
   const onFinishEdit = async (values, id) => {
     try {
       const formData = new FormData();
-      formData.append("Result_name", values.Result_name);
+      formData.append("result_name", values.result_name);
 
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Result_update/${id}`,
@@ -126,14 +126,14 @@ const MC_Result = () => {
 
   const editRow = (record) => {
     form.setFieldsValue({
-        Result_name: record.Result_name,
+      result_name: record.result_name,
     });
     setEditingKey(record.id);
     setEditRecord(record);
   };
   const add = () => {
     form.setFieldsValue({
-        Result_name: null,
+      result_name: null,
     });
   };
 
@@ -177,7 +177,7 @@ const MC_Result = () => {
     },
     {
       title: "ชื่อผลลัพธ์",
-      dataIndex: "Result_name",
+      dataIndex: "result_name",
       width: "60%",
       editable: true,
     },
@@ -268,7 +268,7 @@ const MC_Result = () => {
           onFinish={onFinish}
         >
           <Form.Item
-            name="Result_name"
+            name="result_name"
             label="ชื่อผลลัพธ์"
             rules={[
               {
@@ -299,7 +299,7 @@ const MC_Result = () => {
           onFinish={(values) => onFinishEdit(values, editRecord.id)}
         >
           <Form.Item
-            name="Result_name"
+            name="result_name"
             label="ผลลัพธ์"
             rules={[
               {

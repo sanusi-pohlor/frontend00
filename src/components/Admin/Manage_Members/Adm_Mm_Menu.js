@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { DeleteOutlined, EyeOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeOutlined, CheckOutlined } from "@ant-design/icons";
 import { Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
 import {
   Table,
@@ -114,13 +114,16 @@ const ManageMembers = () => {
     }
   };
 
-  const handleAdd = async (id, values) => {
+  const handleAdd = async (record, values) => {
+    console.log("id,values",record, values);
     try {
-      const response = await axios.put(
-        `https://checkkonproject-sub.com/api/User_updatestatus/${id}`,
-        values.status
-      );
-      if (response.status === 200) {
+      const formData = new FormData();
+      formData.append("status", values.status);
+      const response = await fetch(`https://checkkonproject-sub.com/api/User_updatestatus/${record.id}`, {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok) {
         message.success("Item updatestatus successfully");
         fetchData();
       } else {
@@ -130,7 +133,7 @@ const ManageMembers = () => {
       console.error("Error updating item:", error.message);
     }
   };
-
+  
   const columns = [
     {
       title: "ลำดับ",
@@ -168,7 +171,7 @@ const ManageMembers = () => {
         <Space size="middle">
           <Button
             icon={
-              <PlusCircleOutlined style={{ fontSize: "16px", color: "green" }} />
+              <CheckOutlined style={{ fontSize: "16px", color: "green" }} />
             }
             onClick={showModal}
           />
@@ -177,7 +180,7 @@ const ManageMembers = () => {
               form={form}
               layout="vertical"
               name="member_form"
-              onFinish={(values) => handleAdd(record.id, values)}
+              onFinish={(values) => handleAdd(record, values)}
             >
               <Form.Item
                 name="status"
@@ -192,7 +195,7 @@ const ManageMembers = () => {
                 <Select
                   allowClear
                 >
-                  <Option value="1">สมาชิกปกติ</Option>
+                  <Option value="3">สมาชิกปกติ</Option>
                   <Option value="2">สมาชิก editor</Option>
                 </Select>
               </Form.Item>
