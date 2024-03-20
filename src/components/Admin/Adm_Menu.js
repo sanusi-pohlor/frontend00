@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   UserOutlined,
   PieChartOutlined,
@@ -10,7 +10,7 @@ import {
   BarsOutlined,
   MessageOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu} from "antd";
+import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import { Typography } from "@mui/material";
 
@@ -50,12 +50,37 @@ const determineSelectedKey = (pathname) => {
 };
 
 const AdminMenu = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
   const selectedKey = determineSelectedKey(location.pathname);
   const [openKeys, setOpenKeys] = useState([
     determineSelectedSubMenu(location.pathname),
   ]);
+  const fetchUser = async () => {
+    try {
+      const response = await fetch("https://checkkonproject-sub.com/api/user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+        console.log(data);
+      } else {
+        console.error("User data retrieval failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const handleSubMenuOpen = (keys) => {
     setOpenKeys(keys);
@@ -87,6 +112,7 @@ const AdminMenu = ({ children }) => {
           <Menu.Item key="1" icon={<PieChartOutlined />}>
             <Link to="/Admin">{createTypography("Admin Dashboard")}</Link>
           </Menu.Item>
+
           <Menu.ItemGroup
             key="sub1"
             title={createTypography("จัดการคอนเทนต์")}
@@ -113,32 +139,36 @@ const AdminMenu = ({ children }) => {
               </Link>
             </Menu.Item>
           </Menu.ItemGroup>
-          <Menu.ItemGroup
-            key="sub2"
-            title={createTypography("จัดการข้อมูลเท็จ")}
-            icon={<FormOutlined />}
-          >
-            <Menu.Item key="6" icon={<SendOutlined />}>
-              <Link to="/Admin/ManageInfo">
-                {createTypography("จัดการข้อมูลรับแจ้ง")}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="7" icon={<FileSearchOutlined />}>
-              <Link to="/Admin/Manage_Fake_Info_Menu">
-                {createTypography("จัดการข้อมูลเท็จ")}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="8" icon={<UserOutlined />}>
-              <Link to="/Admin/ManageMembers">
-                {createTypography("จัดการสมาชิก")}
-              </Link>
-            </Menu.Item>
-            <Menu.Item key="14" icon={<BarsOutlined />}>
-              <Link to="/Admin/ManageValues">
-                {createTypography("จัดการค่า")}
-              </Link>
-            </Menu.Item>
-          </Menu.ItemGroup>
+
+          {user && user.level === 1 && (
+            <Menu.ItemGroup
+              key="sub2"
+              title={createTypography("จัดการข้อมูลเท็จ")}
+              icon={<FormOutlined />}
+            >
+              <Menu.Item key="6" icon={<SendOutlined />}>
+                <Link to="/Admin/ManageInfo">
+                  {createTypography("จัดการข้อมูลรับแจ้ง")}
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="7" icon={<FileSearchOutlined />}>
+                <Link to="/Admin/Manage_Fake_Info_Menu">
+                  {createTypography("จัดการข้อมูลเท็จ")}
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="8" icon={<UserOutlined />}>
+                <Link to="/Admin/ManageMembers">
+                  {createTypography("จัดการสมาชิก")}
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="14" icon={<BarsOutlined />}>
+                <Link to="/Admin/ManageValues">
+                  {createTypography("จัดการค่า")}
+                </Link>
+              </Menu.Item>
+            </Menu.ItemGroup>
+          )}
+
         </Menu>
       </Sider>
       <Layout>

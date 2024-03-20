@@ -232,10 +232,7 @@ const Manage_Fake_Info_Edit = () => {
       appendIfDefined("mfi_iteration", values.mfi_iteration);
       appendIfDefined("mfi_che_d", values.mfi_che_d);
       appendIfDefined("mfi_data_cha", values.mfi_data_cha);
-      const mfi_results = data.mfi_results === 1 ? "จริง" : "เท็จ";
-      if (values.mfi_results !== mfi_results) {
-        formData.append("mfi_results", values.mfi_results);
-      }
+      appendIfDefined("mfi_results", values.mfi_results);
       appendIfDefined("mfi_tag", JSON.stringify(values.mfi_tag));
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Manage_Fake_Info_update/${id}`,

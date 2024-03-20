@@ -267,7 +267,7 @@ const Manage_Fake_Info_Menu = () => {
       "result",
       setSelectOptions_Result
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  }, [fetchDataAndSetOptions, setSelectOptions_Result]);
 
   const onChange_Tags = useCallback(async () => {
     try {

@@ -22,6 +22,7 @@ const FakenewsSearch_Menu = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [form] = Form.useForm();
   const [province, setProvince] = useState([]);
+  const [resultB, setResultB] = useState([]);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [selectOptions_ty, setSelectOptions_ty] = useState([]);
   const [selectOptions_med, setSelectOptions_med] = useState([]);
@@ -30,6 +31,8 @@ const FakenewsSearch_Menu = () => {
   const [data, setData] = useState([]);
   const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
+  const [selectOptions_result, setSelectOptions_Result] = useState([]);
+
   function getThaiMonth(month) {
     const thaiMonths = [
       "มกราคม",
@@ -80,7 +83,24 @@ const FakenewsSearch_Menu = () => {
   useEffect(() => {
     fetchData();
   }, []);
-
+  const Result = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Result_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setResultB(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Result();
+  }, []);
   const fetchInfoData = async () => {
     try {
       const response = await fetch(
@@ -142,8 +162,7 @@ const FakenewsSearch_Menu = () => {
       const matchesMedia = med_new ? News.mfi_med_c === med_new : true;
       const matchesProvince = prov_new ? News.mfi_province === prov_new : true;
       const matchesDate = created_at ? NewsDate === created_at : true;
-      const intResults = parseInt(results);
-      const matchesResults = results ? News.mfi_results === intResults : true;
+      const matchesResults = results ? News.mfi_results === results : true;
 
       let newsTags = [];
       try {
@@ -234,14 +253,28 @@ const FakenewsSearch_Menu = () => {
       setSelectOptions_med
     );
   }, []);
+  const onChange_mfi_results_id = useCallback(() => {
+    fetchDataAndSetOptions(
+      "Result_request",
+      "result",
+      setSelectOptions_Result
+    );
+  }, []);
 
   useEffect(() => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_Tags();
+    onChange_mfi_results_id();
   }, []);
-
+  const renderResult = (mfi_results) => {
+    const dataA = resultB
+      ? resultB.find((item) => item.id === mfi_results)
+      : null;
+    const resultA = dataA ? dataA.result_name : null;
+    return resultA;
+  };
   const columns = [
     {
       title: "ลำดับ",
@@ -291,12 +324,7 @@ const FakenewsSearch_Menu = () => {
       title: "ผลการตรวจสอบ",
       dataIndex: "mfi_results",
       width: "10%",
-      render: (mfi_results) =>
-        mfi_results === 0
-          ? "ข่าวเท็จ"
-          : mfi_results === 1
-            ? "ข่าวจริง"
-            : "กำลังตรวจสอบ",
+      render: (mfi_results) => renderResult(mfi_results),
     },
     {
       title: "รายละเอียด",
@@ -458,14 +486,9 @@ const FakenewsSearch_Menu = () => {
                       }
                       style={{ marginBottom: "10px" }}
                     >
-                      <Select
-                        size="large"
-                        placeholder="เลือกข้อมูลจริง"
-                        allowClear
-                      >
-                        <Select.Option value="0">ข่าวเท็จ</Select.Option>
-                        <Select.Option value="1">ข่าวจริง</Select.Option>
-                      </Select>
+                    <Select onChange={onChange_mfi_results_id} allowClear>
+                      {selectOptions_result}
+                    </Select>
                     </Form.Item>
                     <br />
                     <Form.Item>

@@ -428,8 +428,6 @@ const FakeNewInformation = () => {
             </Button>
           </Form.Item>
         </Form>
-        <br />
-        <br />
       </UserProfile>
     );
   }

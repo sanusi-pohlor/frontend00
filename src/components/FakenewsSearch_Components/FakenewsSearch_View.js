@@ -17,6 +17,7 @@ const FakenewsSearch_View = () => {
   const [selectOptions_moti, setSelectOptions_moti] = useState([]);
   const [selectOptions_data, setSelectOptions_data] = useState([]);
   const [selectOptions_about, setSelectOptions_about] = useState([]);
+  const [selectOptions_result, setSelectOptions_result] = useState([]);
 
   useEffect(() => {
     const fetchFakeNewsInfo = async () => {
@@ -139,6 +140,8 @@ const FakenewsSearch_View = () => {
       { type: "MediaChannels_request", setter: setSelectOptions_med },
       { type: "CheckingData_request", setter: setSelectOptions_che },
       { type: "About_request", setter: setSelectOptions_about },
+      { type: "Result_request", setter: setSelectOptions_result },
+
     ];
 
     const onChange = async (requestType, setOptionsFunction) => {
@@ -372,8 +375,9 @@ const FakenewsSearch_View = () => {
       children:
         fakeNewsInfo &&
         createTypography(
-          fakeNewsInfo.mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ"
-        ),
+          <span>
+            {renderOption(selectOptions_result, "id", "result_name", "mfi_results")}
+          </span>        ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
