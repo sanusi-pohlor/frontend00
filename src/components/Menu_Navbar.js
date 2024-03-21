@@ -110,15 +110,7 @@ function Menu_Navbar() {
       {label}
     </Typography>
   );
-  const getFontSize = (breakpoint) => {
-    const fontSizeMap = {
-      xs: "150%",
-      md: "250%",
-      default: "200%",
-    };
 
-    return fontSizeMap[breakpoint] || fontSizeMap.default;
-  };
   const handleButtonClick = () => {
     window.location.href = "https://www.facebook.com/MediaLiteracyforCitizen";
   };
@@ -147,10 +139,6 @@ function Menu_Navbar() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
   };
   const LoginFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -220,14 +208,13 @@ function Menu_Navbar() {
   const container = window.document.body;
   return (
     <div>
-      <Button onClick={handleDrawerToggleProfile}>Toggle Modal</Button>
       <Modal
-        title="รอ admin ยืนยัน"
+        title="รอแอดมินยืนยัน"
         visible={visible}
         onCancel={handleModalCancel}
         footer={null}
       >
-        <p>รอ admin ยืนยัน</p>
+        <p>รอแอดมินยืนยัน</p>
         <Button type="primary" onClick={handleOk}>
           {createTypography("ออกจากระบบ")}
         </Button>
@@ -236,7 +223,7 @@ function Menu_Navbar() {
         <CssBaseline />
         <AppBar
           className="AppBarContainer"
-          sx={{ backgroundColor: "white", color: "#7BBD8F", height: "10%" }}
+          sx={{ backgroundColor: "white", color: "#7BBD8F"}}
         >
           <Toolbar>
             <IconButton
