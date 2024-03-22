@@ -34,47 +34,47 @@ const Profile = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResponse = await axios.get(
-          "https://checkkonproject-sub.com/api/user",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-        if (userResponse.status === 200) {
-          const userData = await userResponse.data;
-          setUser(userData);
-          const [fiproResponse, provinceResponse] = await Promise.all([
-            axios.get(
-              `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
-            ),
-            axios.get(
-              `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
-            ),
-          ]);
-          if (fiproResponse.status === 200) {
-            const fiproData = await fiproResponse.data;
-            setData(fiproData);
-          } else {
-            console.error("Error fetching data:", fiproResponse.statusText);
-          }
-          if (provinceResponse.status === 200) {
-            const provinceData = await provinceResponse.data;
-            setProvince(provinceData);
-          } else {
-            console.error("Error fetching province data:", provinceResponse.statusText);
-          }
-        } else {
-          console.error("User data retrieval failed");
+  const fetchData = async () => {
+    try {
+      const userResponse = await axios.get(
+        "https://checkkonproject-sub.com/api/user",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      } catch (error) {
-        console.error("Error:", error);
+      );
+      if (userResponse.status === 200) {
+        const userData = await userResponse.data;
+        setUser(userData);
+        const [fiproResponse, provinceResponse] = await Promise.all([
+          axios.get(
+            `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
+          ),
+          axios.get(
+            `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
+          ),
+        ]);
+        if (fiproResponse.status === 200) {
+          const fiproData = await fiproResponse.data;
+          setData(fiproData);
+        } else {
+          console.error("Error fetching data:", fiproResponse.statusText);
+        }
+        if (provinceResponse.status === 200) {
+          const provinceData = await provinceResponse.data;
+          setProvince(provinceData);
+        } else {
+          console.error("Error fetching province data:", provinceResponse.statusText);
+        }
+      } else {
+        console.error("User data retrieval failed");
       }
-    };
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, []);
 

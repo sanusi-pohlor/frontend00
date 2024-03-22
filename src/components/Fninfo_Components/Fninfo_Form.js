@@ -49,6 +49,7 @@ const FakeNewInformation = () => {
   const onFinish = async (values) => {
     try {
       const formData = new FormData();
+      const images = values.fn_info_image;
       formData.append("fn_info_nameid", user.id);
       formData.append("fn_info_province", user.province);
       formData.append("fn_info_head", values.fn_info_head);
@@ -58,9 +59,13 @@ const FakeNewInformation = () => {
       formData.append("fn_info_more", values.fn_info_more);
       formData.append("fn_info_link", values.fn_info_link);
       formData.append("fn_info_dmy", values.fn_info_dmy);
-      values.fn_info_image.forEach((file, index) => {
-        formData.append(`fn_info_image_${index}`, file.originFileObj);
-      });
+      if (images && images.length > 0) {
+        images.forEach((file, index) => {
+            formData.append(`fn_info_image_${index}`, file.originFileObj);
+        });
+    } else {
+        formData.append('fn_info_image', '');
+    }
       const response = await fetch(
         "https://checkkonproject-sub.com/api/FakeNewsInfo_upload",
         {
@@ -376,7 +381,7 @@ const FakeNewInformation = () => {
             name="fn_info_dmy"
             rules={[
               {
-                required: true,
+                required: false,
                 message: "กรุณาระบุวัน/เดือน/ปี",
               },
             ]}

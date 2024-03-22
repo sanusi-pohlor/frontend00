@@ -50,3 +50,16 @@ body {
     justify-content: center;
   }
 }
+
+.form-button {
+  width: 100%;
+  margin-right: 10px;
+  font-size: 18px;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #7BBD8F;
+  border: none;
+  color: #ffffff;
+}

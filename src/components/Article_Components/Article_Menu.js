@@ -78,6 +78,11 @@ const Article_Menu = () => {
                             className="cardheadImage"
                             src={item.cover_image}
                             alt={item.title}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "500px",
+                              borderRadius: "8px",
+                            }}
                           />
                           <Flex
                             vertical

@@ -40,7 +40,6 @@ const Register_Dialog = ({ open, onClose }) => {
         method: "POST",
         body: formData,
       });
-
       if (registerResponse.ok) {
         message.success("สมัครสมาชิกเสร็จสิ้น");
         const loginResponse = await fetch("https://checkkonproject-sub.com/api/login", {
@@ -77,16 +76,13 @@ const Register_Dialog = ({ open, onClose }) => {
       setLoading(false);
     }
   };
-
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
-
   const onChange = (e) => {
     const isChecked = e.target.checked;
     setReceiveCtEmail(isChecked);
   };
-
   const fetchDataAndSetOptions = async () => {
     try {
       const response = await axios.get(

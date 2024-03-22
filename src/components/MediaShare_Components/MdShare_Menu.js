@@ -77,6 +77,11 @@ const MdShare_Menu = () => {
                             <Image
                               className="cardheadImage"
                               src={item.cover_image}
+                              style={{
+                                maxWidth: "100%",
+                                maxHeight: "500px",
+                                borderRadius: "8px",
+                              }}
                             />
                             <Flex
                               vertical

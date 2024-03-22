@@ -27,81 +27,88 @@ import "./Menu_Navbar.css";
 import { useTheme } from "@mui/material/styles";
 
 function Menu_Navbar() {
+  const Navigate = useNavigate();
   const location = useLocation();
+  const theme = useTheme();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      setIsMobile(window.innerWidth < 1300);
+    }
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const [user, setUser] = useState(null);
   const [registerVisible, setRegisterVisible] = useState(false);
   const [loginVisible, setLoginVisible] = useState(false);
-  const Navigate = useNavigate();
-  const theme = useTheme();
-  const isMobileScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [visible, setVisible] = useState(false);
   const handleModalCancel = () => {
     setVisible(false);
   };
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/user",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          console.log("User data retrieval failed");
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/user",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          try {
-            const refreshResponse = await fetch(
-              "https://checkkonproject-sub.com/api/refresh-token",
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
+      } else {
+        console.log("User data retrieval failed");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        try {
+          const refreshResponse = await fetch(
+            "https://checkkonproject-sub.com/api/refresh-token",
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (refreshResponse.ok) {
+            const refreshData = await refreshResponse.json();
+            const newToken = refreshData.token;
+            localStorage.setItem("access_token", newToken);
+
+            const retryResponse = await fetch(
+              "https://checkkonproject-sub.com/api/user",
               {
-                method: "POST",
+                method: "GET",
                 headers: {
-                  Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${newToken}`,
                 },
               }
             );
-            if (refreshResponse.ok) {
-              const refreshData = await refreshResponse.json();
-              const newToken = refreshData.token;
-              localStorage.setItem("access_token", newToken);
-
-              const retryResponse = await fetch(
-                "https://checkkonproject-sub.com/api/user",
-                {
-                  method: "GET",
-                  headers: {
-                    Authorization: `Bearer ${newToken}`,
-                  },
-                }
-              );
-              if (retryResponse.ok) {
-                const retryData = await retryResponse.json();
-                setUser(retryData);
-              } else {
-                console.log("User data retrieval after token refresh failed");
-              }
+            if (retryResponse.ok) {
+              const retryData = await retryResponse.json();
+              setUser(retryData);
             } else {
-              console.log("Token refresh failed");
+              console.log("User data retrieval after token refresh failed");
             }
-          } catch (refreshError) {
-            console.log("Token refresh request failed", refreshError);
+          } else {
+            console.log("Token refresh failed");
           }
-        } else {
-          console.log("User data retrieval failed", error);
+        } catch (refreshError) {
+          console.log("Token refresh request failed", refreshError);
         }
+      } else {
+        console.log("User data retrieval failed", error);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchUser();
   }, []);
 
@@ -215,7 +222,7 @@ function Menu_Navbar() {
         footer={null}
       >
         <p>รอแอดมินยืนยัน</p>
-        <Button type="primary" onClick={handleOk}>
+        <Button type="primary" className="form-button" onClick={handleOk}>
           {createTypography("ออกจากระบบ")}
         </Button>
       </Modal>
@@ -223,7 +230,7 @@ function Menu_Navbar() {
         <CssBaseline />
         <AppBar
           className="AppBarContainer"
-          sx={{ backgroundColor: "white", color: "#7BBD8F"}}
+          sx={{ backgroundColor: "white", color: "#7BBD8F" }}
         >
           <Toolbar>
             <IconButton
@@ -238,7 +245,7 @@ function Menu_Navbar() {
             >
               <MenuIcon />
             </IconButton>
-            {!isMobileScreen && (
+            {!isMobile && (
               <img
                 src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
                 alt="WMO Logo"

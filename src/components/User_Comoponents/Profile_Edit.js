@@ -33,9 +33,6 @@ const Profile_Edit = () => {
       if (response.status === 200) {
         const data = await response.data;
         setUserdata(data);
-        const filteredIds = province.filter(
-          (item) => item.id === (data && data.province)
-        );
         form.setFieldsValue({
           username: data.username,
           lastName: data.lastName,
@@ -43,7 +40,7 @@ const Profile_Edit = () => {
           password: data.password,
           phone_number: data.phone_number,
           Id_line: data.Id_line,
-          province: filteredIds[0].prov_name,
+          province: data.province,
           receive_ct_email: data.receive_ct_email,
         });
         setProv(data.province);
@@ -55,6 +52,7 @@ const Profile_Edit = () => {
     }
   };
   useEffect(() => {
+    fetchDataAndSetOptions();
     fetchFakeNewsData();
   }, [id, province, form]);
 
@@ -118,7 +116,6 @@ const Profile_Edit = () => {
       if (response.status === 200) {
         const typeCodes = response.data;
         setProvince(typeCodes);
-        setProvince(typeCodes);
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>
@@ -134,12 +131,6 @@ const Profile_Edit = () => {
       console.error("Error:", error);
     }
   };
-
-  useEffect(() => {
-    fetchDataAndSetOptions();
-  }, []);
-
-
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}

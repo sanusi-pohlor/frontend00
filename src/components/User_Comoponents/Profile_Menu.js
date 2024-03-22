@@ -31,44 +31,44 @@ const MenuProfile = ({ children }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const userResponse = await axios.get(
-          "https://checkkonproject-sub.com/api/user",
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          }
-        );
-        if (userResponse.status === 200) {
-          const userData = await userResponse.data;
-          setUser(userData);
-          const [fiproResponse] = await Promise.all([
-            axios.get(
-              `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
-            ),
-          ]);
 
-          if (fiproResponse.status === 200) {
-            const fiproData = await fiproResponse.data;
-            setData(fiproData);
-          } else {
-            console.error("Error fetching data:", fiproResponse.statusText);
-          }
-
-        } else {
-          console.error("User data retrieval failed");
+  const fetchData = async () => {
+    try {
+      const userResponse = await axios.get(
+        "https://checkkonproject-sub.com/api/user",
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
         }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
+      );
+      if (userResponse.status === 200) {
+        const userData = await userResponse.data;
+        setUser(userData);
+        const [fiproResponse] = await Promise.all([
+          axios.get(
+            `https://checkkonproject-sub.com/api/fipro_request/${userData.id}`
+          ),
+        ]);
 
+        if (fiproResponse.status === 200) {
+          const fiproData = await fiproResponse.data;
+          setData(fiproData);
+        } else {
+          console.error("Error fetching data:", fiproResponse.statusText);
+        }
+
+      } else {
+        console.error("User data retrieval failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
-
 
   if (!user) {
     return (

@@ -123,7 +123,6 @@ const routes = [
     element: <ManageMembersView />,
   },
 
-
   { path: "/Admin/Adm_News_Menu", element: <AdmNewsMenu /> },
   { path: "/Admin/Adm_Article_Menu", element: <AdmArticleMenu /> },
   { path: "/Admin/Adm_MdShare_Menu", element: <AdmMdShareMenu /> },
