@@ -69,7 +69,6 @@ const AdminMenu = ({ children }) => {
       if (response.ok) {
         const data = await response.json();
         setUser(data);
-        console.log(data);
       } else {
         console.error("User data retrieval failed");
       }

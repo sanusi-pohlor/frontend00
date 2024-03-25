@@ -18,7 +18,7 @@ const thaiLocale = "th";
 moment.locale(thaiLocale);
 const M_DB_Adm_Menu = () => {
   const [data, setData] = useState([]);
-  const [province, setProvince] = useState([]);
+  const [province, setProvince] = useState(null);
   const [datamanage, setDatamanage] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(null);
@@ -106,33 +106,28 @@ const M_DB_Adm_Menu = () => {
     fetchUser();
     fetchDataInfo();
     fetchData_Manage();
+    fetchProvince();
   }, []);
 
-  useEffect(() => {
-    const fetchProvince = async () => {
-      try {
-        const response = await fetch(
-          "https://checkkonproject-sub.com/api/Province_request"
-        );
-        if (response.ok) {
-          const pv = await response.json();
-          const filteredIds = pv.filter(
-            (item) => item.id === (user && user.province)
-          );
-          setProvince(filteredIds);
-        } else {
-          console.error("Error fetching province data:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Error fetching province data:", error);
+
+  const fetchProvince = async () => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/Pvname_request/${user.province}`
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        setProvince(pv);
+      } else {
+        console.error("Error fetching province data:", response.statusText);
       }
-    };
-
-    if (user && user.province) {
-      fetchProvince();
+    } catch (error) {
+      console.error("Error fetching province data:", error);
     }
+  };
+  useEffect(() => {
+    fetchProvince();
   }, [user]);
-
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -241,9 +236,7 @@ const M_DB_Adm_Menu = () => {
     {
       key: "5",
       label: createTypography("จังหวัด"),
-      children:
-        province.length > 0 &&
-        createTypography("จังหวัดที่อยู่", province[0].prov_name),
+      children: province && createTypography(province.prov_name),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
@@ -377,7 +370,7 @@ const M_DB_Adm_Menu = () => {
                   >
                     {chart.data.map((entry, index) => (
                       <Cell
-                        key={`cell-${entry.name}-${index}`}
+                        key={`cell-${gridIndex}-${entry.name}-${index}`}
                         fill={COLORS[index % COLORS.length]}
                       />
                     ))}
@@ -408,7 +401,7 @@ const M_DB_Adm_Menu = () => {
                   >
                     {chart.data.map((entry, index) => (
                       <Cell
-                        key={`cell-${entry.name}-${index}`}
+                        key={`cell-${gridIndex}-${entry.name}-${index}`}
                         fill={COLORS[index % COLORS.length]}
                       />
                     ))}
@@ -489,7 +482,7 @@ const M_DB_Adm_Menu = () => {
           okText="ยืนยัน"
           cancelText="ยกเลิก"
         >
-          <p>{createTypography("ต้องการออกจากระบบ")}</p>
+          <div>{createTypography("ต้องการออกจากระบบ")}</div>
         </Modal>
       </Card>
     </AdminMenu>

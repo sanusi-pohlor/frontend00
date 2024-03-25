@@ -19,9 +19,7 @@ const Profile_Edit = () => {
   const [loading, setLoading] = useState(false);
   const { Option } = Select;
   const [form] = Form.useForm();
-  const [province, setProvince] = useState([]);
   const [userdata, setUserdata] = useState([]);
-  const [prov, setProv] = useState(null);
   const navigate = useNavigate();
 
 
@@ -43,7 +41,6 @@ const Profile_Edit = () => {
           province: data.province,
           receive_ct_email: data.receive_ct_email,
         });
-        setProv(data.province);
       } else {
         console.error("Invalid date received from the server");
       }
@@ -52,17 +49,14 @@ const Profile_Edit = () => {
     }
   };
   useEffect(() => {
-    fetchDataAndSetOptions();
     fetchFakeNewsData();
-  }, [id, province, form]);
+    fetchDataAndSetOptions();
+  }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
     try {
       let receive = receiveCtEmail ? 1 : 0;
-      const filteredIds = province.filter(
-        (item) => item.id === (userdata && userdata.province)
-      );
       const formData = new FormData();
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined && value !== null && value !== "") {
@@ -75,11 +69,7 @@ const Profile_Edit = () => {
       appendIfDefined("password", values.password);
       appendIfDefined("phone_number", values.phone_number);
       appendIfDefined("Id_line", values.Id_line);
-      if (values.province === filteredIds[0]?.prov_name) {
-        formData.append("province", prov);
-      } else {
-        appendIfDefined("province", values.province);
-      }
+      appendIfDefined("province", values.province);
       formData.append("receive_ct_email", receive);
       const response = await axios.post(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
@@ -115,7 +105,6 @@ const Profile_Edit = () => {
       );
       if (response.status === 200) {
         const typeCodes = response.data;
-        setProvince(typeCodes);
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>

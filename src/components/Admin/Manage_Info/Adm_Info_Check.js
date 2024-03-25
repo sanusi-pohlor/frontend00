@@ -15,7 +15,6 @@ import AdminMenu from "../Adm_Menu";
 import { useParams, useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import moment from "moment";
-import axios from 'axios';
 const { Option } = Select;
 
 const Adm_Info_Check = () => {

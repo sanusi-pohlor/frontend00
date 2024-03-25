@@ -19,12 +19,8 @@ const M_DB_Adm_Edit = () => {
   const [loading, setLoading] = useState(false);
   const { Option } = Select;
   const [form] = Form.useForm();
-  const [province, setProvince] = useState([]);
   const [userdata, setUserdata] = useState([]);
-  const [prov, setProv] = useState(null);
   const navigate = useNavigate();
-
-
   const fetchFakeNewsData = async () => {
     try {
       const response = await axios.get(
@@ -33,9 +29,6 @@ const M_DB_Adm_Edit = () => {
       if (response.status === 200) {
         const data = await response.data;
         setUserdata(data);
-        const filteredIds = province.filter(
-          (item) => item.id === (data && data.province)
-        );
         form.setFieldsValue({
           username: data.username,
           lastName: data.lastName,
@@ -43,10 +36,9 @@ const M_DB_Adm_Edit = () => {
           password: data.password,
           phone_number: data.phone_number,
           Id_line: data.Id_line,
-          province: filteredIds[0].prov_name,
+          province: data.province,
           receive_ct_email: data.receive_ct_email,
         });
-        setProv(data.province);
       } else {
         console.error("Invalid date received from the server");
       }
@@ -56,15 +48,13 @@ const M_DB_Adm_Edit = () => {
   };
   useEffect(() => {
     fetchFakeNewsData();
-  }, [id, province, form]);
+    fetchDataAndSetOptions();
+  }, []);
 
   const onFinish = async (values) => {
     setLoading(true);
     try {
       let receive = receiveCtEmail ? 1 : 0;
-      const filteredIds = province.filter(
-        (item) => item.id === (userdata && userdata.province)
-      );
       const formData = new FormData();
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined && value !== null && value !== "") {
@@ -77,11 +67,7 @@ const M_DB_Adm_Edit = () => {
       appendIfDefined("password", values.password);
       appendIfDefined("phone_number", values.phone_number);
       appendIfDefined("Id_line", values.Id_line);
-      if (values.province === filteredIds[0]?.prov_name) {
-        formData.append("province", prov);
-      } else {
-        appendIfDefined("province", values.province);
-      }
+      appendIfDefined("province", values.province);
       formData.append("receive_ct_email", receive);
       const response = await axios.post(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
@@ -89,7 +75,7 @@ const M_DB_Adm_Edit = () => {
       );
       if (response.status === 200) {
         message.success("แก้ไขข้อมูลส่วนตัวเสร็จสิ้น");
-        navigate(`/User/Profile`);
+        navigate(`/Admin/`);
       } else {
         message.error("เกิดข้อผิดพลาด");
       }
@@ -117,8 +103,6 @@ const M_DB_Adm_Edit = () => {
       );
       if (response.status === 200) {
         const typeCodes = response.data;
-        setProvince(typeCodes);
-        setProvince(typeCodes);
         const options = typeCodes.map((code) => (
           <Option key={code[`id`]} value={code[`id`]}>
             <Typography variant="body1" sx={{ fontSize: "20px" }}>
@@ -134,11 +118,6 @@ const M_DB_Adm_Edit = () => {
       console.error("Error:", error);
     }
   };
-
-  useEffect(() => {
-    fetchDataAndSetOptions();
-  }, []);
-
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
