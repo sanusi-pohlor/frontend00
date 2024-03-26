@@ -172,7 +172,11 @@ const MC_CheckingData = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columns = [
     {
       title: "ลำดับ",
@@ -258,7 +262,7 @@ const MC_CheckingData = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มรูปแบบการตรวจสอบ"
+        title={createTypography("เพิ่มรูปแบบการตรวจสอบ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -271,7 +275,7 @@ const MC_CheckingData = () => {
         >
           <Form.Item
             name="che_d_format"
-            label="รูปแบบการตรวจสอบ"
+            label={createTypography("รูปแบบการตรวจสอบ")}
             rules={[
               {
                 required: true,
@@ -282,14 +286,14 @@ const MC_CheckingData = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขรูปแบบการตรวจสอบ"
+        title={createTypography("แก้ไขรูปแบบการตรวจสอบ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -302,7 +306,7 @@ const MC_CheckingData = () => {
         >
           <Form.Item
             name="che_d_format"
-            label="รูปแบบการตรวจสอบ"
+            label={createTypography("รูปแบบการตรวจสอบ")}
             rules={[
               {
                 required: true,

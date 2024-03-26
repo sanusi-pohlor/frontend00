@@ -105,11 +105,8 @@ const News_view = () => {
             <Image
               className="details-image"
               src={data.cover_image}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "500px",
-                borderRadius: "8px",
-              }}
+              width={1400}
+              height={500}
             />
           </div>
           <Divider />

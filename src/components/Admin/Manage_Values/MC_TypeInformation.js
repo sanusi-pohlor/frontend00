@@ -169,7 +169,12 @@ const MC_TypeInformation = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
+  
   const columns = [
     {
       title: "ลำดับ",
@@ -256,7 +261,7 @@ const MC_TypeInformation = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มประเภท"
+        title={createTypography("เพิ่มประเภท")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +274,7 @@ const MC_TypeInformation = () => {
         >
           <Form.Item
             name="type_info_name"
-            label="ชื่อประเภท"
+            label={createTypography("ชื่อประเภท")}
             rules={[
               {
                 required: true,
@@ -288,7 +293,7 @@ const MC_TypeInformation = () => {
       </Modal>
 
       <Modal
-        title="เพิ่มช่องทางสื่อ"
+        title={createTypography("เพิ่มช่องทางสื่อ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -301,7 +306,7 @@ const MC_TypeInformation = () => {
         >
           <Form.Item
             name="type_info_name"
-            label="ช่องทางสื่อ"
+            label={createTypography("ช่องทางสื่อ")}
             rules={[
               {
                 required: true,

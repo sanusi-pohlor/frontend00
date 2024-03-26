@@ -126,14 +126,14 @@ const MC_About = () => {
 
   const editRow = (record) => {
     form.setFieldsValue({
-        about_name: record.about_name,
+      about_name: record.about_name,
     });
     setEditingKey(record.id);
     setEditRecord(record);
   };
   const add = () => {
     form.setFieldsValue({
-        about_name: null,
+      about_name: null,
     });
   };
 
@@ -167,6 +167,11 @@ const MC_About = () => {
       console.error("Error deleting item:", error.message);
     }
   };
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
 
   const columns = [
     {
@@ -253,7 +258,7 @@ const MC_About = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มเกี่ยวกับ"
+        title={createTypography("เพิ่มเกี่ยวกับ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -266,7 +271,7 @@ const MC_About = () => {
         >
           <Form.Item
             name="about_name"
-            label="ชื่อเกี่ยวกับ"
+            label={createTypography("ชื่อเกี่ยวกับ")}
             rules={[
               {
                 required: true,
@@ -277,15 +282,15 @@ const MC_About = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
-              เพิ่ม
+            <Button type="primary" htmlType="submit" className="form-button">
+            เพิ่ม
             </Button>
           </Form.Item>
         </Form>
       </Modal>
 
       <Modal
-        title="แก้ไขเกี่ยวกับ"
+        title={createTypography("แก้ไขเกี่ยวกับ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -298,7 +303,7 @@ const MC_About = () => {
         >
           <Form.Item
             name="about_name"
-            label="ชื่อเกี่ยวกับ"
+            label={createTypography("ชื่อเกี่ยวกับ")}
             rules={[
               {
                 required: true,
@@ -343,9 +348,9 @@ const MC_About = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

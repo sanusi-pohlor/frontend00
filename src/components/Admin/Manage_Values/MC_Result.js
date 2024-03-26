@@ -168,7 +168,11 @@ const MC_Result = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columns = [
     {
       title: "ลำดับ",
@@ -256,7 +260,7 @@ const MC_Result = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มผลลัพธ์"
+        title={createTypography("เพิ่มผลลัพธ์")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +273,7 @@ const MC_Result = () => {
         >
           <Form.Item
             name="result_name"
-            label="ชื่อผลลัพธ์"
+            label={createTypography("ชื่อผลลัพธ์")}
             rules={[
               {
                 required: true,
@@ -287,7 +291,7 @@ const MC_Result = () => {
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขผลลัพธ์"
+        title={createTypography("แก้ไขผลลัพธ์")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -300,7 +304,7 @@ const MC_Result = () => {
         >
           <Form.Item
             name="result_name"
-            label="ผลลัพธ์"
+            label={createTypography("ผลลัพธ์")}
             rules={[
               {
                 required: true,

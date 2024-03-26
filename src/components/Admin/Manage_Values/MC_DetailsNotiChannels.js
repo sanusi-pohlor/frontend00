@@ -167,6 +167,11 @@ const MC_DetailsNotiChannels = () => {
       console.error("Error deleting item:", error.message);
     }
   };
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
 
   const columns = [
     {
@@ -254,7 +259,7 @@ const MC_DetailsNotiChannels = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มขอบเขตการเผยแพร่"
+        title={createTypography("เพิ่มขอบเขตการเผยแพร่")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -267,7 +272,7 @@ const MC_DetailsNotiChannels = () => {
         >
           <Form.Item
             name="detail_name"
-            label="ขอบเขตการเผยแพร่"
+            label={createTypography("ขอบเขตการเผยแพร่")}
             rules={[
               {
                 required: true,
@@ -278,7 +283,7 @@ const MC_DetailsNotiChannels = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
@@ -286,7 +291,7 @@ const MC_DetailsNotiChannels = () => {
       </Modal>
 
       <Modal
-        title="แก้ไขรูปแบบข้อมูล"
+        title={createTypography("แก้ไขรูปแบบข้อมูล")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -299,7 +304,7 @@ const MC_DetailsNotiChannels = () => {
         >
           <Form.Item
             name="detail_name"
-            label="ขอบเขตการเผยแพร่"
+            label={createTypography("ขอบเขตการเผยแพร่")}
             rules={[
               {
                 required: true,
@@ -310,7 +315,7 @@ const MC_DetailsNotiChannels = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
@@ -344,9 +349,9 @@ const MC_DetailsNotiChannels = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

@@ -14,66 +14,73 @@ import MCAbout from "./MC_About";
 import MCResult from "./MC_Result";
 import AdminMenu from "../Adm_Menu";
 import { Card } from "antd";
+import { Typography } from "@mui/material";
+
+const createTypography = (label, text, fontSize = "25px") => (
+  <Typography variant="body1" sx={{ fontSize }}>
+    {label} {text}
+  </Typography>
+);
 
 const items = [
   {
     key: "1",
-    label: "ประเภทเนื้อหาข้อมูลเท็จ",
+    label: createTypography("ประเภทเนื้อหาข้อมูลเท็จ"),
     children: <MCTypeInformation />,
   },
   {
     key: "2",
-    label: "ประเด็นย่อย",
+    label: createTypography("ประเด็นย่อย"),
     children: <MCSubpoint />,
   },
   {
     key: "3",
-    label: "แรงจูงใจ",
+    label: createTypography("แรงจูงใจ"),
     children: <MCMotivation />,
   },
   {
     key: "4",
-    label: "ลักษณะข้อมูล",
+    label: createTypography("ลักษณะข้อมูล"),
     children: <MCDataCharacteristics />,
   },
   {
     key: "5",
-    label: "ประเภทการกระทำ",
+    label: createTypography("ประเภทการกระทำ"),
     children: <MCActionType />,
   },
   {
     key: "6",
-    label: "ช่องทางสื่อ",
+    label: createTypography("ช่องทางสื่อ"),
     children: <MCMediaChannels />,
   },
   {
     key: "7",
-    label: "การตรวจสอบ",
+    label: createTypography("การตรวจสอบ"),
     children: <MCCheckingData />,
   },
   {
     key: "8",
-    label: "การจัดการปัญหา",
+    label: createTypography("การจัดการปัญหา"),
     children: <MCProblemManagement />,
   },
   {
     key: "9",
-    label: "รูปแบบของข้อมูล",
+    label: createTypography("รูปแบบของข้อมูล"),
     children: <MCFormatData />,
   },
   {
     key: "10",
-    label: "ขอบเขตการเผยแพร่",
+    label: createTypography("ขอบเขตการเผยแพร่"),
     children: <MCDetailsNotiChannels />,
   },
   {
     key: "11",
-    label: "เกี่บวกับ",
+    label: createTypography("เกี่บวกับ"),
     children: <MCAbout />,
   },
   {
     key: "12",
-    label: "ผลลัพธ์",
+    label: createTypography("ผลลัพธ์"),
     children: <MCResult />,
   },
 ];

@@ -167,6 +167,11 @@ const MC_FormatData = () => {
       console.error("Error deleting item:", error.message);
     }
   };
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
 
   const columns = [
     {
@@ -253,7 +258,7 @@ const MC_FormatData = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มรูปแบบข้อมูล"
+        title={createTypography("เพิ่มรูปแบบข้อมูล")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -266,7 +271,7 @@ const MC_FormatData = () => {
         >
           <Form.Item
             name="fm_d_name"
-            label="ชื่อรูปแบบข้อมูล"
+            label={createTypography("ชื่อรูปแบบข้อมูล")}
             rules={[
               {
                 required: true,
@@ -285,7 +290,7 @@ const MC_FormatData = () => {
       </Modal>
 
       <Modal
-        title="แก้ไขรูปแบบข้อมูล"
+        title={createTypography("แก้ไขรูปแบบข้อมูล")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -298,7 +303,7 @@ const MC_FormatData = () => {
         >
           <Form.Item
             name="fm_d_name"
-            label="ชื่อรูปแบบข้อมูล"
+            label={createTypography("ชื่อรูปแบบข้อมูล")}
             rules={[
               {
                 required: true,

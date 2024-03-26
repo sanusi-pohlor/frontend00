@@ -206,7 +206,11 @@ const MC_Subpoint = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columns = [
     {
       title: "ลำดับ",
@@ -301,7 +305,7 @@ const MC_Subpoint = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มประเด็นย่อย"
+        title={createTypography("เพิ่มประเด็นย่อย")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -314,7 +318,7 @@ const MC_Subpoint = () => {
         >
           <Form.Item
             name="subp_type_id"
-            label="เลือกประเภท"
+            label={createTypography("เลือกประเภท")}
             rules={[
               {
                 required: true,
@@ -328,7 +332,7 @@ const MC_Subpoint = () => {
           </Form.Item>
           <Form.Item
             name="subp_name"
-            label="ชื่อประเด็นย่อย"
+            label={createTypography("ชื่อประเด็นย่อย")}
             rules={[
               {
                 required: true,
@@ -339,7 +343,7 @@ const MC_Subpoint = () => {
             <Input placeholder="ชื่อประเด็นย่อย" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
@@ -347,7 +351,7 @@ const MC_Subpoint = () => {
       </Modal>
 
       <Modal
-        title="เพิ่มช่องทางสื่อ"
+        title={createTypography("เพิ่มช่องทางสื่อ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -360,7 +364,7 @@ const MC_Subpoint = () => {
         >
           <Form.Item
             name="subp_type_id"
-            label="รหัสประเภท"
+            label={createTypography("รหัสประเภท")}
             rules={[
               {
                 required: true,
@@ -377,7 +381,7 @@ const MC_Subpoint = () => {
           </Form.Item>
           <Form.Item
             name="subp_name"
-            label="ชื่อประเด็นย่อย"
+            label={createTypography("ชื่อประเด็นย่อย")}
             rules={[
               {
                 required: true,

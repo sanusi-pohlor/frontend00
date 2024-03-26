@@ -1618,6 +1618,9 @@ body {
     background: #7BBD8F;
     border: none;
     color: #ffffff;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: 'Th Sarabun New', sans-serif;
 }
 
 .login-form-button:hover {

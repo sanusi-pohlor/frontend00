@@ -196,7 +196,7 @@ const M_DB_Adm_Menu = () => {
 
   const items2 = [
     {
-      key: "0",
+      key: "10",
       label: "",
       children: user && (
         <img
@@ -210,37 +210,37 @@ const M_DB_Adm_Menu = () => {
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "1",
+      key: "20",
       label: createTypography("ชื่อ-สกุล"),
       children: user && createTypography(user.username, user.lastname),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "2",
+      key: "30",
       label: createTypography("เบอร์ติดต่อ"),
       children: user && createTypography(user.phone_number),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "3",
+      key: "40",
       label: createTypography("ไอดีไลน์"),
       children: user && createTypography(user.Id_line),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "4",
+      key: "50",
       label: createTypography("อีเมล"),
       children: user && createTypography(user.email),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "5",
+      key: "60",
       label: createTypography("จังหวัด"),
       children: province && createTypography(province.prov_name),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
     {
-      key: "6",
+      key: "70",
       label: createTypography("เกี่ยวกับผู้เขียน"),
       children:
         user &&
@@ -347,70 +347,96 @@ const M_DB_Adm_Menu = () => {
       </Card>
       <Divider />
       <Grid container spacing={2}>
-        {[
-          { data: chartData1, title: 'ประเภทสื่อ' },
-          { data: chartData2, title: 'รูปแบบข่าว' },
-        ].map((chart, gridIndex) => (
-          <Grid key={`grid-${gridIndex}`} item xs={12} md={4}>
-            <Card hoverable className="dataCard">
-              <div className="pieChartTitle">{chart.title}</div>
-              <Divider />
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart className="PieChartContainer">
-                  <Tooltip />
-                  <Legend />
-                  <Pie
-                    data={chart.data}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={`${Math.min(80, 80) - 1}%`}
-                    label
-                  >
-                    {chart.data.map((entry, index) => (
-                      <Cell
-                        key={`cell-${gridIndex}-${entry.name}-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Card>
-          </Grid>
-        ))}
-        {[
-          { data: chartData3, title: 'จังหวัด' },
-        ].map((chart, gridIndex) => (
-          <Grid key={`grid-${gridIndex}`} item xs={12} md={4}>
-            <Card hoverable className="dataCard">
-              <div className="pieChartTitle">{chart.title}</div>
-              <Divider />
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart className="PieChartContainer">
-                  <Tooltip />
-                  <Pie
-                    data={chart.data}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={`${Math.min(80, 80) - 1}%`}
-                    label
-                  >
-                    {chart.data.map((entry, index) => (
-                      <Cell
-                        key={`cell-${gridIndex}-${entry.name}-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                </PieChart>
-              </ResponsiveContainer>
-            </Card>
-          </Grid>
-        ))}
+        <Grid item xs={12} md={4}>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">{"ประเภทสื่อ"}</div>
+            <Divider />
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart className="PieChartContainer">
+                <Tooltip />
+                <Legend
+                  payload={chartData1.map((entry, index) => ({
+                    value: entry.name,
+                    color: COLORS[index % COLORS.length],
+                  }))}
+                />
+                <Pie
+                  data={chartData1}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
+                  label
+                >
+                  {chartData1.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">{"รูปแบบข่าว"}</div>
+            <Divider />
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart className="PieChartContainer">
+                <Tooltip />
+                <Legend
+                  payload={chartData2.map((entry, index) => ({
+                    value: entry.name,
+                    color: COLORS[index % COLORS.length],
+                  }))}
+                />
+                <Pie
+                  data={chartData2}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
+                  label
+                >
+                  {chartData2.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card hoverable className="dataCard">
+            <div className="pieChartTitle">{"จังหวัด"}</div>
+            <Divider />
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart className="PieChartContainer">
+                <Tooltip />
+                <Pie
+                  data={chartData3}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={`${Math.min(80, 80) - 1}%`}
+                  label
+                >
+                  {chartData3.map((entry, index) => (
+                    <Cell
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+              </PieChart>
+            </ResponsiveContainer>
+          </Card>
+        </Grid>
       </Grid>
       <Divider />
       <Card>

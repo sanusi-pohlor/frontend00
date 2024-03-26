@@ -168,7 +168,12 @@ const MC_Motivation = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
+  
   const columns = [
     {
       title: "ลำดับ",
@@ -256,7 +261,7 @@ const MC_Motivation = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มแรงจูงใจ"
+        title={createTypography("เพิ่มแรงจูงใจ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +274,7 @@ const MC_Motivation = () => {
         >
           <Form.Item
             name="moti_name"
-            label="ชื่อแรงจูงใจ"
+            label={createTypography("ชื่อแรงจูงใจ")}
             rules={[
               {
                 required: true,
@@ -287,7 +292,7 @@ const MC_Motivation = () => {
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขแรงจูงใจ"
+        title={createTypography("แก้ไขแรงจูงใจ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -300,7 +305,7 @@ const MC_Motivation = () => {
         >
           <Form.Item
             name="moti_name"
-            label="แรงจูงใจ"
+            label={createTypography("แรงจูงใจ")}
             rules={[
               {
                 required: true,

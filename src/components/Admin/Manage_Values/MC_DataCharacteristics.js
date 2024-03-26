@@ -169,7 +169,11 @@ const MC_DataCharacteristics = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columns = [
     {
       title: "ลำดับ",
@@ -256,7 +260,7 @@ const MC_DataCharacteristics = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มลักษณะข้อมูล"
+        title={createTypography("เพิ่มลักษณะข้อมูล")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +273,7 @@ const MC_DataCharacteristics = () => {
         >
           <Form.Item
             name="data_cha_name"
-            label="ชื่อลักษณะข้อมูล"
+            label={createTypography("ชื่อลักษณะข้อมูล")}
             rules={[
               {
                 required: true,
@@ -280,14 +284,14 @@ const MC_DataCharacteristics = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขลักษณะข้อมูล"
+        title={createTypography("แก้ไขลักษณะข้อมูล")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -300,7 +304,7 @@ const MC_DataCharacteristics = () => {
         >
           <Form.Item
             name="data_cha_name"
-            label="ชื่อลักษณะข้อมูล"
+            label={createTypography("ชื่อลักษณะข้อมูล")}
             rules={[
               {
                 required: true,
@@ -345,9 +349,9 @@ const MC_DataCharacteristics = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

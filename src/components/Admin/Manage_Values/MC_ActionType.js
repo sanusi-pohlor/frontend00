@@ -169,6 +169,12 @@ const MC_ActionType = () => {
     }
   };
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
+
   const columns = [
     {
       title: "ลำดับ",
@@ -256,7 +262,7 @@ const MC_ActionType = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มประเภทการกระทำ"
+        title={createTypography("เพิ่มประเภทการกระทำ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +275,7 @@ const MC_ActionType = () => {
         >
           <Form.Item
             name="act_ty_name"
-            label="ชื่อประเภทการกระทำ"
+            label={createTypography("ชื่อประเภทการกระทำ")}
             rules={[
               {
                 required: true,
@@ -287,7 +293,7 @@ const MC_ActionType = () => {
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขประเภทการกระทำ"
+        title={createTypography("แก้ไขประเภทการกระทำ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -300,7 +306,7 @@ const MC_ActionType = () => {
         >
           <Form.Item
             name="act_ty_name"
-            label="ประเภทการกระทำ"
+            label={createTypography("ประเภทการกระทำ")}
             rules={[
               {
                 required: true,

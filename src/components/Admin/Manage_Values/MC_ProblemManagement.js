@@ -170,6 +170,11 @@ const MC_ProblemManagement = () => {
       console.error("Error deleting item:", error.message);
     }
   };
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
 
   const columns = [
     {
@@ -256,7 +261,7 @@ const MC_ProblemManagement = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มประเภทการกระทำ"
+        title={createTypography("เพิ่มประเภทการกระทำ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -269,7 +274,7 @@ const MC_ProblemManagement = () => {
         >
           <Form.Item
             name="prob_m_way"
-            label="วิธีการจัดการ"
+            label={createTypography("วิธีการจัดการ")}
             rules={[
               {
                 required: true,
@@ -280,14 +285,14 @@ const MC_ProblemManagement = () => {
             <Input />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" className="form-button">
               เพิ่ม
             </Button>
           </Form.Item>
         </Form>
       </Modal>
       <Modal
-        title="แก้ไขวิธีการจัดการ"
+        title={createTypography("แก้ไขวิธีการจัดการ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -300,7 +305,7 @@ const MC_ProblemManagement = () => {
         >
           <Form.Item
             name="prob_m_way"
-            label="วิธีการจัดการ"
+            title={createTypography("วิธีการจัดการ")}
             rules={[
               {
                 required: true,
@@ -345,9 +350,9 @@ const MC_ProblemManagement = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id}>

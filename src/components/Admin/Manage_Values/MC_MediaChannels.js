@@ -172,7 +172,11 @@ const MC_MediaChannels = () => {
       console.error("Error deleting item:", error.message);
     }
   };
-
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
   const columns = [
     {
       title: "ลำดับ",
@@ -259,7 +263,7 @@ const MC_MediaChannels = () => {
       </Card>
       <br />
       <Modal
-        title="เพิ่มช่องทางสื่อ"
+        title={createTypography("เพิ่มช่องทางสื่อ")}
         open={modalVisible}
         onCancel={() => setModalVisible(false)}
         footer={null}
@@ -272,7 +276,7 @@ const MC_MediaChannels = () => {
         >
           <Form.Item
             name="med_c_name"
-            label="ช่องทางสื่อ"
+            label={createTypography("ช่องทางสื่อ")}
             rules={[
               {
                 required: true,
@@ -291,7 +295,7 @@ const MC_MediaChannels = () => {
       </Modal>
 
       <Modal
-        title="เพิ่มช่องทางสื่อ"
+        title={createTypography("เพิ่มช่องทางสื่อ")}
         open={!!editRecord}
         onCancel={cancelEdit}
         footer={null}
@@ -304,7 +308,7 @@ const MC_MediaChannels = () => {
         >
           <Form.Item
             name="med_c_name"
-            label="ช่องทางสื่อ"
+            label={createTypography("ช่องทางสื่อ")}
             rules={[
               {
                 required: true,
