@@ -217,7 +217,7 @@ function Menu_Navbar() {
     <div>
       <Modal
         title="รอแอดมินยืนยัน"
-        visible={visible}
+        open={visible}
         onCancel={handleModalCancel}
         footer={null}
       >
