@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag , Image } from "antd";
-import { Paper } from "@mui/material";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image, Button } from "antd";
+import { Paper, Typography } from "@mui/material";
 import moment from "moment";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 
 const MdShare_view = () => {
   const { id } = useParams();
@@ -14,7 +14,11 @@ const MdShare_view = () => {
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
   const [tags, setTags] = useState([]);
-
+  useEffect(() => {
+    if (window.FB) {
+      window.FB.XFBML.parse();
+    }
+  }, []);
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -28,9 +32,9 @@ const MdShare_view = () => {
         console.error("Error fetching news data:", error);
       }
     };
-  
+
     fetchNews();
-  
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -46,7 +50,7 @@ const MdShare_view = () => {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, [id, data]);
 
@@ -82,7 +86,10 @@ const MdShare_view = () => {
       children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
-
+  const handleFacebookShare = () => {
+    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
   return (
     <div className="backgroundColor">
       <Paper
@@ -95,7 +102,7 @@ const MdShare_view = () => {
         </Card>
         <br />
         <Card>
-        <div
+          <div
             style={{
               display: "flex",
               justifyContent: "center",
@@ -107,51 +114,27 @@ const MdShare_view = () => {
             <Image
               className="details-image"
               src={data.cover_image}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "500px",
-                borderRadius: "8px",
-              }}
+              width="50%"
             />
           </div>
-          <Divider />
-          <div className="Contenttitle">{data.title}</div>
-          <div className="cardContent">
+          <div className="cardContent"><Divider />
+            <div className="Contenttitle">{data.title}</div>
             โดย :{" "}
             {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
-          <br />
-          <strong>{thaiDate}</strong>
-          <br />
-          <Divider />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "16px",
-              marginTop: "16px",
-            }}
-          >
-            <Image
-              className="details-image"
-              src={data.cover_image}
+            <br />
+            {thaiDate}
+            <br />
+            <Divider />
+            <div dangerouslySetInnerHTML={{ __html: data.details }} style={{ lineHeight: "1" }} />
+            <div
               style={{
-                maxWidth: "100%",
-                maxHeight: "500px",
-                borderRadius: "8px",
+                display: "flex",
+                justifyContent: "center",
+                flexWrap: "wrap",
+                gap: "16px",
+                marginTop: "16px",
               }}
-            />
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: data.details }} />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "16px",
-              marginTop: "16px",
-            }}
-          >
+            >
               {[...Array(8).keys()].map(
                 (index) =>
                   data[`details_image_${index}`] && (
@@ -167,42 +150,51 @@ const MdShare_view = () => {
                     />
                   )
               )}
-          </div>
-          <div>
-            {data.link &&
-              JSON.parse(data.link).map((item, index) => (
-                <p key={index}>
-                  Link:{" "}
-                  <a href={item.first}>{item.first.substring(0, 100)}...</a>
-                </p>
-              ))}
-          </div>
-          <div>
-            <Space size={[4, 8]} wrap>
-              {tags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  style={{ fontSize: "20px", textAlign: "center" }}
-                >
-                  #{tag}
-                </Tag>
-              ))}
-            </Space>
-          </div>
-          <p onClick={showModal}>
-            <Avatar size={64} icon={<UserOutlined />}>
-              {user && user.username}
-            </Avatar>{" "}
-            โปรไฟลผู้เขียน <span>{user && user.username}</span>
-          </p>
-          <Modal
-            title="โปรไฟล์ผู้เขียน"
-            open={isModalOpen}
-            footer={null}
-            onCancel={handleCancel}
-          >
-            <Descriptions layout="vertical" bordered items={items} />
-          </Modal>
+            </div>
+            <div>
+              {data.link &&
+                JSON.parse(data.link).map((item, index) => (
+                  <p key={index}>
+                    Link:{" "}
+                    <a href={item.first}>{item.first.substring(0, 100)}...</a>
+                  </p>
+                ))}
+            </div>
+            <div>
+              <Space size={[4, 8]} wrap>
+                {tags.map((tag, index) => (
+                  <Tag
+                    key={index}
+                    style={{ fontSize: "20px", textAlign: "center" }}
+                  >
+                    <Typography variant="body1" style={{ fontSize: "20px" }}>
+                      #{tag}
+                    </Typography>
+                  </Tag>
+                ))}
+              </Space>
+            </div>
+            <Button
+              type="primary"
+              icon={<FacebookOutlined />}
+              onClick={handleFacebookShare}
+            >
+              แชร์ไปยัง Facebook
+            </Button>
+            <p onClick={showModal}>
+              <Avatar size={64} icon={<UserOutlined />}>
+                {user && user.username}
+              </Avatar>{" "}
+              โปรไฟลผู้เขียน <span>{user && user.username}</span>
+            </p>
+            <Modal
+              title="โปรไฟล์ผู้เขียน"
+              open={isModalOpen}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <Descriptions layout="vertical" bordered items={items} />
+            </Modal>
           </div>
         </Card>
       </Paper>

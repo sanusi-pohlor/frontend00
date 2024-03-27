@@ -95,23 +95,47 @@ const Adm_News_Form = () => {
     "list", "color", "bullet", "indent",
     "link", "image", "align", "size",
   ];
-
+  const formData = new FormData();
   const handleChange = (html) => {
-    setEditorHtml(html);
+    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
+    const regex = /<img src="[^"]+"[^>]*>/g;
+    const matches = html.match(regex);
+
+    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
+    const cleanedHtml = html.replace(regex, '');
+    setEditorHtml(cleanedHtml);
+
+    // 3. เก็บข้อมูลรูปภาพในตัวแปร formData
+    if (matches) {
+      matches.forEach((match, index) => {
+        const srcRegex = /src="([^"]+)"/;
+        const src = srcRegex.exec(match)[1];
+        fetch(src)
+          .then(response => response.blob())
+          .then(blob => {
+            formData.append(`details_image_${index}`, blob);
+          })
+          .catch(error => console.error("Error fetching image:", error));
+      });
+    } else {
+      console.error("No matches found");
+    }
+
+    // 4. ส่งข้อมูลไปยัง onFinish
+    //onFinish(formData);
   };
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      const formData = new FormData();
       formData.append("Author", user.id);
-      formData.append("title", values.title);
-      formData.append("cover_image", values.cover_image[0].originFileObj);
+      formData.append("title", form.getFieldValue("title"));
+      formData.append("cover_image", form.getFieldValue("cover_image")[0].originFileObj);
       formData.append("details", editorHtml);
-      values.details_image.forEach((image, index) => {
-        formData.append(`details_image_${index}`, image.originFileObj);
-      });
-      formData.append("tag", JSON.stringify(values.tag));
+      formData.append("tag", JSON.stringify(form.getFieldValue("tag")));
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Adm_News_upload",
         {
@@ -133,6 +157,7 @@ const Adm_News_Form = () => {
       setLoading(false);
     }
   };
+
 
   const onChange_Tags = useCallback(async () => {
     try {

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image ,Button} from "antd";
-import { Paper } from "@mui/material";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image, Button } from "antd";
+import { Paper, Typography } from "@mui/material";
 import moment from "moment";
-import { UserOutlined ,FacebookOutlined } from "@ant-design/icons";
+import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 import axios from 'axios';
 
 const News_view = () => {
@@ -27,7 +27,6 @@ const News_view = () => {
         const newsData = newsResponse.data;
         setData(newsData);
         setTags(JSON.parse(newsData.tag) || []);
-
         if (newsData.Author) {
           const userResponse = await axios.get(`https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`);
           if (userResponse.status === 200) {
@@ -43,7 +42,6 @@ const News_view = () => {
     };
     fetchData();
   }, []);
-
   const items = [
     {
       key: "1",
@@ -105,20 +103,18 @@ const News_view = () => {
             <Image
               className="details-image"
               src={data.cover_image}
-              width={1400}
-              height={500}
+              width="50%"
             />
           </div>
-          <Divider />
+          <div className="cardContent"><Divider />  
           <div className="Contenttitle">{data.title}</div>
-          <div className="cardContent">
             โดย :{" "}
             {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
             <br />
             {thaiDate}
             <br />
             <Divider />
-            <div dangerouslySetInnerHTML={{ __html: data.details }} />
+            <div dangerouslySetInnerHTML={{ __html: data.details }} style={{ lineHeight: "1" }} />
             <div
               style={{
                 display: "flex",
@@ -160,7 +156,9 @@ const News_view = () => {
                     key={index}
                     style={{ fontSize: "20px", textAlign: "center" }}
                   >
-                    #{tag}
+                    <Typography variant="body1" style={{ fontSize: "20px" }}>
+                      #{tag}
+                    </Typography>
                   </Tag>
                 ))}
               </Space>

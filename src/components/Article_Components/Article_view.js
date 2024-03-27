@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag ,Image} from "antd";
-import { Paper } from "@mui/material";
+import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image, Button } from "antd";
+import { Paper, Typography } from "@mui/material";
 import moment from "moment";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
+import axios from 'axios';
 
-const News_view = () => {
+const Article_view = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,41 +15,33 @@ const News_view = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/Article_show/${id}`
-        );
-        const data = await response.json();
-        setData(data);
-        setTags(JSON.parse(data.tag) || []);
-      } catch (error) {
-        console.error("Error fetching news data:", error);
-      }
-    };
-
-    fetchNews();
-
+    if (window.FB) {
+      window.FB.XFBML.parse();
+    }
+  }, []);
+  useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setUser(data);
-        } else {
-          console.error("Error fetching data:", response.statusText);
+        const newsResponse = await axios.get(`https://checkkonproject-sub.com/api/Article_show/${id}`);
+        const newsData = newsResponse.data;
+        setData(newsData);
+        setTags(JSON.parse(newsData.tag) || []);
+        if (newsData.Author) {
+          const userResponse = await axios.get(`https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`);
+          if (userResponse.status === 200) {
+            const userData = userResponse.data;
+            setUser(userData);
+          } else {
+            console.error("Error fetching user data:", userResponse.statusText);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [id, data]);
-
+  }, []);
   const items = [
     {
       key: "1",
@@ -81,7 +74,10 @@ const News_view = () => {
       children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
-
+  const handleFacebookShare = () => {
+    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+  };
   return (
     <div className="backgroundColor">
       <Paper
@@ -106,42 +102,18 @@ const News_view = () => {
             <Image
               className="details-image"
               src={data.cover_image}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "500px",
-                borderRadius: "8px",
-              }}
+              width="50%"
             />
           </div>
-          <Divider />
+          <div className="cardContent"><Divider />  
           <div className="Contenttitle">{data.title}</div>
-          <div className="cardContent">
             โดย :{" "}
             {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
           <br />
-          <strong>{thaiDate}</strong>
+          {thaiDate}
           <br />
           <Divider />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-              gap: "16px",
-              marginTop: "16px",
-            }}
-          >
-            <Image
-              className="details-image"
-              src={data.cover_image}
-              style={{
-                maxWidth: "100%",
-                maxHeight: "500px",
-                borderRadius: "8px",
-              }}
-            />
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: data.details }} />
+          <div dangerouslySetInnerHTML={{ __html: data.details }} style={{ lineHeight: "1" }} />
           <div
             style={{
               display: "flex",
@@ -177,17 +149,26 @@ const News_view = () => {
               ))}
           </div>
           <div>
-            <Space size={[4, 8]} wrap>
-              {tags.map((tag, index) => (
-                <Tag
-                  key={index}
-                  style={{ fontSize: "20px", textAlign: "center" }}
-                >
-                  #{tag}
-                </Tag>
-              ))}
-            </Space>
+          <Space size={[4, 8]} wrap>
+                {tags.map((tag, index) => (
+                  <Tag
+                    key={index}
+                    style={{ fontSize: "20px", textAlign: "center" }}
+                  >
+                    <Typography variant="body1" style={{ fontSize: "20px" }}>
+                      #{tag}
+                    </Typography>
+                  </Tag>
+                ))}
+              </Space>
           </div>
+          <Button
+              type="primary"
+              icon={<FacebookOutlined />}
+              onClick={handleFacebookShare}
+            >
+              แชร์ไปยัง Facebook
+            </Button>
           <p onClick={showModal}>
             <Avatar size={64} icon={<UserOutlined />}>
               {user && user.username}
@@ -209,4 +190,4 @@ const News_view = () => {
   );
 };
 
-export default News_view;
+export default Article_view;
