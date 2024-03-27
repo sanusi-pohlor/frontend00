@@ -486,7 +486,7 @@ const FakenewsSearch_Menu = () => {
                       }
                       style={{ marginBottom: "10px" }}
                     >
-                    <Select onChange={onChange_mfi_results_id} allowClear>
+                    <Select onChange={onChange_mfi_results_id} placeholder="เลือกข้อมูลจริง/เท็จ" allowClear>
                       {selectOptions_result}
                     </Select>
                     </Form.Item>

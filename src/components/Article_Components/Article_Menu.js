@@ -26,9 +26,7 @@ const Article_Menu = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
   const handleSearch = (event) => setSearchTerm(event.target.value);
-
   const filtered = data.filter((data) =>
     data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );

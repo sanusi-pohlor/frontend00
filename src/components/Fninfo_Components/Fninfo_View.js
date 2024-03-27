@@ -214,13 +214,13 @@ const FnInfoView = () => {
     },
     {
       key: "7",
-      label: createTypography("รายละเอียดเพิ่มเติม", "25px", 3),
-      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_more),
-    },
+      label: createTypography("รายละเอียดเพิ่มเติม"),
+      children: fakeNewsInfo && fakeNewsInfo.fn_info_more ? createTypography(fakeNewsInfo.fn_info_more) : createTypography("ไม่ได้กรอกข้อมูล"),
+    },    
     {
       key: "8",
       label: createTypography("ลิ้งค์ข้อมูล"),
-      children: fakeNewsInfo && createTypography(fakeNewsInfo.fn_info_link),
+      children: fakeNewsInfo && fakeNewsInfo.fn_info_link ? createTypography(fakeNewsInfo.fn_info_link) : createTypography("ไม่ได้กรอกข้อมูลแทน"),
     },
     {
       key: "9",

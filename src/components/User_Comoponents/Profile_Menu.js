@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Avatar, Divider, Paper, Typography, Tab, Tabs } from "@mui/material";
-import { Card, Spin } from "antd";
+import { Card, Spin ,Result} from "antd";
 import { Link, useLocation } from "react-router-dom";
 import axios from 'axios';
 
@@ -75,6 +75,11 @@ const MenuProfile = ({ children }) => {
       <Spin tip="กรุณารอสักครู่" size="large">
         <div className="content" />
       </Spin>
+    );
+  }
+  if (user.level == 0) {
+    return (
+      <Result status="warning" title="กรุณารอแอดมินยืนยันการเป็นสมาชิก" />
     );
   }
   return (

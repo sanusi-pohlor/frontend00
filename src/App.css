@@ -1,4 +1,9 @@
 @media (max-width: 2000px) {
+    .Contenttitle {
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 50px;
+        text-align: left;
+    }
     .footer {
         text-align: center;
         color: #ffffff;
@@ -201,10 +206,8 @@
 
     .cardContent {
         height: 100%;
-        width: 100%;
+        width: 80%;
         margin: auto;
-        border-radius: 20px;
-        padding: 100px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 25px;
         text-align: left;
@@ -240,7 +243,7 @@
     }
 
     .cardItem-head {
-        height: 87%;
+        height: 88%;
         width: 100%;
         margin: auto;
         border-radius: 20px;
@@ -461,18 +464,15 @@
         text-align: left;
     }
     .Contenttitle {
-        margin: auto;
-        border-radius: 20px;
-        padding: 20px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 50px;
         text-align: left;
     }
 
     .cardContent {
+        height: 100%;
+        width: 80%;
         margin: auto;
-        border-radius: 20px;
-        padding: 20px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 25px;
         text-align: left;
@@ -609,7 +609,11 @@
         align-items: center;
         justify-content: center;
     }
-
+    .Contenttitle {
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 50px;
+        text-align: left;
+    }
     .selectContainer {
         margin-right: 10px;
         font-size: 30px;
@@ -627,13 +631,6 @@
         justify-content: space-between;
         font-family: 'Th Sarabun New', sans-serif;
         color: white;
-    }
-
-    .cardContent {
-        margin: auto;
-        border-radius: 20px;
-        width: 100%;
-        height: 100%;
     }
 
     .gridContainer {
@@ -747,10 +744,8 @@
 
     .cardContent {
         height: 100%;
-        width: 100%;
+        width: 80%;
         margin: auto;
-        border-radius: 20px;
-        padding: 20px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 25px;
         text-align: left;
@@ -845,7 +840,11 @@
         background-color: #f1f1f1;
         border-radius: 12px;
     }
-
+    .Contenttitle {
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 50px;
+        text-align: left;
+    }
     .DB-Card-container1 {
         width: 100%;
         height: 600px;
@@ -905,13 +904,6 @@
         justify-content: space-between;
         font-family: 'Th Sarabun New', sans-serif;
         color: white;
-    }
-
-    .cardContent {
-        margin: auto;
-        border-radius: 20px;
-        width: 100%;
-        height: 100%;
     }
 
     .gridContainer {
@@ -1025,10 +1017,8 @@
 
     .cardContent {
         height: 100%;
-        width: 100%;
+        width: 80%;
         margin: auto;
-        border-radius: 20px;
-        padding: 20px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 25px;
         text-align: left;
@@ -1131,7 +1121,11 @@
         border-radius: 20px;
         background-color: #FFFFFF;
     }
-
+    .Contenttitle {
+        font-family: 'Th Sarabun New', sans-serif;
+        font-size: 50px;
+        text-align: left;
+    }
     .DB-Card-container2 {
         width: 100%;
         height: 600px;
@@ -1183,13 +1177,6 @@
         justify-content: space-between;
         font-family: 'Th Sarabun New', sans-serif;
         color: white;
-    }
-
-    .cardContent {
-        margin: auto;
-        border-radius: 20px;
-        width: 100%;
-        height: 100%;
     }
 
     .gridContainer {
@@ -1303,10 +1290,8 @@
 
     .cardContent {
         height: 100%;
-        width: 100%;
+        width: 80%;
         margin: auto;
-        border-radius: 20px;
-        padding: 20px;
         font-family: 'Th Sarabun New', sans-serif;
         font-size: 25px;
         text-align: left;

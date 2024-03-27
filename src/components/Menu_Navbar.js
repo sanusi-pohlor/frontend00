@@ -13,7 +13,6 @@ import {
   ListItemText,
   Divider,
   Drawer,
-  useMediaQuery,
 } from "@mui/material";
 import { CommentOutlined } from "@ant-design/icons";
 import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
@@ -193,7 +192,7 @@ function Menu_Navbar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const drawerMenu = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 1, color: "#7BBD8F" }}>
+      <Typography variant="h5" sx={{ my: 1, color: "#7BBD8F" }}>
         รู้เท่า ทันสื่อ - Check ก่อน
       </Typography>
       <Divider />
@@ -205,7 +204,8 @@ function Menu_Navbar() {
               component={Link}
               to={page.link}
             >
-              <ListItemText primary={page.label} sx={{ color: "#7BBD8F" }} />
+              <ListItemText primary={page.label} sx={{ color: "#7BBD8F", fontSize: "1.2rem" }}
+                primaryTypographyProps={{ variant: 'h4' }} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -216,12 +216,11 @@ function Menu_Navbar() {
   return (
     <div>
       <Modal
-        title="รอแอดมินยืนยัน"
+        title={createTypography("รอแอดมินยืนยัน")}
         visible={visible}
         onCancel={handleModalCancel}
         footer={null}
       >
-        <p>รอแอดมินยืนยัน</p>
         <Button type="primary" className="form-button" onClick={handleOk}>
           {createTypography("ออกจากระบบ")}
         </Button>
@@ -239,39 +238,63 @@ function Menu_Navbar() {
               edge="start"
               onClick={handleDrawerToggle}
               sx={{
-                mr: 2,
+                mr: 1,
                 display: { xs: "flex", md: "none" },
               }}
             >
               <MenuIcon />
             </IconButton>
             {!isMobile && (
-              <img
-                src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
-                alt="WMO Logo"
-                className="image-style"
-              />
+              <>
+                <img
+                  src="https://www.commsci.psu.ac.th/wp-content/uploads/2023/09/logo-web-V2.0.svg"
+                  alt="WMO Logo"
+                  className="image-style"
+                />
+                <div style={{ margin: "15px" }}></div>
+                <Typography
+                  variant="h6"
+                  style={{
+                    flexGrow: 1,
+                    marginRight: "5px",
+                    fontFamily: "'Th Sarabun New', sans-serif",
+                    fontWeight: "bold",
+                    letterSpacing: ".1rem",
+                    color: "gray",
+                    fontSize: "250%",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
+                    รู้เท่าทันสื่อ-Checkก่อน
+                  </Link>
+                </Typography></>
             )}
-            <div style={{ margin: "15px" }}></div>
-            <Typography
-              variant="h6"
-              style={{
-                flexGrow: 1,
-                marginRight: "5px",
-                fontFamily: "'Th Sarabun New', sans-serif",
-                fontWeight: "bold",
-                letterSpacing: ".1rem",
-                color: "gray",
-                fontSize: "250%",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                whiteSpace: "nowrap",
-              }}
-            >
-              <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
-                รู้เท่าทันสื่อ-Checkก่อน
-              </Link>
-            </Typography>
+            {isMobile && (
+              <Typography
+                variant="h6"
+                style={{
+                  flexGrow: 1,
+                  marginRight: "5px",
+                  fontFamily: "'Th Sarabun New', sans-serif",
+                  fontWeight: "bold",
+                  letterSpacing: ".1rem",
+                  color: "gray",
+                  fontSize: "250%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                  lineHeight: "0.8"
+                }}
+              >
+                <Link to={`/`} style={{ textDecoration: "none", color: "#7BBD8F" }}>
+                  รู้เท่าทันสื่อ
+                  <br />Checkก่อน
+                </Link>
+              </Typography>
+            )}
             <Box component="nav">
               <Drawer
                 container={container}

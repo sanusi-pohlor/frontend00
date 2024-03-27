@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Badge,
   Form,
@@ -130,7 +130,7 @@ const Manage_Fake_Info_Edit = () => {
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  
+
   const fetchInfo_source = async () => {
     try {
       const response = await fetch(
@@ -153,7 +153,7 @@ const Manage_Fake_Info_Edit = () => {
   const fetchFakeNewsInfo = useCallback(async () => {
     try {
       const response = await fetch(
-        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data[0].mfi_fninfo}`
+        `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data.mfi_fninfo}`
       );
       if (response.ok) {
         const responseData = await response.json();
@@ -165,7 +165,7 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching data:", error);
     }
   }, [data]);
-  
+
   useEffect(() => {
     fetchFakeNewsInfo();
   }, [fetchFakeNewsInfo, data]);
@@ -318,7 +318,7 @@ const Manage_Fake_Info_Edit = () => {
       console.error(`Error fetching codes:`, error);
     }
   }, [form]);
-  
+
   const onChange_mfi_che_d_id = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
@@ -337,31 +337,31 @@ const Manage_Fake_Info_Edit = () => {
       console.error("Error fetching data:", error);
     }
   }, [setSelectOptions_check_d]);
-  
+
   const onChange_mfi_fm_d_id = useCallback(() => {
     fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
   }, [fetchDataAndSetOptions, setSelectOptions_fm]);
-  
+
   const onChange_mfi_dis_c_id = useCallback(() => {
     fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
   }, [fetchDataAndSetOptions, setSelectOptions_dis]);
-  
+
   const onChange_mfi_ty_info_id = useCallback(() => {
     fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
   }, [fetchDataAndSetOptions, setSelectOptions_ty]);
-  
+
   const onChange_mfi_moti_id = useCallback(() => {
     fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
   }, [fetchDataAndSetOptions, setSelectOptions_moti]);
-  
+
   const onChange_mfi_data_cha_id = useCallback(() => {
     fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
   }, [fetchDataAndSetOptions, setSelectOptions_data]);
-  
+
   const onChange_dnc_med_id = useCallback(() => {
     fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
   }, [fetchDataAndSetOptions, setSelectOptions_med]);
-  
+
   const onChange_mfi_con_about_id = useCallback(() => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
   }, [fetchDataAndSetOptions, setSelectOptions_About]);
@@ -369,7 +369,7 @@ const Manage_Fake_Info_Edit = () => {
   const onChange_mfi_results_id = () => {
     fetchDataAndSetOptions("Result_request", "result", setSelectOptions_Result);
   };
-  
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
@@ -388,7 +388,7 @@ const Manage_Fake_Info_Edit = () => {
       console.error(`Error fetching codes:`, error);
     }
   }, [setSelectOptions_tags]);
-  
+
   const memoizedFunctions = useCallback(() => {
     onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
@@ -411,7 +411,7 @@ const Manage_Fake_Info_Edit = () => {
     onChange_mfi_che_d_id,
     onChange_Tags,
   ]);
-  
+
   useEffect(() => {
     memoizedFunctions();
   }, [memoizedFunctions]);
@@ -465,7 +465,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.created_at &&
-            moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.created_at).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -497,7 +497,7 @@ const Manage_Fake_Info_Edit = () => {
         fakeNewsInfo &&
         createTypography(
           fakeNewsInfo.fn_info_dmy &&
-            moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
+          moment(fakeNewsInfo.fn_info_dmy).locale("th").format("DD MMMM YYYY")
         ),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
@@ -539,15 +539,15 @@ const Manage_Fake_Info_Edit = () => {
               fakeNewsInfo.fn_info_status === 0
                 ? "warning"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "processing"
-                : "success"
+                  ? "processing"
+                  : "success"
             }
             text={
               fakeNewsInfo.fn_info_status === 0
                 ? "รอตรวจสอบ"
                 : fakeNewsInfo.fn_info_status === 1
-                ? "กำลังตรวจสอบ"
-                : "ตรวจสอบแล้ว"
+                  ? "กำลังตรวจสอบ"
+                  : "ตรวจสอบแล้ว"
             }
           />
         </React.Fragment>
@@ -812,9 +812,9 @@ const Manage_Fake_Info_Edit = () => {
               width: "calc(33% - 8px)",
             }}
           >
-              <Select onChange={onChange_mfi_results_id} allowClear>
-                {selectOptions_result}
-              </Select>
+            <Select onChange={onChange_mfi_results_id} allowClear>
+              {selectOptions_result}
+            </Select>
           </Form.Item>
           <Form.Item
             name="mfi_con_about"
