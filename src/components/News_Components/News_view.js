@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Avatar, Modal, Divider, Descriptions, Card, Space, Tag, Image, Button } from "antd";
+import {
+  Avatar,
+  Modal,
+  Divider,
+  Descriptions,
+  Card,
+  Space,
+  Tag,
+  Image,
+  Button,
+} from "antd";
 import { Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
-import axios from 'axios';
+import axios from "axios";
 
 const News_view = () => {
   const { id } = useParams();
@@ -23,12 +33,16 @@ const News_view = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const newsResponse = await axios.get(`https://checkkonproject-sub.com/api/News_show/${id}`);
+        const newsResponse = await axios.get(
+          `https://checkkonproject-sub.com/api/News_show/${id}`
+        );
         const newsData = newsResponse.data;
         setData(newsData);
         setTags(JSON.parse(newsData.tag) || []);
         if (newsData.Author) {
-          const userResponse = await axios.get(`https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`);
+          const userResponse = await axios.get(
+            `https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`
+          );
           if (userResponse.status === 200) {
             const userData = userResponse.data;
             setUser(userData);
@@ -76,7 +90,12 @@ const News_view = () => {
   ];
   const handleFacebookShare = () => {
     const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
+    window.open(
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        shareUrl
+      )}`,
+      "_blank"
+    );
   };
 
   return (
@@ -103,42 +122,37 @@ const News_view = () => {
             <Image
               className="details-image"
               src={data.cover_image}
-              width="50%"
+
             />
           </div>
-          <div className="cardContent"><Divider />  
-          <div className="Contenttitle">{data.title}</div>
+          <div className="cardContent">
+            <Divider />
+            <div className="Contenttitle">{data.title}</div>
             โดย :{" "}
             {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
             <br />
             {thaiDate}
             <br />
             <Divider />
-            <div dangerouslySetInnerHTML={{ __html: data.details }} style={{ lineHeight: "1" }} />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                gap: "16px",
-                marginTop: "16px",
-              }}
-            >
-              {[...Array(8).keys()].map(
-                (index) =>
-                  data[`details_image_${index}`] && (
-                    <Image
-                      key={index}
-                      className="details-image"
-                      src={data[`details_image_${index}`]}
-                      style={{
-                        maxWidth: "100%",
-                        maxHeight: "300px",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  )
-              )}
+            <div>
+              {data.details &&
+                data.details.split("<p></p>").map((paragraph, index) => (
+                  <React.Fragment key={index}>
+                    <p dangerouslySetInnerHTML={{ __html: paragraph }} />
+                    {data[`details_image_${index}`] && (
+                      <Image
+                        key={index}
+                        className="details-image"
+                        src={data[`details_image_${index}`]}
+                        style={{
+                          maxWidth: "100%",
+                          maxHeight: "100%",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
             </div>
             <div>
               {data.link &&

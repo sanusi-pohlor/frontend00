@@ -369,7 +369,7 @@ const Manage_Fake_Info_Menu = () => {
       render: (mfi_fninfo) => renderprovince(mfi_fninfo),
     },
     {
-      title: "ตรวจเมื่อ",
+      title: "วันที่ตรวจสอบ",
       dataIndex: "created_at",
       width: "10%",
       editable: true,

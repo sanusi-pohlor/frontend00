@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import AdminMenu from "../../Adm_Menu";
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 import { Form, Input, Button, message, Upload, Card, Select } from "antd";
 import ReactQuill from "react-quill";
 import { PlusOutlined, UserOutlined } from "@ant-design/icons";
@@ -17,6 +17,7 @@ const Adm_Article_Form = () => {
   const [user, setUser] = useState(null);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
+  const [detailsImages, setDetailsImages] = useState([]);
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -73,60 +74,124 @@ const Adm_Article_Form = () => {
     fetchUser();
   }, []);
 
-  const modules = {
-    toolbar: {
-      container: [
-        [
-          { header: "1" },
-          { header: "2" },
-          { header: [3, 4, 5, 6] },
-          { font: [] },
-        ],
-        [{ size: [] }],
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link"],
-        ["clean"],
-        ["code-block"],
-        [{ align: [] }],
+  var modules = {
+    toolbar: [
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+        { align: [] },
       ],
-    },
-    clipboard: {
-      matchVisual: true,
-    },
+      [
+        {
+          color: [
+            "#000000",
+            "#e60000",
+            "#ff9900",
+            "#ffff00",
+            "#008a00",
+            "#0066cc",
+            "#9933ff",
+            "#ffffff",
+            "#facccc",
+            "#ffebcc",
+            "#ffffcc",
+            "#cce8cc",
+            "#cce0f5",
+            "#ebd6ff",
+            "#bbbbbb",
+            "#f06666",
+            "#ffc266",
+            "#ffff66",
+            "#66b966",
+            "#66a3e0",
+            "#c285ff",
+            "#888888",
+            "#a10000",
+            "#b26b00",
+            "#b2b200",
+            "#006100",
+            "#0047b2",
+            "#6b24b2",
+            "#444444",
+            "#5c0000",
+            "#663d00",
+            "#666600",
+            "#003700",
+            "#002966",
+            "#3d1466",
+            "custom-color",
+          ],
+        },
+      ],
+    ],
   };
-  const formats = [
+  var formats = [
     "header",
-    "font",
-    "size",
+    "height",
     "bold",
     "italic",
     "underline",
     "strike",
     "blockquote",
     "list",
+    "color",
     "bullet",
+    "indent",
     "link",
+    "image",
     "align",
+    "size",
   ];
-
   const handleChange = (html) => {
-    setEditorHtml(html);
-  };
+    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
+    const regex = /<img src="[^"]+"[^>]*>/g;
+    const matches = html.match(regex);
 
+    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
+    const cleanedHtml = html.replace(regex, "");
+    setEditorHtml(cleanedHtml);
+
+    // 3. เก็บข้อมูลรูปภาพในตัวแปร detailsImages
+    if (matches) {
+      const images = [];
+      matches.forEach(async (match, index) => {
+        const srcRegex = /src="([^"]+)"/;
+        const src = srcRegex.exec(match)[1];
+        try {
+          const response = await fetch(src);
+          const blob = await response.blob();
+          images.push(blob);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      });
+      setDetailsImages(images);
+    } else {
+      console.error("No matches found");
+    }
+  };
 
   const onFinish = async (values) => {
     try {
       setLoading(true);
       const formData = new FormData();
       formData.append("Author", user.id);
-      formData.append("title", values.title);
-      formData.append("cover_image", values.cover_image[0].originFileObj);
+      formData.append("title", form.getFieldValue("title"));
+      formData.append(
+        "cover_image",
+        form.getFieldValue("cover_image")[0].originFileObj
+      );
       formData.append("details", editorHtml);
-      values.details_image.forEach((image, index) => {
-        formData.append(`details_image_${index}`, image.originFileObj);
+      formData.append("tag", JSON.stringify(form.getFieldValue("tag")));
+      detailsImages.forEach((image, index) => {
+        formData.append(`details_image_${index}`, image);
       });
-      formData.append("tag", JSON.stringify(values.tag));
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Adm_Article_upload",
         {
@@ -256,30 +321,6 @@ const Adm_Article_Form = () => {
                 style={{ height: "950px" }}
               />
             </div>
-          </Form.Item>
-          <Form.Item
-            label={createTypography("รูปภาพรายละเอียดเพิ่มเติม")}
-            name="details_image"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: false,
-                message: createTypography("กรุณาแนบรูปภาพรายละเอียดเพิ่มเติม"),
-              },
-            ]}
-          >
-            <Upload
-              name="details_image"
-              maxCount={8}
-              listType="picture-card"
-              beforeUpload={() => false}
-            >
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
           </Form.Item>
           <Form.Item
             name="tag"

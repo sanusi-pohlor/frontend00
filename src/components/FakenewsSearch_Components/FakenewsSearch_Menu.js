@@ -308,7 +308,7 @@ const FakenewsSearch_Menu = () => {
       },
     },
     {
-      title: "ตรวจเมื่อ",
+      title: "วันที่ตรวจสอบ",
       dataIndex: "created_at",
       width: "10%",
       editable: true,

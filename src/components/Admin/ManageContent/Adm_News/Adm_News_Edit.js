@@ -29,7 +29,7 @@ const Adm_News_Edit = () => {
   const [user, setUser] = useState(null);
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
-
+  const [detailsImages, setDetailsImages] = useState([]);
   useEffect(() => {
     const fetchFakeNewsData = async () => {
       try {
@@ -106,47 +106,108 @@ const Adm_News_Edit = () => {
     fetchUser();
   }, []);
 
-  const modules = {
-    toolbar: {
-      container: [
-        [
-          { header: "1" },
-          { header: "2" },
-          { header: [3, 4, 5, 6] },
-          { font: [] },
-        ],
-        [{ size: [] }],
-        ["bold", "italic", "underline", "strike", "blockquote"],
-        [{ list: "ordered" }, { list: "bullet" }],
-        ["link"],
-        ["clean"],
-        ["code-block"],
-        [{ align: [] }],
+  var modules = {
+    toolbar: [
+      [{ size: ["small", false, "large", "huge"] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+        { align: [] },
       ],
-    },
-    clipboard: {
-      matchVisual: true,
-    },
+      [
+        {
+          color: [
+            "#000000",
+            "#e60000",
+            "#ff9900",
+            "#ffff00",
+            "#008a00",
+            "#0066cc",
+            "#9933ff",
+            "#ffffff",
+            "#facccc",
+            "#ffebcc",
+            "#ffffcc",
+            "#cce8cc",
+            "#cce0f5",
+            "#ebd6ff",
+            "#bbbbbb",
+            "#f06666",
+            "#ffc266",
+            "#ffff66",
+            "#66b966",
+            "#66a3e0",
+            "#c285ff",
+            "#888888",
+            "#a10000",
+            "#b26b00",
+            "#b2b200",
+            "#006100",
+            "#0047b2",
+            "#6b24b2",
+            "#444444",
+            "#5c0000",
+            "#663d00",
+            "#666600",
+            "#003700",
+            "#002966",
+            "#3d1466",
+            "custom-color",
+          ],
+        },
+      ],
+    ],
   };
-
-  const formats = [
+  var formats = [
     "header",
-    "font",
-    "size",
+    "height",
     "bold",
     "italic",
     "underline",
     "strike",
     "blockquote",
     "list",
+    "color",
     "bullet",
+    "indent",
     "link",
+    "image",
     "align",
+    "size",
   ];
 
   const handleChange = (html) => {
-    setEditorHtml(html);
-    setDetails(data.details);
+    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
+    const regex = /<img src="[^"]+"[^>]*>/g;
+    const matches = html.match(regex);
+
+    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
+    const cleanedHtml = html.replace(regex, "");
+    setEditorHtml(cleanedHtml);
+
+    // 3. เก็บข้อมูลรูปภาพในตัวแปร detailsImages
+    if (matches) {
+      const images = [];
+      matches.forEach(async (match, index) => {
+        const srcRegex = /src="([^"]+)"/;
+        const src = srcRegex.exec(match)[1];
+        try {
+          const response = await fetch(src);
+          const blob = await response.blob();
+          images.push(blob);
+        } catch (error) {
+          console.error("Error fetching image:", error);
+        }
+      });
+      setDetailsImages(images);
+    } else {
+      console.error("No matches found");
+    }
   };
 
   const onFinish = async (values) => {
@@ -356,7 +417,8 @@ const Adm_News_Edit = () => {
                 variant="body1"
                 sx={{ fontSize: "25px", color: "red" }}
               >
-                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง อัปโหลดใหม่แล้วรูปจะทับรูปเดิมทั้งหมด)
+                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง
+                อัปโหลดใหม่แล้วรูปจะทับรูปเดิมทั้งหมด)
               </Typography>
             }
             name="details_image"
