@@ -78,7 +78,6 @@ const Adm_Article_Form = () => {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
       [
         { list: "ordered" },

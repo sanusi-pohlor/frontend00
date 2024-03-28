@@ -142,7 +142,7 @@ const Adm_News_view = () => {
                 {data.details &&
                   data.details.split("<p></p>").map((paragraph, index) => (
                     <React.Fragment key={index}>
-                      <p dangerouslySetInnerHTML={{ __html: paragraph }} />
+                      <Typography style={{ lineHeight: "1.2" ,fontSize: "25px" }} dangerouslySetInnerHTML={{ __html: paragraph }} />
                       {data[`details_image_${index}`] && (
                         <Image
                           key={index}

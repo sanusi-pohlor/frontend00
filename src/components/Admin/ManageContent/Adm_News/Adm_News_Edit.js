@@ -110,7 +110,6 @@ const Adm_News_Edit = () => {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
       [
         { list: "ordered" },
@@ -182,15 +181,10 @@ const Adm_News_Edit = () => {
   ];
 
   const handleChange = (html) => {
-    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
     const regex = /<img src="[^"]+"[^>]*>/g;
     const matches = html.match(regex);
-
-    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
     const cleanedHtml = html.replace(regex, "");
     setEditorHtml(cleanedHtml);
-
-    // 3. เก็บข้อมูลรูปภาพในตัวแปร detailsImages
     if (matches) {
       const images = [];
       matches.forEach(async (match, index) => {
@@ -224,17 +218,12 @@ const Adm_News_Edit = () => {
         formData.append("cover_image", values.cover_image[0].originFileObj);
       }
       appendIfDefined("details", editorHtml);
-      if (values.details_image !== undefined) {
-        if (values.details_image && values.details_image.length > 0) {
-          values.details_image.forEach((image, index) => {
-            formData.append(`details_image_${index}`, image.originFileObj);
-          });
-        }
-      }
+      detailsImages.forEach((image, index) => {
+        formData.append(`details_image_${index}`, image);
+      });
       if (values.tag !== undefined) {
         formData.append("tag", JSON.stringify(values.tag));
       }
-
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
         {
@@ -256,7 +245,30 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-
+  const renderRichText = (details, imageData) => {
+    return (
+      <>
+        {details &&
+          details.split("<p></p>").map((paragraph, index) => (
+            <React.Fragment key={index}>
+              <p dangerouslySetInnerHTML={{ __html: paragraph }} />
+              {imageData[`details_image_${index}`] && (
+                <Image
+                  key={index}
+                  className="details-image"
+                  src={imageData[`details_image_${index}`]}
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "8px",
+                  }}
+                />
+              )}
+            </React.Fragment>
+          ))}
+      </>
+    );
+  };
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -318,7 +330,6 @@ const Adm_News_Edit = () => {
               disabled
             />
           </Form.Item>
-          <Divider />
           <Form.Item
             name="title"
             label={createTypography("หัวข้อ")}
@@ -326,7 +337,6 @@ const Adm_News_Edit = () => {
           >
             <Input />
           </Form.Item>
-          <Divider />
           <Form.Item
             label={createTypography("รูปภาพหน้าปกใหม่")}
             name="cover_image"
@@ -361,43 +371,11 @@ const Adm_News_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <Divider />
+          <br /><br />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
-            style={{
-              display: "inline-block",
-              width: "calc(50% - 8px)",
-            }}
-          >
-            <div style={{ height: "1000px" }}>
-              <ReactQuill
-                onChange={handleChange}
-                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
-                formats={formats}
-                modules={modules}
-                style={{ height: "950px" }}
-              />
-            </div>
-          </Form.Item>
-          <Form.Item
-            name=""
-            label={
-              <Typography
-                variant="body1"
-                sx={{ fontSize: "25px", color: "red" }}
-              >
-                รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน
-                ไม่ต้องอัพโหลดใหม่)
-              </Typography>
-            }
-            rules={[{ required: false }]}
-            style={{
-              display: "inline-block",
-              width: "calc(50% - 8px)",
-              margin: "0 8px",
-            }}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
@@ -410,66 +388,7 @@ const Adm_News_Edit = () => {
               />
             </div>
           </Form.Item>
-          <Divider />
-          <Form.Item
-            label={
-              <Typography
-                variant="body1"
-                sx={{ fontSize: "25px", color: "red" }}
-              >
-                รูปภาพเพิ่มเติม (ให้อัพโหลดใหม่ทุกครั้ง
-                อัปโหลดใหม่แล้วรูปจะทับรูปเดิมทั้งหมด)
-              </Typography>
-            }
-            name="details_image"
-            valuePropName="fileList"
-            getValueFromEvent={normFile}
-            rules={[
-              {
-                required: false,
-                message: createTypography(
-                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
-                ),
-              },
-            ]}
-          >
-            <Upload
-              name="details_image"
-              maxCount={10}
-              listType="picture-card"
-              beforeUpload={() => false}
-            >
-              <div>
-                <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
-              </div>
-            </Upload>
-          </Form.Item>
-          {createTypography("รูปภาพเพิ่มเติมเก่า")}
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: "16px",
-              marginTop: "16px",
-            }}
-          >
-            {Array.from({ length: 8 }, (_, index) => {
-              const imageKey = `details_image_${index}`;
-              return data && data[imageKey] ? (
-                <Image
-                  key={imageKey}
-                  width={200}
-                  height={200}
-                  src={data[imageKey]}
-                  style={{ borderRadius: "8px" }}
-                />
-              ) : (
-                <div></div>
-              );
-            })}
-          </div>
-          <Divider />
+          <br /><br /><br />
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}

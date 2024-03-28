@@ -78,7 +78,6 @@ const Adm_MdShare_Form = () => {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image"],
       [
         { list: "ordered" },
@@ -98,15 +97,10 @@ const Adm_MdShare_Form = () => {
   ];
 
   const handleChange = (html) => {
-    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
     const regex = /<img src="[^"]+"[^>]*>/g;
     const matches = html.match(regex);
-  
-    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
     const cleanedHtml = html.replace(regex, '');
     setEditorHtml(cleanedHtml);
-  
-    // 3. เก็บข้อมูลรูปภาพในตัวแปร detailsImages
     if (matches) {
       const images = [];
       matches.forEach(async (match, index) => {

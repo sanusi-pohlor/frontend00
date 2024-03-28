@@ -152,7 +152,7 @@ const AppRoutes = () => {
       >
         <MenuNavbar />
         <div style={{ flex: 1 }}>
-          <Box height="10vh" />
+
           <Routes>
             {routes.map((route, index) => (
               <Route key={index} {...route} />
