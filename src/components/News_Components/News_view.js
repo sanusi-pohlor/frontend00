@@ -13,9 +13,12 @@ import {
 } from "antd";
 import { Paper, Typography } from "@mui/material";
 import moment from "moment";
-import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
-
+import {
+  FacebookIcon,
+  FacebookShareButton,
+} from "react-share";
 const News_view = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
@@ -25,11 +28,6 @@ const News_view = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-  useEffect(() => {
-    if (window.FB) {
-      window.FB.XFBML.parse();
-    }
-  }, []);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -88,15 +86,6 @@ const News_view = () => {
       children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
     },
   ];
-  const handleFacebookShare = () => {
-    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        shareUrl
-      )}`,
-      "_blank"
-    );
-  };
 
   return (
     <div className="backgroundColor">
@@ -119,11 +108,7 @@ const News_view = () => {
               marginTop: "16px",
             }}
           >
-            <Image
-              className="details-image"
-              src={data.cover_image}
-
-            />
+            <Image className="details-image" src={data.cover_image} />
           </div>
           <div className="cardContent">
             <Divider />
@@ -177,13 +162,13 @@ const News_view = () => {
                 ))}
               </Space>
             </div>
-            <Button
-              type="primary"
-              icon={<FacebookOutlined />}
-              onClick={handleFacebookShare}
+            <FacebookShareButton
+              url={`https://checkkonproject.com/News_Menu/News_view/${data.id}`}
+              quote={data.title}
+              picture={data.cover_image}
             >
-              แชร์ไปยัง Facebook
-            </Button>
+              <FacebookIcon size={32} round />
+            </FacebookShareButton>
             <p onClick={showModal}>
               <Avatar size={64} icon={<UserOutlined />}>
                 {user && user.username}
