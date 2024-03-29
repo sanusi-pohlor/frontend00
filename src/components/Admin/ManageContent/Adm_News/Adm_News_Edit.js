@@ -245,30 +245,6 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-  const renderRichText = (details, imageData) => {
-    return (
-      <>
-        {details &&
-          details.split("<p></p>").map((paragraph, index) => (
-            <React.Fragment key={index}>
-              <p dangerouslySetInnerHTML={{ __html: paragraph }} />
-              {imageData[`details_image_${index}`] && (
-                <Image
-                  key={index}
-                  className="details-image"
-                  src={imageData[`details_image_${index}`]}
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "300px",
-                    borderRadius: "8px",
-                  }}
-                />
-              )}
-            </React.Fragment>
-          ))}
-      </>
-    );
-  };
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -299,7 +275,6 @@ const Adm_News_Edit = () => {
       {label} {text}
     </Typography>
   );
-
   return (
     <AdminMenu>
       <Card className="cardsection">
@@ -379,9 +354,14 @@ const Adm_News_Edit = () => {
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
-                onChange={handleChange}
-                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
-                value={details}
+                //onChange={handleChange}
+                placeholder="เพิ่มรายละเอียดเพิ่มเติม"
+                value={details && (
+                  details.split("<p></p>").map((paragraph, index) => (
+                    `<p>${paragraph}</p>` +
+                    (data[`details_image_${index}`] ? `<img src="${data[`details_image_${index}`]}" style="max-width: 100%; max-height: 300px; border-radius: 8px;" />` : '')
+                  )).join('')
+                )}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}

@@ -233,7 +233,7 @@ function Menu_Navbar() {
         <CssBaseline />
         <AppBar
           className="AppBarContainer"
-          sx={{ backgroundColor: "white", color: "#7BBD8F" }}
+          sx={{ backgroundColor: "white", color: "#7BBD8F", height: "100px" }}
           position="static"
         >
           <Toolbar>
