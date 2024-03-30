@@ -81,7 +81,6 @@ const Adm_News_Edit = () => {
       console.error("Error adding tag:", error);
     }
   };
-
   const fetchUser = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/user", {
@@ -101,7 +100,6 @@ const Adm_News_Edit = () => {
       console.error("Error:", error);
     }
   };
-
   useEffect(() => {
     fetchUser();
   }, []);
@@ -184,7 +182,9 @@ const Adm_News_Edit = () => {
     const regex = /<img src="[^"]+"[^>]*>/g;
     const matches = html.match(regex);
     const cleanedHtml = html.replace(regex, "");
-    setEditorHtml(cleanedHtml);
+    if (cleanedHtml.trim() !== "") {
+      setEditorHtml(cleanedHtml);
+    }
     if (matches) {
       const images = [];
       matches.forEach(async (match, index) => {
@@ -218,12 +218,12 @@ const Adm_News_Edit = () => {
         formData.append("cover_image", values.cover_image[0].originFileObj);
       }
       appendIfDefined("details", editorHtml);
-      detailsImages.forEach((image, index) => {
-        formData.append(`details_image_${index}`, image);
-      });
       if (values.tag !== undefined) {
         formData.append("tag", JSON.stringify(values.tag));
       }
+      detailsImages.forEach((image, index) => {
+        formData.append(`details_image_${index}`, image);
+      });
       const response = await fetch(
         `https://checkkonproject-sub.com/api/Adm_News_update/${id}`,
         {
@@ -231,7 +231,6 @@ const Adm_News_Edit = () => {
           body: formData,
         }
       );
-
       if (response.ok) {
         message.success("Data saved successfully");
         navigate("/Admin/Adm_News_Menu");
@@ -245,6 +244,7 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
+  
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -351,11 +351,42 @@ const Adm_News_Edit = () => {
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
             rules={[{ required: false }]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+            }}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
-                //onChange={handleChange}
+                onChange={handleChange}
                 placeholder="เพิ่มรายละเอียดเพิ่มเติม"
+                formats={formats}
+                modules={modules}
+                style={{ height: "950px" }}
+              />
+            </div>
+          </Form.Item>
+          <Form.Item
+            name=""
+            label={
+              <Typography
+                variant="body1"
+                sx={{ fontSize: "25px", color: "red" }}
+              >
+                รายละเอียดเพิ่มเติมเก่า (หากไม่ต้องการเปลี่ยน
+                ไม่ต้องอัพโหลดใหม่)
+              </Typography>
+            }
+            rules={[{ required: false }]}
+            style={{
+              display: "inline-block",
+              width: "calc(50% - 8px)",
+              margin: "0 8px",
+            }}
+          >
+            <div style={{ height: "1000px" }}>
+              <ReactQuill
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
                 value={details && (
                   details.split("<p></p>").map((paragraph, index) => (
                     `<p>${paragraph}</p>` +
