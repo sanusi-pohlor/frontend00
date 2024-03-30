@@ -33,6 +33,7 @@
     "moment": "^2.30.1",
     "react-facebook-share-link": "^1.0.4",
     "react-flickity-component": "^4.0.7",
+    "react-helmet": "^6.1.0",
     "react-leaflet": "^4.2.1",
     "react-map-interaction": "^2.1.0",
     "react-material-ui-carousel": "^3.4.2",

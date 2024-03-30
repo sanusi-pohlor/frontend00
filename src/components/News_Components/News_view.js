@@ -15,10 +15,8 @@ import { Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
-import {
-  FacebookIcon,
-  FacebookShareButton,
-} from "react-share";
+import { FacebookIcon, FacebookShareButton } from "react-share";
+
 const News_view = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
@@ -28,6 +26,7 @@ const News_view = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,6 +53,7 @@ const News_view = () => {
     };
     fetchData();
   }, []);
+
   const items = [
     {
       key: "1",
@@ -165,7 +165,7 @@ const News_view = () => {
             <FacebookShareButton
               url={`https://checkkonproject.com/News_Menu/News_view/${data.id}`}
               quote={data.title}
-              picture={data.cover_image}
+              image={data.cover_image}
             >
               <FacebookIcon size={32} round />
             </FacebookShareButton>
