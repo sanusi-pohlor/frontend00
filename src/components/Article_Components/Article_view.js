@@ -15,7 +15,7 @@ import { Paper, Typography } from "@mui/material";
 import moment from "moment";
 import { UserOutlined, FacebookOutlined } from "@ant-design/icons";
 import axios from "axios";
-
+import { FacebookIcon, FacebookShareButton } from "react-share";
 const Article_view = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
@@ -176,13 +176,13 @@ const Article_view = () => {
                 ))}
               </Space>
             </div>
-            <Button
-              type="primary"
-              icon={<FacebookOutlined />}
-              onClick={handleFacebookShare}
+            <FacebookShareButton
+              url={`https://checkkonproject.com/Article_Menu/Article_view/${data.id}`}
+              title={data.title}
+              image={data.cover_image}
             >
-              แชร์ไปยัง Facebook
-            </Button>
+              <FacebookIcon size={50} round />แชร์ไปยัง Facebook
+            </FacebookShareButton>
             <p onClick={showModal}>
               <Avatar size={64} icon={<UserOutlined />}>
                 {user && user.username}

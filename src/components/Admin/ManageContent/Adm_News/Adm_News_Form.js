@@ -150,7 +150,7 @@ const Adm_News_Form = () => {
   const handleChange = (html) => {
     const regex = /<img src="[^"]+"[^>]*>/g;
     const matches = html.match(regex);
-    const cleanedHtml = html.replace(regex, '');
+    const cleanedHtml = html.replace(regex, "");
     setEditorHtml(cleanedHtml);
     if (matches) {
       const images = [];
@@ -170,7 +170,6 @@ const Adm_News_Form = () => {
       console.error("No matches found");
     }
   };
-
 
   const onFinish = async (values) => {
     try {

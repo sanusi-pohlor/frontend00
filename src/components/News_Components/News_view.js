@@ -164,10 +164,10 @@ const News_view = () => {
             </div>
             <FacebookShareButton
               url={`https://checkkonproject.com/News_Menu/News_view/${data.id}`}
-              quote={data.title}
+              title={data.title}
               image={data.cover_image}
             >
-              <FacebookIcon size={32} round />
+              <FacebookIcon size={50} round />แชร์ไปยัง Facebook
             </FacebookShareButton>
             <p onClick={showModal}>
               <Avatar size={64} icon={<UserOutlined />}>

@@ -148,15 +148,10 @@ const Adm_Article_Form = () => {
     "size",
   ];
   const handleChange = (html) => {
-    // 1. ใช้ Regular Expression เพื่อแยกรูปภาพ
     const regex = /<img src="[^"]+"[^>]*>/g;
     const matches = html.match(regex);
-
-    // 2. ส่งข้อมูล HTML โดยไม่รวมรูปภาพไปยัง setState
     const cleanedHtml = html.replace(regex, "");
     setEditorHtml(cleanedHtml);
-
-    // 3. เก็บข้อมูลรูปภาพในตัวแปร detailsImages
     if (matches) {
       const images = [];
       matches.forEach(async (match, index) => {
@@ -175,7 +170,6 @@ const Adm_Article_Form = () => {
       console.error("No matches found");
     }
   };
-
   const onFinish = async (values) => {
     try {
       setLoading(true);

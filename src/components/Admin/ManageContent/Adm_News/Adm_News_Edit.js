@@ -52,7 +52,6 @@ const Adm_News_Edit = () => {
     };
     fetchFakeNewsData();
   }, [id, form]);
-
   const normFile = (e) => {
     if (Array.isArray(e)) {
       return e;
@@ -203,7 +202,6 @@ const Adm_News_Edit = () => {
       console.error("No matches found");
     }
   };
-
   const onFinish = async (values) => {
     try {
       setLoading(true);
@@ -244,7 +242,7 @@ const Adm_News_Edit = () => {
       setLoading(false);
     }
   };
-  
+
   const onChange_Tags = useCallback(async () => {
     try {
       const response = await fetch(
@@ -346,7 +344,8 @@ const Adm_News_Edit = () => {
           ) : (
             <div>No image available</div>
           )}
-          <br /><br />
+          <br />
+          <br />
           <Form.Item
             name="details"
             label={createTypography("รายละเอียดเพิ่มเติม")}
@@ -387,19 +386,30 @@ const Adm_News_Edit = () => {
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
-                value={details && (
-                  details.split("<p></p>").map((paragraph, index) => (
-                    `<p>${paragraph}</p>` +
-                    (data[`details_image_${index}`] ? `<img src="${data[`details_image_${index}`]}" style="max-width: 100%; max-height: 300px; border-radius: 8px;" />` : '')
-                  )).join('')
-                )}
+                value={
+                  details &&
+                  details
+                    .split("<p></p>")
+                    .map(
+                      (paragraph, index) =>
+                        `<p>${paragraph}</p>` +
+                        (data[`details_image_${index}`]
+                          ? `<img src="${
+                              data[`details_image_${index}`]
+                            }" style="max-width: 100%; max-height: 300px; border-radius: 8px;" />`
+                          : "")
+                    )
+                    .join("")
+                }
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}
               />
             </div>
           </Form.Item>
-          <br /><br /><br />
+          <br />
+          <br />
+          <br />
           <Form.Item
             name="tag"
             label={createTypography("เพิ่มแท็ก")}
