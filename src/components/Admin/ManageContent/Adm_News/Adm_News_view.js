@@ -140,25 +140,32 @@ const Adm_News_view = () => {
               <br />
               <Divider />
               <div>
-                {data.details &&
-                  data.details.split("<p></p>").map((paragraph, index) => (
-                    <React.Fragment key={index}>
-                      <Typography style={{ lineHeight: "1.2" ,fontSize: "25px" }} dangerouslySetInnerHTML={{ __html: paragraph }} />
-                      {data[`details_image_${index}`] && (
-                        <Image
-                          key={index}
-                          className="details-image"
-                          src={data[`details_image_${index}`]}
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "300px",
-                            borderRadius: "8px",
-                          }}
-                        />
-                      )}
-                    </React.Fragment>
-                  ))}
-              </div>
+  {data.details &&
+    data.details
+      .replace(/<\/p><p>/g, "<br />")
+      .split("<br />")
+      .map((paragraph, index) => (
+        <React.Fragment key={index}>
+          <Typography
+            style={{ lineHeight: "1.2", fontSize: "25px" }}
+            dangerouslySetInnerHTML={{ __html: paragraph }}
+          />
+          {data[`details_image_${index}`] && (
+            <Image
+              key={index}
+              className="details-image"
+              src={data[`details_image_${index}`]}
+              style={{
+                maxWidth: "100%",
+                maxHeight: "300px",
+                borderRadius: "8px",
+              }}
+            />
+          )}
+        </React.Fragment>
+      ))}
+</div>
+
               <div>
                 {data.link &&
                   JSON.parse(data.link).map((item, index) => (

@@ -74,7 +74,7 @@ const Adm_News_Form = () => {
     fetchUser();
   }, []);
 
-  var modules = {
+  const modules = {
     toolbar: [
       [{ size: ["small", false, "large", "huge"] }],
       ["bold", "italic", "underline", "strike", "blockquote"],
@@ -130,7 +130,7 @@ const Adm_News_Form = () => {
       ],
     ],
   };
-  var formats = [
+  const formats = [
     "header",
     "height",
     "bold",

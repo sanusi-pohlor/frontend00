@@ -110,7 +110,7 @@ const Adm_Article_View = () => {
           style={{ backgroundColor: "#e4e4e4" }}
         >
           <Card className="cardsection">
-            <div className="cardsectionContent">ข่าวสาร</div>
+            <div className="cardsectionContent">บทความ</div>
           </Card>
           <br />
           <Card>

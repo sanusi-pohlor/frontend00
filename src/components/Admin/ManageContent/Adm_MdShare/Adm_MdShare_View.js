@@ -108,7 +108,7 @@ const Adm_MdShare_View = () => {
           style={{ backgroundColor: "#e4e4e4" }}
         >
           <Card className="cardsection">
-            <div className="cardsectionContent">ข่าวสาร</div>
+            <div className="cardsectionContent">สื่อชวนแชร์</div>
           </Card>
           <br />
           <Card>
