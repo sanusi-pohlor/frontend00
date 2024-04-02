@@ -496,7 +496,7 @@ const M_DB_Adm_Menu = () => {
               onFinish={handleAdd}
             >
               <Form.Item
-                name="image"
+                name="image0"
                 label={createTypography("รูปหน้าปก")}
                 rules={[
                   {
@@ -507,7 +507,95 @@ const M_DB_Adm_Menu = () => {
               >
                 <Upload
                   name="cover_image"
-                  maxCount={5}
+                  maxCount={1}
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+              <Form.Item
+                name="image1"
+                label={createTypography("รูปหน้าปก")}
+                rules={[
+                  {
+                    required: true,
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                  },
+                ]}
+              >
+                <Upload
+                  name="cover_image"
+                  maxCount={1}
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+              <Form.Item
+                name="image2"
+                label={createTypography("รูปหน้าปก")}
+                rules={[
+                  {
+                    required: true,
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                  },
+                ]}
+              >
+                <Upload
+                  name="cover_image"
+                  maxCount={1}
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+              <Form.Item
+                name="image3"
+                label={createTypography("รูปหน้าปก")}
+                rules={[
+                  {
+                    required: true,
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                  },
+                ]}
+              >
+                <Upload
+                  name="cover_image"
+                  maxCount={1}
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+              <Form.Item
+                name="image4"
+                label={createTypography("รูปหน้าปก")}
+                rules={[
+                  {
+                    required: true,
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                  },
+                ]}
+              >
+                <Upload
+                  name="cover_image"
+                  maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
                 >
