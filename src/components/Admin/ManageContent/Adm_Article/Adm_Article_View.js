@@ -142,23 +142,28 @@ const Adm_Article_View = () => {
               <Divider />
               <div>
                 {data.details &&
-                  data.details.split("<p></p>").map((paragraph, index) => (
-                    <React.Fragment key={index}>
-                      <p dangerouslySetInnerHTML={{ __html: paragraph }} />
-                      {data[`details_image_${index}`] && (
-                        <Image
-                          key={index}
-                          className="details-image"
-                          src={data[`details_image_${index}`]}
-                          style={{
-                            maxWidth: "100%",
-                            maxHeight: "300px",
-                            borderRadius: "8px",
-                          }}
+                  data.details
+                    .split("<p></p>")
+                    .map((paragraph, index) => (
+                      <React.Fragment key={index}>
+                        <Typography
+                          style={{ lineHeight: "1.2", fontSize: "25px" }}
+                          dangerouslySetInnerHTML={{ __html: paragraph.replace(/<\/p><p>/g, "<br />") }}
                         />
-                      )}
-                    </React.Fragment>
-                  ))}
+                        {data[`details_image_${index}`] && (
+                          <Image
+                            key={`${index}_image`}
+                            className="details-image"
+                            src={data[`details_image_${index}`]}
+                            style={{
+                              maxWidth: "100%",
+                              maxHeight: "300px",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        )}
+                      </React.Fragment>
+                    ))}
               </div>
               <div>
                 {data.link &&
@@ -184,12 +189,12 @@ const Adm_Article_View = () => {
                 </Space>
               </div>
               <FacebookShareButton
-              url={`https://checkkonproject.com/Article_Menu/Article_view/${data.id}`}
-              title={data.title}
-              image={data.cover_image}
-            >
-              <FacebookIcon size={50} round />แชร์ไปยัง Facebook
-            </FacebookShareButton>
+                url={`https://checkkonproject.com/Article_Menu/Article_view/${data.id}`}
+                title={data.title}
+                image={data.cover_image}
+              >
+                <FacebookIcon size={50} round />แชร์ไปยัง Facebook
+              </FacebookShareButton>
               <p onClick={showModal}>
                 <Avatar size={64} icon={<UserOutlined />}>
                   {user && user.username}

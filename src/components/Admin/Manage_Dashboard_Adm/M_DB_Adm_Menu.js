@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Card, Descriptions, Divider } from "antd";
+import { Button, Card, Descriptions, Image, Modal, Form, Divider, Upload, message } from "antd";
 import {
   PieChart,
   Pie,
@@ -13,16 +13,21 @@ import { Grid, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/th";
-
+import { PlusOutlined } from '@ant-design/icons';
 const thaiLocale = "th";
 moment.locale(thaiLocale);
 const M_DB_Adm_Menu = () => {
+  const [form] = Form.useForm();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
   const [province, setProvince] = useState(null);
   const [datamanage, setDatamanage] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const showModal2 = () => {
+    setIsModalOpen2(true);
+  };
   const COLORS = [
     "#0088FE",
     "#00C49F",
@@ -54,6 +59,25 @@ const M_DB_Adm_Menu = () => {
     "#808000",
     "#800000",
   ];
+  const handleAdd = async (values) => {
+    try {
+      const formData = new FormData();
+      formData.append("status", values.status);
+      const response = await fetch("https://checkkonproject-sub.com/api/home_image", {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok) {
+        message.success("ยืนยันสมาชิกเรียบร้อย");
+        //fetchData();
+        setIsModalOpen2(false);
+      } else {
+        message.error("Error updating item");
+      }
+    } catch (error) {
+      console.error("Error updating item:", error.message);
+    }
+  };
   const fetchUser = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/user", {
@@ -141,7 +165,9 @@ const M_DB_Adm_Menu = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-
+  const handleCancel2 = () => {
+    setIsModalOpen2(false);
+  };
   const countByStatus = (status) => {
     return data.filter((item) => item.fn_info_status === status).length;
   };
@@ -354,12 +380,6 @@ const M_DB_Adm_Menu = () => {
             <ResponsiveContainer width="100%" height={400}>
               <PieChart className="PieChartContainer">
                 <Tooltip />
-                <Legend
-                  payload={chartData1.map((entry, index) => ({
-                    value: entry.name,
-                    color: COLORS[index % COLORS.length],
-                  }))}
-                />
                 <Pie
                   data={chartData1}
                   dataKey="value"
@@ -387,12 +407,6 @@ const M_DB_Adm_Menu = () => {
             <ResponsiveContainer width="100%" height={400}>
               <PieChart className="PieChartContainer">
                 <Tooltip />
-                <Legend
-                  payload={chartData2.map((entry, index) => ({
-                    value: entry.name,
-                    color: COLORS[index % COLORS.length],
-                  }))}
-                />
                 <Pie
                   data={chartData2}
                   dataKey="value"
@@ -454,6 +468,69 @@ const M_DB_Adm_Menu = () => {
             margin: "auto",
           }}
         />
+        <br />
+        <Divider />
+        <div className="setcardContent"
+          style={{
+            maxWidth: "80%",
+            margin: "auto",
+          }}>
+          <Typography
+            variant="h3"
+            gutterBottom
+            style={{
+              maxWidth: "80%",
+              margin: "auto",
+            }}
+          >
+            แก้ไขรูปหน้าปก
+          </Typography>
+          <Button type="primary" className="buttonprofile" onClick={() => showModal2()} >
+            แก้ไข
+          </Button>
+          <Modal title={createTypography("กำหนดระดับสมาชิก")} open={isModalOpen2} onCancel={handleCancel2} footer={null}>
+            <Form
+              form={form}
+              layout="vertical"
+              name="member_form"
+              onFinish={handleAdd}
+            >
+              <Form.Item
+                name="image"
+                label={createTypography("รูปหน้าปก")}
+                rules={[
+                  {
+                    required: true,
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                  },
+                ]}
+              >
+                <Upload
+                  name="cover_image"
+                  maxCount={5}
+                  listType="picture-card"
+                  beforeUpload={() => false}
+                >
+                  <div>
+                    <PlusOutlined />
+                    <div style={{ marginTop: 8 }}>Upload</div>
+                  </div>
+                </Upload>
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="form-button">
+                  เพิ่ม
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal>
+        </div>
+        <br />
+        {data && data.cover_image ? (
+          <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
+        ) : (
+          <div>{createTypography("ไม่ได้รูปหน้าปก")}</div>
+        )}
         <br />
         <Divider />
         <div className="setcardContent"
