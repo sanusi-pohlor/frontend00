@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Descriptions, Image, Modal, Form, Divider, Upload, message } from "antd";
+import {
+  Button,
+  Card,
+  Descriptions,
+  Image,
+  Modal,
+  Form,
+  Divider,
+  Upload,
+  message,
+} from "antd";
 import {
   PieChart,
   Pie,
@@ -13,7 +23,7 @@ import { Grid, Typography } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/th";
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from "@ant-design/icons";
 const thaiLocale = "th";
 moment.locale(thaiLocale);
 const M_DB_Adm_Menu = () => {
@@ -59,14 +69,43 @@ const M_DB_Adm_Menu = () => {
     "#808000",
     "#800000",
   ];
-  const handleAdd = async (values) => {
+
+  const getDbimage = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Dbimage_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setData(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const normFile = (e) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+  const handleAdd = async () => {
     try {
       const formData = new FormData();
-      formData.append("status", values.status);
-      const response = await fetch("https://checkkonproject-sub.com/api/home_image", {
-        method: 'POST',
-        body: formData,
-      });
+      formData.append("image0", form.getFieldValue("image0")[0].originFileObj);
+      formData.append("image1", form.getFieldValue("image1")[0].originFileObj);
+      formData.append("image2", form.getFieldValue("image2")[0].originFileObj);
+      formData.append("image3", form.getFieldValue("image3")[0].originFileObj);
+      formData.append("image4", form.getFieldValue("image4")[0].originFileObj);
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Dbimage_upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
       if (response.ok) {
         message.success("ยืนยันสมาชิกเรียบร้อย");
         //fetchData();
@@ -132,7 +171,6 @@ const M_DB_Adm_Menu = () => {
     fetchData_Manage();
     fetchProvince();
   }, []);
-
 
   const fetchProvince = async () => {
     try {
@@ -442,9 +480,7 @@ const M_DB_Adm_Menu = () => {
                   label
                 >
                   {chartData3.map((entry, index) => (
-                    <Cell
-                      fill={COLORS[index % COLORS.length]}
-                    />
+                    <Cell fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
               </PieChart>
@@ -470,11 +506,13 @@ const M_DB_Adm_Menu = () => {
         />
         <br />
         <Divider />
-        <div className="setcardContent"
+        <div
+          className="setcardContent"
           style={{
             maxWidth: "80%",
             margin: "auto",
-          }}>
+          }}
+        >
           <Typography
             variant="h3"
             gutterBottom
@@ -485,10 +523,19 @@ const M_DB_Adm_Menu = () => {
           >
             แก้ไขรูปหน้าปก
           </Typography>
-          <Button type="primary" className="buttonprofile" onClick={() => showModal2()} >
+          <Button
+            type="primary"
+            className="buttonprofile"
+            onClick={() => showModal2()}
+          >
             แก้ไข
           </Button>
-          <Modal title={createTypography("กำหนดระดับสมาชิก")} open={isModalOpen2} onCancel={handleCancel2} footer={null}>
+          <Modal
+            title={createTypography("กำหนดระดับสมาชิก")}
+            open={isModalOpen2}
+            onCancel={handleCancel2}
+            footer={null}
+          >
             <Form
               form={form}
               layout="vertical"
@@ -498,15 +545,17 @@ const M_DB_Adm_Menu = () => {
               <Form.Item
                 name="image0"
                 label={createTypography("รูปหน้าปก")}
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
                   },
                 ]}
               >
                 <Upload
-                  name="cover_image"
+                  name="image0"
                   maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
@@ -520,15 +569,17 @@ const M_DB_Adm_Menu = () => {
               <Form.Item
                 name="image1"
                 label={createTypography("รูปหน้าปก")}
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
                   },
                 ]}
               >
                 <Upload
-                  name="cover_image"
+                  name="image1"
                   maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
@@ -542,15 +593,17 @@ const M_DB_Adm_Menu = () => {
               <Form.Item
                 name="image2"
                 label={createTypography("รูปหน้าปก")}
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
                   },
                 ]}
               >
                 <Upload
-                  name="cover_image"
+                  name="image2"
                   maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
@@ -564,15 +617,17 @@ const M_DB_Adm_Menu = () => {
               <Form.Item
                 name="image3"
                 label={createTypography("รูปหน้าปก")}
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
                   },
                 ]}
               >
                 <Upload
-                  name="cover_image"
+                  name="image3"
                   maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
@@ -586,15 +641,17 @@ const M_DB_Adm_Menu = () => {
               <Form.Item
                 name="image4"
                 label={createTypography("รูปหน้าปก")}
+                valuePropName="fileList"
+                getValueFromEvent={normFile}
                 rules={[
                   {
-                    required: true,
+                    required: false,
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
                   },
                 ]}
               >
                 <Upload
-                  name="cover_image"
+                  name="image4"
                   maxCount={1}
                   listType="picture-card"
                   beforeUpload={() => false}
@@ -606,7 +663,11 @@ const M_DB_Adm_Menu = () => {
                 </Upload>
               </Form.Item>
               <Form.Item>
-                <Button type="primary" htmlType="submit" className="form-button">
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="form-button"
+                >
                   เพิ่ม
                 </Button>
               </Form.Item>
@@ -621,11 +682,13 @@ const M_DB_Adm_Menu = () => {
         )}
         <br />
         <Divider />
-        <div className="setcardContent"
+        <div
+          className="setcardContent"
           style={{
             maxWidth: "80%",
             margin: "auto",
-          }}>
+          }}
+        >
           <Typography
             variant="h3"
             gutterBottom
