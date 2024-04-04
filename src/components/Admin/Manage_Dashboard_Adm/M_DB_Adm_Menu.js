@@ -92,31 +92,46 @@ const M_DB_Adm_Menu = () => {
     return e && e.fileList;
   };
   const handleAdd = async () => {
-    try {
-      const formData = new FormData();
-      formData.append("image0", form.getFieldValue("image0")[0].originFileObj);
-      formData.append("image1", form.getFieldValue("image1")[0].originFileObj);
-      formData.append("image2", form.getFieldValue("image2")[0].originFileObj);
-      formData.append("image3", form.getFieldValue("image3")[0].originFileObj);
-      formData.append("image4", form.getFieldValue("image4")[0].originFileObj);
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Dbimage_upload",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-      if (response.ok) {
-        message.success("ยืนยันสมาชิกเรียบร้อย");
-        //fetchData();
-        setIsModalOpen2(false);
-      } else {
-        message.error("Error updating item");
+    const formData = new FormData();
+    const image0 = form.getFieldValue("image0");
+    const image1 = form.getFieldValue("image1");
+    const image2 = form.getFieldValue("image2");
+    const image3 = form.getFieldValue("image3");
+    const image4 = form.getFieldValue("image4");
+  
+    if (image0 && image0.length > 0) {
+      formData.append("image0", image0[0].originFileObj);
+    }
+    if (image1 && image1.length > 0) {
+      formData.append("image1", image1[0].originFileObj);
+    }
+    if (image2 && image2.length > 0) {
+      formData.append("image2", image2[0].originFileObj);
+    }
+    if (image3 && image3.length > 0) {
+      formData.append("image3", image3[0].originFileObj);
+    }
+    if (image4 && image4.length > 0) {
+      formData.append("image4", image4[0].originFileObj);
+    }
+    const response = await fetch(
+      "https://checkkonproject-sub.com/api/Dbimage_upload",
+      {
+        method: "POST",
+        body: formData,
       }
-    } catch (error) {
-      console.error("Error updating item:", error.message);
+    );
+  
+    if (response.ok) {
+      message.success("ยืนยันสมาชิกเรียบร้อย");
+      //fetchData();
+      setIsModalOpen2(false);
+    } else {
+      message.error("Error updating item");
     }
   };
+  
+  
   const fetchUser = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/user", {
