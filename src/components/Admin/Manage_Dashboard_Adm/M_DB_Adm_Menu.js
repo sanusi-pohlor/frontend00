@@ -550,7 +550,7 @@ const M_DB_Adm_Menu = () => {
                 rules={[
                   {
                     required: false,
-                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก 1"),
                   },
                 ]}
               >
@@ -574,7 +574,7 @@ const M_DB_Adm_Menu = () => {
                 rules={[
                   {
                     required: false,
-                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก 2"),
                   },
                 ]}
               >
@@ -598,7 +598,7 @@ const M_DB_Adm_Menu = () => {
                 rules={[
                   {
                     required: false,
-                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก 3"),
                   },
                 ]}
               >
@@ -622,7 +622,7 @@ const M_DB_Adm_Menu = () => {
                 rules={[
                   {
                     required: false,
-                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก 4"),
                   },
                 ]}
               >
@@ -646,7 +646,7 @@ const M_DB_Adm_Menu = () => {
                 rules={[
                   {
                     required: false,
-                    message: createTypography("กรุณาเพิ่มรูปหน้าปก"),
+                    message: createTypography("กรุณาเพิ่มรูปหน้าปก 5"),
                   },
                 ]}
               >

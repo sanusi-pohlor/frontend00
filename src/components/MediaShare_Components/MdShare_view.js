@@ -148,7 +148,7 @@ const MdShare_view = () => {
                   .map((paragraph, index) => (
                     <React.Fragment key={index}>
                       <Typography
-                        style={{ lineHeight: "1.2", fontSize: "25px" }}
+                        style={{ fontSize: "25px" }}
                         dangerouslySetInnerHTML={{ __html: paragraph.replace(/<\/p><p>/g, "<br />") }}
                       />
                       {data[`details_image_${index}`] && (
