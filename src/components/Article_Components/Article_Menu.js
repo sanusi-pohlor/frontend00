@@ -25,6 +25,7 @@ const Article_Menu = () => {
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleSearch = (event) => setSearchTerm(event.target.value);
   const filtered = data.filter((data) =>
@@ -110,7 +111,7 @@ const Article_Menu = () => {
                 </Link>
               </Grid>
             ))}
-          {sortedFiltered.slice(1).map((item) => (
+          {sortedFiltered.slice(indexOfFirstItem,indexOfLastItem).map((item) => (
             <Grid item xs={12} md={4} key={item.id} className="gridItem">
               <Link
                 to={`/Article_Menu/Article_view/${item.id}`}

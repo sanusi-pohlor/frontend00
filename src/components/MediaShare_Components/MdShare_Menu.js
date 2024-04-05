@@ -5,7 +5,7 @@ import {
   RightCircleOutlined,
   LeftCircleOutlined,
 } from "@ant-design/icons";
-import { Card, Button, Input, Flex, Image  } from "antd";
+import { Card, Button, Input, Flex, Image } from "antd";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "@mui/material";
 import moment from "moment";
@@ -20,16 +20,17 @@ const MdShare_Menu = () => {
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/MdShare_request")
-    .then((response) => response.json())
-    .then((data) => setData(data))
-    .catch((error) => console.error("Error fetching data:", error));
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleSearch = (event) => setSearchTerm(event.target.value);
   const filtered = data.filter((data) =>
-  data.title.toLowerCase().includes(searchTerm.toLowerCase())
+    data.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
   const sortedFiltered = filtered
     .filter((item) => item.status === 1)
@@ -112,7 +113,7 @@ const MdShare_Menu = () => {
                 </Grid>
               ))}
           {sortedFiltered
-            .slice(1)
+            .slice(indexOfFirstItem, indexOfLastItem)
             .map((item) => (
               <Grid item xs={12} md={4} key={item.id} className="gridItem">
                 <Link

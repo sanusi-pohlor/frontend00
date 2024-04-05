@@ -9,6 +9,7 @@ import {
   Divider,
   Upload,
   message,
+  Checkbox
 } from "antd";
 import {
   PieChart,
@@ -30,9 +31,15 @@ const M_DB_Adm_Menu = () => {
   const [form] = Form.useForm();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
+  const [dataimage, setDataimage] = useState([]);
   const [province, setProvince] = useState(null);
   const [datamanage, setDatamanage] = useState([]);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [delimage0, setDelimage0] = useState(false);
+  const [delimage1, setDelimage1] = useState(false);
+  const [delimage2, setDelimage2] = useState(false);
+  const [delimage3, setDelimage3] = useState(false);
+  const [delimage4, setDelimage4] = useState(false);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const showModal2 = () => {
@@ -77,7 +84,7 @@ const M_DB_Adm_Menu = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setData(data);
+        setDataimage(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -93,35 +100,54 @@ const M_DB_Adm_Menu = () => {
   };
   const handleAdd = async () => {
     const formData = new FormData();
-    const image0 = form.getFieldValue("image0");
-    const image1 = form.getFieldValue("image1");
-    const image2 = form.getFieldValue("image2");
-    const image3 = form.getFieldValue("image3");
-    const image4 = form.getFieldValue("image4");
-  
-    if (image0 && image0.length > 0) {
-      formData.append("image0", image0[0].originFileObj);
+    if (delimage0) {
+      formData.append("image0", 0);
+    } else {
+      const image0 = form.getFieldValue("image0");
+      if (image0 && image0.length > 0) {
+        formData.append("image0", image0[0].originFileObj);
+      }
     }
-    if (image1 && image1.length > 0) {
-      formData.append("image1", image1[0].originFileObj);
+    if (delimage1) {
+      formData.append("image1", 0);
+    } else {
+      const image1 = form.getFieldValue("image1");
+      if (image1 && image1.length > 0) {
+        formData.append("image1", image1[0].originFileObj);
+      }
     }
-    if (image2 && image2.length > 0) {
-      formData.append("image2", image2[0].originFileObj);
+    if (delimage2) {
+      formData.append("image2", 0);
+    } else {
+      const image2 = form.getFieldValue("image2");
+      if (image2 && image2.length > 0) {
+        formData.append("image2", image2[0].originFileObj);
+      }
     }
-    if (image3 && image3.length > 0) {
-      formData.append("image3", image3[0].originFileObj);
+    if (delimage3) {
+      formData.append("image3", 0);
+    } else {
+      const image3 = form.getFieldValue("image3");
+      if (image3 && image3.length > 0) {
+        formData.append("image3", image3[0].originFileObj);
+      }
     }
-    if (image4 && image4.length > 0) {
-      formData.append("image4", image4[0].originFileObj);
+    if (delimage4) {
+      formData.append("image4", 0);
+    } else {
+      const image4 = form.getFieldValue("image4");
+      if (image4 && image4.length > 0) {
+        formData.append("image4", image4[0].originFileObj);
+      }
     }
     const response = await fetch(
-      "https://checkkonproject-sub.com/api/Dbimage_upload",
+      "https://checkkonproject-sub.com/api/Dbimage_update",
       {
         method: "POST",
         body: formData,
       }
     );
-  
+
     if (response.ok) {
       message.success("ยืนยันสมาชิกเรียบร้อย");
       //fetchData();
@@ -130,8 +156,8 @@ const M_DB_Adm_Menu = () => {
       message.error("Error updating item");
     }
   };
-  
-  
+
+
   const fetchUser = async () => {
     try {
       const response = await fetch("https://checkkonproject-sub.com/api/user", {
@@ -185,6 +211,7 @@ const M_DB_Adm_Menu = () => {
     fetchDataInfo();
     fetchData_Manage();
     fetchProvince();
+    getDbimage();
   }, []);
 
   const fetchProvince = async () => {
@@ -546,7 +573,7 @@ const M_DB_Adm_Menu = () => {
             แก้ไข
           </Button>
           <Modal
-            title={createTypography("กำหนดระดับสมาชิก")}
+            title={createTypography("แก้ไขรูปหน้าปก")}
             open={isModalOpen2}
             onCancel={handleCancel2}
             footer={null}
@@ -559,7 +586,7 @@ const M_DB_Adm_Menu = () => {
             >
               <Form.Item
                 name="image0"
-                label={createTypography("รูปหน้าปก")}
+                label={createTypography("รูปหน้าปก 1")}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
                 rules={[
@@ -568,6 +595,10 @@ const M_DB_Adm_Menu = () => {
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก 1"),
                   },
                 ]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                }}
               >
                 <Upload
                   name="image0"
@@ -580,10 +611,17 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
+                <Checkbox onChange={() => setDelimage0(true)}>ลบรูปภาพ</Checkbox>
               </Form.Item>
+              {dataimage && dataimage.image0 ? (
+                <Image width={200} src={dataimage.image0} alt="รูปภาพข่าวปลอม" />
+              ) : (
+                <div>No image available</div>
+              )}
+              <Divider />
               <Form.Item
                 name="image1"
-                label={createTypography("รูปหน้าปก")}
+                label={createTypography("รูปหน้าปก 2")}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
                 rules={[
@@ -592,6 +630,10 @@ const M_DB_Adm_Menu = () => {
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก 2"),
                   },
                 ]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                }}
               >
                 <Upload
                   name="image1"
@@ -604,10 +646,17 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
+                <Checkbox onChange={() => setDelimage1(true)}>ลบรูปภาพ</Checkbox>
               </Form.Item>
+              {dataimage && dataimage.image1 ? (
+                <Image width={200} src={dataimage.image1} alt="รูปภาพข่าวปลอม" />
+              ) : (
+                <div>No image available</div>
+              )}
+              <Divider />
               <Form.Item
                 name="image2"
-                label={createTypography("รูปหน้าปก")}
+                label={createTypography("รูปหน้าปก 3")}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
                 rules={[
@@ -616,6 +665,10 @@ const M_DB_Adm_Menu = () => {
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก 3"),
                   },
                 ]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                }}
               >
                 <Upload
                   name="image2"
@@ -628,10 +681,17 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
+                <Checkbox onChange={() => setDelimage2(true)}>ลบรูปภาพ</Checkbox>
               </Form.Item>
+              {dataimage && dataimage.image2 ? (
+                <Image width={200} src={dataimage.image2} alt="รูปภาพข่าวปลอม" />
+              ) : (
+                <div>No image available</div>
+              )}
+              <Divider />
               <Form.Item
                 name="image3"
-                label={createTypography("รูปหน้าปก")}
+                label={createTypography("รูปหน้าปก 4")}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
                 rules={[
@@ -640,6 +700,10 @@ const M_DB_Adm_Menu = () => {
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก 4"),
                   },
                 ]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                }}
               >
                 <Upload
                   name="image3"
@@ -652,10 +716,17 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
+                <Checkbox onChange={() => setDelimage3(true)}>ลบรูปภาพ</Checkbox>
               </Form.Item>
+              {dataimage && dataimage.image3 ? (
+                <Image width={200} src={dataimage.image3} alt="รูปภาพข่าวปลอม" />
+              ) : (
+                <div>No image available</div>
+              )}
+              <Divider />
               <Form.Item
                 name="image4"
-                label={createTypography("รูปหน้าปก")}
+                label={createTypography("รูปหน้าปก 5")}
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
                 rules={[
@@ -664,6 +735,10 @@ const M_DB_Adm_Menu = () => {
                     message: createTypography("กรุณาเพิ่มรูปหน้าปก 5"),
                   },
                 ]}
+                style={{
+                  display: "inline-block",
+                  width: "calc(50% - 8px)",
+                }}
               >
                 <Upload
                   name="image4"
@@ -676,7 +751,13 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
+                <Checkbox onChange={() => setDelimage4(true)}>ลบรูปภาพ</Checkbox>
               </Form.Item>
+              {dataimage && dataimage.image4 ? (
+                <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
+              ) : (
+                <div>No image available</div>
+              )}
               <Form.Item>
                 <Button
                   type="primary"
@@ -690,11 +771,32 @@ const M_DB_Adm_Menu = () => {
           </Modal>
         </div>
         <br />
-        {data && data.cover_image ? (
-          <Image width={200} src={data.cover_image} alt="รูปภาพข่าวปลอม" />
-        ) : (
-          <div>{createTypography("ไม่ได้รูปหน้าปก")}</div>
-        )}
+        <div style={{ textAlign: 'center' }}>
+          {dataimage && dataimage.image0 ? (
+            <Image width={200} src={dataimage.image0} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div></div>
+          )}{" "}
+          {dataimage && dataimage.image1 ? (
+            <Image width={200} src={dataimage.image1} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div></div>
+          )}{" "}
+          {dataimage && dataimage.image2 ? (
+            <Image width={200} src={dataimage.image2} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div></div>
+          )}{" "}
+          {dataimage && dataimage.image3 ? (
+            <Image width={200} src={dataimage.image3} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div></div>
+          )}{" "}
+          {dataimage && dataimage.image4 ? (
+            <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
+          ) : (
+            <div></div>
+          )}</div>
         <br />
         <Divider />
         <div

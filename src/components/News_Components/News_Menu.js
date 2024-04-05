@@ -15,7 +15,7 @@ const News_Menu = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
 
   useEffect(() => {
     fetch("https://checkkonproject-sub.com/api/News_request")
@@ -25,6 +25,7 @@ const News_Menu = () => {
   }, []);
 
   const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
   const handleSearch = (event) => setSearchTerm(event.target.value);
   const filtered = data.filter((data) =>
@@ -108,7 +109,7 @@ const News_Menu = () => {
                 </Link>
               </Grid>
             ))}
-          {sortedFiltered.slice(1).map((item) => (
+          {sortedFiltered.slice(indexOfFirstItem,indexOfLastItem).map((item) => (
             <Grid item xs={12} md={4} key={item.id} className="gridItem">
               <Link
                 to={`/News_Menu/News_view/${item.id}`}
