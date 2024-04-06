@@ -179,12 +179,12 @@ const MyBarChart = () => {
             <XAxis />
             <YAxis />
             <Tooltip />
-            <Legend
+            {/* <Legend
               payload={chartData.map((entry, index) => ({
                 value: entry.name,
                 color: COLORS[index % COLORS.length],
               }))}
-            />
+            /> */}
             <Bar dataKey="value" nameKey="name">
               {chartData.map((entry, index) => (
                 <Cell

@@ -175,12 +175,12 @@ const MyPieChart = () => {
         <ResponsiveContainer width="100%" height={400}>
           <PieChart className="PieChartContainer">
             <Tooltip />
-            <Legend
+            {/* <Legend
               payload={chartData.map((entry, index) => ({
                 value: entry.name,
                 color: COLORS[index % COLORS.length],
               }))}
-            />
+            /> */}
             <Pie
               data={chartData}
               dataKey="value"

@@ -123,12 +123,12 @@ const Profile = () => {
       children: user && createTypography(user.Id_line),
       labelStyle: { background: "#7BBD8F", color: "white" },
     },
-    {
-      key: "7",
-      label: createTypography("จังหวัดที่อยู่"),
-      children: province && createTypography(province[0].prov_name),
-      labelStyle: { background: "#7BBD8F", color: "white" },
-    },
+    // {
+    //   key: "7",
+    //   label: createTypography("จังหวัดที่อยู่"),
+    //   children: province && createTypography(province[0].prov_name),
+    //   labelStyle: { background: "#7BBD8F", color: "white" },
+    // },
   ];
 
   if (!user) {

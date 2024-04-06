@@ -128,7 +128,7 @@ const M_DB_Adm_Edit = () => {
   return (
     <AdminMenu>
       <Typography variant="h3" gutterBottom sx={{ color: "#000000" }}>
-        แก้ไขข้อมูลสมาชิก
+        แก้ไขข้อมูลแอดมิน
       </Typography>
       <Card>
         <Form
