@@ -137,9 +137,6 @@ const MyTable = () => {
     ...row,
     id: index + 1,
   }));
-  const CustomPagination = () => {
-    return null;
-  };
   return (
     <div>
       <Card hoverable className="DB-Card-container2">
@@ -173,11 +170,15 @@ const MyTable = () => {
         <DataGrid
           rows={tableDataWithId}
           columns={selectedOptionColumns}
-          pageSize={5}
           autoHeight
-          components={{
-            Pagination: CustomPagination,
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 8,
+              },
+            },
           }}
+          pageSizeOptions={[8]}
         />
       </Card>
     </div>

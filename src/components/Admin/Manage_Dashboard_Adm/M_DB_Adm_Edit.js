@@ -14,7 +14,6 @@ import axios from 'axios';
 
 const M_DB_Adm_Edit = () => {
   const { id } = useParams();
-  const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [loading, setLoading] = useState(false);
   const { Option } = Select;
@@ -37,10 +36,9 @@ const M_DB_Adm_Edit = () => {
           phone_number: data.phone_number,
           Id_line: data.Id_line,
           province: data.province,
-          receive_ct_email: data.receive_ct_email,
         });
       } else {
-        console.error("Invalid date received from the server");
+        console.error("Invalid date from the server");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -54,7 +52,6 @@ const M_DB_Adm_Edit = () => {
   const onFinish = async (values) => {
     setLoading(true);
     try {
-      let receive = receiveCtEmail ? 1 : 0;
       const formData = new FormData();
       const appendIfDefined = (fieldName, value) => {
         if (value !== undefined && value !== null && value !== "") {
@@ -68,7 +65,6 @@ const M_DB_Adm_Edit = () => {
       appendIfDefined("phone_number", values.phone_number);
       appendIfDefined("Id_line", values.Id_line);
       appendIfDefined("province", values.province);
-      formData.append("receive_ct_email", receive);
       const response = await axios.post(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
         formData
@@ -89,11 +85,6 @@ const M_DB_Adm_Edit = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const onChange = (e) => {
-    const isChecked = e.target.checked;
-    setReceiveCtEmail(isChecked);
   };
 
   const fetchDataAndSetOptions = async () => {
@@ -268,14 +259,6 @@ const M_DB_Adm_Edit = () => {
             <Select allowClear>
               {selectOptions_prov}
             </Select>
-          </Form.Item>
-          <Form.Item name="CheckboxContent">
-            <Checkbox
-              onChange={onChange}
-              defaultChecked={userdata.receive_ct_email === 1}
-            >
-              รับคอนเทนต์ผ่านอีเมล
-            </Checkbox>
           </Form.Item>
           <Form.Item>
             <Button

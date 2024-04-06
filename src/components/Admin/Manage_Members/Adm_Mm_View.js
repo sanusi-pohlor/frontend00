@@ -1,30 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { Card, Descriptions } from "antd";
+import { message, Input, Form, Button, Modal, Card, Descriptions } from "antd";
 import { Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
-
+import LockOutlined from "@ant-design/icons";
 const Adm_Mm_View = () => {
+  const [form] = Form.useForm();
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [province, setProvince] = useState([]);
-
-  useEffect(() => {
-  const fetchData = async () => {
-    try {
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/User_edit/${id}`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        console.error("Error fetching data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
   };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/User_edit/${id}`
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setUser(data);
+        } else {
+          console.error("Error fetching data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData();
   }, [id]);
 
@@ -52,13 +59,34 @@ const Adm_Mm_View = () => {
       fetchProvince();
     }
   }, [user]);
+  const onFinish = async (values) => {
+    try {
+      const formData = new FormData();
+      formData.append("password", values.password);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/User_update/${id}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
+      if (response.ok) {
+        message.success("Form data sent successfully");
+        //fetchData();
+      } else {
+        message.error("Error sending form data");
+      }
+    } catch (error) {
+      console.error("Error sending form data:", error);
+      message.error("Error sending form data");
+    }
+  };
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
     </Typography>
   );
-
   const items = [
     {
       key: "1",
@@ -109,7 +137,60 @@ const Adm_Mm_View = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">ข้อมูลสมาชิก</div>
+        <div className="cardsectionContent">ข้อมูลสมาชิก
+          <Button type="primary" onClick={showModal} className="buttonfilterStyle">
+            {createTypography("แก้ไขรหัสผ่าน")}
+          </Button>
+          <Modal
+            title={createTypography("แก้ไขรหัสผ่าน")}
+            open={isModalOpen}
+            onCancel={handleCancel}
+            footer={null}
+          >
+            <Form
+              form={form}
+              layout="vertical"
+              name="member_form"
+              onFinish={onFinish}
+            >
+              <Form.Item
+                label="รหัสผ่าน"
+                name="password"
+                rules={[{ required: false, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
+              >
+                <Input.Password
+                  size="large"
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                />
+              </Form.Item>
+              <Form.Item
+                label="รหัสผ่านยืนยัน"
+                name="Confirm Password"
+                dependencies={["password"]}
+                rules={[
+                  { required: false, message: "กรุณาเพิ่มรหัสผ่านยืนยัน!" },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue("password") === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(new Error("รหัสผ่านไม่ตรงกัน!"));
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password
+                  size="large"
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" className="form-button">
+                  เพิ่ม
+                </Button>
+              </Form.Item>
+            </Form>
+          </Modal></div>
       </Card>
       <br />
       <Card>

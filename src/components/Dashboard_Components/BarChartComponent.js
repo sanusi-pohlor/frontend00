@@ -176,7 +176,7 @@ const MyBarChart = () => {
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} className="PieChartContainer">
-            <XAxis />
+            <XAxis dataKey="name" />
             <YAxis />
             <Tooltip />
             <Legend
