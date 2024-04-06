@@ -135,8 +135,6 @@ const MdShare_view = () => {
           <div className="cardContent">
             <Divider />
             <div className="Contenttitle">{data.title}</div>
-            โดย :{" "}
-            {user ? `${user.username} ${user.lastName}` : "ไม่พบข้อมูลผู้เขียน"}
             <br />
             {thaiDate}
             <br />

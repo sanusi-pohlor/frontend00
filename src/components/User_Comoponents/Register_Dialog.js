@@ -14,7 +14,6 @@ import axios from 'axios';
 
 const Register_Dialog = ({ open, onClose }) => {
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
-  const [receiveCtEmail, setReceiveCtEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { Option } = Select;
@@ -22,10 +21,6 @@ const Register_Dialog = ({ open, onClose }) => {
 
   const onFinish = async (values) => {
     setLoading(true);
-    let receive = 0;
-    if (receiveCtEmail) {
-      receive = 1;
-    }
     const formData = new FormData();
     formData.append("username", values.username);
     formData.append("lastName", values.lastName);
@@ -34,7 +29,6 @@ const Register_Dialog = ({ open, onClose }) => {
     formData.append("phone_number", values.phone_number);
     formData.append("Id_line", values.Id_line);
     formData.append("province", values.province);
-    formData.append("receive_ct_email", receive);
     try {
       const registerResponse = await fetch("https://checkkonproject-sub.com/api/register", {
         method: "POST",
@@ -78,10 +72,6 @@ const Register_Dialog = ({ open, onClose }) => {
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-  const onChange = (e) => {
-    const isChecked = e.target.checked;
-    setReceiveCtEmail(isChecked);
   };
   const fetchDataAndSetOptions = async () => {
     try {
@@ -257,11 +247,6 @@ const Register_Dialog = ({ open, onClose }) => {
             <Select allowClear>
               {selectOptions_prov}
             </Select>
-          </Form.Item>
-          <Form.Item name="CheckboxContent">
-            <Checkbox onChange={onChange}>
-              {createTypography("รับคอนเทนต์ผ่านอีเมล")}
-            </Checkbox>
           </Form.Item>
           <Form.Item>
             <Button

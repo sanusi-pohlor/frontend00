@@ -84,24 +84,40 @@ const Dashboard = () => {
           </div>
         </Card>
         <br />
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={8}>
-            <BarChartComponent />
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <PieChartComponent />
-          </Grid>
+      </div>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={2}>
+          <Card className="">
+            <div className="">
+              จำนวน
+            </div>
+          </Card>
         </Grid>
-        <br />
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <ThailandMap />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <MuiTable />
-          </Grid>
+        <Grid item xs={12} md={5}>
+          <BarChartComponent />
         </Grid>
-        <br />
+        <Grid item xs={12} md={4}>
+          <PieChartComponent />
+        </Grid>
+        <Grid item xs={12} md={1}>
+          <div className="">
+
+          </div>
+        </Grid>
+      </Grid>
+      <br />
+      <div elevation={0} className="paperContainer">
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <ThailandMap />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <MuiTable />
+        </Grid>
+      </Grid>
+      </div>
+      <br />
+      <div elevation={0} className="paperContainer">
         <Card className="cardsection">
           <div className="cardsectionContent">
             ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
@@ -113,8 +129,8 @@ const Dashboard = () => {
             </Button>
           </div>
         </Card>
-        <br />
       </div>
+      <br />
       <Paper
         elevation={0}
         className="paperContent"
