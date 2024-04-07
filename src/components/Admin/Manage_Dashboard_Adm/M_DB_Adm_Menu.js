@@ -796,7 +796,8 @@ const M_DB_Adm_Menu = () => {
             <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
           ) : (
             <div></div>
-          )}</div>
+          )}
+        </div>
         <br />
         <Divider />
         <div

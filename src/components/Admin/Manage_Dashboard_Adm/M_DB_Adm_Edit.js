@@ -11,14 +11,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import AdminMenu from "../Adm_Menu";
 import { Typography } from "@mui/material";
 import axios from 'axios';
-
+const { TextArea } = Input;
 const M_DB_Adm_Edit = () => {
   const { id } = useParams();
   const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [loading, setLoading] = useState(false);
   const { Option } = Select;
   const [form] = Form.useForm();
-  const [userdata, setUserdata] = useState([]);
   const navigate = useNavigate();
   const fetchFakeNewsData = async () => {
     try {
@@ -27,7 +26,6 @@ const M_DB_Adm_Edit = () => {
       );
       if (response.status === 200) {
         const data = await response.data;
-        setUserdata(data);
         form.setFieldsValue({
           username: data.username,
           lastName: data.lastName,
@@ -36,6 +34,7 @@ const M_DB_Adm_Edit = () => {
           phone_number: data.phone_number,
           Id_line: data.Id_line,
           province: data.province,
+          about: data.about,
         });
       } else {
         console.error("Invalid date from the server");
@@ -65,6 +64,7 @@ const M_DB_Adm_Edit = () => {
       appendIfDefined("phone_number", values.phone_number);
       appendIfDefined("Id_line", values.Id_line);
       appendIfDefined("province", values.province);
+      appendIfDefined("about", values.about);
       const response = await axios.post(
         `https://checkkonproject-sub.com/api/User_update/${id}`,
         formData
@@ -259,6 +259,21 @@ const M_DB_Adm_Edit = () => {
             <Select allowClear>
               {selectOptions_prov}
             </Select>
+          </Form.Item>
+          <Form.Item
+            label="เกี่ยวกับ"
+            name="about"
+            rules={[
+              {
+                required: false,
+                message: "กรุณาเพิ่มไอดีไลน์!",
+              },
+            ]}
+          >
+            <TextArea
+              size="large"
+              prefix={<MessageOutlined className="site-form-item-icon" />}
+            />
           </Form.Item>
           <Form.Item>
             <Button
