@@ -161,15 +161,7 @@ const Adm_Article_View = () => {
                       </React.Fragment>
                     ))}
               </div>
-              <div>
-                {data.link &&
-                  JSON.parse(data.link).map((item, index) => (
-                    <p key={index}>
-                      Link:{" "}
-                      <a href={item.first}>{item.first.substring(0, 100)}...</a>
-                    </p>
-                  ))}
-              </div>
+              <br />
               <div>
                 <Space size={[4, 8]} wrap>
                   {tags.map((tag, index) => (
@@ -184,6 +176,7 @@ const Adm_Article_View = () => {
                   ))}
                 </Space>
               </div>
+              <br />
               <FacebookShareButton
                 url={`https://checkkonproject.com/Article_Menu/Article_view/${data.id}`}
                 title={data.title}
@@ -192,7 +185,7 @@ const Adm_Article_View = () => {
                 <FacebookIcon size={50} round />แชร์ไปยัง Facebook
               </FacebookShareButton>
               <p onClick={showModal}>
-                <Avatar size={64} icon={<UserOutlined />}>
+                <Avatar size={64} icon={<UserOutlined />} style={{ backgroundColor: '#7BBD8F' }}>
                   {user && user.username}
                 </Avatar>{" "}
                 ผู้เขียน <span>{user && user.username}</span>

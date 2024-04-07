@@ -60,55 +60,6 @@ const News_Menu = () => {
         </Card>
         <br />
         <Grid container spacing={2}>
-          {isLargeScreen &&
-            sortedFiltered.slice(0, 1).map((item) => (
-              <Grid item xs={12} key={item.id} className="gridItem">
-                <Link
-                  to={`/News_Menu/News_view/${item.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Card
-                    hoverable
-                    className="cardItem-head"
-                    cover={
-                      <div className="cardItemCover">
-                        <Flex justify="space-between">
-                          <Image
-                            className="cardheadImage"
-                            src={item.cover_image}
-                            style={{
-                              maxWidth: "100%",
-                              maxHeight: "80%",
-                            }}
-                          />
-                          <Flex
-                            vertical
-                            align="flex-end"
-                            justify="space-between"
-                            className="flex-card"
-                          >
-                            <strong>
-                              เผยแพร่{" "}
-                              {moment(item.created_at).format("DD-MM-YYYY")}
-                            </strong>
-                            <br />
-                            {item.title}
-                            <Button
-                              type="primary"
-                              href={`/News_Menu/News_view/${item.id}`}
-                              target="_blank"
-                              className="button-card"
-                            >
-                              อ่านต่อ
-                            </Button>
-                          </Flex>
-                        </Flex>
-                      </div>
-                    }
-                  />
-                </Link>
-              </Grid>
-            ))}
           {sortedFiltered.slice(indexOfFirstItem,indexOfLastItem).map((item) => (
             <Grid item xs={12} md={4} key={item.id} className="gridItem">
               <Link
