@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { Paper, Grid, Box, IconButton } from "@mui/material";
-import { Card, Button } from "antd";
+import { Paper, Grid, Box,Typography, IconButton } from "@mui/material";
+import { Card, Button, Image } from "antd";
 import moment from "moment";
 import Carousel from "./Carousel";
 import ThailandMap from "./ThailandMap";
@@ -9,6 +9,7 @@ import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
 import { Link, useNavigate } from "react-router-dom";
+import licensedImage from './image/licensed-image.jpg';
 
 const Dashboard = () => {
   const [newdata, setNewData] = useState([]);
@@ -73,6 +74,12 @@ const Dashboard = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
+
   return (
     <div className="backgroundColor">
       <Carousel />
@@ -86,36 +93,37 @@ const Dashboard = () => {
         <br />
       </div>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={2}>
-          <Card className="">
-            <div className="">
-              จำนวน
-            </div>
+        <Grid item xs={12} md={1.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Card hoverable style={{ height: '230px' ,borderRadius:'20px'}}>
+            <Image
+              width={150}
+              src={licensedImage}
+            />
+            {createTypography("แสกนรับสติกเกอร์ไลน์")}
           </Card>
         </Grid>
-        <Grid item xs={12} md={5}>
+        <Grid item xs={12} md={5.5}>
           <BarChartComponent />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={3.5}>
           <PieChartComponent />
         </Grid>
-        <Grid item xs={12} md={1}>
-          <div className="">
-
-          </div>
+        <Grid item xs={12} md={1.5}>
         </Grid>
       </Grid>
       <br />
-      <div elevation={0} className="paperContainer">
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <ThailandMap />
+        <Grid container spacing={2}>
+        <Grid item xs={12} md={1.5}>
         </Grid>
-        <Grid item xs={12} md={6}>
-          <MuiTable />
+          <Grid item xs={12} md={4.5}>
+            <ThailandMap />
+          </Grid>
+          <Grid item xs={12} md={4.5}>
+            <MuiTable />
+          </Grid>
+          <Grid item xs={12} md={1.5}>
         </Grid>
-      </Grid>
-      </div>
+        </Grid>
       <br />
       <div elevation={0} className="paperContainer">
         <Card className="cardsection">

@@ -73,7 +73,7 @@ const Adm_Mm_View = () => {
 
       if (response.ok) {
         message.success("Form data sent successfully");
-        //fetchData();
+        handleCancel();
       } else {
         message.error("Error sending form data");
       }

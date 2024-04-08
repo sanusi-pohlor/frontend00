@@ -350,10 +350,7 @@ const M_DB_Adm_Menu = () => {
       label: createTypography("เกี่ยวกับผู้เขียน"),
       children:
         user &&
-        createTypography(
-          "เกี่ยวกับผู้เขียน",
-          "เกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียนเกี่ยวกับผู้เขียน"
-        ),
+        createTypography(user.about),
       labelStyle: { background: "#7BBD8F", color: "#FFFFFF" },
     },
   ];

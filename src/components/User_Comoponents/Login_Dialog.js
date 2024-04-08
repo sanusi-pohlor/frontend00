@@ -89,7 +89,7 @@ const LoginDialog = ({ open, onClose }) => {
             name="password"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "กรุณาเพิ่มรหัสผ่าน!",
               },
             ]}

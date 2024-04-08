@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Card, Tooltip, Divider, DatePicker } from "antd";
+import { Typography } from "@mui/material";
 
 const MapWidget = () => {
   const [formattedDate, setFormattedDate] = useState("");
@@ -50,6 +51,12 @@ const MapWidget = () => {
       setFormattedDate("");
     }
   };
+  const createTypography = (label, text, fontSize = "35px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label} {text}
+    </Typography>
+  );
+
   return (
     <div>
       <Card hoverable className="DB-Card-container2">
@@ -71,7 +78,7 @@ const MapWidget = () => {
           aria-label="Map of Thailand"
         >
           <Tooltip
-            title={`นครศรีธรรมราช${getTooltipTitle(22)}`}
+            title={createTypography("นครศรีธรรมราช", getTooltipTitle(4))}
             arrow
             placement="top"
             key="1"
@@ -85,7 +92,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`กระบี่${getTooltipTitle(2)}`}
+            title={createTypography("กระบี่", getTooltipTitle(1))}
             arrow
             placement="top"
             key="2"
@@ -99,7 +106,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`พังงา${getTooltipTitle(35)}`}
+            title={createTypography("พังงา", getTooltipTitle(7))}
             arrow
             placement="top"
             key="3"
@@ -113,7 +120,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ภูเก็ต${getTooltipTitle(42)}`}
+            title={createTypography("ภูเก็ต", getTooltipTitle(9))}
             arrow
             placement="top"
             key="4"
@@ -127,7 +134,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`สุราษฎร์ธานี${getTooltipTitle(68)}`}
+            title={createTypography("สุราษฎร์ธานี", getTooltipTitle(14))}
             arrow
             placement="top"
             key="5"
@@ -141,7 +148,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ระนอง${getTooltipTitle(49)}`}
+            title={createTypography("ระนอง", getTooltipTitle(11))}
             arrow
             placement="top"
             key="6"
@@ -155,7 +162,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ชุมพร${getTooltipTitle(12)}`}
+            title={createTypography("ชุมพร", getTooltipTitle(2))}
             arrow
             placement="top"
             key="7"
@@ -169,7 +176,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`สงขลา${getTooltipTitle(58)}`}
+            title={createTypography("สงขลา", getTooltipTitle(12))}
             arrow
             placement="top"
             key="8"
@@ -183,7 +190,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`สตูล${getTooltipTitle(59)}`}
+            title={createTypography("สตูล", getTooltipTitle(13))}
             arrow
             placement="top"
             key="9"
@@ -197,7 +204,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ตรัง${getTooltipTitle(15)}`}
+            title={createTypography("ตรัง", getTooltipTitle(3))}
             arrow
             placement="top"
             key="10"
@@ -211,7 +218,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`พัทลุง${getTooltipTitle(36)}`}
+            title={createTypography("พัทลุง", getTooltipTitle(8))}
             arrow
             placement="top"
             key="11"
@@ -225,7 +232,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ปัตตานี${getTooltipTitle(32)}`}
+            title={createTypography("ปัตตานี", getTooltipTitle(6))}
             arrow
             placement="top"
             key="12"
@@ -239,7 +246,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`ยะลา${getTooltipTitle(47)}`}
+            title={createTypography("ยะลา", getTooltipTitle(10))}
             arrow
             placement="top"
             key="13"
@@ -253,7 +260,7 @@ const MapWidget = () => {
             />
           </Tooltip>
           <Tooltip
-            title={`นราธิวาส${getTooltipTitle(25)}`}
+            title={createTypography("นราธิวาส", getTooltipTitle(5))}
             arrow
             placement="top"
             key="14"

@@ -101,7 +101,7 @@ const MenuProfile = ({ children }) => {
                   style={{ marginBottom: "10px" }}
                 >
                   <Grid item style={{ marginBottom: "5px" }}>
-                    <Avatar sx={{ width: 100, height: 100 }}>
+                    <Avatar sx={{ width: 100, height: 100 }} style={{ backgroundColor: '#7BBD8F' }}>
                       {user.username && user.username.charAt(0)}
                     </Avatar>
                   </Grid>

@@ -311,7 +311,7 @@ const Adm_News_Edit = () => {
             <Input />
           </Form.Item>
           <Form.Item
-            label={createTypography("รูปภาพหน้าปกใหม่")}
+            label={createTypography("รูปภาพหน้าปกใหม่ (ให้ใช้รูปภาพสัดส่วน 2 ต่อ 1)")}
             name="cover_image"
             valuePropName="fileList"
             getValueFromEvent={normFile}
@@ -319,7 +319,7 @@ const Adm_News_Edit = () => {
               {
                 required: false,
                 message: createTypography(
-                  "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ"
+                  "กรุณาเพิ่มรูปภาพหน้าปก"
                 ),
               },
             ]}
