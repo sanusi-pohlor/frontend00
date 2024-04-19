@@ -41,6 +41,11 @@ const M_DB_Adm_Menu = () => {
   const [delimage3, setDelimage3] = useState(false);
   const [delimage4, setDelimage4] = useState(false);
   const [user, setUser] = useState(null);
+  const [modalVisible0, setModalVisible0] = useState(false);
+  const [modalVisible1, setModalVisible1] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalVisible3, setModalVisible3] = useState(false);
+  const [modalVisible4, setModalVisible4] = useState(false);
   const navigate = useNavigate();
   const showModal2 = () => {
     setIsModalOpen2(true);
@@ -100,45 +105,25 @@ const M_DB_Adm_Menu = () => {
   };
   const handleAdd = async () => {
     const formData = new FormData();
-    if (delimage0) {
-      formData.append("image0", 0);
-    } else {
-      const image0 = form.getFieldValue("image0");
-      if (image0 && image0.length > 0) {
-        formData.append("image0", image0[0].originFileObj);
-      }
+    const image0 = form.getFieldValue("image0");
+    if (image0 && image0.length > 0) {
+      formData.append("image0", image0[0].originFileObj);
     }
-    if (delimage1) {
-      formData.append("image1", 0);
-    } else {
-      const image1 = form.getFieldValue("image1");
-      if (image1 && image1.length > 0) {
-        formData.append("image1", image1[0].originFileObj);
-      }
+    const image1 = form.getFieldValue("image1");
+    if (image1 && image1.length > 0) {
+      formData.append("image1", image1[0].originFileObj);
     }
-    if (delimage2) {
-      formData.append("image2", 0);
-    } else {
-      const image2 = form.getFieldValue("image2");
-      if (image2 && image2.length > 0) {
-        formData.append("image2", image2[0].originFileObj);
-      }
+    const image2 = form.getFieldValue("image2");
+    if (image2 && image2.length > 0) {
+      formData.append("image2", image2[0].originFileObj);
     }
-    if (delimage3) {
-      formData.append("image3", 0);
-    } else {
-      const image3 = form.getFieldValue("image3");
-      if (image3 && image3.length > 0) {
-        formData.append("image3", image3[0].originFileObj);
-      }
+    const image3 = form.getFieldValue("image3");
+    if (image3 && image3.length > 0) {
+      formData.append("image3", image3[0].originFileObj);
     }
-    if (delimage4) {
-      formData.append("image4", 0);
-    } else {
-      const image4 = form.getFieldValue("image4");
-      if (image4 && image4.length > 0) {
-        formData.append("image4", image4[0].originFileObj);
-      }
+    const image4 = form.getFieldValue("image4");
+    if (image4 && image4.length > 0) {
+      formData.append("image4", image4[0].originFileObj);
     }
     const response = await fetch(
       "https://checkkonproject-sub.com/api/Dbimage_update",
@@ -157,6 +142,36 @@ const M_DB_Adm_Menu = () => {
     }
   };
 
+  const delImg = async (img) => {
+    try {
+      const formData = new FormData();
+      formData.append("img", 0);
+      const response = await fetch(`https://checkkonproject-sub.com/api/delImg/${img}`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        message.success("Image deleted successfully");
+      } else {
+        message.error("Error deleting image");
+      }
+
+      setModalVisible0(false);
+      setModalVisible1(false);
+      setModalVisible2(false);
+      setModalVisible3(false);
+      setModalVisible4(false);
+    } catch (error) {
+      console.error("An error occurred:", error);
+      message.error("An error occurred while deleting the image");
+      setModalVisible0(false);
+      setModalVisible1(false);
+      setModalVisible2(false);
+      setModalVisible3(false);
+      setModalVisible4(false);
+    }
+  };
 
   const fetchUser = async () => {
     try {
@@ -608,7 +623,19 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <Checkbox onChange={() => setDelimage0(true)}>ลบรูปภาพ</Checkbox>
+                <>
+                  <Button type="primary" className="form-button" onClick={() => setModalVisible0(true)}>
+                    Delete Image
+                  </Button>
+                  <Modal
+                    title="Confirm Deletion"
+                    visible={modalVisible0}
+                    onOk={() => delImg("image0")}
+                    onCancel={() => setModalVisible0(false)}
+                  >
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal>
+                </>
               </Form.Item>
               {dataimage && dataimage.image0 ? (
                 <Image width={200} src={dataimage.image0} alt="รูปภาพข่าวปลอม" />
@@ -643,7 +670,19 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <Checkbox onChange={() => setDelimage1(true)}>ลบรูปภาพ</Checkbox>
+                <>
+                  <Button type="primary" className="form-button" onClick={() => setModalVisible1(true)}>
+                    Delete Image
+                  </Button>
+                  <Modal
+                    title="Confirm Deletion"
+                    visible={modalVisible1}
+                    onOk={() => delImg("image1")}
+                    onCancel={() => setModalVisible1(false)}
+                  >
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal>
+                </>
               </Form.Item>
               {dataimage && dataimage.image1 ? (
                 <Image width={200} src={dataimage.image1} alt="รูปภาพข่าวปลอม" />
@@ -678,7 +717,19 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <Checkbox onChange={() => setDelimage2(true)}>ลบรูปภาพ</Checkbox>
+                <>
+                  <Button type="primary" className="form-button" onClick={() => setModalVisible2(true)}>
+                    Delete Image
+                  </Button>
+                  <Modal
+                    title="Confirm Deletion"
+                    visible={modalVisible2}
+                    onOk={() => delImg("image2")}
+                    onCancel={() => setModalVisible2(false)}
+                  >
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal>
+                </>
               </Form.Item>
               {dataimage && dataimage.image2 ? (
                 <Image width={200} src={dataimage.image2} alt="รูปภาพข่าวปลอม" />
@@ -713,7 +764,19 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <Checkbox onChange={() => setDelimage3(true)}>ลบรูปภาพ</Checkbox>
+                <>
+                  <Button type="primary" className="form-button" onClick={() => setModalVisible3(true)}>
+                    Delete Image
+                  </Button>
+                  <Modal
+                    title="Confirm Deletion"
+                    visible={modalVisible3}
+                    onOk={() => delImg("image3")}
+                    onCancel={() => setModalVisible3(false)}
+                  >
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal>
+                </>
               </Form.Item>
               {dataimage && dataimage.image3 ? (
                 <Image width={200} src={dataimage.image3} alt="รูปภาพข่าวปลอม" />
@@ -748,7 +811,19 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <Checkbox onChange={() => setDelimage4(true)}>ลบรูปภาพ</Checkbox>
+                <>
+                  <Button type="primary" className="form-button" onClick={() => setModalVisible4(true)}>
+                    Delete Image
+                  </Button>
+                  <Modal
+                    title="Confirm Deletion"
+                    visible={modalVisible4}
+                    onOk={() => delImg("image4")}
+                    onCancel={() => setModalVisible4(false)}
+                  >
+                    <p>Are you sure you want to delete this image?</p>
+                  </Modal>
+                </>
               </Form.Item>
               {dataimage && dataimage.image4 ? (
                 <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
