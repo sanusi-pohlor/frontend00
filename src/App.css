@@ -1,4 +1,14 @@
 @media (max-width: 2000px) {
+    .custom-card {
+        width: 150px;
+        height: 230px;
+        border-radius: 20px;
+    }
+
+    .custom-image {
+        width: 100px;
+    }
+
     .footer {
         text-align: center;
         color: #ffffff;
@@ -460,6 +470,7 @@
         font-family: 'Th Sarabun New', sans-serif;
         text-align: left;
     }
+
     .Contenttitle {
         margin: auto;
         border-radius: 20px;
@@ -547,6 +558,16 @@
 }
 
 @media (max-width: 1200px) {
+    .custom-card {
+        width: 200px;
+        height: 230px;
+        border-radius: 20px;
+    }
+
+    .custom-image {
+        width: 100px;
+    }
+
     .footer {
         text-align: center;
         color: #ffffff;
@@ -825,6 +846,16 @@
 }
 
 @media (max-width: 768px) {
+    .custom-card {
+        width: 100%;
+        height: 230px;
+        border-radius: 20px;
+    }
+
+    .custom-image {
+        width: 100px;
+    }
+
     .footer {
         text-align: center;
         color: #ffffff;
@@ -1638,23 +1669,23 @@ body {
     text-align: center;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-  }
+}
 
-  .content {
+.content {
     padding: 50px;
     background: rgba(0, 0, 0, 0.05);
     border-radius: 4px;
-  }
+}
 
-  .ant-descriptions {
+.ant-descriptions {
     background-color: #7BBD8F;
-  }
-  
-  .ant-descriptions-item-content {
-    background-color: #ffffff;
-  }
+}
 
-  .cardheadImage {
+.ant-descriptions-item-content {
+    background-color: #ffffff;
+}
+
+.cardheadImage {
     height: 300px;
     width: 50%;
     object-fit: cover;

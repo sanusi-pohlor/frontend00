@@ -21,7 +21,6 @@ const Profile_Edit = () => {
   const [userdata, setUserdata] = useState([]);
   const navigate = useNavigate();
 
-
   const fetchFakeNewsData = async () => {
     try {
       const response = await axios.get(

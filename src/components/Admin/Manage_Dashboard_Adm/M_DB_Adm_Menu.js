@@ -135,7 +135,7 @@ const M_DB_Adm_Menu = () => {
 
     if (response.ok) {
       message.success("ยืนยันสมาชิกเรียบร้อย");
-      //fetchData();
+      getDbimage();
       setIsModalOpen2(false);
     } else {
       message.error("Error updating item");
@@ -153,6 +153,7 @@ const M_DB_Adm_Menu = () => {
 
       if (response.ok) {
         message.success("Image deleted successfully");
+        getDbimage();
       } else {
         message.error("Error deleting image");
       }
@@ -589,6 +590,7 @@ const M_DB_Adm_Menu = () => {
             open={isModalOpen2}
             onCancel={handleCancel2}
             footer={null}
+            style={{ fontSize: "25px" }}
           >
             <Form
               form={form}
@@ -623,25 +625,25 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <>
-                  <Button type="primary" className="form-button" onClick={() => setModalVisible0(true)}>
-                    Delete Image
-                  </Button>
-                  <Modal
-                    title="Confirm Deletion"
-                    visible={modalVisible0}
-                    onOk={() => delImg("image0")}
-                    onCancel={() => setModalVisible0(false)}
-                  >
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal>
-                </>
               </Form.Item>
-              {dataimage && dataimage.image0 ? (
-                <Image width={200} src={dataimage.image0} alt="รูปภาพข่าวปลอม" />
-              ) : (
-                <div>No image available</div>
-              )}
+              <>
+                {dataimage && dataimage.image0 ? (
+                  <Image width={200} src={dataimage.image0} alt="รูปภาพข่าวปลอม" />
+                ) : (
+                  <div>ไม่มีรูป</div>
+                )}
+                <Button type="primary" className="form-button" onClick={() => setModalVisible0(true)}>
+                  ลบรูป
+                </Button>
+                <Modal
+                  title="Confirm Deletion"
+                  visible={modalVisible0}
+                  onOk={() => delImg("image0")}
+                  onCancel={() => setModalVisible0(false)}
+                >
+                  <p>ยืนยันการลบรูป</p>
+                </Modal>
+              </>
               <Divider />
               <Form.Item
                 name="image1"
@@ -670,25 +672,25 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <>
-                  <Button type="primary" className="form-button" onClick={() => setModalVisible1(true)}>
-                    Delete Image
-                  </Button>
-                  <Modal
-                    title="Confirm Deletion"
-                    visible={modalVisible1}
-                    onOk={() => delImg("image1")}
-                    onCancel={() => setModalVisible1(false)}
-                  >
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal>
-                </>
               </Form.Item>
-              {dataimage && dataimage.image1 ? (
-                <Image width={200} src={dataimage.image1} alt="รูปภาพข่าวปลอม" />
-              ) : (
-                <div>No image available</div>
-              )}
+              <>
+                {dataimage && dataimage.image1 ? (
+                  <Image width={200} src={dataimage.image1} alt="รูปภาพข่าวปลอม" />
+                ) : (
+                  <div>ไม่มีรูป</div>
+                )}
+                <Button type="primary" className="form-button" onClick={() => setModalVisible1(true)}>
+                  ลบรูป
+                </Button>
+                <Modal
+                  title="Confirm Deletion"
+                  visible={modalVisible1}
+                  onOk={() => delImg("image1")}
+                  onCancel={() => setModalVisible1(false)}
+                >
+                  <p>ยืนยันการลบรูป</p>
+                </Modal>
+              </>
               <Divider />
               <Form.Item
                 name="image2"
@@ -717,25 +719,25 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <>
-                  <Button type="primary" className="form-button" onClick={() => setModalVisible2(true)}>
-                    Delete Image
-                  </Button>
-                  <Modal
-                    title="Confirm Deletion"
-                    visible={modalVisible2}
-                    onOk={() => delImg("image2")}
-                    onCancel={() => setModalVisible2(false)}
-                  >
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal>
-                </>
               </Form.Item>
-              {dataimage && dataimage.image2 ? (
-                <Image width={200} src={dataimage.image2} alt="รูปภาพข่าวปลอม" />
-              ) : (
-                <div>No image available</div>
-              )}
+              <>
+                {dataimage && dataimage.image2 ? (
+                  <Image width={200} src={dataimage.image2} alt="รูปภาพข่าวปลอม" />
+                ) : (
+                  <div>ไม่มีรูป</div>
+                )}
+                <Button type="primary" className="form-button" onClick={() => setModalVisible2(true)}>
+                  ลบรูป
+                </Button>
+                <Modal
+                  title="Confirm Deletion"
+                  visible={modalVisible2}
+                  onOk={() => delImg("image2")}
+                  onCancel={() => setModalVisible2(false)}
+                >
+                  <p>ยืนยันการลบรูป</p>
+                </Modal>
+              </>
               <Divider />
               <Form.Item
                 name="image3"
@@ -764,25 +766,25 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <>
-                  <Button type="primary" className="form-button" onClick={() => setModalVisible3(true)}>
-                    Delete Image
-                  </Button>
-                  <Modal
-                    title="Confirm Deletion"
-                    visible={modalVisible3}
-                    onOk={() => delImg("image3")}
-                    onCancel={() => setModalVisible3(false)}
-                  >
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal>
-                </>
               </Form.Item>
-              {dataimage && dataimage.image3 ? (
-                <Image width={200} src={dataimage.image3} alt="รูปภาพข่าวปลอม" />
-              ) : (
-                <div>No image available</div>
-              )}
+              <>
+                {dataimage && dataimage.image3 ? (
+                  <Image width={200} src={dataimage.image3} alt="รูปภาพข่าวปลอม" />
+                ) : (
+                  <div>ไม่มีรูป</div>
+                )}
+                <Button type="primary" className="form-button" onClick={() => setModalVisible3(true)}>
+                  ลบรูป
+                </Button>
+                <Modal
+                  title="Confirm Deletion"
+                  visible={modalVisible3}
+                  onOk={() => delImg("image3")}
+                  onCancel={() => setModalVisible3(false)}
+                >
+                  <p>ยืนยันการลบรูป</p>
+                </Modal>
+              </>
               <Divider />
               <Form.Item
                 name="image4"
@@ -811,25 +813,26 @@ const M_DB_Adm_Menu = () => {
                     <div style={{ marginTop: 8 }}>Upload</div>
                   </div>
                 </Upload>
-                <>
-                  <Button type="primary" className="form-button" onClick={() => setModalVisible4(true)}>
-                    Delete Image
-                  </Button>
-                  <Modal
-                    title="Confirm Deletion"
-                    visible={modalVisible4}
-                    onOk={() => delImg("image4")}
-                    onCancel={() => setModalVisible4(false)}
-                  >
-                    <p>Are you sure you want to delete this image?</p>
-                  </Modal>
-                </>
               </Form.Item>
-              {dataimage && dataimage.image4 ? (
-                <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
-              ) : (
-                <div>No image available</div>
-              )}
+              <>
+                {dataimage && dataimage.image4 ? (
+                  <Image width={200} src={dataimage.image4} alt="รูปภาพข่าวปลอม" />
+                ) : (
+                  <div>ไม่มีรูป</div>
+                )}
+                <Button type="primary" className="form-button" onClick={() => setModalVisible4(true)}>
+                  ลบรูป
+                </Button>
+                <Modal
+                  title="Confirm Deletion"
+                  visible={modalVisible4}
+                  onOk={() => delImg("image4")}
+                  onCancel={() => setModalVisible4(false)}
+                >
+                  <p>ยืนยันการลบรูป</p>
+                </Modal>
+              </>
+              <br/>
               <Form.Item>
                 <Button
                   type="primary"

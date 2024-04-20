@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { RightCircleOutlined, LeftCircleOutlined } from "@ant-design/icons";
-import { Paper, Grid, Box,Typography, IconButton } from "@mui/material";
+import { Paper, Grid, Box, Typography, IconButton } from "@mui/material";
 import { Card, Button, Image } from "antd";
 import moment from "moment";
 import Carousel from "./Carousel";
@@ -94,9 +94,9 @@ const Dashboard = () => {
       </div>
       <Grid container spacing={2}>
         <Grid item xs={12} md={1.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Card hoverable style={{ height: '230px' ,borderRadius:'20px'}}>
+          <Card hoverable className="custom-card">
             <Image
-              width={150}
+              className="custom-image"
               src={licensedImage}
             />
             {createTypography("แสกนรับสติกเกอร์ไลน์")}
@@ -112,18 +112,18 @@ const Dashboard = () => {
         </Grid>
       </Grid>
       <br />
-        <Grid container spacing={2}>
+      <Grid container spacing={2}>
         <Grid item xs={12} md={1.5}>
         </Grid>
-          <Grid item xs={12} md={4.5}>
-            <ThailandMap />
-          </Grid>
-          <Grid item xs={12} md={4.5}>
-            <MuiTable />
-          </Grid>
-          <Grid item xs={12} md={1.5}>
+        <Grid item xs={12} md={4.5}>
+          <ThailandMap />
         </Grid>
+        <Grid item xs={12} md={4.5}>
+          <MuiTable />
         </Grid>
+        <Grid item xs={12} md={1.5}>
+        </Grid>
+      </Grid>
       <br />
       <div elevation={0} className="paperContainer">
         <Card className="cardsection">

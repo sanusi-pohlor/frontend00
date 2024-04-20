@@ -20,6 +20,7 @@ const Article_view = () => {
   const { id } = useParams();
   const [data, setData] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [province, setProvince] = useState(null);
   const [user, setUser] = useState(null);
   const [tags, setTags] = useState([]);
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
@@ -46,6 +47,15 @@ const Article_view = () => {
           if (userResponse.status === 200) {
             const userData = userResponse.data;
             setUser(userData);
+            const provinceResponse = await axios.get(
+              `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
+            );
+            if (provinceResponse.status === 200) {
+              const provinceData = await provinceResponse.data;
+              setProvince(provinceData);
+            } else {
+              console.error("Error fetching province data:", provinceResponse.statusText);
+            }
           } else {
             console.error("Error fetching user data:", userResponse.statusText);
           }
@@ -56,31 +66,38 @@ const Article_view = () => {
     };
     fetchData();
   }, []);
+
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
+
   const items = [
     {
       key: "1",
       label: "ชื่อ-สกุล",
       children: user && (
-        <span>
-          {user.username} {user.lastName}
-        </span>
+        <>
+          {createTypography(`${user.username} ${user.lastName}`)}
+        </>
       ),
     },
     {
       key: "2",
       label: "เบอร์ติดต่อ",
-      children: user && <span>{user.phone_number}</span>,
+      children: user && createTypography(user.phone_number),
     },
     {
       key: "3",
       label: "ไอดีไลน์",
-      children: user && <span>{user.Id_line}</span>,
+      children: user && createTypography(user.Id_line),
     },
-    { key: "4", label: "อีเมล", children: user && <span>{user.email}</span> },
+    { key: "4", label: "อีเมล", children: user && createTypography(user.email) },
     {
       key: "5",
       label: "จังหวัด",
-      children: user && <span>{user.province}</span>,
+      children: province && createTypography(province.prov_name),
     },
     {
       key: "6",
