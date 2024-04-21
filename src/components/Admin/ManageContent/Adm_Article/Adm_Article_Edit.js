@@ -335,7 +335,7 @@ const Adm_Article_Edit = () => {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
               </div>
             </Upload>
           </Form.Item>
@@ -351,7 +351,7 @@ const Adm_Article_Edit = () => {
           <br />
           <Form.Item
             name="details"
-            label={createTypography("รายละเอียดเพิ่มเติม")}
+            label={createTypography("รายละเอียดเพิ่มเติม อัพโหลดรูปภาพได้ไม่เกิน 10 รูป")}
             rules={[{ required: false }]}
             style={{
               display: "inline-block",

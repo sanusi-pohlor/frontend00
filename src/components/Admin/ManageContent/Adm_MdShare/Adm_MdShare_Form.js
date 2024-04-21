@@ -299,19 +299,19 @@ const Adm_MdShare_Form = () => {
             >
               <div>
                 <PlusOutlined />
-                <div style={{ marginTop: 8 }}>Upload</div>
+                <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
               </div>
             </Upload>
           </Form.Item>
           <Form.Item
             name="details"
-            label={createTypography("รายละเอียดเพิ่มเติม")}
+            label={createTypography("รายละเอียดเพิ่มเติม อัพโหลดรูปภาพได้ไม่เกิน 10 รูป")}
             rules={[{ required: false }]}
           >
             <div style={{ height: "1000px" }}>
               <ReactQuill
                 onChange={handleChange}
-                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม")}
+                placeholder={createTypography("เพิ่มรายละเอียดเพิ่มเติม อัพโหลดรูปภาพได้ไม่เกิน 10 รูป")}
                 formats={formats}
                 modules={modules}
                 style={{ height: "950px" }}

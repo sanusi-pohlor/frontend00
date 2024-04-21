@@ -622,7 +622,7 @@ const M_DB_Adm_Menu = () => {
                 >
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
                   </div>
                 </Upload>
               </Form.Item>
@@ -669,7 +669,7 @@ const M_DB_Adm_Menu = () => {
                 >
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
                   </div>
                 </Upload>
               </Form.Item>
@@ -716,7 +716,7 @@ const M_DB_Adm_Menu = () => {
                 >
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
                   </div>
                 </Upload>
               </Form.Item>
@@ -763,7 +763,7 @@ const M_DB_Adm_Menu = () => {
                 >
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
                   </div>
                 </Upload>
               </Form.Item>
@@ -810,7 +810,7 @@ const M_DB_Adm_Menu = () => {
                 >
                   <div>
                     <PlusOutlined />
-                    <div style={{ marginTop: 8 }}>Upload</div>
+                    <div style={{ marginTop: 8 }}>ขนาดรูป 2 ต่อ 1</div>
                   </div>
                 </Upload>
               </Form.Item>

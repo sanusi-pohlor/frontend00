@@ -117,7 +117,7 @@ const MdShare_view = () => {
         </Card>
         <br />
         <Card>
-          <div
+        <div
             style={{
               display: "flex",
               justifyContent: "center",
@@ -126,11 +126,7 @@ const MdShare_view = () => {
               marginTop: "16px",
             }}
           >
-            <Image
-              className="details-image"
-              src={data.cover_image}
-              width="50%"
-            />
+            <Image className="details-image" src={data.cover_image} />
           </div>
           <div className="cardContent">
             <Divider />

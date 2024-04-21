@@ -113,21 +113,17 @@ const Adm_News_view = () => {
           </Card>
           <br />
           <Card>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                flexWrap: "wrap",
-                gap: "16px",
-                marginTop: "16px",
-              }}
-            >
-              <Image
-                className="details-image"
-                src={data.cover_image}
-                width="50%"
-              />
-            </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              gap: "16px",
+              marginTop: "16px",
+            }}
+          >
+            <Image className="details-image" src={data.cover_image} />
+          </div>
             <div className="cardContent">
               <Divider />
               <div className="Contenttitle">{data.title}</div>
