@@ -35,11 +35,6 @@ const M_DB_Adm_Menu = () => {
   const [province, setProvince] = useState(null);
   const [datamanage, setDatamanage] = useState([]);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const [delimage0, setDelimage0] = useState(false);
-  const [delimage1, setDelimage1] = useState(false);
-  const [delimage2, setDelimage2] = useState(false);
-  const [delimage3, setDelimage3] = useState(false);
-  const [delimage4, setDelimage4] = useState(false);
   const [user, setUser] = useState(null);
   const [modalVisible0, setModalVisible0] = useState(false);
   const [modalVisible1, setModalVisible1] = useState(false);

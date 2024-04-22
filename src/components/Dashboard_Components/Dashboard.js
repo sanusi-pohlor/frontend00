@@ -74,12 +74,6 @@ const Dashboard = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
-  const createTypography = (label, text, fontSize = "25px") => (
-    <Typography variant="body1" sx={{ fontSize }}>
-      {label} {text}
-    </Typography>
-  );
-
   return (
     <div className="backgroundColor">
       <Carousel />
@@ -88,43 +82,39 @@ const Dashboard = () => {
         <Card className="cardsection">
           <div className="cardsectionContent">
             จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+            <Image
+              src={licensedImage}
+              width={150}
+              height={150}
+            />
           </div>
         </Card>
         <br />
+        <Card className="cardsection">
+          <div className="cardsectionContent">
+            จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+          </div>
+        </Card>
       </div>
+      <div elevation={0} className="paperContainer">
       <Grid container spacing={2}>
-        <Grid item xs={12} md={1.5} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Card hoverable className="custom-card">
-            <Image
-              className="custom-image"
-              src={licensedImage}
-            />
-            {createTypography("แสกนรับสติกเกอร์ไลน์")}
-          </Card>
-        </Grid>
-        <Grid item xs={12} md={5.5}>
+        <Grid item xs={12} md={8}>
           <BarChartComponent />
         </Grid>
-        <Grid item xs={12} md={3.5}>
+        <Grid item xs={12} md={4}>
           <PieChartComponent />
-        </Grid>
-        <Grid item xs={12} md={1.5}>
         </Grid>
       </Grid>
       <br />
       <Grid container spacing={2}>
-        <Grid item xs={12} md={1.5}>
-        </Grid>
-        <Grid item xs={12} md={4.5}>
+        <Grid item xs={12} md={6}>
           <ThailandMap />
         </Grid>
-        <Grid item xs={12} md={4.5}>
+        <Grid item xs={12} md={6}>
           <MuiTable />
         </Grid>
-        <Grid item xs={12} md={1.5}>
-        </Grid>
       </Grid>
-      <br />
+      </div>
       <div elevation={0} className="paperContainer">
         <Card className="cardsection">
           <div className="cardsectionContent">

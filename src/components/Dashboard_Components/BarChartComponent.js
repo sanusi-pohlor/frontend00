@@ -176,8 +176,8 @@ const MyBarChart = () => {
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} className="PieChartContainer">
-            <XAxis dataKey="name" interval={0} angle={-45} textAnchor="end" />
-            <YAxis />
+            <XAxis/>
+            <YAxis/>
             <Tooltip />
             <Bar dataKey="value" nameKey="name">
               {chartData.map((entry, index) => (
