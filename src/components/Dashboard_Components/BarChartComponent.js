@@ -8,6 +8,7 @@ import {
   Legend,
   ResponsiveContainer,
   Cell,
+  LabelList,
 } from "recharts";
 import { Card, DatePicker, Divider, Select } from "antd";
 import moment from "moment";
@@ -89,7 +90,6 @@ const MyBarChart = () => {
         const MediaChannels = await fetch(
           `https://checkkonproject-sub.com/api/${endpoint}`
         );
-
         if (Manage_Fake_Info.ok && MediaChannels.ok) {
           const Manage_Fake_Infodata = await Manage_Fake_Info.json();
           const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
@@ -98,13 +98,11 @@ const MyBarChart = () => {
               mfi_time: moment(data.mfi_time).format("YYYY-MM"),
             })
           );
-
           const filteredManage_Fake_Infodata =
             formattedManage_Fake_Infodata.filter((data) => {
               if (!formattedDate || formattedDate.length === 0) return true;
               return data.mfi_time === formattedDate;
             });
-
           const MediaChannelsData = await MediaChannels.json();
           const countByMedCId = MediaChannelsData.map((channel) => {
             const count = filteredManage_Fake_Infodata.filter(
@@ -116,7 +114,6 @@ const MyBarChart = () => {
               value: count,
             };
           });
-
           setChartData(countByMedCId);
         } else {
           console.error("Failed to fetch data");
@@ -176,15 +173,13 @@ const MyBarChart = () => {
         <Divider />
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={chartData} className="PieChartContainer">
-            <XAxis/>
-            <YAxis/>
+            <XAxis />
+            <YAxis />
             <Tooltip />
             <Bar dataKey="value" nameKey="name">
+              <LabelList dataKey="name" position="top" fill="black" style={{ fontSize: '15px' }} />
               {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
               ))}
             </Bar>
           </BarChart>

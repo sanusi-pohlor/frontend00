@@ -53,7 +53,6 @@ const News_view = () => {
     };
     fetchData();
   }, []);
-
   const items = [
     {
       key: "1",
@@ -165,7 +164,6 @@ const News_view = () => {
             >
               <FacebookIcon size={50} round />แชร์ไปยัง Facebook
             </FacebookShareButton>
-
             <p onClick={showModal}>
               <Avatar size={64} icon={<UserOutlined />} style={{ backgroundColor: '#7BBD8F' }}>
                 {user && user.username}

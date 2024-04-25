@@ -205,11 +205,11 @@ const Register_Dialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={createTypography("เบอร์ติดต่อ")}
+            label={createTypography("เบอร์ติดต่อ (หากไม่มีให้ใส่ "-" )")}
             name="phone_number"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "กรูณาเพิ่มเบอร์ติดต่อ!",
               },
             ]}
@@ -220,11 +220,11 @@ const Register_Dialog = ({ open, onClose }) => {
             />
           </Form.Item>
           <Form.Item
-            label={createTypography("ไอดีไลน์")}
+            label={createTypography("ไอดีไลน์  (หากไม่มีให้ใส่ "-" )")}
             name="Id_line"
             rules={[
               {
-                required: false,
+                required: true,
                 message: "กรุณาเพิ่มไอดีไลน์!",
               },
             ]}

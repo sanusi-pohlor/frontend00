@@ -135,7 +135,7 @@ const Profile_Edit = () => {
           labelCol={{ style: { fontSize: "18px" } }}
         >
           <Form.Item
-            label="ชื่อ"
+            label={createTypography("ชื่อ")}
             name="username"
             rules={[
               {
@@ -154,7 +154,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="นามสกุล"
+            label={createTypography("นามสกุล")}
             name="lastName"
             rules={[
               {
@@ -171,7 +171,7 @@ const Profile_Edit = () => {
             <Input size="large" />
           </Form.Item>
           <Form.Item
-            label="อีเมล"
+            label={createTypography("อีเมล")}
             name="email"
             rules={[
               {
@@ -186,7 +186,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="รหัสผ่าน"
+            label={createTypography("รหัสผ่าน")}
             name="password"
             rules={[{ required: false, message: "กรุณาเพิ่มรหัสผ่าน!" }]}
           >
@@ -196,7 +196,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="รหัสผ่านยืนยัน"
+            label={createTypography("รหัสผ่านยืนยัน")}
             name="Confirm Password"
             dependencies={["password"]}
             rules={[
@@ -217,7 +217,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="เบอร์ติดต่อ"
+            label={createTypography("เบอร์ติดต่อ (หากไม่มีให้ใส่ "-" )")}
             name="phone_number"
             rules={[
               {
@@ -232,7 +232,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="ไอดีไลน์"
+            label={createTypography("ไอดีไลน์  (หากไม่มีให้ใส่ "-" )")}
             name="Id_line"
             rules={[
               {
@@ -247,7 +247,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label="จังหวัดที่สังกัด"
+            label={createTypography("จังหวัดที่สังกัด")}
             name="province"
             rules={[
               {
