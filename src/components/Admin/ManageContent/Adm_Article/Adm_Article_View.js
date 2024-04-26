@@ -27,11 +27,7 @@ const Adm_Article_View = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-  useEffect(() => {
-    if (window.FB) {
-      window.FB.XFBML.parse();
-    }
-  }, []);
+  const [province, setProvince] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,65 +38,81 @@ const Adm_Article_View = () => {
         const newsData = newsResponse.data;
         setData(newsData);
         setTags(JSON.parse(newsData.tag) || []);
-        if (newsData.Author) {
-          const userResponse = await axios.get(
-            `https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`
-          );
-          if (userResponse.status === 200) {
-            const userData = userResponse.data;
-            setUser(userData);
-          } else {
-            console.error("Error fetching user data:", userResponse.statusText);
-          }
-        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, []);
-
+  const fetchUser = async () => {
+    try {
+      const userResponse = await axios.get(
+        `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
+      );
+      if (userResponse.status === 200) {
+        const userData = userResponse.data;
+        setUser(userData);
+        const provinceResponse = await axios.get(
+          `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
+        );
+        if (provinceResponse.status === 200) {
+          const provinceData = provinceResponse.data;
+          setProvince(provinceData);
+        } else {
+          console.error("Error fetching province data:", provinceResponse.statusText);
+        }
+      } else {
+        console.error("Error fetching user data:", userResponse.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  
+  useEffect(() => {
+    fetchUser();
+  }, [data]);
+  const createTypography = (label, text, fontSize = "25px") => (
+    <Typography variant="body1" sx={{ fontSize }}>
+      {label}
+    </Typography>
+  );
   const items = [
     {
       key: "1",
-      label: "ชื่อ-สกุล",
-      children: user && (
-        <span>
-          {user.username} {user.lastName}
-        </span>
-      ),
+      label: createTypography("ชื่อ-นามสกุล"),
+      children: user && createTypography(user.username),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "2",
-      label: "เบอร์ติดต่อ",
-      children: user && <span>{user.phone_number}</span>,
+      label: createTypography("นามสกุล"),
+      children: user && createTypography(user.lastName),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "3",
-      label: "ไอดีไลน์",
-      children: user && <span>{user.Id_line}</span>,
+      label: createTypography("เบอร์โทรศัพท์"),
+      children: user && createTypography(user.phone_number),
     },
-    { key: "4", label: "อีเมล", children: user && <span>{user.email}</span> },
     {
-      key: "5",
-      label: "จังหวัด",
-      children: user && <span>{user.province}</span>,
+      key: "4",
+      label: createTypography("ไลน์ไอดี"),
+      children: user && createTypography(user.Id_line),
     },
+    { key: "5", label: createTypography("อีเมล"), children: user && createTypography(user.email), },
     {
       key: "6",
-      label: "เกี่ยวกับผู้เขียน",
-      children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
+      label: createTypography("จังหวัดที่อยู่"),
+      children: province && createTypography(province.prov_name),
+    },
+    {
+      key: "7",
+      label: createTypography("เกี่ยวกับผู้เขียน"),
+      children: user && createTypography(user.about),
     },
   ];
-  const handleFacebookShare = () => {
-    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        shareUrl
-      )}`,
-      "_blank"
-    );
-  };
+
   return (
     <AdminMenu>
       <div className="backgroundColor">
@@ -191,7 +203,7 @@ const Adm_Article_View = () => {
                 ผู้เขียน <span>{user && user.username}</span>
               </p>
               <Modal
-                title="โปรไฟล์ผู้เขียน"
+                title={ createTypography("โปรไฟล์ผู้เขียน")}
                 open={isModalOpen}
                 footer={null}
                 onCancel={handleCancel}

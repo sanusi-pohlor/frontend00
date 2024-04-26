@@ -26,11 +26,7 @@ const Article_view = () => {
   const thaiDate = moment(data.created_at).locale("th").format("Do MMMM YYYY");
   const showModal = () => setIsModalOpen(true);
   const handleCancel = () => setIsModalOpen(false);
-  useEffect(() => {
-    if (window.FB) {
-      window.FB.XFBML.parse();
-    }
-  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,33 +36,39 @@ const Article_view = () => {
         const newsData = newsResponse.data;
         setData(newsData);
         setTags(JSON.parse(newsData.tag) || []);
-        if (newsData.Author) {
-          const userResponse = await axios.get(
-            `https://checkkonproject-sub.com/api/User_edit/${newsData.Author}`
-          );
-          if (userResponse.status === 200) {
-            const userData = userResponse.data;
-            setUser(userData);
-            const provinceResponse = await axios.get(
-              `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
-            );
-            if (provinceResponse.status === 200) {
-              const provinceData = await provinceResponse.data;
-              setProvince(provinceData);
-            } else {
-              console.error("Error fetching province data:", provinceResponse.statusText);
-            }
-          } else {
-            console.error("Error fetching user data:", userResponse.statusText);
-          }
-        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, []);
-
+  const fetchUser = async () => {
+    try {
+      const userResponse = await axios.get(
+        `https://checkkonproject-sub.com/api/User_edit/${data.Author}`
+      );
+      if (userResponse.status === 200) {
+        const userData = userResponse.data;
+        setUser(userData);
+        const provinceResponse = await axios.get(
+          `https://checkkonproject-sub.com/api/Pvname_request/${userData.province}`
+        );
+        if (provinceResponse.status === 200) {
+          const provinceData = provinceResponse.data;
+          setProvince(provinceData);
+        } else {
+          console.error("Error fetching province data:", provinceResponse.statusText);
+        }
+      } else {
+        console.error("Error fetching user data:", userResponse.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchUser();
+  }, [data]);
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label}
@@ -76,44 +78,39 @@ const Article_view = () => {
   const items = [
     {
       key: "1",
-      label: "ชื่อ-สกุล",
-      children: user && (
-        <>
-          {createTypography(`${user.username} ${user.lastName}`)}
-        </>
-      ),
+      label: createTypography("ชื่อ-นามสกุล"),
+      children: user && createTypography(user.username),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "2",
-      label: "เบอร์ติดต่อ",
-      children: user && createTypography(user.phone_number),
+      label: createTypography("นามสกุล"),
+      children: user && createTypography(user.lastName),
+      labelStyle: { background: "#7BBD8F", color: "white" },
     },
     {
       key: "3",
-      label: "ไอดีไลน์",
+      label: createTypography("เบอร์โทรศัพท์"),
+      children: user && createTypography(user.phone_number),
+    },
+    {
+      key: "4",
+      label: createTypography("ไลน์ไอดี"),
       children: user && createTypography(user.Id_line),
     },
-    { key: "4", label: "อีเมล", children: user && createTypography(user.email) },
+    { key: "5", label: createTypography("อีเมล"), children: user && createTypography(user.email), },
     {
-      key: "5",
-      label: "จังหวัด",
+      key: "6",
+      label: createTypography("จังหวัดที่อยู่"),
       children: province && createTypography(province.prov_name),
     },
     {
-      key: "6",
-      label: "เกี่ยวกับผู้เขียน",
-      children: "เกี่ยวกับผู้เขียน... (ตัวอย่างข้อความ)",
+      key: "7",
+      label: createTypography("เกี่ยวกับผู้เขียน"),
+      children: user && createTypography(user.about),
     },
   ];
-  const handleFacebookShare = () => {
-    const shareUrl = `https://www.checkkonproject.com/News_Menu/${id}`;
-    window.open(
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        shareUrl
-      )}`,
-      "_blank"
-    );
-  };
+
   return (
     <div className="backgroundColor">
       <Paper
@@ -126,7 +123,7 @@ const Article_view = () => {
         </Card>
         <br />
         <Card>
-        <div
+          <div
             style={{
               display: "flex",
               justifyContent: "center",
@@ -200,7 +197,7 @@ const Article_view = () => {
               ผู้เขียน <span>{user && user.username}</span>
             </p>
             <Modal
-              title="โปรไฟล์ผู้เขียน"
+              title={ createTypography("โปรไฟล์ผู้เขียน")}
               open={isModalOpen}
               footer={null}
               onCancel={handleCancel}
