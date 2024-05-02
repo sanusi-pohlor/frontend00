@@ -171,15 +171,27 @@ const MyBarChart = () => {
           </div>
         </div>
         <Divider />
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} className="PieChartContainer">
-            <XAxis />
-            <YAxis />
+        <ResponsiveContainer width="100%" height={450}>
+          <BarChart
+            data={chartData}
+            className="PieChartContainer"
+            layout="vertical"
+          >
+            <XAxis type="number" />
+            <YAxis type="category"/>
             <Tooltip />
             <Bar dataKey="value" nameKey="name">
-              <LabelList dataKey="name" position="top" fill="black" style={{ fontSize: '15px' }} />
+              <LabelList
+                dataKey={({ name, value }) => `${name}: ${value}`}
+                position="insideRight"
+                fill="black"
+                style={{ fontSize: "15px" }}
+              />
               {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Bar>
           </BarChart>

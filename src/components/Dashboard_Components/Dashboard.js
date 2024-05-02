@@ -9,7 +9,8 @@ import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 import MuiTable from "./MuiTable";
 import { Link, useNavigate } from "react-router-dom";
-import licensedImage from './image/licensed-image.jpg';
+import licensedImage from "./image/licensed-image.jpg";
+import line1 from "./image/line1.jpg";
 
 const Dashboard = () => {
   const [newdata, setNewData] = useState([]);
@@ -79,14 +80,18 @@ const Dashboard = () => {
       <Carousel />
       <div elevation={0} className="paperContainer">
         <br />
-        <Card className="cardsection">
-          <div className="cardsectionContent">
-            จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
-            <Image
-              src={licensedImage}
-              width={150}
-              height={150}
-            />
+        <Card className="linecard">
+          <div className="cardline">
+            สแกนรับสติกเกอร์ไลน์
+            <div>
+              {" "}
+              <Image /> <Image
+                src={licensedImage}
+                width={150}
+                height={150}
+              />{" "}
+              <Image src={line1} width={400} height={150} />{" "}
+            </div>
           </div>
         </Card>
         <br />
@@ -97,23 +102,23 @@ const Dashboard = () => {
         </Card>
       </div>
       <div elevation={0} className="paperContainer">
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={8}>
-          <BarChartComponent />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={8}>
+            <BarChartComponent />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <PieChartComponent />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <PieChartComponent />
+        <br />
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <ThailandMap />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <MuiTable />
+          </Grid>
         </Grid>
-      </Grid>
-      <br />
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <ThailandMap />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <MuiTable />
-        </Grid>
-      </Grid>
       </div>
       <div elevation={0} className="paperContainer">
         <Card className="cardsection">

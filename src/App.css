@@ -81,6 +81,15 @@
         color: white;
     }
 
+    .cardline {
+        font-size: 40px;
+        font-weight: bold;
+        display: flex;
+
+        font-family: 'Th Sarabun New', sans-serif;
+        color: #25ad4e;
+    }
+
     .gridContainer {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -1402,6 +1411,11 @@
 .cardsection {
     border-radius: 30px;
     background: #7BBD8F;
+}
+
+.linecard {
+    border-radius: 30px;
+    background-color: #e4e4e4;
 }
 
 .backgroundColor {

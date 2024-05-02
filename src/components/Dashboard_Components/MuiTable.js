@@ -149,7 +149,7 @@ const MyTable = () => {
             >
               {options.map((option) => (
                 <Option key={option.value} value={option.title}>
-                  <Typography variant="body1" sx={{ fontSize: "20px" }}>
+                  <Typography variant="body1" sx={{ fontSize: "25px" }}>
                     {option.title}
                   </Typography>
                 </Option>
