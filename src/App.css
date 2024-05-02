@@ -1,21 +1,4 @@
 @media (max-width: 2000px) {
-    .cardline {
-        font-size: 40px;
-        font-weight: bold;
-        display: flex;
-        font-family: 'Th Sarabun New', sans-serif;
-        color: #25ad4e;
-    }
-
-    .line-image1 {
-        width: 5px;
-        height: 5px;
-    }
-
-    .line-image2 {
-        width: 10px;
-        height: 5px;
-    }
 
     .custom-card {
         width: 150px;
@@ -1145,21 +1128,9 @@
 }
 
 @media (max-width: 500px) {
-    .cardline {
-        font-size: 40px;
-        font-weight: bold;
-        font-family: 'Th Sarabun New', sans-serif;
-        color: #25ad4e;
-    }
-
-    .line-image1 {
-        width: 5px;
-        height: 5px;
-    }
-
-    .line-image2 {
-        width: 10px;
-        height: 5px;
+    .responsive-image {
+        max-width: 80%;
+        height: auto;
     }
 
     .footer {
@@ -1722,4 +1693,25 @@ body {
     height: 300px;
     width: 50%;
     object-fit: cover;
+}
+.cardline {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: 'Th Sarabun New', sans-serif;
+    color: #25ad4e;
+
+    align-items: center;
+}
+
+.image-container {
+    display: flex;
+}
+
+.responsive-image1 {
+    max-width: 28%;
+    height: auto;
+}
+.responsive-image2 {
+    max-width: 100%;
+    height: auto;
 }

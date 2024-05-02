@@ -83,12 +83,9 @@ const Dashboard = () => {
         <Card className="linecard">
           <div className="cardline">
             สแกนรับสติกเกอร์ไลน์
-            <div>
-              {" "}
-              <Image /> <Image
-                class="line-image1" src={licensedImage}
-              />{" "}
-              <Image class="line-image2" src={line1} />{" "}
+            <div className="image-container">
+              <Image src={licensedImage} className="responsive-image1" />
+              <Image src={line1} className="responsive-image2" />
             </div>
           </div>
         </Card>
