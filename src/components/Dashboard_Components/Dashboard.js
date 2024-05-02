@@ -86,11 +86,9 @@ const Dashboard = () => {
             <div>
               {" "}
               <Image /> <Image
-                src={licensedImage}
-                width={150}
-                height={150}
+                class="line-image1" src={licensedImage}
               />{" "}
-              <Image src={line1} width={400} height={150} />{" "}
+              <Image class="line-image2" src={line1} />{" "}
             </div>
           </div>
         </Card>
