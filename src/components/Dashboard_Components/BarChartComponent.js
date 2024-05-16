@@ -182,10 +182,10 @@ const MyBarChart = () => {
             <Tooltip />
             <Bar dataKey="value" nameKey="name">
               <LabelList
-                dataKey={({ name, value }) => `${name}: ${value}`}
+                dataKey={({ name, value }) => (value !== 0 ? `${name}: ${value}` : '')}
                 position="insideRight"
                 fill="black"
-                style={{ fontSize: "15px" }}
+                style={{ fontSize: "25px" }}
               />
               {chartData.map((entry, index) => (
                 <Cell
