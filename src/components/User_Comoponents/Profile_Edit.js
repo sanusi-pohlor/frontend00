@@ -217,7 +217,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label={createTypography("เบอร์ติดต่อ (หากไม่มีให้ใส่ "-" )")}
+            label={createTypography("เบอร์ติดต่อ (หากไม่มีให้ใส่ - )")}
             name="phone_number"
             rules={[
               {
@@ -232,7 +232,7 @@ const Profile_Edit = () => {
             />
           </Form.Item>
           <Form.Item
-            label={createTypography("ไอดีไลน์  (หากไม่มีให้ใส่ "-" )")}
+            label={createTypography("ไอดีไลน์  (หากไม่มีให้ใส่ - )")}
             name="Id_line"
             rules={[
               {
