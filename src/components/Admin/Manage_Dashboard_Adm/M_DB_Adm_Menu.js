@@ -9,7 +9,6 @@ import {
   Divider,
   Upload,
   message,
-  Checkbox
 } from "antd";
 import {
   PieChart,
@@ -127,7 +126,6 @@ const M_DB_Adm_Menu = () => {
         body: formData,
       }
     );
-
     if (response.ok) {
       message.success("ยืนยันสมาชิกเรียบร้อย");
       getDbimage();
@@ -145,14 +143,12 @@ const M_DB_Adm_Menu = () => {
         method: 'POST',
         body: formData,
       });
-
       if (response.ok) {
         message.success("Image deleted successfully");
         getDbimage();
       } else {
         message.error("Error deleting image");
       }
-
       setModalVisible0(false);
       setModalVisible1(false);
       setModalVisible2(false);
@@ -827,7 +823,7 @@ const M_DB_Adm_Menu = () => {
                   <p>ยืนยันการลบรูป</p>
                 </Modal>
               </>
-              <br/>
+              <br />
               <Form.Item>
                 <Button
                   type="primary"
