@@ -84,8 +84,8 @@ const Dashboard = () => {
           <div className="cardline">
             สแกนรับสติกเกอร์ไลน์
             <div className="image-container">
-              <Image src={licensedImage} className="responsive-image1" />
-              <Image src={line1} className="responsive-image2" />
+              <div className="responsive-image1"><Image src={licensedImage} /></div>
+              <div className="responsive-image2"><Image src={line1} /></div>
             </div>
           </div>
         </Card>

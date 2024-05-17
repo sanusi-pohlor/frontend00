@@ -1702,16 +1702,21 @@ body {
 
     align-items: center;
 }
-
 .image-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .responsive-image1 {
-    max-width: 28%;
+    max-width: 15%;
     height: auto;
+    margin: 0 10px; /* Optional: Adds space between images */
 }
+
 .responsive-image2 {
-    max-width: 100%;
+    max-width: 40%;
     height: auto;
+    margin: 0 10px; /* Optional: Adds space between images */
 }
+
