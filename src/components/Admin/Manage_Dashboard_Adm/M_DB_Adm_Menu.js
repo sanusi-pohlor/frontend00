@@ -371,7 +371,7 @@ const M_DB_Adm_Menu = () => {
       title: "ประเภทสื่อ",
       value: "MediaChannels_request",
       name: "med_c_name",
-      dataIndex: "mfi_med_c",
+      dataIndex: "mfi_c_info",
     },
     {
       title: "รูปแบบข่าว",
@@ -437,18 +437,26 @@ const M_DB_Adm_Menu = () => {
   const validData = data.filter(
     (item) => item.created_at && Date.parse(item.created_at)
   );
+  
   const dateObjects = validData.map((item) => new Date(item.created_at));
-
+  
   if (dateObjects.length === 0) {
     console.error("No valid date data found.");
     return null;
   }
+  
   const newestDate = dateObjects.reduce(
     (maxDate, currentDate) => (currentDate > maxDate ? currentDate : maxDate),
     dateObjects[0]
   );
-  const oldestMonthYear = moment().format("Do MMMM YYYY");
-  const newestMonthYear = moment(newestDate).format("LLLL yyyy");
+  
+  const oldestDate = dateObjects.reduce(
+    (minDate, currentDate) => (currentDate < minDate ? currentDate : minDate),
+    dateObjects[0]
+  );
+  
+  const oldestMonthYear = moment(oldestDate).format("Do MMMM YYYY");
+  const newestMonthYear = moment(newestDate).format("Do MMMM YYYY");
 
   return (
     <AdminMenu>

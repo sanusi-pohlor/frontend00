@@ -299,7 +299,7 @@ const NotificationHistory = () => {
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>
                   {mergedColumns.map((column, colIndex) => (
-                    <TableCell key={`${rowIndex}-${colIndex}`} align="left" style={{ fontSize: "25px" }}>
+                    <TableCell key={`${rowIndex}-${colIndex}`} align="left" style={{ fontSize: "23px" }}>
                     {column.render ? column.render(row[column.dataIndex], row) : row[column.dataIndex]}
                   </TableCell>
                   ))}

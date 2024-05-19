@@ -21,7 +21,7 @@ const MyTable = () => {
       title: "แหล่งที่มาของข้อมูล",
       value: "MediaChannels_request",
       name: "med_c_name",
-      dataIndex: "mfi_med_c",
+      dataIndex: "mfi_c_info",
     },
     {
       title: "รูปแบบข้อมูล",
@@ -56,14 +56,14 @@ const MyTable = () => {
           const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
             (data) => ({
               ...data,
-              mfi_time: moment(data.mfi_time).format("YYYY-MM"),
+              created_at: moment(data.created_at).format("YYYY-MM"),
             })
           );
   
           const filteredManage_Fake_Infodata =
             formattedManage_Fake_Infodata.filter((data) => {
               if (!formattedDate || formattedDate.length === 0) return true;
-              return data.mfi_time === formattedDate;
+              return data.created_at === formattedDate;
             });
   
           const MediaChannelsData = await MediaChannels.json();
