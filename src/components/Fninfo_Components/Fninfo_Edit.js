@@ -39,6 +39,9 @@ const FnInfoEdit = () => {
   const [formattedDate, setFormattedDate] = useState(null);
   const navigate = useNavigate();
 
+  const handleCancel = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     fetchmed();
   }, []);
@@ -120,7 +123,9 @@ const FnInfoEdit = () => {
       appendIfDefined("fn_info_link", values.fn_info_link);
       appendIfDefined("fn_info_dmy", values.fn_info_dmy);
       if (values.fn_info_image !== undefined) {
-        formData.append("fn_info_image", values.fn_info_image[0].originFileObj);
+        values.fn_info_image.forEach((file, index) => {
+          formData.append(`fn_info_image_${index}`, file.originFileObj);
+        });
       }
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_update/${id}`,
@@ -444,7 +449,9 @@ const FnInfoEdit = () => {
             <Typography variant="body1" sx={{ fontSize: "25px" }}>
               {formattedDate}
             </Typography>
-            เปลี่ยนใหม่
+            <Typography variant="body1" sx={{ fontSize: "25px" }}>
+              เปลี่ยนใหม่
+            </Typography>
             <br />
             <DatePicker
               size="large"
@@ -464,7 +471,7 @@ const FnInfoEdit = () => {
             rules={[
               {
                 required: false,
-                message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ",
+                message: "กรุณาแนบภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จ (ให้ Upload ใหม่ทุกครั้งเมื่อทำการแก้ไข)",
               },
             ]}
           >
@@ -480,12 +487,27 @@ const FnInfoEdit = () => {
               </div>
             </Upload>
           </Form.Item>
-          ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จเก่า
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            ภาพบันทึกหน้าจอหรือภาพถ่ายที่พบข้อมูลเท็จเก่า
+          </Typography>
           <br />
-          {data && data.fn_info_image ? (
-            <Image width={200} src={data.fn_info_image} alt="รูปภาพข่าวปลอม" />
-          ) : (
-            <div>No image available</div>
+          {data && (
+            <>
+              {[
+                data.fn_info_image_0,
+                data.fn_info_image_1,
+                data.fn_info_image_2,
+              ]
+                .filter(image => image !== null)
+                .map((image, index) => (
+                  <Image
+                    key={`image_${index}`}
+                    style={{ width: '200px', height: '200px', marginRight: '10px' }}
+                    src={image}
+                    alt={`รูปภาพข่าวปลอม ${index}`}
+                  />
+                ))}
+            </>
           )}
           <br /><br />
           <Form.Item>
@@ -496,11 +518,21 @@ const FnInfoEdit = () => {
               size="large"
             >
               <Typography variant="body1" sx={{ fontSize: "25px" }}>
-                แก้ไขรายงาน
+                ยืนยัน
               </Typography>
             </Button>
           </Form.Item>
         </Form>
+        <Button
+          type="primary"
+          className="form-button-cancel"
+          size="large"
+          onClick={handleCancel}
+        >
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            ยกเลิก
+          </Typography>
+        </Button>
       </UserProfile>
     );
   }

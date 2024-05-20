@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Space, Button, Popconfirm, message, Card } from "antd";
+import React, { useCallback,useEffect, useState } from "react";
+import { Modal, DatePicker, Select, Form, Space, Button, Popconfirm, message, Card } from "antd";
 import AdminMenu from "../Adm_Menu";
 import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
@@ -14,15 +14,121 @@ import {
   TableBody,
 } from "@mui/material";
 const rowsPerPageOptions = [10];
+const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const ManageMembers = () => {
+  const [form] = Form.useForm();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
   const [data, setData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
+  const [dataOrg, setDataOrg] = useState([]);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
+  const [selectOptions_med, setSelectOptions_med] = useState([]);
+  const [selectOptions_mem, setSelectOptions_mem] = useState([]);
+  const showFilterDialog = () => {
+    memoizedFunctions();
+    setFilterVisible(true);
+  };
 
+  const closeFilterDialog = () => {
+    setFilterVisible(false);
+  };
+  const onFinish = (values) => {
+    const {  med_new, prov_new, mem,created_at } = values;
+    // const created_at = values.created_at
+    //   ? new Date(values.created_at).toISOString().split("T")[0]
+    //   : null;
+    const startDate = created_at && created_at[0] ? created_at[0].startOf('month').toDate() : null;
+    const endDate = created_at && created_at[1] ? created_at[1].endOf('month').toDate() : null;
+
+    const filteredNews = dataOrg.filter((News) => {
+      const NewsDate = News.created_at ? new Date(News.created_at) : null;
+      // const NewsDate = News.created_at
+      //   ? new Date(News.created_at).toISOString().split("T")[0]
+      //   : null;
+      const matchesMedia = med_new ? News.fn_info_source === med_new : true;
+      const matchesProvince = prov_new ? News.fn_info_province === prov_new : true;
+      const matchesDate = NewsDate && startDate && endDate ? (NewsDate >= startDate && NewsDate <= endDate) : true;
+      const matchesMem = mem ? News.fn_info_nameid === mem : true;
+
+      return (
+        matchesMedia &&
+        matchesProvince &&
+        matchesDate &&
+        matchesMem
+      );
+    });
+    setData(filteredNews);
+  };
+  const fetchDataAndSetOptions = useCallback(
+    async (endpoint, fieldName, stateSetter) => {
+      try {
+        const response = await fetch(
+          `https://checkkonproject-sub.com/api/${endpoint}`
+        );
+        if (response.ok) {
+          const typeCodes = await response.json();
+          const options = typeCodes.map((code) => (
+            <Option key={code[`id`]} value={code[`id`]}>
+              {code[`${fieldName}_name`]}
+            </Option>
+          ));
+          stateSetter(options);
+        } else {
+          console.error(`Error fetching codes:`, response.statusText);
+        }
+      } catch (error) {
+        console.error(`Error fetching codes:`, error);
+      }
+    },
+    []
+  );
+  const onChange_mfi_province = useCallback(() => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+
+  const onChange_dnc_med_id = useCallback(() => {
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
+  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  const onChange_mfi_mem = useCallback(async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/AmUser"
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code.id} value={code.id}>
+            {`${code.username} ${code.lastName}`}
+          </Option>
+        ));
+        setSelectOptions_mem(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  }, [setSelectOptions_mem]);
+
+  const memoizedFunctions = useCallback(() => {
+    onChange_mfi_province();
+    onChange_dnc_med_id();
+    onChange_mfi_mem();
+  }, [
+    onChange_mfi_province,
+    onChange_dnc_med_id,
+    onChange_mfi_mem,
+  ]);
   const fetchUserInfo = async () => {
     try {
       const response = await fetch(
@@ -84,6 +190,7 @@ const ManageMembers = () => {
         const data = await response.json();
         const sortedData = data.slice().sort((a, b) => b.id - a.id);
         setData(sortedData);
+        setDataOrg(sortedData);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -135,8 +242,8 @@ const ManageMembers = () => {
       ? dataA.mfi_results === 0
         ? "ข่าวเท็จ"
         : dataA.mfi_results === 1
-        ? "ข่าวจริง"
-        : "ยังไม่ตรวจสอบ"
+          ? "ข่าวจริง"
+          : "ยังไม่ตรวจสอบ"
       : "ยังไม่ตรวจสอบ";
     return resultText;
   };
@@ -283,7 +390,119 @@ const ManageMembers = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง</div>
+        <div className="cardsectionContent">จัดการข้อมูลรับแจ้ง
+          <div className="searchContainer">
+            <Button
+              type="primary"
+              className="buttonfilterStyle"
+              onClick={showFilterDialog}
+            >
+              ตัวกรอง
+            </Button>
+            <Modal
+              open={filterVisible}
+              onCancel={closeFilterDialog}
+              footer={null}
+            >
+              <div>
+                <div className="Modelcontainer">กรองข้อมูล</div>
+                <Form
+                  form={form}
+                  layout="vertical"
+                  name="normal_login"
+                  className="login-form"
+                  onFinish={onFinish}
+                  initialValues={{
+                    remember: true,
+                  }}
+                  style={{
+                    maxWidth: "100%",
+                    padding: 20,
+                  }}
+                >
+                  <Form.Item
+                    name="med_new"
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ช่องทางสื่อ
+                      </Typography>
+                    }
+                  >
+                    <Select
+                      size="large"
+                      placeholder="เลือกช่องทางสื่อ"
+                      allowClear
+                    >
+                      {selectOptions_med}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="created_at"
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        วัน/เดือน/ปี
+                      </Typography>
+                    }
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <RangePicker 
+                        picker="month"
+                        size="large"
+                        placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
+                      />
+                  </Form.Item>
+                  <Form.Item
+                    name="prov_new"
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        จังหวัด
+                      </Typography>
+                    }
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select
+                      size="large"
+                      placeholder="เลือกจังหวัด"
+                      allowClear
+                    >
+                      {selectOptions_prov}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="mem"
+                    label={
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ผู้ส่งรายงาน
+                      </Typography>
+                    }
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select
+                      size="large"
+                      placeholder="เลือกผู้ส่งรายงาน"
+                      allowClear
+                    >
+                      {selectOptions_mem}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button
+                      type="primary"
+                      htmlType="submit"
+                      placeholder="เลือกจังหวัด"
+                      className="form-button"
+                      size="large"
+                    >
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>
+                        ค้นหา
+                      </Typography>
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            </Modal>
+          </div>
+        </div>
       </Card>
       <br />
       <Card>
@@ -314,9 +533,9 @@ const ManageMembers = () => {
             <TableBody>
               {(rowsPerPage > 0
                 ? data.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
-                  )
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

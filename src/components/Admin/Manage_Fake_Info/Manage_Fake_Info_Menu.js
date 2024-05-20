@@ -24,7 +24,7 @@ import { DeleteOutlined, EditOutlined, EyeOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 const rowsPerPageOptions = [10];
 const { Option } = Select;
-
+const { RangePicker } = DatePicker;
 const Manage_Fake_Info_Menu = () => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
@@ -178,22 +178,19 @@ const Manage_Fake_Info_Menu = () => {
   };
 
   const onFinish = (values) => {
-    const { type_new, med_new, prov_new, tags, results, mem } = values;
+    const { type_new, med_new, prov_new, tags, results, created_at } = values;
     const formattedTags = tags || [];
-    const created_at = values.created_at
-      ? new Date(values.created_at).toISOString().split("T")[0]
-      : null;
+
+    const startDate = created_at && created_at[0] ? created_at[0].startOf('month').toDate() : null;
+    const endDate = created_at && created_at[1] ? created_at[1].endOf('month').toDate() : null;
 
     const filteredNews = dataOrg.filter((News) => {
-      const NewsDate = News.created_at
-        ? new Date(News.created_at).toISOString().split("T")[0]
-        : null;
+      const NewsDate = News.created_at ? new Date(News.created_at) : null;
       const matchesType = type_new ? News.mfi_ty_info === type_new : true;
       const matchesMedia = med_new ? News.mfi_med_c === med_new : true;
       const matchesProvince = prov_new ? News.mfi_province === prov_new : true;
-      const matchesDate = created_at ? NewsDate === created_at : true;
+      const matchesDate = NewsDate && startDate && endDate ? (NewsDate >= startDate && NewsDate <= endDate) : true;
       const matchesResults = results ? News.mfi_results === results : true;
-      const matchesMem = mem ? News.mfi_mem === mem : true;
 
       let newsTags = [];
       try {
@@ -201,20 +198,11 @@ const Manage_Fake_Info_Menu = () => {
       } catch (error) {
         console.error("Error parsing news.tag:", error);
       }
-      const matchesAnyTag =
-        formattedTags.length === 0 ||
-        formattedTags.every((formattedTag) => newsTags.includes(formattedTag));
+      const matchesAnyTag = formattedTags.length === 0 || formattedTags.every((formattedTag) => newsTags.includes(formattedTag));
 
-      return (
-        matchesType &&
-        matchesMedia &&
-        matchesProvince &&
-        matchesDate &&
-        matchesAnyTag &&
-        matchesResults &&
-        matchesMem
-      );
+      return matchesType && matchesMedia && matchesProvince && matchesDate && matchesAnyTag && matchesResults;
     });
+
     setData(filteredNews);
   };
 
@@ -517,7 +505,11 @@ const Manage_Fake_Info_Menu = () => {
                     }
                     style={{ marginBottom: "10px" }}
                   >
-                    <DatePicker size="large" placeholder="เลือกวัน/เดือน/ปี" />
+                    <RangePicker
+                      picker="month"
+                      size="large"
+                      placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
+                    />
                   </Form.Item>
                   <Form.Item
                     name="prov_new"

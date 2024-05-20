@@ -30,6 +30,9 @@ const Adm_Article_Edit = () => {
   const [selectOptions_tags, setSelectOptions_tags] = useState([]);
   const [options, setOptions] = useState([]);
   const [detailsImages, setDetailsImages] = useState([]);
+  const handleCancel = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     const fetchFakeData = async () => {
       try {
@@ -449,6 +452,16 @@ const Adm_Article_Edit = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Button
+          type="primary"
+          className="form-button-cancel"
+          size="large"
+          onClick={handleCancel}
+        >
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            ยกเลิก
+          </Typography>
+        </Button>
       </Card>
     </AdminMenu>
   );

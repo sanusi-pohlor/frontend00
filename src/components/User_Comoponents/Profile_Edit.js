@@ -20,7 +20,9 @@ const Profile_Edit = () => {
   const [form] = Form.useForm();
   const [userdata, setUserdata] = useState([]);
   const navigate = useNavigate();
-
+  const handleCancel = () => {
+    navigate(-1);
+  };
   const fetchFakeNewsData = async () => {
     try {
       const response = await axios.get(
@@ -271,6 +273,16 @@ const Profile_Edit = () => {
             </Button>
           </Form.Item>
         </Form>
+        <Button
+          type="primary"
+          className="form-button-cancel"
+          size="large"
+          onClick={handleCancel}
+        >
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            ยกเลิก
+          </Typography>
+        </Button>
       </Card>
     </UserProfile>
   );

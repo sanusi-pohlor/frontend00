@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { DeleteOutlined, EyeOutlined, CheckOutlined } from "@ant-design/icons";
-import { Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
+import { SearchOutlined,DeleteOutlined, EyeOutlined, CheckOutlined } from "@ant-design/icons";
+import { Input,Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
 import {
   Table,
   TableCell,
@@ -24,6 +24,16 @@ const ManageMembers = () => {
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRecordId, setSelectedRecordId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearch = (event) => setSearchTerm(event.target.value);
+  const filtered = data.filter((item) => {
+    const usernameMatch = String(item.username).toLowerCase().includes(searchTerm.toLowerCase());
+    const lastNameMatch = String(item.lastName).toLowerCase().includes(searchTerm.toLowerCase());
+    return usernameMatch || lastNameMatch;
+  });
+  
+  
+
   const showModal = (id) => {
     setIsModalOpen(true);
     setSelectedRecordId(id);
@@ -244,7 +254,18 @@ const ManageMembers = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">จัดการสมาชิก</div>
+        <div className="cardsectionContent">จัดการสมาชิก
+        <div className="searchContainer">
+              <Input
+                type="text"
+                size="large"
+                placeholder="ค้นหา"
+                style={{ marginRight: "10px" }}
+                onChange={handleSearch}
+                prefix={<SearchOutlined className="site-form-item-icon" />}
+              />
+            </div>
+        </div>
       </Card>
       <br />
       <Card>
@@ -274,11 +295,11 @@ const ManageMembers = () => {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                ? data.slice(
+                ? filtered.slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
-                : data
+                : filtered
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>
                   {mergedColumns.map((column) => (
