@@ -92,7 +92,7 @@ const Dashboard = () => {
         <br />
         <Card className="cardsection">
           <div className="cardsectionContent">
-            จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+            จำนวนการรับแจ้งข้อมูลโดยเครือข่ายผู้บริโภคภาคใต้ที่มีการตรวจสอบแล้ว
           </div>
         </Card>
       </div>
@@ -118,7 +118,7 @@ const Dashboard = () => {
       <div elevation={0} className="paperContainer">
         <Card className="cardsection">
           <div className="cardsectionContent">
-            ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
+            ค้นหารายละเอียดของข่าวที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
             <Button
               className="buttonfilterStyle"
               onClick={() => navigate("/FakenewsSearch")}

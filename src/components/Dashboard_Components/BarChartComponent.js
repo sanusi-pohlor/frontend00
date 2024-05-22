@@ -185,7 +185,7 @@ const MyBarChart = () => {
                 dataKey={({ name, value }) => (value !== 0 ? `${name}: ${value}` : '')}
                 position="insideRight"
                 fill="black"
-                style={{ fontSize: "25px" }}
+                style={{ fontSize: "15px" }}
               />
               {chartData.map((entry, index) => (
                 <Cell

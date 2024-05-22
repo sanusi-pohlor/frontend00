@@ -269,7 +269,7 @@ const Profile_Edit = () => {
               loading={loading}
               className="form-button"
             >
-              {createTypography("ลงทะเบียน")}
+              {createTypography("บันทึก")}
             </Button>
           </Form.Item>
         </Form>

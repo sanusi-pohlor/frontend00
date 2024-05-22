@@ -61,7 +61,7 @@ const MapWidget = () => {
     <div>
       <Card hoverable className="DB-Card-container2">
         <div className="cardTitle">
-          จำนวนการรับแจ้งข้อมูลเท็จโดยเครือข่ายผู้บริโภคภาคใต้
+          จำนวนการรับแจ้งข้อมูลโดยเครือข่ายผู้บริโภคภาคใต้
           <DatePicker
             onChange={handleSelectDate}
             placeholder="เดือน/ปี"

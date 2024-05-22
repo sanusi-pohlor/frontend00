@@ -317,7 +317,7 @@ const FakenewsSearch_Menu = () => {
       render: (mfi_results) => renderResult(mfi_results),
     },
     {
-      title: "รายละเอียด",
+      title: "ดูรายละเอียด",
       width: "5%",
       editable: true,
       render: (text, record) => (
