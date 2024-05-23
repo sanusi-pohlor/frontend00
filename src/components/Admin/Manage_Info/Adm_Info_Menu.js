@@ -24,6 +24,7 @@ const ManageMembers = () => {
   const [data, setData] = useState([]);
   const [userInfo, setUserInfo] = useState(null);
   const [province, setProvince] = useState([]);
+  const [results, setResults] = useState([]);
   const [datamanage, setDatamanage] = useState([]);
   const [dataOrg, setDataOrg] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
@@ -221,6 +222,26 @@ const ManageMembers = () => {
     Province();
   }, []);
 
+  const Results = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Result_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        setResults(pv);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Results();
+  }, []);
+
+
   const getStatusText = (status) => {
     switch (status) {
       case 0:
@@ -238,16 +259,17 @@ const ManageMembers = () => {
     const dataA = datamanage
       ? datamanage.find((item) => item.mfi_fninfo === id)
       : null;
-    const resultText = dataA
-      ? dataA.mfi_results === 0
-        ? "ข่าวเท็จ"
-        : dataA.mfi_results === 1
-          ? "ข่าวจริง"
-          : "ยังไม่ตรวจสอบ"
-      : "ยังไม่ตรวจสอบ";
-    return resultText;
+  
+    if (dataA && dataA.mfi_results !== undefined) {
+      const ResultsData = results.find(
+        (item) => item.id === dataA.mfi_results
+      );
+      return ResultsData ? ResultsData.result_name : "ไม่พบข้อมูล";
+    } else {
+      return "ยังไม่ตรวจสอบ";
+    }
   };
-
+  
   const handleDelete = async (id) => {
     try {
       const filteredItems = datamanage.filter((item) => item.mfi_fninfo === id);

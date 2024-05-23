@@ -206,58 +206,56 @@ const Manage_Fake_Info_Menu = () => {
     setData(filteredNews);
   };
 
-  const fetchDataAndSetOptions = useCallback(
-    async (endpoint, fieldName, stateSetter) => {
-      try {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/${endpoint}`
-        );
-        if (response.ok) {
-          const typeCodes = await response.json();
-          const options = typeCodes.map((code) => (
-            <Option key={code[`id`]} value={code[`id`]}>
-              {code[`${fieldName}_name`]}
-            </Option>
-          ));
-          stateSetter(options);
-        } else {
-          console.error(`Error fetching codes:`, response.statusText);
-        }
-      } catch (error) {
-        console.error(`Error fetching codes:`, error);
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`id`]}>
+            {code[`${fieldName}_name`]}
+          </Option>
+        ));
+        stateSetter(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
       }
-    },
-    []
-  );
-  const onChange_mfi_province = useCallback(() => {
-    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
-  }, [fetchDataAndSetOptions, setSelectOptions_prov]);
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
 
-  const onChange_mfi_ty_info_id = useCallback(() => {
+  const onChange_mfi_province = () => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  };
+
+  const onChange_mfi_ty_info_id = () => {
     fetchDataAndSetOptions(
       "TypeInformation_request",
       "type_info",
       setSelectOptions_ty
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  };
 
-  const onChange_dnc_med_id = useCallback(() => {
+  const onChange_dnc_med_id = () => {
     fetchDataAndSetOptions(
       "MediaChannels_request",
       "med_c",
       setSelectOptions_med
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  };
 
-  const onChange_mfi_results_id = useCallback(() => {
+  const onChange_mfi_results_id = () => {
     fetchDataAndSetOptions(
       "Result_request",
       "result",
       setSelectOptions_Result
     );
-  }, [fetchDataAndSetOptions, setSelectOptions_Result]);
+  };
 
-  const onChange_Tags = useCallback(async () => {
+  const onChange_Tags = async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/Tags_request"
@@ -276,8 +274,9 @@ const Manage_Fake_Info_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [setSelectOptions_tags]);
-  const onChange_mfi_mem = useCallback(async () => {
+  };
+
+  const onChange_mfi_mem = async () => {
     try {
       const response = await fetch(
         "https://checkkonproject-sub.com/api/AmUser"
@@ -296,23 +295,16 @@ const Manage_Fake_Info_Menu = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [setSelectOptions_mem]);
+  };
 
-  const memoizedFunctions = useCallback(() => {
+  const memoizedFunctions = () => {
     onChange_mfi_province();
     onChange_dnc_med_id();
     onChange_mfi_ty_info_id();
     onChange_mfi_mem();
     onChange_Tags();
     onChange_mfi_results_id();
-  }, [
-    onChange_mfi_province,
-    onChange_dnc_med_id,
-    onChange_mfi_ty_info_id,
-    onChange_mfi_mem,
-    onChange_Tags,
-    onChange_mfi_results_id,
-  ]);
+  };
 
   const renderResultText = (mfi_fninfo) => {
     const dataA = dataInfo
@@ -336,7 +328,17 @@ const Manage_Fake_Info_Menu = () => {
     const provinceData = province.find((item) => item.id === resultText);
     return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
   };
-
+  const renderdate = (mfi_fninfo) => {
+    const dataA = dataInfo
+      ? dataInfo.find((item) => item.id === mfi_fninfo)
+      : null;
+    const resultText = dataA ? dataA.created_at : null;
+    const date = new Date(resultText);
+    const formattedDate = `${date.getDate()} ${getThaiMonth(
+      date.getMonth()
+    )} ${date.getFullYear() + 543}`;
+    return formattedDate;
+  };
 
   const columns = [
     {
@@ -355,6 +357,13 @@ const Manage_Fake_Info_Menu = () => {
       dataIndex: "mfi_fninfo",
       width: "10%",
       render: (mfi_fninfo) => renderprovince(mfi_fninfo),
+    },
+    {
+      title: "แจ้งเมื่อ",
+      dataIndex: "mfi_fninfo",
+      width: "12%",
+      editable: true,
+      render: (mfi_fninfo) => renderdate(mfi_fninfo),
     },
     {
       title: "วันที่ตรวจสอบ",

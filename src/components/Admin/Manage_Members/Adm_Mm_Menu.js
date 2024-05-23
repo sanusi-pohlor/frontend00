@@ -1,51 +1,93 @@
-import React, { useEffect, useState } from "react";
-import { SearchOutlined,DeleteOutlined, EyeOutlined, CheckOutlined } from "@ant-design/icons";
-import { Input,Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
-import {
-  Table,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-  TablePagination,
-  TableBody,
-} from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { SearchOutlined, DeleteOutlined, EyeOutlined, CheckOutlined } from "@ant-design/icons";
+import { Input, Popconfirm, Space, Button, Card, message, Modal, Form, Select } from "antd";
+import { Table, TableCell, TableContainer, TableHead, TableRow, Typography, TablePagination, TableBody } from "@mui/material";
 import AdminMenu from "../Adm_Menu";
 import { Link } from "react-router-dom";
+
 const rowsPerPageOptions = [10];
 const { Option } = Select;
+
 const ManageMembers = () => {
   const [form] = Form.useForm();
   const [data, setData] = useState([]);
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(rowsPerPageOptions[0]);
   const [province, setProvince] = useState([]);
   const [fakeNewsInfo, setFakeNewsInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRecordId, setSelectedRecordId] = useState(null);
+  const [filterVisible, setFilterVisible] = useState(false);
+  const [dataOrg, setDataOrg] = useState([]);
+  const [selectOptions_prov, setSelectOptions_prov] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+
   const handleSearch = (event) => setSearchTerm(event.target.value);
+
   const filtered = data.filter((item) => {
     const usernameMatch = String(item.username).toLowerCase().includes(searchTerm.toLowerCase());
     const lastNameMatch = String(item.lastName).toLowerCase().includes(searchTerm.toLowerCase());
     return usernameMatch || lastNameMatch;
   });
+
+  const showFilterDialog = () => {
+    memoizedFunctions();
+    setFilterVisible(true);
+  };
+
+  const closeFilterDialog = () => {
+    setFilterVisible(false);
+  };
+
+  const onFinish = (values) => {
+    const { prov_new } = values;
+    const filteredNews = dataOrg.filter((News) => {
+      const matchesProvince = prov_new ? News.province === prov_new : true;
+      return matchesProvince;
+    });
+    setData(filteredNews);
+  };
+
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
+    try {
+      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      if (response.ok) {
+        const typeCodes = await response.json();
+        const options = typeCodes.map((code) => (
+          <Option key={code[`id`]} value={code[`id`]}>
+            {code[`${fieldName}_name`]}
+          </Option>
+        ));
+        stateSetter(options);
+      } else {
+        console.error(`Error fetching codes:`, response.statusText);
+      }
+    } catch (error) {
+      console.error(`Error fetching codes:`, error);
+    }
+  };
   
+  const onChange_mfi_province = () => {
+    fetchDataAndSetOptions("Province_request", "prov", setSelectOptions_prov);
+  };
+  
+  const memoizedFunctions = () => {
+    onChange_mfi_province();
+  };
   
 
   const showModal = (id) => {
     setIsModalOpen(true);
     setSelectedRecordId(id);
   };
+
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const fetchFakeNewsInfo = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/FakeNewsInfo_request"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/FakeNewsInfo_request");
       if (response.ok) {
         const data = await response.json();
         setFakeNewsInfo(data);
@@ -59,12 +101,11 @@ const ManageMembers = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/AmUser"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/AmUser");
       if (response.ok) {
         const data = await response.json();
         setData(data);
+        setDataOrg(data);
       } else {
         console.error("Error fetching data:", response.statusText);
       }
@@ -72,6 +113,7 @@ const ManageMembers = () => {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     fetchData();
     fetchFakeNewsInfo();
@@ -79,9 +121,7 @@ const ManageMembers = () => {
 
   const Province = async () => {
     try {
-      const response = await fetch(
-        "https://checkkonproject-sub.com/api/Province_request"
-      );
+      const response = await fetch("https://checkkonproject-sub.com/api/Province_request");
       if (response.ok) {
         const pv = await response.json();
         setProvince(pv);
@@ -92,24 +132,20 @@ const ManageMembers = () => {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     Province();
   }, [data]);
 
   const handleDelete = async (id) => {
     try {
-      const filteredItems = fakeNewsInfo.filter(
-        (item) => item.fn_info_nameid === id
-      );
+      const filteredItems = fakeNewsInfo.filter((item) => item.fn_info_nameid === id);
       if (filteredItems.length > 0) {
         message.error("ไม่สามารถลบข้อมูลได้ เนื่องจากมีการใช้ข้อมูลนี้อยู่");
       } else {
-        const response = await fetch(
-          `https://checkkonproject-sub.com/api/User_delete/${id}`,
-          {
-            method: "DELETE",
-          }
-        );
+        const response = await fetch(`https://checkkonproject-sub.com/api/User_delete/${id}`, {
+          method: "DELETE",
+        });
         if (response.ok) {
           message.success("Item deleted successfully");
           fetchData();
@@ -169,9 +205,7 @@ const ManageMembers = () => {
       dataIndex: "province",
       width: "10%",
       render: (fn_info_province) => {
-        const provinceData = province.find(
-          (item) => item.id === fn_info_province
-        );
+        const provinceData = province.find((item) => item.id === fn_info_province);
         return provinceData ? provinceData.prov_name : "ไม่พบข้อมูล";
       },
     },
@@ -188,25 +222,13 @@ const ManageMembers = () => {
             />
           )}
           <Modal title="กำหนดระดับสมาชิก" open={isModalOpen} onCancel={handleCancel} footer={null}>
-            <Form
-              form={form}
-              layout="vertical"
-              name="member_form"
-              onFinish={handleAdd}
-            >
+            <Form form={form} layout="vertical" name="member_form" onFinish={handleAdd}>
               <Form.Item
                 name="status"
                 label="ระดับสมาชิก"
-                rules={[
-                  {
-                    required: true,
-                    message: "กรุณาเลือกระดับสมาชิก!",
-                  },
-                ]}
+                rules={[{ required: true, message: "กรุณาเลือกระดับสมาชิก!" }]}
               >
-                <Select
-                  allowClear
-                >
+                <Select allowClear>
                   <Option value="3">สมาชิกปกติ</Option>
                   <Option value="2">สมาชิก Editor</Option>
                 </Select>
@@ -219,9 +241,7 @@ const ManageMembers = () => {
             </Form>
           </Modal>
           <Link to={`/Admin/ManageMembers/ManageMembers_View/${record.id}`}>
-            <Button
-              icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />}
-            />
+            <Button icon={<EyeOutlined style={{ fontSize: "16px", color: "blue" }} />} />
           </Link>
           <Popconfirm
             title="คุณแน่ใจหรือไม่ที่จะลบรายการนี้?"
@@ -229,11 +249,7 @@ const ManageMembers = () => {
             okText="ใช่"
             cancelText="ไม่"
           >
-            <Button
-              icon={
-                <DeleteOutlined style={{ fontSize: "16px", color: "red" }} />
-              }
-            />
+            <Button icon={<DeleteOutlined style={{ fontSize: "16px", color: "red" }} />} />
           </Popconfirm>
         </Space>
       ),
@@ -254,17 +270,50 @@ const ManageMembers = () => {
   return (
     <AdminMenu>
       <Card className="cardsection">
-        <div className="cardsectionContent">จัดการสมาชิก
-        <div className="searchContainer">
-              <Input
-                type="text"
-                size="large"
-                placeholder="ค้นหา"
-                style={{ marginRight: "10px" }}
-                onChange={handleSearch}
-                prefix={<SearchOutlined className="site-form-item-icon" />}
-              />
-            </div>
+        <div className="cardsectionContent">
+          จัดการสมาชิก
+          <div className="searchContainer">
+            <Button type="primary" className="buttonfilterStyle" onClick={showFilterDialog}>
+              ตัวกรอง
+            </Button>
+            <Modal open={filterVisible} onCancel={closeFilterDialog} footer={null}>
+              <div>
+                <div className="Modelcontainer">กรองข้อมูล</div>
+                <Form
+                  form={form}
+                  layout="vertical"
+                  name="normal_login"
+                  className="login-form"
+                  onFinish={onFinish}
+                  initialValues={{ remember: true }}
+                  style={{ maxWidth: "100%", padding: 20 }}
+                >
+                  <Form.Item
+                    name="prov_new"
+                    label={<Typography variant="body1" sx={{ fontSize: "25px" }}>จังหวัด</Typography>}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <Select size="large" placeholder="เลือกจังหวัด" allowClear>
+                      {selectOptions_prov}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" className="form-button" size="large">
+                      <Typography variant="body1" sx={{ fontSize: "25px" }}>ค้นหา</Typography>
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </div>
+            </Modal>
+            <Input
+              type="text"
+              size="large"
+              placeholder="ค้นหา"
+              style={{ marginRight: "10px" }}
+              onChange={handleSearch}
+              prefix={<SearchOutlined className="site-form-item-icon" />}
+            />
+          </div>
         </div>
       </Card>
       <br />
@@ -274,19 +323,8 @@ const ManageMembers = () => {
             <TableHead>
               <TableRow style={{ background: "#7BBD8F" }}>
                 {mergedColumns.map((column) => (
-                  <TableCell
-                    key={column.title}
-                    align="left"
-                    width={column.width}
-                  >
-                    <Typography
-                      variant="body1"
-                      sx={{
-                        fontSize: "30px",
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
+                  <TableCell key={column.title} align="left" width={column.width}>
+                    <Typography variant="body1" sx={{ fontSize: "30px", color: "white", fontWeight: "bold" }}>
                       {column.title}
                     </Typography>
                   </TableCell>
@@ -295,10 +333,7 @@ const ManageMembers = () => {
             </TableHead>
             <TableBody>
               {(rowsPerPage > 0
-                ? filtered.slice(
-                  page * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
+                ? filtered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : filtered
               ).map((row, rowIndex) => (
                 <TableRow key={row.id} hover>

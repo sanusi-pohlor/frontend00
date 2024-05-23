@@ -14,7 +14,7 @@ const FnInfoView = () => {
   const [data, setData] = useState([]);
   const [about, setAbout] = useState([]);
   const { id } = useParams();
-
+  const [results, setResults] = useState([]);
 
   const fetchFakeNewsInfo = async () => {
     try {
@@ -43,10 +43,7 @@ const FnInfoView = () => {
         );
         if (response.status === 200) {
           const pv = await response.data;
-          const filteredIds = pv.filter(
-            (item) => item.mfi_fninfo === (fakeNewsInfo && fakeNewsInfo.id)
-          );
-          setData(filteredIds);
+          setData(pv);
         } else {
           console.error("Error fetching data:", response.statusText);
         }
@@ -145,7 +142,24 @@ const FnInfoView = () => {
     };
     fetchDataAndSetOptions();
   }, [fakeNewsInfo]);
-
+  const Results = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Result_request"
+      );
+      if (response.ok) {
+        const pv = await response.json();
+        setResults(pv);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    Results();
+  }, [])
   if (fakeNewsInfo === null) {
     return (
       <UserProfile>
@@ -159,7 +173,13 @@ const FnInfoView = () => {
       {text}
     </Typography>
   );
-
+  const renderResultText = (id) => {
+    console.log(id);
+        const ResultsData = results.find(
+          (item) => item.id === id
+        );
+        return ResultsData ? ResultsData.result_name : "ไม่พบข้อมูล";
+  };
   const items = [
     {
       key: "1",
@@ -292,8 +312,8 @@ const FnInfoView = () => {
     {
       key: "13",
       label: createTypography("ผลการตรวจสอบ", "25px", 3),
-      children: fakeNewsInfo && createTypography(data.length > 0 ? (data[0].mfi_results === 1 ? "ข่าวจริง" : "ข่าวเท็จ") : "รอตรวจสอบ"),
-    },
+      children: createTypography(data.length > 0 && data[0].mfi_results !== undefined ? renderResultText(data[0].mfi_results) : "รอตรวจสอบ"),
+    },    
     {
       key: "14",
       label: createTypography("เกี่ยวกับ"),

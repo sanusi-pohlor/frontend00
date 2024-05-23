@@ -32,6 +32,7 @@ const FakenewsSearch_Menu = () => {
   const [infoData, setInfoData] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectOptions_result, setSelectOptions_Result] = useState([]);
+  const [ty, setty] = useState([]);
 
   function getThaiMonth(month) {
     const thaiMonths = [
@@ -63,7 +64,24 @@ const FakenewsSearch_Menu = () => {
   useEffect(() => {
     fetchAll();
   }, []);
-
+  const fetchty = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/TypeInformation_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setty(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchty();
+  }, []);
   const fetchData = async () => {
     try {
       const response = await fetch(
@@ -285,6 +303,17 @@ const FakenewsSearch_Menu = () => {
       },
     },
     {
+      title: "ประเภท",
+      dataIndex: "mfi_ty_info",
+      width: "10%",
+      render: (mfi_ty_info) => {
+        const correspondingInfo = ty.find(
+          (item) => item.id === mfi_ty_info
+        );
+        return correspondingInfo ? correspondingInfo.type_info_name : "ไม่พบข้อมูล";
+      },
+    },
+    {
       title: "จังหวัดของผู้แจ้ง",
       dataIndex: "mfi_fninfo",
       width: "10%",
@@ -352,7 +381,7 @@ const FakenewsSearch_Menu = () => {
       >
         <Card className="cardsection">
           <div className="cardsectionContent">
-            ค้นหาข่าวเท็จที่มีการรับแจ้งเข้ามาในเครือข่ายผู้บริโภคภาคใต้
+            ค้นหารายละเอียดข้อมูลที่รับแจ้งจากเครือข่ายผู้บริโภคภาคใต้ที่ผ่านการตรวจสอบแล้ว
             <div className="searchContainer">
               <Button
                 type="primary"

@@ -37,7 +37,9 @@ const Manage_Fake_Info_Edit = () => {
   const [options, setOptions] = useState([]);
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState(null);
-
+  const handleCancel = () => {
+    navigate(-1);
+  };
   useEffect(() => {
     const fetchManage_Fake_Info_Edit = async () => {
       try {
@@ -150,7 +152,7 @@ const Manage_Fake_Info_Edit = () => {
     fetchInfo_source();
   }, []);
 
-  const fetchFakeNewsInfo = useCallback(async () => {
+  const fetchFakeNewsInfo = async () => {
     try {
       const response = await fetch(
         `https://checkkonproject-sub.com/api/FakeNewsInfo_show/${data.mfi_fninfo}`
@@ -164,7 +166,7 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [data]);
+  };
 
   useEffect(() => {
     fetchFakeNewsInfo();
@@ -216,31 +218,25 @@ const Manage_Fake_Info_Edit = () => {
           formData.append(fieldName, value);
         }
       };
-      appendIfDefined("mfi_c_info", values.mfi_c_info);
-      appendIfDefined("mfi_agency", values.mfi_agency);
-      appendIfDefined("mfi_d_topic", values.mfi_d_topic);
-      appendIfDefined("mfi_fm_d", values.mfi_fm_d);
-      appendIfDefined("mfi_dis_c", values.mfi_dis_c);
-      appendIfDefined("mfi_publ", values.mfi_publ);
-      appendIfDefined("mfi_ty_info", values.mfi_ty_info);
-      const mfi_only_cv = data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่";
-      if (values.mfi_only_cv !== mfi_only_cv) {
-        formData.append("mfi_only_cv", values.mfi_only_cv);
-      }
-      appendIfDefined("mfi_con_about", values.mfi_con_about);
-      appendIfDefined("mfi_moti", values.mfi_moti);
-      appendIfDefined("mfi_iteration", values.mfi_iteration);
-      appendIfDefined("mfi_che_d", values.mfi_che_d);
-      appendIfDefined("mfi_data_cha", values.mfi_data_cha);
-      appendIfDefined("mfi_results", values.mfi_results);
-      appendIfDefined("mfi_tag", JSON.stringify(values.mfi_tag));
-      const response = await fetch(
-        `https://checkkonproject-sub.com/api/Manage_Fake_Info_update/${id}`,
-        {
-          method: "POST",
-          body: formData,
+
+      // Append all values from the form
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "mfi_only_cv") {
+          const mfi_only_cv = data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่";
+          if (value !== mfi_only_cv) {
+            formData.append(key, value);
+          }
+        } else if (key === "mfi_tag") {
+          formData.append(key, JSON.stringify(value));
+        } else {
+          appendIfDefined(key, value);
         }
-      );
+      });
+      const response = await fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_update/${id}`, {
+        method: "POST",
+        body: formData,
+      });
+
       if (response.ok) {
         console.log("Form data sent successfully");
         message.success("Form data sent successfully");
@@ -293,9 +289,11 @@ const Manage_Fake_Info_Edit = () => {
     return source.med_c_name;
   };
 
-  const fetchDataAndSetOptions = useCallback(async (endpoint, fieldName, stateSetter) => {
+  const fetchDataAndSetOptions = async (endpoint, fieldName, stateSetter) => {
     try {
-      const response = await fetch(`https://checkkonproject-sub.com/api/${endpoint}`);
+      const response = await fetch(
+        `https://checkkonproject-sub.com/api/${endpoint}`
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -317,11 +315,13 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [form]);
+  };
 
-  const onChange_mfi_che_d_id = useCallback(async () => {
+  const onChange_mfi_che_d_id = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/CheckingData_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/CheckingData_request"
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -336,43 +336,61 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [setSelectOptions_check_d]);
+  };
 
-  const onChange_mfi_fm_d_id = useCallback(() => {
+  const onChange_mfi_fm_d_id = () => {
     fetchDataAndSetOptions("FormatData_request", "fm_d", setSelectOptions_fm);
-  }, [fetchDataAndSetOptions, setSelectOptions_fm]);
+  };
 
-  const onChange_mfi_dis_c_id = useCallback(() => {
-    fetchDataAndSetOptions("DetailsNotiChannels_request", "detail", setSelectOptions_dis);
-  }, [fetchDataAndSetOptions, setSelectOptions_dis]);
+  const onChange_mfi_dis_c_id = () => {
+    fetchDataAndSetOptions(
+      "DetailsNotiChannels_request",
+      "detail",
+      setSelectOptions_dis
+    );
+  };
 
-  const onChange_mfi_ty_info_id = useCallback(() => {
-    fetchDataAndSetOptions("TypeInformation_request", "type_info", setSelectOptions_ty);
-  }, [fetchDataAndSetOptions, setSelectOptions_ty]);
+  const onChange_mfi_ty_info_id = () => {
+    fetchDataAndSetOptions(
+      "TypeInformation_request",
+      "type_info",
+      setSelectOptions_ty
+    );
+  };
 
-  const onChange_mfi_moti_id = useCallback(() => {
+  const onChange_mfi_moti_id = () => {
     fetchDataAndSetOptions("Motivation_request", "moti", setSelectOptions_moti);
-  }, [fetchDataAndSetOptions, setSelectOptions_moti]);
+  };
 
-  const onChange_mfi_data_cha_id = useCallback(() => {
-    fetchDataAndSetOptions("DataCharacteristics_request", "data_cha", setSelectOptions_data);
-  }, [fetchDataAndSetOptions, setSelectOptions_data]);
+  const onChange_mfi_data_cha_id = () => {
+    fetchDataAndSetOptions(
+      "DataCharacteristics_request",
+      "data_cha",
+      setSelectOptions_data
+    );
+  };
 
-  const onChange_dnc_med_id = useCallback(() => {
-    fetchDataAndSetOptions("MediaChannels_request", "med_c", setSelectOptions_med);
-  }, [fetchDataAndSetOptions, setSelectOptions_med]);
+  const onChange_dnc_med_id = () => {
+    fetchDataAndSetOptions(
+      "MediaChannels_request",
+      "med_c",
+      setSelectOptions_med
+    );
+  };
 
-  const onChange_mfi_con_about_id = useCallback(() => {
+  const onChange_mfi_con_about_id = () => {
     fetchDataAndSetOptions("About_request", "about", setSelectOptions_About);
-  }, [fetchDataAndSetOptions, setSelectOptions_About]);
+  };
 
   const onChange_mfi_results_id = () => {
     fetchDataAndSetOptions("Result_request", "result", setSelectOptions_Result);
   };
 
-  const onChange_Tags = useCallback(async () => {
+  const onChange_Tags = async () => {
     try {
-      const response = await fetch("https://checkkonproject-sub.com/api/Tags_request");
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/Tags_request"
+      );
       if (response.ok) {
         const typeCodes = await response.json();
         const options = typeCodes.map((code) => (
@@ -387,9 +405,9 @@ const Manage_Fake_Info_Edit = () => {
     } catch (error) {
       console.error(`Error fetching codes:`, error);
     }
-  }, [setSelectOptions_tags]);
+  };
 
-  const memoizedFunctions = useCallback(() => {
+  const memoizedFunctions = () => {
     onChange_mfi_con_about_id();
     onChange_mfi_fm_d_id();
     onChange_mfi_dis_c_id();
@@ -400,21 +418,12 @@ const Manage_Fake_Info_Edit = () => {
     onChange_mfi_che_d_id();
     onChange_mfi_results_id();
     onChange_Tags();
-  }, [
-    onChange_mfi_con_about_id,
-    onChange_mfi_fm_d_id,
-    onChange_mfi_dis_c_id,
-    onChange_mfi_ty_info_id,
-    onChange_mfi_moti_id,
-    onChange_mfi_data_cha_id,
-    onChange_dnc_med_id,
-    onChange_mfi_che_d_id,
-    onChange_Tags,
-  ]);
+  };
 
   useEffect(() => {
     memoizedFunctions();
-  }, [memoizedFunctions]);
+  }, []); // Empty dependency array to run only once on mount
+
 
   const createTypography = (label, text, fontSize = "25px") => (
     <Typography variant="body1" sx={{ fontSize }}>
@@ -579,300 +588,50 @@ const Manage_Fake_Info_Edit = () => {
           layout="vertical"
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          style={{
-            maxWidth: "90%",
-            margin: "auto",
-          }}
+          style={{ maxWidth: "90%", margin: "auto" }}
           size="large"
         >
-          <Form.Item
-            name="mfi_c_info"
-            label={createTypography("แหล่งที่มาของข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มแหล่งที่มาของข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_dnc_med_id} allowClear>
-              {selectOptions_med}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_agency"
-            label={createTypography("หน่วยงานที่เก็บข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มหน่วยงานที่เก็บข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-              margin: "0 8px",
-            }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="mfi_d_topic"
-            label={createTypography("หัวข้อข้อมูลผิดพลาด")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มหัวข้อข้อมูลผิดพลาด!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="mfi_fm_d"
-            label={createTypography("รูปแบบของข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มรูปแบบของข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_mfi_fm_d_id} allowClear>
-              {selectOptions_fm}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_dis_c"
-            label={createTypography("ขอบเขตการเผยแพร่")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มขอบเขตการเผยแพร่!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-              margin: "0 8px",
-            }}
-          >
-            <Select onChange={onChange_mfi_dis_c_id} allowClear>
-              {selectOptions_dis}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_publ"
-            label={createTypography("ผู้เผยแพร่ข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มผู้เผยแพร่ข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="mfi_ty_info"
-            label={createTypography("ประเภทของข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มประเภทของข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_mfi_ty_info_id} allowClear>
-              {selectOptions_ty}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_only_cv"
-            label={createTypography("เป็นเนื้อหาเกี่ยวกับโควิด")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเลือกว่าเป็นเนื้อหาเกี่ยวกับโควิด-15 หรือไม่?",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-              margin: "0 8px",
-            }}
-          >
-            <Select allowClear style={{ width: "100%" }}>
-              <Select.Option value="0">ไม่ใช่</Select.Option>
-              <Select.Option value="1">ใช่</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_moti"
-            label={createTypography("แรงจูงใจการเผยแพร่")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มแรงจูงใจการเผยแพร่!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_mfi_moti_id} allowClear>
-              {selectOptions_moti}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_iteration"
-            label={createTypography("จำนวนการวนซ้ำ")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มจำนวนการวนซ้ำ!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            name="mfi_che_d"
-            label={createTypography("การตรวจสอบข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มการตรวจสอบข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-              margin: "0 8px",
-            }}
-          >
-            <Select onChange={onChange_mfi_che_d_id} allowClear>
-              {selectOptions_check_d}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_data_cha"
-            label={createTypography("ลักษณะข้อมูล")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มลักษณะข้อมูล!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_mfi_data_cha_id} allowClear>
-              {selectOptions_data}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_results"
-            label={createTypography("ผลสรุป")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มผลสรุป!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select onChange={onChange_mfi_results_id} allowClear>
-              {selectOptions_result}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_con_about"
-            label={createTypography("เกี่ยวกับ")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มเกี่ยวกับ!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-              margin: "0 8px",
-            }}
-          >
-            <Select
-              onChange={onChange_mfi_con_about_id}
-              allowClear
-              style={{ width: "100%" }}
+          {[
+            { name: "mfi_c_info", label: "แหล่งที่มาของข้อมูล", component: <Select onChange={onChange_dnc_med_id} allowClear>{selectOptions_med}</Select> },
+            { name: "mfi_agency", label: "หน่วยงานที่เก็บข้อมูล", component: <Input /> },
+            { name: "mfi_d_topic", label: "หัวข้อข้อมูลผิดพลาด", component: <Input /> },
+            { name: "mfi_fm_d", label: "รูปแบบของข้อมูล", component: <Select onChange={onChange_mfi_fm_d_id} allowClear>{selectOptions_fm}</Select> },
+            { name: "mfi_dis_c", label: "ขอบเขตการเผยแพร่", component: <Select onChange={onChange_mfi_dis_c_id} allowClear>{selectOptions_dis}</Select> },
+            { name: "mfi_publ", label: "ผู้เผยแพร่ข้อมูล", component: <Input /> },
+            { name: "mfi_ty_info", label: "ประเภทของข้อมูล", component: <Select onChange={onChange_mfi_ty_info_id} allowClear>{selectOptions_ty}</Select> },
+            { name: "mfi_only_cv", label: "เป็นเนื้อหาเกี่ยวกับโควิด", component: <Select allowClear style={{ width: "100%" }}><Select.Option value="0">ไม่ใช่</Select.Option><Select.Option value="1">ใช่</Select.Option></Select> },
+            { name: "mfi_moti", label: "แรงจูงใจการเผยแพร่", component: <Select onChange={onChange_mfi_moti_id} allowClear>{selectOptions_moti}</Select> },
+            { name: "mfi_iteration", label: "จำนวนการวนซ้ำ", component: <Input /> },
+            { name: "mfi_che_d", label: "การตรวจสอบข้อมูล", component: <Select onChange={onChange_mfi_che_d_id} allowClear>{selectOptions_check_d}</Select> },
+            { name: "mfi_data_cha", label: "ลักษณะข้อมูล", component: <Select onChange={onChange_mfi_data_cha_id} allowClear>{selectOptions_data}</Select> },
+            { name: "mfi_results", label: "ผลสรุป", component: <Select onChange={onChange_mfi_results_id} allowClear>{selectOptions_result}</Select> },
+            { name: "mfi_con_about", label: "เกี่ยวกับ", component: <Select onChange={onChange_mfi_con_about_id} allowClear style={{ width: "100%" }}>{selectOptions_about}</Select> },
+            { name: "mfi_tag", label: "แท็ก", component: <Select mode="tags" size="large" onChange={onChange_Tags} onSearch={handleTagCreation} allowClear>{selectOptions_tags}</Select> }
+          ].map(({ name, label, component }, index) => (
+            <Form.Item
+              key={index}
+              name={name}
+              label={createTypography(label)}
+              rules={[{ required: false, message: `กรุณาเพิ่ม${label}!` }]}
+              style={{ display: "inline-block", width: "calc(33% - 8px)", margin: index % 3 === 1 ? "0 8px" : undefined }}
             >
-              {selectOptions_about}
-            </Select>
-          </Form.Item>
-          <Form.Item
-            name="mfi_tag"
-            label={createTypography("แท็ก")}
-            rules={[
-              {
-                required: false,
-                message: "กรุณาเพิ่มแท็ก!",
-              },
-            ]}
-            style={{
-              display: "inline-block",
-              width: "calc(33% - 8px)",
-            }}
-          >
-            <Select
-              mode="tags"
-              size="large"
-              onChange={onChange_Tags}
-              onSearch={(value) => {
-                if (Array.isArray(options)) {
-                  handleTagCreation(value);
-                }
-              }}
-              allowClear
-            >
-              {selectOptions_tags}
-            </Select>
-          </Form.Item>
+              {component}
+            </Form.Item>
+          ))}
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="form-button">
-              {createTypography("บันทึก")}
-            </Button>
+            <Button type="primary" htmlType="submit" className="form-button">{createTypography("บันทึก")}</Button>
           </Form.Item>
         </Form>
+        <Button
+          type="primary"
+          className="form-button-cancel"
+          size="large"
+          onClick={handleCancel}
+        >
+          <Typography variant="body1" sx={{ fontSize: "25px" }}>
+            ยกเลิก
+          </Typography>
+        </Button>
       </Card>
     </AdminMenu>
   );

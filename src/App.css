@@ -1736,3 +1736,8 @@ body {
     margin: 0 10px; /* Optional: Adds space between images */
 }
 
+.searchContainer {
+    display: flex;
+    align-items: center; /* Optional: Align items vertically */
+  }
+  
