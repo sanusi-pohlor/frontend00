@@ -172,29 +172,40 @@ const MyBarChart = () => {
         </div>
         <Divider />
         <ResponsiveContainer width="100%" height={450}>
-          <BarChart
-            data={chartData}
-            className="PieChartContainer"
-            layout="vertical"
-          >
-            <XAxis type="number" />
-            <YAxis type="category"/>
-            <Tooltip />
-            <Bar dataKey="value" nameKey="name">
-              <LabelList
-                dataKey={({ name, value }) => (value !== 0 ? `${name}: ${value}` : '')}
-                position="insideRight"
-                fill="black"
-                style={{ fontSize: "15px" }}
-              />
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
+          <div className="chart-container" style={{ overflowX: 'auto', height: '440px' }}>
+            <BarChart
+              data={chartData}
+              className="PieChartContainer"
+              layout="vertical"
+              width={850}
+              height={1000}
+            >
+              <XAxis type="number" />
+              <YAxis type="category" />
+              <Tooltip />
+              <Bar dataKey="value" nameKey="name">
+                <LabelList
+                  dataKey={({ name }) => `${name}`}
+                  position="insideLeft"
+                  fill="black"
+                  style={{ fontSize: "25px", fontWeight: "bold" }}
                 />
-              ))}
-            </Bar>
-          </BarChart>
+                <LabelList
+                  dataKey={({ value }) => (value !== 0 ? `${value}` : '')}
+                  position="right"
+                  fill="black"
+                  style={{ fontSize: "25px", fontWeight: "bold" }}
+                />
+                {chartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+
+          </div>
         </ResponsiveContainer>
       </Card>
     </div>

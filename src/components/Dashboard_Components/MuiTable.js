@@ -119,13 +119,15 @@ const MyTable = () => {
             flex: 1,
             headerClassName: "header-class",
             cellClassName: "cell-class",
+            align: 'left', // ปรับชิดขวาเป็นชิดซ้าย
           },
           {
             field: "value",
             headerName: "จำนวน",
-            flex: 1,
-            headerClassName: "header-class",
+            flex: 0.2,
+            headerClassName: "header-class header-right-aligned",
             cellClassName: "cell-class",
+            align: 'right', // ปรับชิดขวาเป็นชิดซ้าย
           },
         ];
         setSelectedOptionColumns(columns);
@@ -167,19 +169,11 @@ const MyTable = () => {
         </div>
         <Divider />
         <Box />
+        <div className="chart-container" style={{ overflowX: 'auto', height: '500px' }}>
         <DataGrid
           rows={tableDataWithId}
           columns={selectedOptionColumns}
-          autoHeight
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 8,
-              },
-            },
-          }}
-          pageSizeOptions={[8]}
-        />
+        /></div>
       </Card>
     </div>
   );

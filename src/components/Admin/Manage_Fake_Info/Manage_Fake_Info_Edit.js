@@ -66,13 +66,13 @@ const Manage_Fake_Info_Edit = () => {
             mfi_dis_c: data.mfi_dis_c,
             mfi_publ: data.mfi_publ,
             mfi_ty_info: data.mfi_ty_info,
-            mfi_only_cv: data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่",
+            mfi_only_cv: data.mfi_only_cv,
             mfi_moti: data.mfi_moti,
             mfi_iteration: data.mfi_iteration,
             mfi_che_d: data.mfi_che_d,
             mfi_data_cha: data.mfi_data_cha,
             mfi_fninfo: data.mfi_fninfo,
-            mfi_results: data.mfi_results === 1 ? "จริง" : "เท็จ",
+            mfi_results: data.mfi_results,
             mfi_con_about: data.mfi_con_about,
             mfi_tag: data.mfi_tag,
           });
@@ -218,20 +218,21 @@ const Manage_Fake_Info_Edit = () => {
           formData.append(fieldName, value);
         }
       };
-
-      // Append all values from the form
-      Object.entries(values).forEach(([key, value]) => {
-        if (key === "mfi_only_cv") {
-          const mfi_only_cv = data.mfi_only_cv === 1 ? "ใช่" : "ไม่ใช่";
-          if (value !== mfi_only_cv) {
-            formData.append(key, value);
-          }
-        } else if (key === "mfi_tag") {
-          formData.append(key, JSON.stringify(value));
-        } else {
-          appendIfDefined(key, value);
-        }
-      });
+      appendIfDefined("mfi_c_info", values.mfi_c_info);
+      appendIfDefined("mfi_agency", values.mfi_agency);
+      appendIfDefined("mfi_d_topic", values.mfi_d_topic);
+      appendIfDefined("mfi_fm_d", values.mfi_fm_d);
+      appendIfDefined("mfi_dis_c", values.mfi_dis_c);
+      appendIfDefined("mfi_publ", values.mfi_publ);
+      appendIfDefined("mfi_ty_info", values.mfi_ty_info);
+      //appendIfDefined("mfi_only_cv", values.mfi_only_cv);
+      appendIfDefined("mfi_con_about", values.mfi_con_about);
+      appendIfDefined("mfi_moti", values.mfi_moti);
+      appendIfDefined("mfi_iteration", values.mfi_iteration);
+      appendIfDefined("mfi_che_d", values.mfi_che_d);
+      appendIfDefined("mfi_data_cha", values.mfi_data_cha);
+      appendIfDefined("mfi_results", values.mfi_results);
+      //appendIfDefined("mfi_tag", JSON.stringify(values.mfi_tag));
       const response = await fetch(`https://checkkonproject-sub.com/api/Manage_Fake_Info_update/${id}`, {
         method: "POST",
         body: formData,

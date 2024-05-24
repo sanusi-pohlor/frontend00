@@ -1710,6 +1710,7 @@ body {
     width: 50%;
     object-fit: cover;
 }
+
 .cardline {
     font-size: 40px;
     font-weight: bold;
@@ -1718,6 +1719,7 @@ body {
 
     align-items: center;
 }
+
 .image-container {
     display: flex;
     justify-content: center;
@@ -1727,17 +1729,47 @@ body {
 .responsive-image1 {
     max-width: 15%;
     height: auto;
-    margin: 0 10px; /* Optional: Adds space between images */
+    margin: 0 10px;
+    /* Optional: Adds space between images */
 }
 
 .responsive-image2 {
     max-width: 40%;
     height: auto;
-    margin: 0 10px; /* Optional: Adds space between images */
+    margin: 0 10px;
+    /* Optional: Adds space between images */
 }
 
 .searchContainer {
     display: flex;
-    align-items: center; /* Optional: Align items vertically */
+    align-items: center;
+    /* Optional: Align items vertically */
+}
+.chart-container {
+    display: flex;
+}
+.chart {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.chart .chart_bar {
+    display: inline-block;
+    width: 200px;
+    /* Adjust width as necessary */
+    height: 20px;
+    /* Adjust height as necessary */
+    background-color: #8884d8;
+    /* Default color */
+    margin-bottom: 5px;
+}
+
+.chart .label {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.right-aligned-header .MuiDataGrid-columnHeaderWrapper {
+    justify-content: flex-end;
   }
-  
