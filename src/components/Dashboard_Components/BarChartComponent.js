@@ -185,14 +185,8 @@ const MyBarChart = () => {
               <Tooltip />
               <Bar dataKey="value" nameKey="name">
                 <LabelList
-                  dataKey={({ name }) => `${name}`}
+                  dataKey={({ name, value}) => `${name} ------ ${value}`}
                   position="insideLeft"
-                  fill="black"
-                  style={{ fontSize: "25px", fontWeight: "bold" }}
-                />
-                <LabelList
-                  dataKey={({ value }) => (value !== 0 ? `${value}` : '')}
-                  position="right"
                   fill="black"
                   style={{ fontSize: "25px", fontWeight: "bold" }}
                 />
