@@ -5,7 +5,6 @@ import {
   YAxis,
   Bar,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
   LabelList,
@@ -179,16 +178,17 @@ const MyBarChart = () => {
               layout="vertical"
               width={850}
               height={1000}
+              margin={{ left: -45 }}
             >
               <XAxis type="number" />
               <YAxis type="category" />
               <Tooltip />
               <Bar dataKey="value" nameKey="name">
                 <LabelList
-                  dataKey={({ name, value}) => `${name} ------ ${value}`}
+                  dataKey={({ name, value }) => `${name} ------ ${value}`}
                   position="insideLeft"
                   fill="black"
-                  style={{ fontSize: "25px", fontWeight: "bold" }}
+                  style={{ fontSize: "20px", fontWeight: "bold" }}
                 />
                 {chartData.map((entry, index) => (
                   <Cell
@@ -198,7 +198,6 @@ const MyBarChart = () => {
                 ))}
               </Bar>
             </BarChart>
-
           </div>
         </ResponsiveContainer>
       </Card>

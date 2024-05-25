@@ -44,6 +44,10 @@
     }
 
     .PieChartContainer {
+        width: 850px;
+        height: 1000px;
+        display: flex; /* Optional: for better alignment and positioning */
+        flex-direction: column;
         font-size: 25px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
@@ -320,6 +324,8 @@
     }
 
     .PieChartContainer {
+        width: 850px;
+        height: 1000px;
         font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
@@ -604,6 +610,8 @@
     }
 
     .PieChartContainer {
+        width: 850px;
+        height: 1000px;
         font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
@@ -888,6 +896,8 @@
     }
 
     .PieChartContainer {
+        width: 850px;
+        height: 1000px;
         font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
@@ -1171,6 +1181,8 @@
     }
 
     .PieChartContainer {
+        width: 850px;
+        height: 1000px;
         font-size: 20px;
         font-weight: bold;
         font-family: 'Th Sarabun New', sans-serif;
@@ -1745,9 +1757,9 @@ body {
     align-items: center;
     /* Optional: Align items vertically */
 }
-.chart-container {
+/* .chart-container {
     display: flex;
-}
+} */
 .chart {
     display: flex;
     flex-direction: column;
