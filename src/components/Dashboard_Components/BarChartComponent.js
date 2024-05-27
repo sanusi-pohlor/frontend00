@@ -189,6 +189,7 @@ const MyBarChart = () => {
                   position="insideLeft"
                   fill="black"
                   style={{ fontSize: "20px", fontWeight: "bold" }}
+                  width={850}
                 />
                 {chartData.map((entry, index) => (
                   <Cell

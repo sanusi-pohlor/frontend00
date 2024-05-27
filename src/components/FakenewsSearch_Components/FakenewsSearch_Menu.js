@@ -33,6 +33,7 @@ const FakenewsSearch_Menu = () => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [selectOptions_result, setSelectOptions_Result] = useState([]);
   const [ty, setty] = useState([]);
+  const [med, setmed] = useState([]);
 
   function getThaiMonth(month) {
     const thaiMonths = [
@@ -81,6 +82,24 @@ const FakenewsSearch_Menu = () => {
   };
   useEffect(() => {
     fetchty();
+  }, []);
+  const fetchmed = async () => {
+    try {
+      const response = await fetch(
+        "https://checkkonproject-sub.com/api/MediaChannels_request"
+      );
+      if (response.ok) {
+        const data = await response.json();
+        setmed(data);
+      } else {
+        console.error("Error fetching data:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  useEffect(() => {
+    fetchmed();
   }, []);
   const fetchData = async () => {
     try {
@@ -311,6 +330,17 @@ const FakenewsSearch_Menu = () => {
           (item) => item.id === mfi_ty_info
         );
         return correspondingInfo ? correspondingInfo.type_info_name : "ไม่พบข้อมูล";
+      },
+    },
+    {
+      title: "ช่องทางสื่อ",
+      dataIndex: "mfi_c_info",
+      width: "10%",
+      render: (mfi_c_info) => {
+        const correspondingInfo = med.find(
+          (item) => item.id === mfi_c_info
+        );
+        return correspondingInfo ? correspondingInfo.med_c_name : "ไม่พบข้อมูล";
       },
     },
     {
