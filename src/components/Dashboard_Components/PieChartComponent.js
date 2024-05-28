@@ -3,7 +3,6 @@ import {
   PieChart,
   Pie,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   Cell,
 } from "recharts";
@@ -11,9 +10,10 @@ import { Card, Divider, Select, DatePicker } from "antd";
 import moment from "moment";
 import { Typography } from "@mui/material";
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const MyPieChart = () => {
-  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedDateRange, setFormattedDateRange] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = [
@@ -73,10 +73,10 @@ const MyPieChart = () => {
       setSelectedOption(options[0].title);
     }
 
-    if (!formattedDate) {
-      setFormattedDate("");
+    if (!formattedDateRange) {
+      setFormattedDateRange([]);
     }
-  }, [options, selectedOption, formattedDate]);
+  }, [options, selectedOption, formattedDateRange]);
 
   useEffect(() => {
     const fetchData = async (endpoint, name, dataIndex) => {
@@ -99,8 +99,11 @@ const MyPieChart = () => {
 
           const filteredManage_Fake_Infodata =
             formattedManage_Fake_Infodata.filter((data) => {
-              if (!formattedDate || formattedDate.length === 0) return true;
-              return data.created_at === formattedDate;
+              if (formattedDateRange.length === 0) return true;
+              return (
+                data.created_at >= formattedDateRange[0] &&
+                data.created_at <= formattedDateRange[1]
+              );
             });
 
           const MediaChannelsData = await MediaChannels.json();
@@ -129,20 +132,23 @@ const MyPieChart = () => {
         fetchData(selected.value, selected.name, selected.dataIndex);
       }
     }
-  }, [options, selectedOption, formattedDate]);
+  }, [options, selectedOption, formattedDateRange]);
 
   const handleSelectChange = (value) => {
     setSelectedOption(value);
   };
 
-  const handleSelectDate = (date) => {
-    if (date) {
-      setFormattedDate(date.format("YYYY-MM"));
+  const handleSelectDate = (dates) => {
+    if (dates) {
+      setFormattedDateRange(dates.map((date) => date.format("YYYY-MM")));
     } else {
-      setFormattedDate("");
+      setFormattedDateRange([]);
     }
   };
-
+  const renderCustomizedLabel = ({ name, value }) => {
+    if (value === 0) return null;
+    return `${value}`;
+  };
   return (
     <div>
       <Card hoverable className="DB-Card-container1">
@@ -161,9 +167,9 @@ const MyPieChart = () => {
                 </Option>
               ))}
             </Select>
-            <DatePicker
+            <RangePicker
               onChange={handleSelectDate}
-              placeholder="เดือน/ปี"
+              placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
               picker="month"
               size="large"
               defaultValue={null}
@@ -175,20 +181,14 @@ const MyPieChart = () => {
         <ResponsiveContainer width="100%" height={400}>
           <PieChart className="PieChartContainer">
             <Tooltip />
-            {/* <Legend
-              payload={chartData.map((entry, index) => ({
-                value: entry.name,
-                color: COLORS[index % COLORS.length],
-              }))}
-            /> */}
             <Pie
               data={chartData}
               dataKey="value"
               nameKey="name"
               cx="50%"
               cy="50%"
-              outerRadius={`${Math.min(80, 80) - 1}%`}
-              label
+              outerRadius={130}
+              label={renderCustomizedLabel}
             >
               {chartData.map((entry, index) => (
                 <Cell

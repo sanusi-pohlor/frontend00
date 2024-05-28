@@ -458,6 +458,11 @@ const M_DB_Adm_Menu = () => {
   const oldestMonthYear = moment(oldestDate).format("Do MMMM YYYY");
   const newestMonthYear = moment(newestDate).format("Do MMMM YYYY");
 
+  const renderCustomizedLabel = ({ name, value }) => {
+    if (value === 0) return null;
+    return `${value}`;
+  };
+
   return (
     <AdminMenu>
       <Card className="cardsection">
@@ -479,7 +484,7 @@ const M_DB_Adm_Menu = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
+                  label={renderCustomizedLabel}
                 >
                   {chartData1.map((entry, index) => (
                     <Cell
@@ -506,7 +511,7 @@ const M_DB_Adm_Menu = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
+                  label={renderCustomizedLabel}
                 >
                   {chartData2.map((entry, index) => (
                     <Cell
@@ -531,7 +536,7 @@ const M_DB_Adm_Menu = () => {
                   cx="50%"
                   cy="50%"
                   outerRadius={`${Math.min(80, 80) - 1}%`}
-                  label
+                  label={renderCustomizedLabel}
                 >
                   {chartData3.map((entry, index) => (
                     <Cell fill={COLORS[index % COLORS.length]} />

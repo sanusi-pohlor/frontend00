@@ -4,9 +4,10 @@ import moment from "moment";
 import { DataGrid } from "@mui/x-data-grid";
 import { Typography, Box } from "@mui/material";
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const MyTable = () => {
-  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedDateRange, setFormattedDateRange] = useState([]);
   const [tableData, setTableData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionColumns, setSelectedOptionColumns] = useState([]);
@@ -35,11 +36,7 @@ const MyTable = () => {
     if (!selectedOption) {
       setSelectedOption(options[0].title);
     }
-
-    if (!formattedDate) {
-      setFormattedDate("");
-    }
-  }, [options, selectedOption, formattedDate]);
+  }, [options, selectedOption]);
 
   useEffect(() => {
     const fetchData = async (endpoint, name, dataIndex) => {
@@ -50,7 +47,7 @@ const MyTable = () => {
         const MediaChannels = await fetch(
           `https://checkkonproject-sub.com/api/${endpoint}`
         );
-  
+
         if (Manage_Fake_Info.ok && MediaChannels.ok) {
           const Manage_Fake_Infodata = await Manage_Fake_Info.json();
           const formattedManage_Fake_Infodata = Manage_Fake_Infodata.map(
@@ -59,25 +56,28 @@ const MyTable = () => {
               created_at: moment(data.created_at).format("YYYY-MM"),
             })
           );
-  
+
           const filteredManage_Fake_Infodata =
             formattedManage_Fake_Infodata.filter((data) => {
-              if (!formattedDate || formattedDate.length === 0) return true;
-              return data.created_at === formattedDate;
+              if (formattedDateRange.length === 0) return true;
+              return (
+                data.created_at >= formattedDateRange[0] &&
+                data.created_at <= formattedDateRange[1]
+              );
             });
-  
+
           const MediaChannelsData = await MediaChannels.json();
           const countByMedCId = MediaChannelsData.map((channel) => {
             const count = filteredManage_Fake_Infodata.filter(
               (fakeInfo) => fakeInfo[dataIndex] === channel.id
             ).length;
-  
+
             return {
               name: channel[name],
               value: count,
             };
           });
-  
+
           setTableData(countByMedCId);
         } else {
           console.error("Failed to fetch data");
@@ -92,19 +92,17 @@ const MyTable = () => {
         fetchData(selected.value, selected.name, selected.dataIndex);
       }
     }
-  }, [options,selectedOption, formattedDate]);
-
-  
+  }, [options, selectedOption, formattedDateRange]);
 
   const handleSelectChange = (value) => {
     setSelectedOption(value);
   };
 
-  const handleSelectDate = (date) => {
-    if (date) {
-      setFormattedDate(date.format("YYYY-MM"));
+  const handleSelectDate = (dates) => {
+    if (dates) {
+      setFormattedDateRange(dates.map((date) => date.format("YYYY-MM")));
     } else {
-      setFormattedDate("");
+      setFormattedDateRange([]);
     }
   };
 
@@ -119,7 +117,7 @@ const MyTable = () => {
             flex: 1,
             headerClassName: "header-class",
             cellClassName: "cell-class",
-            align: 'left', // ปรับชิดขวาเป็นชิดซ้าย
+            align: 'left', // Align left
           },
           {
             field: "value",
@@ -127,18 +125,19 @@ const MyTable = () => {
             flex: 0.2,
             headerClassName: "header-class header-right-aligned",
             cellClassName: "cell-class",
-            align: 'right', // ปรับชิดขวาเป็นชิดซ้าย
+            align: 'right', // Align right
           },
         ];
         setSelectedOptionColumns(columns);
       }
     }
-  }, [selectedOption,options]);
+  }, [selectedOption, options]);
 
   const tableDataWithId = tableData.map((row, index) => ({
     ...row,
     id: index + 1,
   }));
+
   return (
     <div>
       <Card hoverable className="DB-Card-container2">
@@ -157,12 +156,11 @@ const MyTable = () => {
                 </Option>
               ))}
             </Select>
-            <DatePicker
+            <RangePicker
               onChange={handleSelectDate}
-              placeholder="เดือน/ปี"
+              placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
               picker="month"
               size="large"
-              defaultValue={null}
               className="selectContainer"
             />
           </div>
@@ -170,10 +168,11 @@ const MyTable = () => {
         <Divider />
         <Box />
         <div className="chart-container" style={{ overflowX: 'auto', height: '500px' }}>
-        <DataGrid
-          rows={tableDataWithId}
-          columns={selectedOptionColumns}
-        /></div>
+          <DataGrid
+            rows={tableDataWithId}
+            columns={selectedOptionColumns}
+          />
+        </div>
       </Card>
     </div>
   );

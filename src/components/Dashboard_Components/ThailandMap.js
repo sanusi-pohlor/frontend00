@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Card, Tooltip, Divider, DatePicker } from "antd";
 import { Typography } from "@mui/material";
+import moment from "moment";
+const { RangePicker } = DatePicker;
 
 const MapWidget = () => {
-  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedDateRange, setFormattedDateRange] = useState([]);
   const [data, setData] = useState([]);
-  const regionCounts = {};
+  const [regionCounts, setRegionCounts] = useState({});
 
   const fetchUserInfo = async () => {
     try {
@@ -22,35 +24,49 @@ const MapWidget = () => {
       console.error("Error fetching user data:", error);
     }
   };
+
   useEffect(() => {
     fetchUserInfo();
   }, []);
 
+  useEffect(() => {
+    if (data.length > 0) {
+      countRegionData();
+    }
+  }, [data, formattedDateRange]);
+
   const countRegionData = () => {
+    const counts = {};
     data
-      .filter((item) => item.created_at.startsWith(formattedDate))
+      .filter((item) => {
+        if (formattedDateRange.length === 0) return true;
+        const itemDate = moment(item.created_at).format("YYYY-MM");
+        return (
+          itemDate >= formattedDateRange[0] && itemDate <= formattedDateRange[1]
+        );
+      })
       .forEach((item) => {
         const regionId = item.fn_info_province;
         if (regionId) {
-          regionCounts[regionId] = (regionCounts[regionId] || 0) + 1;
+          counts[regionId] = (counts[regionId] || 0) + 1;
         }
       });
+    setRegionCounts(counts);
   };
-
-  countRegionData();
 
   const getTooltipTitle = (regionId) => {
     const count = regionCounts[regionId] || 0;
     return ` จำนวน ${count} การรับแจ้ง`;
   };
 
-  const handleSelectDate = (date) => {
-    if (date) {
-      setFormattedDate(date.format("YYYY-MM"));
+  const handleSelectDate = (dates) => {
+    if (dates) {
+      setFormattedDateRange(dates.map((date) => date.format("YYYY-MM")));
     } else {
-      setFormattedDate("");
+      setFormattedDateRange([]);
     }
   };
+
   const createTypography = (label, text, fontSize = "35px") => (
     <Typography variant="body1" sx={{ fontSize }}>
       {label} {text}
@@ -62,9 +78,9 @@ const MapWidget = () => {
       <Card hoverable className="DB-Card-container2">
         <div className="cardTitle">
           จำนวนการรับแจ้งข้อมูลโดยเครือข่ายผู้บริโภคภาคใต้
-          <DatePicker
+          <RangePicker
             onChange={handleSelectDate}
-            placeholder="เดือน/ปี"
+            placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
             picker="month"
             size="large"
             defaultValue={null}

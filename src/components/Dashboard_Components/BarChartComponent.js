@@ -13,9 +13,10 @@ import { Card, DatePicker, Divider, Select } from "antd";
 import moment from "moment";
 import { Typography } from "@mui/material";
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const MyBarChart = () => {
-  const [formattedDate, setFormattedDate] = useState("");
+  const [formattedDate, setFormattedDate] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const COLORS = [
@@ -74,11 +75,7 @@ const MyBarChart = () => {
     if (!selectedOption) {
       setSelectedOption(options[0].title);
     }
-
-    if (!formattedDate) {
-      setFormattedDate("");
-    }
-  }, [options, selectedOption, formattedDate]);
+  }, [options, selectedOption]);
 
   useEffect(() => {
     const fetchData = async (endpoint, name, dataIndex) => {
@@ -99,8 +96,11 @@ const MyBarChart = () => {
           );
           const filteredManage_Fake_Infodata =
             formattedManage_Fake_Infodata.filter((data) => {
-              if (!formattedDate || formattedDate.length === 0) return true;
-              return data.created_at === formattedDate;
+              if (formattedDate.length === 0) return true;
+              return (
+                data.created_at >= formattedDate[0] &&
+                data.created_at <= formattedDate[1]
+              );
             });
           const MediaChannelsData = await MediaChannels.json();
           const countByMedCId = MediaChannelsData.map((channel) => {
@@ -133,11 +133,11 @@ const MyBarChart = () => {
     setSelectedOption(value);
   };
 
-  const handleSelectDate = (date) => {
-    if (date) {
-      setFormattedDate(date.format("YYYY-MM"));
+  const handleSelectDate = (dates) => {
+    if (dates) {
+      setFormattedDate(dates.map((date) => date.format("YYYY-MM")));
     } else {
-      setFormattedDate("");
+      setFormattedDate([]);
     }
   };
 
@@ -159,12 +159,11 @@ const MyBarChart = () => {
                 </Option>
               ))}
             </Select>
-            <DatePicker
+            <RangePicker
               onChange={handleSelectDate}
-              placeholder="เดือน/ปี"
+              placeholder={['ตั้งแต่เดือน', 'ถึงเดือน']}
               picker="month"
               size="large"
-              defaultValue={null}
               className="selectContainer"
             />
           </div>
